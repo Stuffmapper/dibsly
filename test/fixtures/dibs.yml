@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ip: MyString
+  valid_until: 2014-02-16 22:19:55
+  status: MyString
+  creator_id: 1
+  post_id: 1
+
+two:
+  ip: MyString
+  valid_until: 2014-02-16 22:19:55
+  status: MyString
+  creator_id: 1
+  post_id: 1

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  image_url: MyString
+  latitude: 9.99
+  longitude: 9.99
+  status: MyString
+  ip: MyString
+  dibbed_until: 2014-02-16 22:26:14
+  creator_id: 1
+
+two:
+  title: MyString
+  description: MyText
+  image_url: MyString
+  latitude: 9.99
+  longitude: 9.99
+  status: MyString
+  ip: MyString
+  dibbed_until: 2014-02-16 22:26:14
+  creator_id: 1
