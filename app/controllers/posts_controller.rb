@@ -31,7 +31,7 @@ class PostsController < ApplicationController
     if (current_user)
       @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
 
-      respond_to do |format|patients
+      respond_to do |format|
         if @post.save
           format.html { redirect_to @post, notice: 'Post was successfully created.' }
           format.json { render action: 'show', status: :created, location: @post }
