@@ -4,6 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :title
       t.text :description
       t.string :image_url
+      t.string :address
       t.float :latitude
       t.float :longitude
       t.string :status

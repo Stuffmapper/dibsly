@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email
       t.string :password_salt
       t.string :password_hash
+      t.string :address
       t.float :latitude
       t.float :longitude
       t.string :status
