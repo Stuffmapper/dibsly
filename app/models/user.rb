@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
   
+  geocoded_by :address
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :geocode
+
   def self.authenticate(email, password)
     user = find_by_email(email)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)

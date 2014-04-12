@@ -29,7 +29,8 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     if (current_user)
-      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
+      @user = User.find(session[:user_id])
+      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id], :latitude => @user.latitude, :longitude => @user.longitude, :address => @user.address))
 
       respond_to do |format|
         if @post.save
