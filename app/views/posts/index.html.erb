@@ -17,7 +17,6 @@ function initialize() {
         var marker<%= post.id %> = new google.maps.Marker({
           position: new google.maps.LatLng(<%= post.latitude %>,<%= post.longitude %>),
           map: map,
-          draggable:true,
           title: '<%= post.title %>'
         });
         google.maps.event.addListener(marker<%= post.id %>, 'click', function() {
