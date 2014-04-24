@@ -4,11 +4,15 @@
 #sudo perl -MCPAN -e 'install HTML::Grabber'
 #sudo perl -MCPAN -e 'install Data::Dumper'
 #sudo perl -MCPAN -e 'install Tie::IxHash'
+#sudo perl -MCPAN -e 'install Text::CSV'
 
 use WWW::Mechanize;
 use HTML::Grabber;
 use Data::Dumper;
 use Tie::IxHash;
+use Text::CSV;
+
+my @domainValues;
 
 my %domains;
 
@@ -75,6 +79,7 @@ $domains{'http://washingtondc.craigslist.org/'} = 0;
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
 my $todayKey = $months[$mon]." ".$mday;
 
+push(@domainValues, $todayKey);
 
 while(my($domainsKey, $domainsValue) = each %domains){
     my %dataHash;
@@ -121,8 +126,22 @@ while(my($domainsKey, $domainsValue) = each %domains){
 
     if (exists $dataHash{$todayKey}) {
         $domains{$domainsKey} = scalar grep defined($_),values $dataHash{$todayKey};
+        push(@domainValues, $domains{$domainsKey});
+    } else {
+        push(@domainValues, 0);
     }
+
 }
 
 print Dumper(\%domains);
+
+
+my $csv = Text::CSV->new ( { binary => 1 } ) or die "Cannot use CSV: ".Text::CSV->error_diag ();
+open my $fh, ">:encoding(utf8)", "new.csv" or die "new.csv: $!";
+
+$csv->print($fh, [@domainValues]);
+
+$csv->eof or $csv->error_diag();
+
+close $fh or die "new.csv: $!";
 
