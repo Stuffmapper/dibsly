@@ -13,6 +13,7 @@ use Tie::IxHash;
 use Text::CSV;
 
 my @domainValues;
+my @domainKeys;
 
 my %domains;
 
@@ -79,6 +80,7 @@ $domains{'http://washingtondc.craigslist.org/'} = 0;
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
 my $todayKey = $months[$mon]." ".$mday;
 
+push(@domainKeys, "date");
 push(@domainValues, $todayKey);
 
 while(my($domainsKey, $domainsValue) = each %domains){
@@ -124,6 +126,7 @@ while(my($domainsKey, $domainsValue) = each %domains){
         print Dumper(\%dataHash);
     }
 
+    push(@domainKeys, $domainsKey);
     if (exists $dataHash{$todayKey}) {
         $domains{$domainsKey} = scalar grep defined($_),values $dataHash{$todayKey};
         push(@domainValues, $domains{$domainsKey});
@@ -136,9 +139,10 @@ while(my($domainsKey, $domainsValue) = each %domains){
 print Dumper(\%domains);
 
 
-my $csv = Text::CSV->new ( { binary => 1 } ) or die "Cannot use CSV: ".Text::CSV->error_diag ();
-open my $fh, ">:encoding(utf8)", "new.csv" or die "new.csv: $!";
+my $csv = Text::CSV->new ( { binary => 1 , auto_diag => 1, eol => "\n"} ) or die "Cannot use CSV: ".Text::CSV->error_diag ();
+open my $fh, ">>:encoding(utf8)", "new.csv" or die "new.csv: $!";
 
+$csv->print($fh, [@domainKeys]);
 $csv->print($fh, [@domainValues]);
 
 $csv->eof or $csv->error_diag();
