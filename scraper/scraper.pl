@@ -1,10 +1,16 @@
 #!/usr/bin/perl
 
+#To install:
+
 #sudo perl -MCPAN -e 'install WWW::Mechanize'
 #sudo perl -MCPAN -e 'install HTML::Grabber'
 #sudo perl -MCPAN -e 'install Data::Dumper'
 #sudo perl -MCPAN -e 'install Tie::IxHash'
 #sudo perl -MCPAN -e 'install Text::CSV'
+
+#crontab -e
+#1 23 * * * /home/yo/Projects/dibsly/dibsly/scraper/scraper.sh
+
 
 use WWW::Mechanize;
 use HTML::Grabber;
@@ -79,6 +85,7 @@ $domains{'http://washingtondc.craigslist.org/'} = 0;
 @months = qw( Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec );
 ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
 my $todayKey = $months[$mon]." ".$mday;
+my $todayKeyTwo = $months[$mon]."  ".$mday;
 
 push(@domainKeys, "date");
 push(@domainValues, $todayKey);
@@ -131,7 +138,12 @@ while(my($domainsKey, $domainsValue) = each %domains){
         $domains{$domainsKey} = scalar grep defined($_),values $dataHash{$todayKey};
         push(@domainValues, $domains{$domainsKey});
     } else {
-        push(@domainValues, 0);
+        if (exists $dataHash{$todayKeyTwo}) {
+            $domains{$domainsKey} = scalar grep defined($_),values $dataHash{$todayKeyTwo};
+            push(@domainValues, $domains{$domainsKey});
+        } else {
+            push(@domainValues, 0);
+        }
     }
 
 }
@@ -142,7 +154,7 @@ print Dumper(\%domains);
 my $csv = Text::CSV->new ( { binary => 1 , auto_diag => 1, eol => "\n"} ) or die "Cannot use CSV: ".Text::CSV->error_diag ();
 open my $fh, ">>:encoding(utf8)", "new.csv" or die "new.csv: $!";
 
-$csv->print($fh, [@domainKeys]);
+#$csv->print($fh, [@domainKeys]);
 $csv->print($fh, [@domainValues]);
 
 $csv->eof or $csv->error_diag();
