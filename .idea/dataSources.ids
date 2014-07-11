@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Rails dibsly: development" uuid="b0d7cfa6-8712-4ed4-adc8-89dc22036134">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails dibsly: test" uuid="e7c1e70e-1d11-42da-917a-ca14f27342a9">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails dibsly: production" uuid="6cfa99e7-b736-4634-aec1-58f1d6944f35">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>

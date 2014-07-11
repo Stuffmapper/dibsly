@@ -11,3 +11,85 @@
  *= require_self
  *= require_tree .
  */
+
+#top-nav, #left-nav, #bottom-nav {
+    z-index: 10;
+    position: fixed;
+}
+
+#top-nav {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#top-logo img {
+    width: 320px;
+}
+#search-form {
+    display: inline;
+}
+
+
+.left-button {
+    background-size: 44px 130px;
+    width: 44px;
+    height: 130px;
+    display: inline-block;
+    position: absolute;
+    z-index: 10;
+}
+
+.left-button:hover {
+    cursor: pointer;
+}
+
+#find-stuff-button {
+    background-image:url("/assets/findStuffOn.png");
+    top: 200px;
+}
+
+#find-stuff-button:hover {
+    background-image: url("/assets/findStuffOff.png");
+}
+
+#what-stuff-button {
+    background-image:url("/assets/whatStuffOn.png");
+    top: 300px;
+}
+
+#what-stuff-button:hover {
+    background-image: url("/assets/whatStuffOff.png");
+}
+
+#give-stuff-away-button {
+    background-image:url("/assets/giveStuffOn.png");
+    top: 400px;
+}
+
+#give-stuff-away-button:hover {
+    background-image: url("/assets/giveStuffOff.png");
+}
+
+#my-stuff-button {
+    background-image:url("/assets/myStuffOn.png");
+    top: 500px;
+}
+
+#my-stuff-button:hover {
+    background-image: url("/assets/myStuffOff.png");
+}
+
+
+#bottom-nav {
+    height: 40px;
+    padding: 10px;
+    bottom: 0px;
+}
+
+.social-pin img {
+    height: 40px;
+    float: right;
+    margin-right: 10px;
+}
