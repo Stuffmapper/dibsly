@@ -19,16 +19,33 @@
 
 #top-nav {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    left: 50%;
+    margin-left: -318px;
+    width: 636px;
+    height: 92px;
+    background-color: #fff;
+    padding: 14px 18px 0px 18px;
+
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 #top-logo img {
-    width: 320px;
+    width: 280px;
+}
+#search-form-current-city {
+    float: right;
 }
 #search-form {
-    display: inline;
+    display: block;
+}
+
+#city-term {
+    width: 275px;
 }
 
 
@@ -47,7 +64,7 @@
 
 #find-stuff-button {
     background-image:url("/assets/findStuffOn.png");
-    top: 200px;
+    top: 130px;
 }
 
 #find-stuff-button:hover {
@@ -56,7 +73,7 @@
 
 #what-stuff-button {
     background-image:url("/assets/whatStuffOn.png");
-    top: 300px;
+    top: 248px;
 }
 
 #what-stuff-button:hover {
@@ -65,7 +82,7 @@
 
 #give-stuff-away-button {
     background-image:url("/assets/giveStuffOn.png");
-    top: 400px;
+    top: 388px;
 }
 
 #give-stuff-away-button:hover {
@@ -74,7 +91,7 @@
 
 #my-stuff-button {
     background-image:url("/assets/myStuffOn.png");
-    top: 500px;
+    top: 504px;
 }
 
 #my-stuff-button:hover {
@@ -83,13 +100,26 @@
 
 
 #bottom-nav {
-    height: 40px;
+    height: 44px;
     padding: 10px;
     bottom: 0px;
+    background-color: #fff;
+    width: 100%;
+    padding: 6px 24px;
+}
+
+#download-app {
+    left: -189px;
+    margin-left: 50%;
+    position: fixed;
+}
+
+#social-pins {
+    float: right;
+    margin-right: 40px;
 }
 
 .social-pin img {
     height: 40px;
-    float: right;
     margin-right: 10px;
 }
