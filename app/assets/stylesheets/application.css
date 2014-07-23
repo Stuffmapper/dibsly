@@ -17,9 +17,15 @@
     position: fixed;
 }
 
+#left-nav {
+    z-index: 20;
+    top: 0px;
+}
+
 #top-nav {
     display: block;
     left: 50%;
+    top: 0px;
     margin-left: -318px;
     width: 636px;
     height: 92px;
@@ -47,7 +53,6 @@
 #city-term {
     width: 275px;
 }
-
 
 .left-button {
     background-size: 44px 130px;
@@ -122,4 +127,8 @@
 .social-pin img {
     height: 40px;
     margin-right: 10px;
+}
+
+#main-container {
+    margin: 100px 0px 100px 100px;
 }
