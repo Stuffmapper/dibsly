@@ -9,10 +9,11 @@ Dibsly::Application.routes.draw do
   resources :dibs
 
   resources :posts do
-   member do
+    member do
       post 'dib'
-    end
+   end
   end
+  post 'posts/geolocated' => 'posts#geolocated'
 
   resources :users
   

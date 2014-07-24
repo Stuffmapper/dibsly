@@ -92,6 +92,12 @@ class PostsController < ApplicationController
     end
   end
 
+  # POST /posts/geolocated.json
+  def geolocated
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ?", params[:neLat], params[:swLat], params[:neLng], params[:swLng]).limit(50)
+    render json: @posts
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

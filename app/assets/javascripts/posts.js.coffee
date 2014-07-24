@@ -2,24 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 `
-function initializeMap() {
-  var mapOptions = {
-    center: new google.maps.LatLng(47.606163,-122.330818),
-    zoom: 8
-  };
-  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+var _map;
+var _newPois;
 
-  function updateMap() {
-    alert('a');
-    var bounds = map.getBounds();
-    var southWest = bounds.getSouthWest();
-    var northEast = bounds.getNorthEast();
 
-    // Send an AJAX request for our locations
-    new Ajax.Request('/locations.js', {
-      method:'get',
-      parameters: {sw: southWest.toUrlValue(), ne: northEast.toUrlValue()},
-      onSuccess: function(transport){
+var drawPins = function() {
+        /*
         // Remove markers outside of our maps boundaries.
         if(markers.length > 0){
           removeMarkersOutsideOfMapBounds();
@@ -35,41 +23,52 @@ function initializeMap() {
             map.addOverlay(markers[id]);
           }
         });
-      }
+        */
+}
+
+var updateMap = function() {
+  var bounds = _map.getBounds();
+  if (bounds !== undefined) {
+    var northEast = bounds.getNorthEast();
+    var southWest = bounds.getSouthWest();
+
+    $.post('/posts/geolocated', {
+      'neLat': northEast.lat(),
+      'neLng': northEast.lng(),
+      'swLat': southWest.lat(),
+      'swLng': southWest.lng()
+    }).done(function(newPois) {
+      _newPois = newPois;
+      console.log(_newPois);
+      drawPins();
     });
-  };
-  google.maps.event.addListener(map, 'dragend', function(){updateMap();});
-  google.maps.event.addListener(map, 'zoom_changed', function() {updateMap();});
-  updateMap();
+  }
 };
-  /*
-  <% @posts.each do |post| %>
-    <% if (post.latitude != nil) && (post.longitude != nil) %>
-    var marker<%= post.id %> = new google.maps.Marker({
-      position: new google.maps.LatLng(<%= post.latitude %>,<%= post.longitude %>),
-      map: map,
-      title: '<%= post.title %>'
-    });
-    google.maps.event.addListener(marker<%= post.id %>, 'click', function() {
-      new google.maps.InfoWindow({
-        content: '<%= post.description %><br><%= post.dibbed_until %><br><%= link_to 'Dib', dib_post_path(post), method: :dib %>'
-                  }).open(map,marker<%= post.id %>);
-          });
 
-    <% end %>
-  <% end %>
-  */
+function initializeMap() {
+  var mapOptions = {
+    center: new google.maps.LatLng(47.606163,-122.330818),
+    zoom: 8,
+    panControl: false,
+    zoomControl: false
+  };
+  _map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+  google.maps.event.addListener(_map, 'dragend', function(){updateMap();});
+  google.maps.event.addListener(_map, 'zoom_changed', function(){updateMap();});
+  google.maps.event.addListenerOnce(_map, 'idle', function(){updateMap();});
+};
 
-$( document ).ready(function() {
+$(document).on("page:change", function() {
   // we only display the map at first
   $('#main-grid').toggle();
   initializeMap();
 
   $('#what-stuff-link').click(function() {
     $('#main-grid').toggle();
-    $("#map-canvas").toggle();
+    $('#map-canvas').toggle();
     return false;
   });
 });
+
 `
