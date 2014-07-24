@@ -2,32 +2,47 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 `
-var _map;
-var _newPois;
+var map;
+var pois = [];
+var markers = [];
 
 
-var drawPins = function() {
-        /*
-        // Remove markers outside of our maps boundaries.
-        if(markers.length > 0){
-          removeMarkersOutsideOfMapBounds();
-        }
+var clearMarkers =function() {
+  $.each(markers, function(key, marker) {
+    if (marker !== undefined) {
+      marker.setMap(null);
+    }
+  });
+  markers = [];
+}
 
-        // Add our new markers to the map (unless they are already on the map.)
-        var json = transport.responseText.evalJSON();
-        json.each(function(i) {
-          id = i.location.id;
-          if(!markers[id] || markers[id] == null){
-            // Marker doesnt exist, add it.
-            markers[id] = createMarker(i.location);
-            map.addOverlay(markers[id]);
-          }
-        });
-        */
+var createMarker = function(poi) {
+  var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(poi.latitude,poi.longitude),
+    map: map,
+    title: poi.title
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    new google.maps.InfoWindow({
+      content: poi.description+'<br>'+poi.dibbed_until+'<br><a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>'
+    }).open(map,marker);
+  });
+  return marker;
+}
+
+var renderPois = function() {
+  if(markers.length > 0){
+    clearMarkers();
+  }
+
+  for (var i = 0; i < pois.length; i++) {
+    var id = pois[i].id;
+    markers[id] = createMarker(pois[i]);
+  }
 }
 
 var updateMap = function() {
-  var bounds = _map.getBounds();
+  var bounds = map.getBounds();
   if (bounds !== undefined) {
     var northEast = bounds.getNorthEast();
     var southWest = bounds.getSouthWest();
@@ -38,9 +53,8 @@ var updateMap = function() {
       'swLat': southWest.lat(),
       'swLng': southWest.lng()
     }).done(function(newPois) {
-      _newPois = newPois;
-      console.log(_newPois);
-      drawPins();
+      pois = newPois;
+      renderPois();
     });
   }
 };
@@ -52,11 +66,11 @@ function initializeMap() {
     panControl: false,
     zoomControl: false
   };
-  _map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-  google.maps.event.addListener(_map, 'dragend', function(){updateMap();});
-  google.maps.event.addListener(_map, 'zoom_changed', function(){updateMap();});
-  google.maps.event.addListenerOnce(_map, 'idle', function(){updateMap();});
+  google.maps.event.addListener(map, 'dragend', function(){updateMap();});
+  google.maps.event.addListener(map, 'zoom_changed', function(){updateMap();});
+  google.maps.event.addListenerOnce(map, 'idle', function(){updateMap();});
 };
 
 $(document).on("page:change", function() {
