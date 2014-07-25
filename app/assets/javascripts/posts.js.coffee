@@ -53,8 +53,11 @@ var updateMap = function() {
       'swLat': southWest.lat(),
       'swLng': southWest.lng()
     }).done(function(newPois) {
-      pois = newPois;
-      renderPois();
+      // only if they are different
+      if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
+        pois = newPois;
+        renderPois();
+      }
     });
   }
 };
