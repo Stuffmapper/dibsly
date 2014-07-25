@@ -81,7 +81,6 @@ var ready = function() {
   initializeMap();
 
   $('#what-stuff-link').click(function() {
-    //pois = [];
     $('#main-grid').toggle();
     $('#map-canvas').toggle();
     return false;
