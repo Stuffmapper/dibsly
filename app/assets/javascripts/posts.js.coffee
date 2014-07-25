@@ -53,7 +53,6 @@ var updateMap = function() {
       'swLat': southWest.lat(),
       'swLng': southWest.lng()
     }).done(function(newPois) {
-      // only if they are different
       if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
         pois = newPois;
         renderPois();
@@ -73,19 +72,22 @@ function initializeMap() {
 
   google.maps.event.addListener(map, 'dragend', function(){updateMap();});
   google.maps.event.addListener(map, 'zoom_changed', function(){updateMap();});
-  google.maps.event.addListenerOnce(map, 'idle', function(){updateMap();});
+  google.maps.event.addListener(map, 'idle', function(){updateMap();});
 };
 
-$(document).on("page:change", function() {
-  // we only display the map at first
+var ready = function() {
+  // we only display the map at first, not the grid
   $('#main-grid').toggle();
   initializeMap();
 
   $('#what-stuff-link').click(function() {
+    //pois = [];
     $('#main-grid').toggle();
     $('#map-canvas').toggle();
     return false;
   });
-});
+}
 
+$(document).ready(ready);
+$(document).on('page:load', ready);
 `
