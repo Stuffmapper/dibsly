@@ -94,13 +94,15 @@ class PostsController < ApplicationController
 
   # POST /posts/geolocated.json
   def geolocated
-    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ?", params[:neLat], params[:swLat], params[:neLng], params[:swLng]).limit(50)
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ?", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%").limit(50)
+    @term = params[:term]
     render json: @posts
   end
 
   # GET /posts/search
   def search
     @posts = Post.where("title ILIKE ?", "%#{params[:term]}%").page(params[:page]).per(5)
+    @term = params[:term]
     render action: 'index'
   end
 

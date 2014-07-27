@@ -51,7 +51,8 @@ var updateMap = function() {
       'neLat': northEast.lat(),
       'neLng': northEast.lng(),
       'swLat': southWest.lat(),
-      'swLng': southWest.lng()
+      'swLng': southWest.lng(),
+      'term': $('#city-term').val()
     }).done(function(newPois) {
       if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
         pois = newPois;
@@ -80,7 +81,7 @@ var ready = function() {
   $('#main-grid').toggle();
   initializeMap();
 
-  $('#what-stuff-link').click(function() {
+  $('.toggle-link').click(function() {
     $('#main-grid').toggle();
     $('#map-canvas').toggle();
     return false;
