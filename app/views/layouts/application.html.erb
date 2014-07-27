@@ -15,10 +15,11 @@
       <form id="search-form" action="demo_form.asp">
         <input type="text" name="term" placeholder="Search" id="city-term">
       </form>
+      <!--
       <div id="current-city">
         Current City: Seattle &middot; <a href="">Change city</a>
       </div>
-
+      -->
       <% if current_user %>
         Logged in as <%= current_user.email %>.
         <%= link_to "Log out", log_out_path %>

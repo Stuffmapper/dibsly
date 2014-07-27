@@ -14,6 +14,7 @@ Dibsly::Application.routes.draw do
    end
   end
   post 'posts/geolocated' => 'posts#geolocated'
+  get 'search' => 'posts#search'
 
   resources :users
   
