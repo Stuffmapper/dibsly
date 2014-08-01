@@ -5,6 +5,9 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all.page(params[:page]).per(5)
+    if (current_user)
+      @post = Post.new
+    end
   end
 
   # GET /posts/1
@@ -30,7 +33,7 @@ class PostsController < ApplicationController
   def create
     if (current_user)
       @user = User.find(session[:user_id])
-      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id], :latitude => @user.latitude, :longitude => @user.longitude, :address => @user.address))
+      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
 
       respond_to do |format|
         if @post.save
@@ -103,6 +106,9 @@ class PostsController < ApplicationController
   def search
     @posts = Post.where("title ILIKE ?", "%#{params[:term]}%").page(params[:page]).per(5)
     @term = params[:term]
+    if (current_user)
+      @post = Post.new
+    end
     render action: 'index'
   end
 
@@ -114,6 +120,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :description, :image_url, :latitude, :longitude, :status, :ip, :dibbed_until, :creator_id, :image)
+      params.require(:post).permit(:title, :description, :image_url, :latitude, :longitude, :address, :status, :ip, :dibbed_until, :creator_id, :image)
     end
 end

@@ -5,6 +5,8 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 </head>
 <body style="width:100%; height:100%; margin:0px; top:0px;" data-no-turbolink="true">
 
@@ -32,10 +34,10 @@
 </div>
 
 <div id="left-nav">
-  <a href="/" class="toggle-link"><div class="left-button" id="find-stuff-button"></div></a>
-  <a href="/" class="toggle-link"><div class="left-button" id="what-stuff-button"></div></a>
-  <a href="<%= new_post_path %>"><div class="left-button" id="give-stuff-away-button"></div></a>
-  <a href="/"><div class="left-button" id="my-stuff-button"></div></a>
+  <a href="#" id="find-stuff"><div class="left-button" id="find-stuff-button"></div></a>
+  <a href="#" id="what-stuff"><div class="left-button" id="what-stuff-button"></div></a>
+  <a href="#" id="give-stuff"><div class="left-button" id="give-stuff-away-button"></div></a>
+  <a href="#" id="my-stuff"><div class="left-button" id="my-stuff-button"></div></a>
 </div>
 
 <% flash.each do |name, msg| %>
@@ -57,6 +59,14 @@
     <a class="social-pin" href=""><img src="/assets/pinterestPin.png" alt="Pinterest" title="Pinterest"></a>
     <a class="social-pin" href=""><img src="/assets/instagramPin.png" alt="Instagram" title="Instagram"></a>
   </div>
+</div>
+
+<div id="give-stuff-dialog">
+  <%= render 'form' %>
+</div>
+
+<div id="my-stuff-dialog">
+  <%= render 'users/mystuff' %>
 </div>
 
 </body>

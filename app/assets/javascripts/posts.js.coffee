@@ -77,13 +77,31 @@ function initializeMap() {
 };
 
 var ready = function() {
-  // we only display the map at first, not the grid
-  $('#main-grid').toggle();
+  // we only display the map at first
+  $('#main-grid').hide();
+  $('#give-stuff-dialog').hide();
+  $('#my-stuff-dialog').hide();
   initializeMap();
 
-  $('.toggle-link').click(function() {
-    $('#main-grid').toggle();
-    $('#map-canvas').toggle();
+  $('#find-stuff').click(function() {
+    $('#map-canvas').show();
+    $('#main-grid').hide();
+    return false;
+  });
+
+  $('#what-stuff').click(function() {
+    $('#map-canvas').hide();
+    $('#main-grid').show();
+    return false;
+  });
+
+  $('#give-stuff').click(function() {
+    $('#give-stuff-dialog').dialog({modal: true});
+    return false;
+  });
+
+  $('#my-stuff').click(function() {
+    $('#my-stuff-dialog').dialog({modal: true});
     return false;
   });
 }
