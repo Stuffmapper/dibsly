@@ -91,7 +91,7 @@ var geocodePosition = function(pos) {
     if (responses && responses.length > 0) {
       updateAddress(responses[0].formatted_address);
     } else {
-      updateAddress('Cannot determine address at this location.');
+      updateAddress('Cannot determine address at this position');
     }
   });
 }
@@ -107,11 +107,11 @@ var updateAddress = function(address) {
 }
 
 function initializeMiniMap() {
-  minimapLatLng = new google.maps.LatLng(47.606163,-122.330818);
+  minimapLatLng = new google.maps.LatLng(map.getCenter().lat(),map.getCenter().lng());
 
   var minimapOptions = {
     center: minimapLatLng,
-    zoom: 8,
+    zoom: map.getZoom(),
     panControl: false,
     zoomControl: false
   };
@@ -123,11 +123,6 @@ function initializeMiniMap() {
     map: minimap
   });
 
-  // Update current position info.
-  //updateMarkerPosition(minimapLatLng);
-  //geocodePosition(minimapLatLng);
-
-  // Add dragging event listeners.
   google.maps.event.addListener(minimap, 'click', function(event) {
     updateMarkerPosition(event.latLng);
     geocodePosition(event.latLng);
