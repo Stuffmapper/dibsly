@@ -5,6 +5,7 @@
 var map;
 var pois = [];
 var markers = [];
+var infowindowClosed = true;
 
 // for the map
 
@@ -18,18 +19,25 @@ var clearMarkers =function() {
 }
 
 var createMarker = function(poi) {
+  var infoWindow;
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(poi.latitude,poi.longitude),
     map: map,
     title: poi.title
   });
   google.maps.event.addListener(marker, 'click', function() {
-    new google.maps.InfoWindow({
-      content: poi.description+'<br>'+poi.dibbed_until+'<br><a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>'
-    }).open(map,marker);
+    infowindowClosed = false;
+    infoWindow = new google.maps.InfoWindow({
+      content: poi.description+'<br><img src="'+poi.image_url+'" /><br>'+poi.dibbed_until+'<br><a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>'
+    })
+    infoWindow.open(map,marker);
+    google.maps.event.addListener(infoWindow,'closeclick',function(){
+      infowindowClosed = true;
+    });
   });
   return marker;
 }
+
 
 var renderPois = function() {
   if(markers.length > 0){
@@ -43,23 +51,25 @@ var renderPois = function() {
 }
 
 var updateMap = function() {
-  var bounds = map.getBounds();
-  if (bounds !== undefined) {
-    var northEast = bounds.getNorthEast();
-    var southWest = bounds.getSouthWest();
+if (infowindowClosed) {
+    var bounds = map.getBounds();
+    if (bounds !== undefined) {
+      var northEast = bounds.getNorthEast();
+      var southWest = bounds.getSouthWest();
 
-    $.post('/posts/geolocated', {
-      'neLat': northEast.lat(),
-      'neLng': northEast.lng(),
-      'swLat': southWest.lat(),
-      'swLng': southWest.lng(),
-      'term': $('#city-term').val()
-    }).done(function(newPois) {
-      if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
-        pois = newPois;
-        renderPois();
-      }
-    });
+      $.post('/posts/geolocated', {
+        'neLat': northEast.lat(),
+        'neLng': northEast.lng(),
+        'swLat': southWest.lat(),
+        'swLng': southWest.lng(),
+        'term': $('#city-term').val()
+      }).done(function(newPois) {
+        if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
+          pois = newPois;
+          renderPois();
+        }
+      });
+    }
   }
 };
 

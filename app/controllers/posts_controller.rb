@@ -7,7 +7,6 @@ class PostsController < ApplicationController
     @posts = Post.all.page(params[:page]).per(5)
     if (current_user)
       @post = Post.new(:on_the_curb => 1)
-      logger.info {@post.to_yaml}
     end
   end
 
@@ -99,6 +98,9 @@ class PostsController < ApplicationController
   # POST /posts/geolocated.json
   def geolocated
     @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ?", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%").limit(50)
+    @posts.each do |post|
+      post.image_url = post.image.url(:medium)
+    end
     @term = params[:term]
     render json: @posts
   end
