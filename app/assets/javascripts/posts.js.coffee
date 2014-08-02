@@ -119,14 +119,13 @@ function initializeMiniMap() {
   geocoder = new google.maps.Geocoder();
 
   minimapMarker = new google.maps.Marker({
-    position: minimapLatLng,
-    title: 'Point A',
+    title: 'Position',
     map: minimap
   });
 
   // Update current position info.
-  updateMarkerPosition(minimapLatLng);
-  geocodePosition(minimapLatLng);
+  //updateMarkerPosition(minimapLatLng);
+  //geocodePosition(minimapLatLng);
 
   // Add dragging event listeners.
   google.maps.event.addListener(minimap, 'click', function(event) {
