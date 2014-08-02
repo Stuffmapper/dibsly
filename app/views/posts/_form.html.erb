@@ -34,6 +34,14 @@
       <%= f.label :address %><br>
       <%= f.text_area :address %>
     </div>
+    <div class="field">
+      <label for="post_on_the_curb_0">Contact me for details</label> <%= f.radio_button :on_the_curb, "0" %><br>
+      <label for="post_on_the_curb_1">On the curb</label> <%= f.radio_button :on_the_curb, "1" %>
+    </div>
+    <div class="field" id="phone-number-field">
+      <%= f.label :phone_number %><br>
+      <%= f.text_field :phone_number %>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>

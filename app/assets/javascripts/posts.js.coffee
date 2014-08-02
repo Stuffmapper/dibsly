@@ -81,6 +81,8 @@ var ready = function() {
   $('#main-grid').hide();
   $('#give-stuff-dialog').hide();
   $('#my-stuff-dialog').hide();
+  $("#phone-number-field").hide();
+
   initializeMap();
 
   $('#find-stuff').click(function() {
@@ -103,6 +105,16 @@ var ready = function() {
   $('#my-stuff').click(function() {
     $('#my-stuff-dialog').dialog({modal: true});
     return false;
+  });
+
+  $('#post_on_the_curb_0').click(function() {
+    $('#phone-number-field').hide();
+    return true;
+  });
+
+  $('#post_on_the_curb_1').click(function() {
+    $('#phone-number-field').show();
+    return true;
   });
 }
 
