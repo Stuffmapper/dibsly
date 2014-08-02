@@ -7,6 +7,8 @@ class PostsController < ApplicationController
     @posts = Post.all.page(params[:page]).per(5)
     if (current_user)
       @post = Post.new(:on_the_curb => 1)
+    else
+      @user = User.new
     end
   end
 

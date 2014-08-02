@@ -146,8 +146,25 @@ var ready = function() {
   $('#main-grid').hide();
   $('#give-stuff-dialog').hide();
   $('#my-stuff-dialog').hide();
+  $('#sign-up-dialog').hide();
+  $('#log-in-dialog').hide();
 
   initializeMap();
+
+  $('#search-form').submit(function(event) {
+    updateMap();
+    event.preventDefault();
+  });
+
+  $('#sign-up').click(function() {
+    $('#sign-up-dialog').dialog({modal: true});
+    return false;
+  });
+
+  $('#log-in').click(function() {
+    $('#log-in-dialog').dialog({modal: true});
+    return false;
+  });
 
   $('#find-stuff').click(function() {
     $('#map-canvas').show();
