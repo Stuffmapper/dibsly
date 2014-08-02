@@ -22,26 +22,21 @@
   <div class="image">
     <%= f.file_field :image %>
   </div>
-    <div class="field">
-      <%= f.label :latitude %><br>
-      <%= f.text_field :latitude %>
-    </div>
-    <div class="field">
-      <%= f.label :longitude %><br>
-      <%= f.text_field :longitude %>
-    </div>
-    <div class="field">
-      <%= f.label :address %><br>
-      <%= f.text_area :address %>
-    </div>
-    <div class="field">
-      <label for="post_on_the_curb_false">Contact me for details</label> <%= f.radio_button :on_the_curb, "false" %><br>
-      <label for="post_on_the_curb_true">On the curb</label> <%= f.radio_button :on_the_curb, "true" %>
-    </div>
-    <div class="field" id="phone-number-field">
-      <%= f.label :phone_number %><br>
-      <%= f.text_field :phone_number %>
-    </div>
+  <div id="minimap-canvas" style="width: 300px; height: 300px;"></div>
+  <%= f.hidden_field :latitude %>
+  <%= f.hidden_field :longitude %>
+  <div class="field">
+    <%= f.label :address %><br>
+    <%= f.text_area :address %>
+  </div>
+  <div class="field">
+    <label for="post_on_the_curb_false">Contact me for details</label> <%= f.radio_button :on_the_curb, "false" %><br>
+    <label for="post_on_the_curb_true">On the curb</label> <%= f.radio_button :on_the_curb, "true" %>
+  </div>
+  <div class="field" id="phone-number-field">
+    <%= f.label :phone_number %><br>
+    <%= f.text_field :phone_number %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

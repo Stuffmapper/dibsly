@@ -6,6 +6,7 @@ var map;
 var pois = [];
 var markers = [];
 
+// for the map
 
 var clearMarkers =function() {
   $.each(markers, function(key, marker) {
@@ -76,6 +77,66 @@ function initializeMap() {
   google.maps.event.addListener(map, 'idle', function(){updateMap();});
 };
 
+// for the minimap
+
+var geocoder;
+var minimap;
+var minimapLatLng;
+var minimapMarker;
+
+var geocodePosition = function(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateAddress(responses[0].formatted_address);
+    } else {
+      updateAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+var updateMarkerPosition = function(latLng) {
+  minimapMarker.setPosition(latLng);
+  $('#post_latitude').val(latLng.lat());
+  $('#post_longitude').val(latLng.lng());
+}
+
+var updateAddress = function(address) {
+  $('#post_address').val(address);
+}
+
+function initializeMiniMap() {
+  minimapLatLng = new google.maps.LatLng(47.606163,-122.330818);
+
+  var minimapOptions = {
+    center: minimapLatLng,
+    zoom: 8,
+    panControl: false,
+    zoomControl: false
+  };
+  minimap = new google.maps.Map(document.getElementById("minimap-canvas"), minimapOptions);
+  geocoder = new google.maps.Geocoder();
+
+  minimapMarker = new google.maps.Marker({
+    position: minimapLatLng,
+    title: 'Point A',
+    map: minimap
+  });
+
+  // Update current position info.
+  updateMarkerPosition(minimapLatLng);
+  geocodePosition(minimapLatLng);
+
+  // Add dragging event listeners.
+  google.maps.event.addListener(minimap, 'click', function(event) {
+    updateMarkerPosition(event.latLng);
+    geocodePosition(event.latLng);
+  });
+}
+
+// everything else
+
 var ready = function() {
   // we only display the map at first
   $('#main-grid').hide();
@@ -98,6 +159,7 @@ var ready = function() {
 
   $('#give-stuff').click(function() {
     $('#give-stuff-dialog').dialog({modal: true});
+    initializeMiniMap();
     return false;
   });
 
