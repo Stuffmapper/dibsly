@@ -62,11 +62,15 @@
 </div>
 
 <div id="give-stuff-dialog">
-  <%= render 'form' %>
+  <% if current_user %>
+    <%= render 'form' %>
+  <% end %>
 </div>
 
 <div id="my-stuff-dialog">
-  <%= render 'users/mystuff' %>
+  <% if current_user %>
+    <%= render 'users/mystuff' %>
+  <% end %>
 </div>
 
 </body>

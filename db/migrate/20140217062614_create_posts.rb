@@ -7,6 +7,8 @@ class CreatePosts < ActiveRecord::Migration
       t.string :address
       t.float :latitude
       t.float :longitude
+      t.boolean :on_the_curb
+      t.string :phone_number
       t.string :status
       t.string :ip
       t.timestamp :dibbed_until
