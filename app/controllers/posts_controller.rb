@@ -6,7 +6,8 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all.page(params[:page]).per(5)
     if (current_user)
-      @post = Post.new
+      @post = Post.new(:on_the_curb => 1)
+      logger.info {@post.to_yaml}
     end
   end
 
