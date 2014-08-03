@@ -16,9 +16,9 @@ class UsersController < ApplicationController
       @user.valid?
       if verify_recaptcha(:model => @user, :attribute => 'captcha', :message => ' is invalid') && @user.save
         session[:user_id] = @user.id
-        format.json { render action: 'show', status: :ok }
+        format.json {render json: '[]', status: :ok}
       else
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json {render json: @user.errors, status: :unprocessable_entity}
       end
     end
   end
