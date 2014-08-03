@@ -2,6 +2,9 @@ Dibsly::Application.routes.draw do
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
   get 'sign_up' => 'users#new', :as => 'sign_up'
+  post 'users' => 'users#create'
+  post '/users/:id', :to => 'users#show', :as => :user
+  get '/users/:id', :to => 'users#show'
   #post 'posts/:id/dib' => 'posts#dib', :as => 'dib'
   #root :to => "users#new"
   
@@ -14,8 +17,6 @@ Dibsly::Application.routes.draw do
   end
   post 'posts/geolocated' => 'posts#geolocated'
   get 'search' => 'posts#search'
-
-  resources :users
 
   root 'posts#index'
   # The priority is based upon order of creation: first created -> highest priority.
