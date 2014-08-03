@@ -1,12 +1,8 @@
 Dibsly::Application.routes.draw do
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
-  get 'sign_up' => 'users#new', :as => 'sign_up'
   post 'users' => 'users#create'
-  post '/users/:id', :to => 'users#show', :as => :user
-  get '/users/:id', :to => 'users#show'
-  #post 'posts/:id/dib' => 'posts#dib', :as => 'dib'
-  #root :to => "users#new"
+  post 'users/:id', :to => 'users#show', :as => :user
   
   resources :dibs
 
