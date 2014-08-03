@@ -161,7 +161,7 @@ var ready = function() {
 
   });
 
-   $('#sign-up-form').submit(function(event) {
+  $('#sign-up-form').submit(function(event) {
     event.preventDefault();
 
     $.ajax({
@@ -177,7 +177,7 @@ var ready = function() {
       $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
         var fieldName = keyArray.replace(/\b[a-z]/g, function(letter) {
           return letter.toUpperCase();
-}       );
+        });
         $.each(valueArray, function(key, value) {
           errorMessage = errorMessage + fieldName+' '+value+'.<br>';
         });
@@ -227,6 +227,33 @@ var ready = function() {
     $('#map-canvas').hide();
     $('#main-grid').show();
     return false;
+  });
+
+  $('#give-stuff-form').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+    }).done(function(){
+      window.location.href = "/";
+    }).fail(function(jqXHR, b, c) {
+      var errorMessage = "";
+      $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
+        var fieldName = keyArray.replace(/\b[a-z]/g, function(letter) {
+          return letter.toUpperCase();
+        });
+        $.each(valueArray, function(key, value) {
+          errorMessage = errorMessage + fieldName+' '+value+'.<br>';
+        });
+      });
+      $('#give-stuff-form-errors').html(errorMessage);
+      window.scrollTo(0, 0);
+    });
+    return false;
+
   });
 
   $('#give-stuff').click(function() {
