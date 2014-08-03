@@ -238,7 +238,9 @@ var ready = function() {
       data: $(this).serialize(),
       dataType: "json",
     }).done(function(){
-      window.location.href = "/";
+      $('#give-stuff-form').get(0).reset();
+      $('#give-stuff-dialog').dialog("close");
+      updateMap();
     }).fail(function(jqXHR, b, c) {
       var errorMessage = "";
       $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
