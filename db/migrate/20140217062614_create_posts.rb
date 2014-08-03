@@ -13,6 +13,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :ip
       t.timestamp :dibbed_until
       t.integer :creator_id
+      t.integer :dibber_id
 
       t.timestamps
     end

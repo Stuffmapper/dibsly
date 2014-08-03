@@ -4,7 +4,7 @@ class Dib < ActiveRecord::Base
   
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
   
-  @@timeSpan = 60
+  @@timeSpan = 3600
   cattr_reader :timeSpan
   
   validates_presence_of :creator_id

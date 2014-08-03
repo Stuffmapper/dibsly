@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140226050433) do
     t.string   "ip"
     t.datetime "dibbed_until"
     t.integer  "creator_id"
+    t.integer  "dibber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_file_name"

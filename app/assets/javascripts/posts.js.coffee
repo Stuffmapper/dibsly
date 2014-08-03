@@ -260,13 +260,39 @@ var ready = function() {
       window.scrollTo(0, 0);
     });
     return false;
-
   });
 
   $('#give-stuff').click(function() {
     $('#give-stuff-dialog').dialog({modal: true});
     initializeMiniMap();
     return false;
+  });
+
+  $('#my-stuff-form').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+    }).done(function(){
+      window.location.href = "/";
+    }).fail(function(jqXHR, b, c) {
+      var errorMessage = "";
+      $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
+        var fieldName = keyArray.replace(/\b[a-z]/g, function(letter) {
+          return letter.toUpperCase();
+        });
+        $.each(valueArray, function(key, value) {
+          errorMessage = errorMessage + fieldName+' '+value+'.<br>';
+        });
+      });
+      $('#my-stuff-form-errors').html(errorMessage);
+      window.scrollTo(0, 0);
+    });
+    return false;
+
   });
 
   $('#my-stuff').click(function() {

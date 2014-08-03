@@ -3,54 +3,25 @@
   if current_user
     @user = current_user
 %>
+    <div id="my-stuff-form-errors"></div>
 
-      <%= form_for(@user) do |f| %>
-        <% if @user.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-              <ul>
-                <% @user.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
-
-        <div class="field">
-          <%= f.label :name %><br>
+    <%= form_for @user, :html=> {:id => 'my-stuff-form'} do |f| %>
+        <p>
+          <%= f.label :name %><br />
           <%= f.text_field :name %>
-        </div>
-        <div class="field">
-          <%= f.label :email %><br>
-          <%= f.text_field :email %>
-        </div>
-        <div class="field">
-          <%= f.label :password_salt %><br>
-          <%= f.text_field :password_salt %>
-        </div>
-        <div class="field">
-          <%= f.label :password_hash %><br>
-          <%= f.text_field :password_hash %>
-        </div>
-        <div class="field">
-          <%= f.label :latitude %><br>
-          <%= f.text_field :latitude %>
-        </div>
-        <div class="field">
-          <%= f.label :longitude %><br>
-          <%= f.text_field :longitude %>
-        </div>
-        <div class="field">
-          <%= f.label :status %><br>
-          <%= f.text_field :status %>
-        </div>
-        <div class="field">
-          <%= f.label :ip %><br>
-          <%= f.text_field :ip %>
-        </div>
-        <div class="actions">
-          <%= f.submit %>
-        </div>
+        </p>
+        <p>
+          <%= f.label :phone_number %><br />
+          <%= f.text_field :phone_number %>
+        </p>
+        <p>
+          <%= f.label :password %><br />
+          <%= f.password_field :password %>
+        </p>
+        <p>
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation %>
+        </p>
+        <p class="button"><%= f.submit %></p>
     <% end %>
 <% end %>

@@ -6,25 +6,11 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all.page(params[:page]).per(5)
     if (current_user)
-      @post = Post.new(:on_the_curb => 1)
+      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
     else
       @user = User.new
     end
   end
-
-  # GET /posts/1
-  # GET /posts/1.json
-  #def show
-  #end
-
-  # GET /posts/new
-  #def new
-  #  if (current_user)
-  #    @post = Post.new
-  #  else
-  #    redirect_to action: "index"
-  #  end
-  #end
 
   # POST /posts
   # POST /posts.json
@@ -47,9 +33,11 @@ class PostsController < ApplicationController
   # POST /posts/dib/1.json
   def dib
     if (current_user) && (@post.status == 'new') && ((@post.dibbed_until == nil) || (@post.dibbed_until < Time.now))
-      # 60 seconds
+      # 3600 seconds = 1 hour
       @post.dibbed_until = Time.now + Dib.timeSpan
-      @post.update(params[:dibbed_until])
+      @post.status == 'dibbed'
+      @post.dibber_id = session[:user_id]
+      @post.save
       
       @dib = @post.dibs.build
       @dib.ip = request.remote_ip

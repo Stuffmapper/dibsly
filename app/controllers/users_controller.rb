@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :my_stuff]
 
   # GET /users/1"111"
   # GET /users/1.json
@@ -16,6 +16,19 @@ class UsersController < ApplicationController
       @user.valid?
       if verify_recaptcha(:model => @user, :attribute => 'captcha', :message => ' is invalid') && @user.save
         session[:user_id] = @user.id
+        format.json {render json: '[]', status: :ok}
+      else
+        format.json {render json: @user.errors, status: :unprocessable_entity}
+      end
+    end
+  end
+
+  # POST /users
+  # POST /users.json
+  def my_stuff
+    respond_to do |format|
+      @user.valid?
+      if @user.update(user_params)
         format.json {render json: '[]', status: :ok}
       else
         format.json {render json: @user.errors, status: :unprocessable_entity}
