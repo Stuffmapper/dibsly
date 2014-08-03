@@ -143,6 +143,7 @@ function initializeMiniMap() {
 
 var ready = function() {
   // we only display the map at first
+  $('#flash-message').hide();
   $('#main-grid').hide();
   $('#give-stuff-dialog').hide();
   $('#my-stuff-dialog').hide();
@@ -152,8 +153,11 @@ var ready = function() {
   initializeMap();
 
   $('#search-form').submit(function(event) {
-    event.preventDefault();
-    updateMap();
+    if (!$('#main-grid').is(":visible")) {
+      event.preventDefault();
+      updateMap();
+
+    }
   });
 
   $('form#new-user').submit(function(event) {
@@ -238,9 +242,10 @@ var ready = function() {
       data: $(this).serialize(),
       dataType: "json",
     }).done(function(){
+      updateMap();
       $('#give-stuff-form').get(0).reset();
       $('#give-stuff-dialog').dialog("close");
-      updateMap();
+      $("#flash-message").html('Congrats on your Stuffmapper listing!<br>Now this stuff can have a new life.').show().delay(5000).fadeOut();
     }).fail(function(jqXHR, b, c) {
       var errorMessage = "";
       $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
