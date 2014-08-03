@@ -1,7 +1,6 @@
 Dibsly::Application.routes.draw do
-  get 'sessions/new'
+  post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
-  get 'log_in' => 'sessions#new', :as => 'log_in'
   get 'sign_up' => 'users#new', :as => 'sign_up'
   #post 'posts/:id/dib' => 'posts#dib', :as => 'dib'
   #root :to => "users#new"
@@ -17,8 +16,6 @@ Dibsly::Application.routes.draw do
   get 'search' => 'posts#search'
 
   resources :users
-  
-  resources :sessions
 
   root 'posts#index'
   # The priority is based upon order of creation: first created -> highest priority.

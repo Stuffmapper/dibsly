@@ -152,13 +152,35 @@ var ready = function() {
   initializeMap();
 
   $('#search-form').submit(function(event) {
-    updateMap();
     event.preventDefault();
+    updateMap();
   });
 
   $('#sign-up').click(function() {
     $('#sign-up-dialog').dialog({modal: true});
     return false;
+  });
+
+  $('form#new-user').submit(function(event) {
+    event.preventDefault();
+
+  });
+
+  $('#log-in-form').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+    }).done(function(){
+      window.location.href = "/";
+    }).fail(function() {
+      $('#log-in-form-errors').text('Invalid email or password.');
+    });
+    return false;
+
   });
 
   $('#log-in').click(function() {
