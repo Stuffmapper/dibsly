@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :dib]
+  before_action :set_post, only: [:show, :dib]
 
   # GET /posts
   # GET /posts.json
@@ -14,21 +14,17 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   # GET /posts/1.json
-  def show
-  end
+  #def show
+  #end
 
   # GET /posts/new
-  def new
-    if (current_user)
-      @post = Post.new
-    else
-      redirect_to action: "index"
-    end
-  end
-
-  # GET /posts/1/edit
-  def edit
-  end
+  #def new
+  #  if (current_user)
+  #    @post = Post.new
+  #  else
+  #    redirect_to action: "index"
+  #  end
+  #end
 
   # POST /posts
   # POST /posts.json
@@ -44,30 +40,6 @@ class PostsController < ApplicationController
           format.json {render json: @post.errors, status: :unprocessable_entity}
         end
       end
-    end
-  end
-
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
-  def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /posts/1
-  # DELETE /posts/1.json
-  def destroy
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :no_content }
     end
   end
   

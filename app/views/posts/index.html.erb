@@ -30,9 +30,6 @@
         <td><%= post.latitude %></td>
         <td><%= post.longitude %></td>
         <td><%= post.dibbed_until %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Dib', dib_post_path(post), method: :dib %></td>
       </tr>
     <% end %>
