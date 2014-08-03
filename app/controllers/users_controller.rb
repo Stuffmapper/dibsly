@@ -29,11 +29,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
       @user.valid?
-      if verify_recaptcha(:user => @user, :message => "Please enter the correct captcha.") && @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
+      if verify_recaptcha(:model => @user, :attribute => 'captcha', :message => ' is incorrect.') && @user.save
+        session[:user_id] = @user.id
+        format.json { render action: 'show', status: :ok }
       else
-        format.html { render action: 'new' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

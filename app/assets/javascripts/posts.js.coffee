@@ -156,14 +156,43 @@ var ready = function() {
     updateMap();
   });
 
-  $('#sign-up').click(function() {
-    $('#sign-up-dialog').dialog({modal: true});
-    return false;
-  });
-
   $('form#new-user').submit(function(event) {
     event.preventDefault();
 
+  });
+
+   $('#sign-up-form').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+    }).done(function(){
+      window.location.href = "/";
+    }).fail(function(jqXHR, b, c) {
+      Recaptcha.reload();
+      var errorMessage = "";
+      $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
+        var fieldName = keyArray.replace(/\b[a-z]/g, function(letter) {
+          return letter.toUpperCase();
+}       );
+        $.each(valueArray, function(key, value) {
+          errorMessage = errorMessage + fieldName+' '+value+'.<br>';
+        });
+      });
+      $('#sign-up-form-errors').html(errorMessage);
+      window.scrollTo(0, 0);
+    });
+    return false;
+
+  });
+
+  $('#sign-up').click(function() {
+    Recaptcha.reload();
+    $('#sign-up-dialog').dialog({modal: true});
+    return false;
   });
 
   $('#log-in-form').submit(function(event) {

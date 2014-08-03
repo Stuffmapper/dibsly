@@ -1,16 +1,8 @@
-<h1>Sign Up</h1>
+<h2>Sign Up</h2>
 
-<%= form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
-      <ul>
-        <% for message in @user.errors.full_messages %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div id="sign-up-form-errors"></div>
+
+<%= form_for @user, :html=> {:id => 'sign-up-form'} do |f| %>
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name %>
