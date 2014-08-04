@@ -17,7 +17,21 @@ class PostsController < ApplicationController
   def create
     if (current_user)
       @user = User.find(session[:user_id])
+
+      data = nil
+      if post_params[:image_url]
+        urlSegments = post_params[:image_url].match(/data:(.*);base64,(.*)/)
+        data = StringIO.new(Base64.decode64(urlSegments[2]))
+        data.class.class_eval {attr_accessor :original_filename, :content_type}
+        data.original_filename = 'file'
+        data.content_type = urlSegments[0]
+      end
+
+      post_params.delete :image_url
+
       @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
+      @post.image_url = nil
+      @post.image = data
 
       respond_to do |format|
         if @post.save

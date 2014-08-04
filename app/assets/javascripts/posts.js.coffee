@@ -233,6 +233,16 @@ var ready = function() {
     return false;
   });
 
+  $("#post_image").change(function () {
+    if (this.files && this.files[0]) {
+        var FR = new FileReader();
+        FR.onload = function (e) {
+            $("#post_image_url").val(e.target.result);
+        };
+        FR.readAsDataURL(this.files[0]);
+    }
+});
+
   $('#give-stuff-form').submit(function(event) {
     event.preventDefault();
 
