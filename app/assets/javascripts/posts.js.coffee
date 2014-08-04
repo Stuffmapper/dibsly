@@ -6,6 +6,7 @@ var map;
 var pois = [];
 var markers = [];
 var infowindowClosed = true;
+var infoWindows = [];
 
 // for the map
 
@@ -26,11 +27,16 @@ var createMarker = function(poi) {
     title: poi.title
   });
   google.maps.event.addListener(marker, 'click', function() {
+    for (var i=0;i<infoWindows.length;i++) {
+      infoWindows[i].close();
+      infoWindows = [];
+    }
     infowindowClosed = false;
     infoWindow = new google.maps.InfoWindow({
       content: poi.description+'<br><img src="'+poi.image_url+'" /><br>'+poi.dibbed_until+'<br><a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>'
     })
     infoWindow.open(map,marker);
+    infoWindows.push(infoWindow);
     google.maps.event.addListener(infoWindow,'closeclick',function(){
       infowindowClosed = true;
     });
