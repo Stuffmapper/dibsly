@@ -1,4 +1,6 @@
 Dibsly::Application.routes.draw do
+  resources :messages
+
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
 
