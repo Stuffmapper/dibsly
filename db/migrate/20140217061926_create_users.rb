@@ -15,5 +15,8 @@ class CreateUsers < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :name, :unique => true
+    add_index :email, :unique => true
   end
 end

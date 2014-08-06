@@ -4,8 +4,8 @@ class CreateDibs < ActiveRecord::Migration
       t.string :ip
       t.timestamp :valid_until
       t.string :status
-      t.integer :creator_id
-      t.integer :post_id
+      t.integer :creator_id, :references => :users
+      t.integer :post_id, :references => :posts
 
       t.timestamps
     end
