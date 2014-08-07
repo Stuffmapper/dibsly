@@ -1,10 +1,10 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show]
+  before_action :set_message, only: [:index, :show]
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.where("sender_id = ? OR receiver_id = ?", session[:user_id], session[:user_id]).page(params[:page]).per(5)
+    @messages = Message.page(params[:page]).per(5)
   end
 
   # GET /messages/1
@@ -40,6 +40,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).require(:message).permit(:ip, :status, :sender_id, :message)
+      params.require(:message).permit(:ip, :status, :sender_id, :content)
     end
 end

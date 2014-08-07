@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140805062213) do
     t.string   "status"
     t.integer  "sender_id"
     t.integer  "receiver_id"
-    t.text     "message"
+    t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

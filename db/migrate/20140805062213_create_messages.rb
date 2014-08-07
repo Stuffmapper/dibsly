@@ -5,7 +5,7 @@ class CreateMessages < ActiveRecord::Migration
       t.string :status
       t.integer :sender_id, :references => :users
       t.integer :receiver_id, :references => :users
-      t.text :message
+      t.text :content
 
       t.timestamps
     end

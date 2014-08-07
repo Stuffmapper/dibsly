@@ -9,6 +9,6 @@ class Message < ActiveRecord::Base
 
   validates_presence_of :sender_id
   validates_presence_of :receiver_id
-  validates_presence_of :text
+  validates_presence_of :content
   validates :status, inclusion: {in: STATUSES}
 end
