@@ -1,10 +1,10 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show]
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = Message.where("sender_id = ? OR receiver_id = ?", session[:user_id], session[:user_id]).page(params[:page]).per(5)
   end
 
   # GET /messages/1
@@ -15,28 +15,27 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
+    @message.receiver_id(params[:receiver_id])
   end
 
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
+    @message = Message.new(message_params.merge(:ip => request.remote_ip, :status => 'new', :sender_id => session[:user_id]))
 
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @message }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+    # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
+    @message.valid?
+    if @message.save
+      format.json {render json: '[]', status: :ok}
+    else
+      format.json {render json: @message.errors, status: :unprocessable_entity}
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
-      @message = Message.find(params[:id])
+      @message = Message.find(params[:id]).where("sender_id = ? OR receiver_id = ?", session[:user_id], session[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
