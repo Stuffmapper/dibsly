@@ -12,7 +12,6 @@ Dibsly::Application.routes.draw do
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
   post 'posts/geolocated' => 'posts#geolocated'
-
   get 'search' => 'posts#search'
 
   root 'posts#index'
