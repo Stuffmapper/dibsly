@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     @posts = Post.all.page(params[:page]).per(5)
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
+      @message = Message.new()
     else
       @user = User.new
     end
@@ -62,7 +63,9 @@ class PostsController < ApplicationController
 
       @message = Message.new()
       @message.sender_id = session[:user_id]
+      @message.sender_name = User.find(session[:user_id]).name
       @message.receiver_id = @post.creator_id
+      @message.receiver_name = User.find(@post.creator_id).name
       @message.content = 'I just dibbed your item'
       @message.status = 'new'
       @message.ip = request.remote_ip

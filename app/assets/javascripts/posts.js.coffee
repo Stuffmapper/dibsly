@@ -155,6 +155,8 @@ var ready = function() {
   $('#my-stuff-dialog').hide();
   $('#sign-up-dialog').hide();
   $('#log-in-dialog').hide();
+  $('#messages-dialog').hide();
+  $('#messages-new').hide();
 
   initializeMap();
 
@@ -224,6 +226,50 @@ var ready = function() {
 
   $('#log-in').click(function() {
     $('#log-in-dialog').dialog({modal: true});
+    return false;
+  });
+
+  $('#new-message-form').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: "POST",
+      data: $(this).serialize(),
+      dataType: "json",
+    }).done(function(){
+      $('#new-message-form').get(0).reset();
+      $('#messages-new').hide();
+      $('#messages-dialog').dialog("close");
+    }).fail(function() {
+      $('#new-message-form-errors').text('Invalid message.');
+    });
+    return false;
+
+  });
+
+  $('#messages-inbox').on('click', '.answer-link', function() {
+    $('#receiver-name').text($(this).attr('sender-name'));
+    $('#message_receiver_id').val($(this).attr('sender-id'));
+    $('#messages-new').show();
+    return false;
+  });
+
+  $('#messages-link').click(function() {
+    $.ajax({
+      url: '/messages',
+      type: "GET",
+      dataType: "json",
+    }).done(function(messages){
+      var inbox = '';
+      $.each(messages, function(index, message) {
+        inbox = inbox + '<div>From '+message.sender_name+'<br>'+message.content+'<br><a href="#" class="answer-link" sender-id="'+message.sender_id+'" sender-name="'+message.sender_name+'" >Answer</a></div>'
+      });
+      $('#messages-inbox').html(inbox);
+      $('#messages-dialog').dialog({modal: true});
+    }).fail(function() {
+      console.log('error');
+    });
     return false;
   });
 

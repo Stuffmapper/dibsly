@@ -17,27 +17,29 @@ ActiveRecord::Schema.define(version: 20140805062213) do
   enable_extension "plpgsql"
 
   create_table "dibs", force: true do |t|
-    t.string   "ip"
-    t.datetime "valid_until"
-    t.string   "status"
-    t.integer  "creator_id"
-    t.integer  "post_id"
+    t.string   "ip",          null: false
+    t.datetime "valid_until", null: false
+    t.string   "status",      null: false
+    t.integer  "creator_id",  null: false
+    t.integer  "post_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "messages", force: true do |t|
-    t.string   "ip"
-    t.string   "status"
-    t.integer  "sender_id"
-    t.integer  "receiver_id"
-    t.text     "content"
+    t.string   "ip",            null: false
+    t.string   "status",        null: false
+    t.integer  "sender_id",     null: false
+    t.string   "sender_name",   null: false
+    t.integer  "receiver_id",   null: false
+    t.string   "receiver_name", null: false
+    t.text     "content",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "posts", force: true do |t|
-    t.string   "title"
+    t.string   "title",              null: false
     t.text     "description"
     t.string   "image_url"
     t.string   "address"
@@ -45,10 +47,10 @@ ActiveRecord::Schema.define(version: 20140805062213) do
     t.float    "longitude"
     t.boolean  "on_the_curb"
     t.string   "phone_number"
-    t.string   "status"
-    t.string   "ip"
+    t.string   "status",             null: false
+    t.string   "ip",                 null: false
     t.datetime "dibbed_until"
-    t.integer  "creator_id"
+    t.integer  "creator_id",         null: false
     t.integer  "dibber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -59,19 +61,22 @@ ActiveRecord::Schema.define(version: 20140805062213) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "password_salt"
-    t.string   "password_hash"
+    t.string   "name",          null: false
+    t.string   "email",         null: false
+    t.string   "password_salt", null: false
+    t.string   "password_hash", null: false
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "on_the_curb"
     t.string   "phone_number"
-    t.string   "status"
-    t.string   "ip"
+    t.string   "status",        null: false
+    t.string   "ip",            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
 
 end

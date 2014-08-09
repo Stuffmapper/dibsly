@@ -1,15 +1,11 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:index, :show]
+  before_action :only_for_user, only: [:index]
 
   # GET /messages
   # GET /messages.json
   def index
     @messages = Message.page(params[:page]).per(5)
-  end
-
-  # GET /messages/1
-  # GET /messages/1.json
-  def show
+    render json: @messages, status: :ok
   end
 
   # GET /messages/new
@@ -21,25 +17,27 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params.merge(:ip => request.remote_ip, :status => 'new', :sender_id => session[:user_id]))
+    @message = Message.new(message_params.merge(:ip => request.remote_ip, :status => 'new', :sender_id => session[:user_id], :sender_name => User.find(session[:user_id]).name, :receiver_name =>  User.find(message_params[:receiver_id]).name))
 
     # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
-    @message.valid?
-    if @message.save
-      format.json {render json: '[]', status: :ok}
-    else
-      format.json {render json: @message.errors, status: :unprocessable_entity}
+    respond_to do |format|
+      @message.valid?
+      if @message.save
+        format.json {render json: '[]', status: :ok}
+      else
+        format.json {render json: @message.errors, status: :unprocessable_entity}
+      end
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id]).where("sender_id = ? OR receiver_id = ?", session[:user_id], session[:user_id])
+    def only_for_user
+      @message = Message.where("receiver_id = ?", session[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:ip, :status, :sender_id, :content)
+      params.require(:message).permit(:receiver_id, :content)
     end
 end
