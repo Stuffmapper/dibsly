@@ -42,6 +42,7 @@ GEM
       execjs
     coffee-script-source (1.7.1)
     erubis (2.7.0)
+    excon (0.39.4)
     execjs (2.2.1)
     geocoder (1.2.3)
     hike (1.2.3)
@@ -59,6 +60,9 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mandrill-api (1.0.52)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.10.1)
@@ -135,6 +139,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   kaminari
+  mandrill-api
   paperclip
   pg
   rails (= 4.0.2)
