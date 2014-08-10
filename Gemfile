@@ -49,4 +49,6 @@ gem 'bcrypt-ruby', :require=>'bcrypt'
 gem 'recaptcha', '~> 0.3.6'
 gem 'paperclip'
 gem 'kaminari'
+gem 'mandrill-api'
+
 gem 'geocoder'
