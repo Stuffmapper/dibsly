@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20140805062213) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "on_the_curb"
+    t.integer  "zoom"
     t.string   "phone_number"
     t.string   "status",        null: false
     t.string   "ip",            null: false
