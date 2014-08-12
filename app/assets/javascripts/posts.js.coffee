@@ -7,6 +7,10 @@ var pois = [];
 var markers = [];
 var infowindowClosed = true;
 var infoWindows = [];
+var presets = {};
+presets['latitude'] = 47.606163;
+presets['longitude'] = -122.330818;
+presets['zoom'] = 8;
 
 // for the map
 
@@ -68,6 +72,7 @@ if (infowindowClosed) {
         'neLng': northEast.lng(),
         'swLat': southWest.lat(),
         'swLng': southWest.lng(),
+        'zoom': map.getZoom(),
         'term': $('#city-term').val()
       }).done(function(newPois) {
         if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
@@ -81,8 +86,8 @@ if (infowindowClosed) {
 
 function initializeMap() {
   var mapOptions = {
-    center: new google.maps.LatLng(47.606163,-122.330818),
-    zoom: 8,
+    center: new google.maps.LatLng(presets['latitude'],presets['longitude']),
+    zoom: presets['zoom'],
     panControl: false,
     zoomControl: false
   };
@@ -148,9 +153,27 @@ function initializeMiniMap() {
 // everything else
 
 var ready = function() {
+  $.ajax({
+    url: '/presets',
+    type: "POST",
+    dataType: "json",
+    async:false
+  }).done(function(data){
+    if(data['grid_mode']) {
+      $('#map-canvas').hide();
+    } else {
+      $('#main-grid').hide();
+    }
+
+    if (data['latitude'] !== undefined) {
+      presets['latitude'] = data['latitude'];
+      presets['longitude'] = data['longitude'];
+      presets['zoom'] = data['zoom'];
+    }
+  })
+
   // we only display the map at first
   $('#flash-message').hide();
-  $('#main-grid').hide();
   $('#give-stuff-dialog').hide();
   $('#my-stuff-dialog').hide();
   $('#sign-up-dialog').hide();
@@ -276,12 +299,22 @@ var ready = function() {
   $('#find-stuff').click(function() {
     $('#map-canvas').show();
     $('#main-grid').hide();
+    $.ajax({
+      url: '/posts/grid_mode?grid_mode=false',
+      type: "POST",
+      dataType: "json",
+    });
     return false;
   });
 
   $('#what-stuff').click(function() {
     $('#map-canvas').hide();
     $('#main-grid').show();
+    $.ajax({
+      url: '/posts/grid_mode?grid_mode=true',
+      type: "POST",
+      dataType: "json",
+    });
     return false;
   });
 

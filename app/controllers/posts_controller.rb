@@ -88,6 +88,30 @@ class PostsController < ApplicationController
     end
     @term = params[:term]
     render json: @posts
+
+    session[:latitude] = params[:swLat].to_f + ((params[:neLat].to_f - params[:swLat].to_f)/2)
+    session[:longitude] = params[:swLng].to_f + ((params[:neLng].to_f - params[:swLng].to_f)/2)
+    session[:zoom] = params[:zoom]
+    session[:grid_mode] = false
+    if (current_user)
+      current_user.latitude = session[:latitude]
+      current_user.longitude = session[:longitude]
+      current_user.zoom = params[:zoom]
+      current_user.grid_mode = session[:grid_mode]
+      current_user.save
+    end
+  end
+
+  # POST /posts/grid_mode.json
+  def grid_mode
+    session[:grid_mode] = params[:grid_mode]
+    if (current_user)
+      current_user.grid_mode = session[:grid_mode]
+      current_user.save
+    end
+    respond_to do |format|
+        format.json {render json: '[]', status: :ok}
+    end
   end
 
   # GET /posts/search
@@ -108,6 +132,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :description, :image_url, :latitude, :longitude, :address, :on_the_curb, :phone_number, :status, :ip, :dibbed_until, :creator_id, :image)
+      params.require(:post).permit(:title, :description, :image_url, :latitude, :longitude, :zoom, :address, :grid_mode, :phone_number, :status, :ip, :dibbed_until, :creator_id, :image)
     end
 end

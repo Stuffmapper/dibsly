@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :address
       t.float :latitude
       t.float :longitude
-      t.boolean :on_the_curb
+      t.boolean :grid_mode
       t.integer :zoom
       t.string :phone_number
       t.string :status, :null => false

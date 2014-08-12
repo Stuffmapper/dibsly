@@ -10,6 +10,11 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params.merge(:ip => request.remote_ip, :status => 'new'))
+    @user.latitude = session[:latitude]
+    @user.longitude = session[:longitude]
+    @user.zoom = session[:zoom]
+    @user.zoom = session[:on_the_curb]
+    @user.grid_mode = session[:grid_mode]
 
     respond_to do |format|
       # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
@@ -33,6 +38,18 @@ class UsersController < ApplicationController
       else
         format.json {render json: @user.errors, status: :unprocessable_entity}
       end
+    end
+  end
+
+
+
+  # POST /users/presets.json
+  def presets
+    respond_to do |format|
+      format.json {render json: '{"latitude":'+session[:latitude].to_s+',
+        "longitude":'+session[:longitude].to_s+',
+        "zoom":'+session[:zoom].to_s+',
+        "grid_mode":'+session[:grid_mode].to_s+'}', status: :ok}
     end
   end
 
