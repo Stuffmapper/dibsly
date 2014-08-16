@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode
 
-  def self.authenticate(email, password)
-    user = find_by_email(email)
+  def self.authenticate(name, password)
+    user = find_by_name(name)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else

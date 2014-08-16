@@ -253,7 +253,7 @@ var ready = function() {
         }).done(function(){
             window.location.href = "/";
         }).fail(function() {
-            $('#log-in-form-errors').text('Invalid email or password.');
+            $('#log-in-form-errors').text('Invalid name or password.');
         });
         return false;
 

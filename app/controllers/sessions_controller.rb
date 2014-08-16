@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    user = User.authenticate(params[:email], params[:password])
+    user = User.authenticate(params[:name], params[:password])
 
       if user
         session[:user_id] = user.id
@@ -24,5 +24,11 @@ class SessionsController < ApplicationController
     session[:grid_mode] = nil
     redirect_to root_url, :notice => "Logged out!"
   end
+
+  private
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def sessions_params
+      params.permit(:name, :password)
+    end
 end
 
