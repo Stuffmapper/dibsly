@@ -371,6 +371,7 @@ var ready = function() {
 
     $('#give-stuff').click(function() {
         $('#give-stuff-dialog').dialog({modal: true});
+        $('#phone-number-field').hide();
         initializeMiniMap();
         return false;
     });
@@ -408,12 +409,12 @@ var ready = function() {
     });
 
     $('#post_on_the_curb_false').click(function() {
-        $('#phone-number-field').hide();
+        $('#phone-number-field').show();
         return true;
     });
 
     $('#post_on_the_curb_true').click(function() {
-        $('#phone-number-field').show();
+        $('#phone-number-field').hide();
         return true;
     });
 }
