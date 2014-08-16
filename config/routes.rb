@@ -1,6 +1,4 @@
 Dibsly::Application.routes.draw do
-  resources :messages
-
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
 
@@ -8,6 +6,9 @@ Dibsly::Application.routes.draw do
   patch 'users/:id' => 'users#my_stuff'
   post 'users/:id', :to => 'users#show', :as => :user
   post 'presets' => 'users#presets'
+
+  get 'messages' => 'messages#index'
+  post 'messages' => 'messages#create'
 
   post 'posts/:id/dib', :to => 'posts#dib', :as => 'dib_post'
   get 'posts' => 'posts#index'

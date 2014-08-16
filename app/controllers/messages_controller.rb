@@ -8,12 +8,6 @@ class MessagesController < ApplicationController
     render json: @messages, status: :ok
   end
 
-  # GET /messages/new
-  def new
-    @message = Message.new
-    @message.receiver_id(params[:receiver_id])
-  end
-
   # POST /messages
   # POST /messages.json
   def create
