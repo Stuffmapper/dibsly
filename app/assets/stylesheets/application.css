@@ -24,7 +24,7 @@ a {
 }
 
 a:visited {
-    color: green;
+    color: #22ac10;
 }
 
 #top-nav, #left-nav, #bottom-nav {
@@ -43,7 +43,7 @@ a:visited {
     -moz-border-radius: 10px;
     border-radius: 10px;
     padding: 10px;
-    background-color: green;
+    background-color: #22ac10;
     display: none;
 }
 
@@ -172,4 +172,26 @@ a:visited {
 #more-stuff {
     margin-left: 40px;
     line-height: 40px;
+}
+
+.ui-widget-header {
+    background: none !important;
+    border: none !important;
+    float: right;
+}
+
+.give-stuff-dialog-style {
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    border-radius: 10px !important;
+    border-width: 10px !important;
+    border-color: #dc8c0f !important;
+}
+
+.my-stuff-dialog-style {
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    border-radius: 10px !important;
+    border-width: 10px !important;
+    border-color: #5b51aa !important;
 }

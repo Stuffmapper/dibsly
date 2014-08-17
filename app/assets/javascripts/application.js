@@ -190,7 +190,8 @@ var ready = function() {
     $('#give-stuff-dialog').hide();
     $('#my-stuff-dialog').hide();
     $('#sign-up-dialog').hide();
-    $('#log-in-dialog').hide();
+    $('#log-in-dialog').hide()
+    $('#more-stuff-dialog').hide();;
     $('#messages-dialog').hide();
     $('#messages-new').hide();
 
@@ -372,7 +373,7 @@ var ready = function() {
     });
 
     $('#give-stuff').click(function() {
-        $('#give-stuff-dialog').dialog({modal: true});
+        $('#give-stuff-dialog').dialog({modal: true, dialogClass: "give-stuff-dialog-style"});
         $('#phone-number-field').hide();
         initializeMiniMap();
         return false;
@@ -406,7 +407,7 @@ var ready = function() {
     });
 
     $('#my-stuff').click(function() {
-        $('#my-stuff-dialog').dialog({modal: true});
+        $('#my-stuff-dialog').dialog({modal: true, dialogClass: "my-stuff-dialog-style"});
         return false;
     });
 
@@ -418,6 +419,11 @@ var ready = function() {
     $('#post_on_the_curb_true').click(function() {
         $('#phone-number-field').hide();
         return true;
+    });
+
+    $('#more-stuff').click(function() {
+        $('#more-stuff-dialog').dialog({modal: true});
+        return false;
     });
 }
 
