@@ -146,7 +146,8 @@ function initializeMiniMap() {
         center: minimapLatLng,
         zoom: map.getZoom(),
         panControl: false,
-        zoomControl: false
+        zoomControl: false,
+
     };
     minimap = new google.maps.Map(document.getElementById("minimap-canvas"), minimapOptions);
     geocoder = new google.maps.Geocoder();
