@@ -10,7 +10,7 @@
     <%= f.text_area :description %>
   </div>
   <div class="image">
-    <%= f.file_field :image %>
+    <%= f.file_field :image,accept: 'image/png,image/gif,image/jpeg' %>
     <%= f.hidden_field :image_url %>
   </div>
   <div id="minimap-canvas" style="width: 300px; height: 300px;"></div>
