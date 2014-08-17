@@ -92,12 +92,10 @@ class PostsController < ApplicationController
     session[:latitude] = params[:swLat].to_f + ((params[:neLat].to_f - params[:swLat].to_f)/2)
     session[:longitude] = params[:swLng].to_f + ((params[:neLng].to_f - params[:swLng].to_f)/2)
     session[:zoom] = params[:zoom]
-    session[:grid_mode] = false
     if (current_user)
       current_user.latitude = session[:latitude]
       current_user.longitude = session[:longitude]
       current_user.zoom = params[:zoom]
-      current_user.grid_mode = session[:grid_mode]
       current_user.save
     end
   end
