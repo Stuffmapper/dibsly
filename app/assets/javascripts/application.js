@@ -48,8 +48,16 @@ var createMarker = function(poi) {
             infoWindows = [];
         }
         infowindowClosed = false;
+        var infoWindowContent = '<h2>'+poi.title+'</h2>';
+        infoWindowContent += poi.description+'<br>';
+        if (poi.image_url.indexOf("missing") == -1) {
+            infoWindowContent += '<img src="'+poi.image_url+'" /><br>';
+        }
+        if (poi.dibbed_until == null) {
+            infoWindowContent += '<a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>';
+        }
         infoWindow = new google.maps.InfoWindow({
-            content: poi.description+'<br><img src="'+poi.image_url+'" /><br>'+poi.dibbed_until+'<br><a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>'
+            content: infoWindowContent
         })
         infoWindow.open(map,marker);
         infoWindows.push(infoWindow);
