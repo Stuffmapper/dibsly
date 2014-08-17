@@ -14,7 +14,7 @@
 
 body {
     background-color: #fff;
-    color: #333;
+    color: #005c90;
     font-family: verdana, arial, helvetica, sans-serif;
     font-size: 13px;
 }
@@ -41,9 +41,10 @@ a:visited {
     left: 50%;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    border-bottom-radius: 10px;
+    border-radius: 10px;
     padding: 10px;
     background-color: green;
+    display: none;
 }
 
 #flash-content {
@@ -170,4 +171,5 @@ a:visited {
 
 #more-stuff {
     margin-left: 40px;
+    line-height: 40px;
 }
