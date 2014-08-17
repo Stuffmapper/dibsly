@@ -348,12 +348,13 @@ var ready = function() {
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json",
+            dataType: "json"
         }).done(function(){
             updateMap();
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("close");
-            $("#flash-message").html('Congrats on your Stuffmapper listing!<br>Now this stuff can have a new life.').show().delay(5000).fadeOut();
+            $("#flash-message-span").text('Congrats on your Stuffmapper listing!');
+            $("#flash-message").show().delay(5000).fadeOut();
         }).fail(function(jqXHR, b, c) {
             var errorMessage = "";
             $.each(jqXHR.responseJSON, function(keyArray, valueArray) {

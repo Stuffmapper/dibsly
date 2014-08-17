@@ -32,6 +32,26 @@ a:visited {
     position: fixed;
 }
 
+#flash-message {
+    color: white;
+    z-index: 40;
+    position: fixed;
+    width: 300px;
+    margin: 0 0 0 -150px;
+    left: 50%;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-bottom-radius: 10px;
+    padding: 10px;
+    background-color: green;
+}
+
+#flash-content {
+    width: 16px;
+    height: 16px;
+    display:inline-block;
+}
+
 #left-nav {
     z-index: 20;
     top: 0px;
