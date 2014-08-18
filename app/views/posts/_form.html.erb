@@ -1,6 +1,14 @@
 <div id="give-stuff-form-errors"></div>
 
 <%= form_for @post, :html => {:id => 'give-stuff-form' } do |f| %>
+  <div class="image">
+    <label>Upload Image *</label>
+    <%= f.file_field :image,accept: 'image/png,image/gif,image/jpeg' %>
+    <%= f.hidden_field :image_url %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
   <div class="field">
     <%= f.label :title %><br>
     <%= f.text_field :title %>
@@ -9,26 +17,21 @@
     <%= f.label :description %><br>
     <%= f.text_area :description %>
   </div>
-  <div class="image">
-    <%= f.file_field :image,accept: 'image/png,image/gif,image/jpeg' %>
-    <%= f.hidden_field :image_url %>
-  </div>
-  <div id="minimap-canvas" style="width: 300px; height: 300px;"></div>
-  <%= f.hidden_field :latitude %>
-  <%= f.hidden_field :longitude %>
   <div class="field">
+    <label>Location</label><br>
+    <div id="minimap-canvas" style="width: 300px; height: 300px;"></div>
     <%= f.label :address %><br>
     <%= f.text_area :address %>
+    <%= f.hidden_field :latitude %>
+    <%= f.hidden_field :longitude %>
   </div>
   <div class="field">
+    <label>Pickup</label><br>
+    <label for="post_on_the_curb_true">On the curb</label> <%= f.radio_button :on_the_curb, "true" %><br>
     <label for="post_on_the_curb_false">Contact me for details</label> <%= f.radio_button :on_the_curb, "false" %><br>
-    <label for="post_on_the_curb_true">On the curb</label> <%= f.radio_button :on_the_curb, "true" %>
   </div>
   <div class="field" id="phone-number-field">
     <%= f.label :phone_number %><br>
     <%= f.text_field :phone_number %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
   </div>
 <% end %>
