@@ -30,7 +30,9 @@ a:visited {
 
 label {
     color: #005c90;
+    display: inline-block;
     font-size: 1.1em;
+    margin-top: 8px;
 }
 
 input {
@@ -53,6 +55,10 @@ input[type=submit] {
 }
 
 /* dialogs */
+
+.ui-widget-content {
+    color: #005c90 !important;
+}
 
 .ui-widget-header {
     background: none !important;
