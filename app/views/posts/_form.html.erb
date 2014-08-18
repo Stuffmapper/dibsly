@@ -3,7 +3,12 @@
 <%= form_for @post, :html => {:id => 'give-stuff-form' } do |f| %>
   <div class="image">
     <label>Upload Image *</label>
-    <%= f.file_field :image,accept: 'image/png,image/gif,image/jpeg' %>
+    <div class="fileUpload btn btn-primary">
+      <span>Upload</span>
+      <input type="file" name="post[image]" id="post_image" class="upload" accept="image/png,image/gif,image/jpeg">
+    </div>
+    <input id="uploadFile" placeholder="Choose a picture" disabled="disabled" />
+
     <%= f.hidden_field :image_url %>
   </div>
   <div class="actions">

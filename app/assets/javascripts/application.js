@@ -433,6 +433,10 @@ var ready = function() {
         $('#more-stuff-dialog').dialog({modal: true});
         return false;
     });
+
+    document.getElementById("post_image").onchange = function () {
+        document.getElementById("uploadFile").value = this.value;
+    };
 }
 
 $(document).ready(ready);

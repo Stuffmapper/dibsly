@@ -71,6 +71,50 @@ input[type=submit] {
     background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_white_256x240.png") !important;
 }
 
+#give-stuff-form [type=submit] {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+    padding: 20px 10px;
+    width: 100%;
+}
+
+#uploadFile {
+    width: 145px;
+    background-color: white;
+    border: 1px solid;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    float: right;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.fileUpload span {
+    color: #fff;
+    background-color: #005c90;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-width: 10px;
+    padding: 6px;
+    display: inline-block;
+    margin-top: 6px;
+}
+
 .give-stuff-dialog-style {
     -webkit-border-radius: 10px !important;
     -moz-border-radius: 10px !important;
