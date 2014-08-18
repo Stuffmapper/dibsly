@@ -32,8 +32,8 @@
   </div>
   <div class="field">
     <label>Pickup</label><br>
-    <label for="post_on_the_curb_true">On the curb</label> <%= f.radio_button :on_the_curb, "true" %><br>
-    <label for="post_on_the_curb_false">Contact me for details</label> <%= f.radio_button :on_the_curb, "false" %><br>
+    <%= f.radio_button :on_the_curb, "true" %> <label for="post_on_the_curb_true">On the curb</label><br>
+    <%= f.radio_button :on_the_curb, "false" %> <label for="post_on_the_curb_false">Contact me for details</label><br>
   </div>
   <div class="field" id="phone-number-field">
     <%= f.label :phone_number %><br>
