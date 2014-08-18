@@ -23,6 +23,7 @@ var presets = {};
 presets['latitude'] = 47.606163;
 presets['longitude'] = -122.330818;
 presets['zoom'] = 8;
+presets['grid_mode'] = false;
 
 // for the map
 
@@ -48,7 +49,7 @@ var createMarker = function(poi) {
             infoWindows = [];
         }
         infowindowClosed = false;
-        var infoWindowContent = '<h2>'+poi.title+'</h2>';
+        var infoWindowContent = '<div style="width: 325px;"><h2>'+poi.title+'</h2>';
         infoWindowContent += poi.description+'<br>';
         if (poi.image_url.indexOf("missing") == -1) {
             infoWindowContent += '<img src="'+poi.image_url+'" /><br>';
@@ -56,6 +57,7 @@ var createMarker = function(poi) {
         if (poi.dibbed_until == null) {
             infoWindowContent += '<a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>';
         }
+        infoWindowContent += '</div>';
         infoWindow = new google.maps.InfoWindow({
             content: infoWindowContent
         })
@@ -192,8 +194,9 @@ var ready = function() {
             presets['latitude'] = data['latitude'];
             presets['longitude'] = data['longitude'];
             presets['zoom'] = data['zoom'];
+            presets['grid_mode'] = data['grid_mode'];
         }
-    })
+    });
 
     // we only display the map at first
     $('#flash-message').hide();
@@ -227,7 +230,7 @@ var ready = function() {
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json",
+            dataType: "json"
         }).done(function(){
             window.location.href = "/";
         }).fail(function(jqXHR, b, c) {
@@ -250,7 +253,7 @@ var ready = function() {
 
     $('#sign-up').click(function() {
         Recaptcha.reload();
-        $('#sign-up-dialog').dialog({modal: true});
+        $('#sign-up-dialog').dialog({modal: true, minWidth: 365});
         return false;
     });
 
@@ -306,7 +309,7 @@ var ready = function() {
         $.ajax({
             url: '/messages',
             type: "GET",
-            dataType: "json",
+            dataType: "json"
         }).done(function(messages){
             var inbox = '';
             $.each(messages, function(index, message) {
@@ -314,8 +317,6 @@ var ready = function() {
             });
             $('#messages-inbox').html(inbox);
             $('#messages-dialog').dialog({modal: true});
-        }).fail(function() {
-            console.log('error');
         });
         return false;
     });
@@ -326,7 +327,7 @@ var ready = function() {
         $.ajax({
             url: '/posts/grid_mode?grid_mode=false',
             type: "POST",
-            dataType: "json",
+            dataType: "json"
         });
         return false;
     });
@@ -337,7 +338,7 @@ var ready = function() {
         $.ajax({
             url: '/posts/grid_mode?grid_mode=true',
             type: "POST",
-            dataType: "json",
+            dataType: "json"
         });
         return false;
     });
@@ -365,7 +366,7 @@ var ready = function() {
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("close");
             $("#flash-message-span").text('Congrats on your Stuffmapper listing!');
-            $("#flash-message").show().delay(5000).fadeOut();
+            $("#flash-message").show().delay(500).fadeOut();
         }).fail(function(jqXHR, b, c) {
             var errorMessage = "";
             $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
@@ -436,9 +437,11 @@ var ready = function() {
         return false;
     });
 
-    document.getElementById("post_image").onchange = function () {
-        document.getElementById("uploadFile").value = this.value;
-    };
+    if($("#post_image").length > 0) {
+        document.getElementById("post_image").onchange = function () {
+            document.getElementById("uploadFile").value = this.value;
+        };
+    }
 }
 
 $(document).ready(ready);

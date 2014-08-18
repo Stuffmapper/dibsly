@@ -141,6 +141,10 @@ input[type=submit] {
     border-color: #5b51aa !important;
 }
 
+.form-errors {
+    color: red !important;
+ }
+
 /* flash messages */
 
 #flash-message {
@@ -290,4 +294,8 @@ input[type=submit] {
 #more-stuff {
     margin-left: 40px;
     line-height: 40px;
+}
+
+.gm-style-iw div{
+    overflow-x: hidden !important;
 }

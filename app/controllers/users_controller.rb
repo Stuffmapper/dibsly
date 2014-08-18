@@ -13,7 +13,6 @@ class UsersController < ApplicationController
     @user.latitude = session[:latitude]
     @user.longitude = session[:longitude]
     @user.zoom = session[:zoom]
-    @user.zoom = session[:on_the_curb]
     @user.grid_mode = session[:grid_mode]
 
     respond_to do |format|
@@ -45,6 +44,19 @@ class UsersController < ApplicationController
 
   # POST /users/presets.json
   def presets
+    if !session[:latitude]
+      session[:latitude] = 47.606163;
+    end
+    if !session[:longitude]
+      session[:longitude] = -122.330818;
+    end
+    if !session[:zoom]
+      session[:zoom] = 8;
+    end
+    if !session[:grid_mode]
+      session[:grid_mode] = false;
+    end
+
     respond_to do |format|
       format.json {render json: '{"latitude":'+session[:latitude].to_s+',
         "longitude":'+session[:longitude].to_s+',

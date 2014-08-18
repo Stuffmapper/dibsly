@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
         session[:latitude] = user.latitude
         session[:longitude] = user.longitude
         session[:zoom] = user.zoom
-        session[:on_the_curb] = user.zoom
         session[:grid_mode] = user.grid_mode
         render json: '[]', status: :ok
       else
@@ -20,7 +19,6 @@ class SessionsController < ApplicationController
     session[:latitude] = nil
     session[:longitude] = nil
     session[:zoom] = nil
-    session[:on_the_curb] = nil
     session[:grid_mode] = nil
     redirect_to root_url, :notice => "Logged out!"
   end
