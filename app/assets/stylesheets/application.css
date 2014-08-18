@@ -123,6 +123,10 @@ input[type=submit] {
     border-color: #dc8c0f !important;
 }
 
+#give-stuff-dialog {
+    overflow: hidden;
+}
+
 .my-stuff-dialog-style {
     -webkit-border-radius: 10px !important;
     -moz-border-radius: 10px !important;

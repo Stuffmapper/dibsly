@@ -155,6 +155,8 @@ function initializeMiniMap() {
         zoom: map.getZoom(),
         panControl: false,
         zoomControl: false,
+        streetViewControl: false,
+        mapTypeControl: false
 
     };
     minimap = new google.maps.Map(document.getElementById("minimap-canvas"), minimapOptions);
