@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.page(params[:page]).per(5)
+    @messages = Message.where("receiver_id = ?", session[:user_id]).page(params[:page]).per(5)
     render json: @messages, status: :ok
   end
 

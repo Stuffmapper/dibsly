@@ -8,9 +8,8 @@ class Post < ActiveRecord::Base
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished', STATUS_DIBBED = 'dibbed']
   
   default_scope order('created_at DESC')
-  
-  validates_presence_of :title
-  validates_presence_of :description
+
+  validates_attachment_presence :image
   validates_presence_of :creator_id
   validates :status, inclusion: {in: STATUSES}
 end
