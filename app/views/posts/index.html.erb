@@ -8,9 +8,12 @@
         <%= image_tag post.image.url(:medium) %><br>
         <%= post.title %>
         <div class="grid-post-details">
-          <%= post.description %><br>
-          <%= post.address %><br>
-          <%= link_to 'Dib', dib_post_path(post), method: :dib %><br>
+          <div class="grid-post-description"><%= post.description %></div>
+          <div class="grid-post-address"><%= post.address %></div>
+          <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span>
+          <%= link_to dib_post_path(post), method: :dib, :title => "Dibs" do %>
+            <image src="assets/dibs.png" class="dibs-image"></image>
+          <% end %><br>
         </div>
       </div>
     <% end %>
