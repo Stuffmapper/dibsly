@@ -254,9 +254,7 @@ var ready = function() {
     });
 
     $('#sign-up').click(function() {
-        if (typeof Recaptcha !== 'undefined') {
-            Recaptcha.reload();
-        }
+        Recaptcha.reload();
         $('#sign-up-dialog').dialog({modal: true, minWidth: 365});
         return false;
     });
