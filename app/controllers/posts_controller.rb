@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.page(params[:page]).per(5)
+    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR dibbed_until >= ?)", 'new', Time.zone.now).page(params[:page]).per(6)
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
       @message = Message.new()
@@ -82,7 +82,7 @@ class PostsController < ApplicationController
 
   # POST /posts/geolocated.json
   def geolocated
-    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ?", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%").limit(50)
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR dibbed_until >= ?)", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new', Time.zone.now).limit(50)
     @posts.each do |post|
       post.image_url = post.image.url(:medium)
     end
@@ -114,10 +114,13 @@ class PostsController < ApplicationController
 
   # GET /posts/search
   def search
-    @posts = Post.where("title ILIKE ?", "%#{params[:term]}%").page(params[:page]).per(5)
+    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR dibbed_until >= ?)", "%#{params[:term]}%", 'new', Time.zone.now).page(params[:page]).per(6)
     @term = params[:term]
     if (current_user)
-      @post = Post.new
+      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
+      @message = Message.new()
+    else
+      @user = User.new
     end
     render action: 'index'
   end
