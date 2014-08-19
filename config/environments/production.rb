@@ -77,4 +77,7 @@ Dibsly::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  RECAPTCHA_PUBLIC_KEY= '6Leo0vgSAAAAAHu-_4bT70rAbA9e3fTAaZc4mQg_'
+  RECAPTCHA_PRIVATE_KEY= '6Leo0vgSAAAAAM49CNca9qyfrhVDdAy5fVHIRfsl'
 end
