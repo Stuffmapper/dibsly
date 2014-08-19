@@ -2,19 +2,18 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
 <div id="main-grid">
-<%= paginate @posts %>
-<div id="grid-post-container">
-<% @posts.each do |post| %>
-  <div class="grid-post">
-    <%= image_tag post.image.url(:medium) %><br>
-    <%= post.title %>
-    <div class="grid-post-details">
-      <%= post.description %><br>
-      <%= post.address %><br>
-      <%= link_to 'Dib', dib_post_path(post), method: :dib %><br>
-    </div>
+  <div id="grid-post-container">
+    <% @posts.each do |post| %>
+      <div class="grid-post">
+        <%= image_tag post.image.url(:medium) %><br>
+        <%= post.title %>
+        <div class="grid-post-details">
+          <%= post.description %><br>
+          <%= post.address %><br>
+          <%= link_to 'Dib', dib_post_path(post), method: :dib %><br>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
-</div>
-<%= paginate @posts %>
+  <%= paginate @posts %>
 </div>
