@@ -325,6 +325,7 @@ var ready = function() {
 
     $('#find-stuff').click(function() {
         $('#map-canvas').show();
+        initializeMap();
         $('#main-grid').hide();
         $.ajax({
             url: '/posts/grid_mode?grid_mode=false',
