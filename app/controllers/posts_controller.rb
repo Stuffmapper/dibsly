@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :dib]
 
+  http_basic_authenticate_with :name => "startup", :password => "weekend"
+
   # GET /posts
   # GET /posts.json
   def index
