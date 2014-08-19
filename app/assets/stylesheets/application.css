@@ -288,12 +288,16 @@ input[type=submit] {
 #main-grid {
     background-color: #b1d0ff;
     width: 100%;
-    height: 100%;
     margin: 0px;
     padding: 120px 0px 120px 80px;
     top: 0px;
     left: 0px;
     position: absolute;
+}
+
+#grid-post-container {
+    clear: both;
+    float: left;
 }
 
 .grid-post {
@@ -305,6 +309,9 @@ input[type=submit] {
     border-radius: 20px;
     margin: 20px;
     padding: 20px;
+    width: 300px;
+    height: 323px;
+    float: left;
 }
 
 .grid-post:hover .grid-post-details {

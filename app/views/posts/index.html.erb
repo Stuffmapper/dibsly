@@ -3,8 +3,8 @@
 
 <div id="main-grid">
 <%= paginate @posts %>
-
-  <% @posts.each do |post| %>
+<div id="grid-post-container">
+<% @posts.each do |post| %>
   <div class="grid-post">
     <%= image_tag post.image.url(:medium) %><br>
     <%= post.title %>
@@ -14,7 +14,7 @@
       <%= link_to 'Dib', dib_post_path(post), method: :dib %><br>
     </div>
   </div>
-  <% end %>
-
+<% end %>
+</div>
 <%= paginate @posts %>
 </div>
