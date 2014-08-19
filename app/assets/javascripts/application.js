@@ -49,15 +49,17 @@ var createMarker = function(poi) {
             infoWindows = [];
         }
         infowindowClosed = false;
-        var infoWindowContent = '<div style="width: 325px;"><h2>'+poi.title+'</h2>';
-        infoWindowContent += poi.description+'<br>';
-        if (poi.image_url.indexOf("missing") == -1) {
-            infoWindowContent += '<img src="'+poi.image_url+'" /><br>';
-        }
-        if (poi.dibbed_until == null) {
-            infoWindowContent += '<a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib">Dib</a>';
-        }
+        var infoWindowContent = '<div class="grid-post">';
+        infoWindowContent += '<img src="'+poi.image_url+'" /><br>';
+        infoWindowContent += poi.title;
+        infoWindowContent += '  <div class="grid-post-details">';
+        infoWindowContent += '      <div class="grid-post-description">'+poi.description+'</div>';
+        infoWindowContent += '    <div class="grid-post-address">'+poi.address+'</div>';
+        infoWindowContent += '    <span class="grid-post-date">Posted '+jQuery.timeago(poi.created_at)+'</span>';
+        infoWindowContent += '    <a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
+        infoWindowContent += '  </div>';
         infoWindowContent += '</div>';
+
         infoWindow = new google.maps.InfoWindow({
             content: infoWindowContent
         })
