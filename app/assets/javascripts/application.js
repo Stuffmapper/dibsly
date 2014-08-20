@@ -206,7 +206,7 @@ var ready = function() {
     $('#my-stuff-dialog').hide();
     $('#sign-up-dialog').hide();
     $('#log-in-dialog').hide()
-    $('#more-stuff-dialog').hide();;
+    $('#more-stuff-dialog').hide();
     $('#messages-dialog').hide();
     $('#messages-new').hide();
 
@@ -437,6 +437,12 @@ var ready = function() {
 
     $('#more-stuff').click(function() {
         $('#more-stuff-dialog').dialog({modal: true});
+        return false;
+    });
+
+    $('#smartphone-nav-button').click(function() {
+        $('#top-nav').toggle();
+
         return false;
     });
 

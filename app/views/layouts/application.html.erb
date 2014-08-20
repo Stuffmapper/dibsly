@@ -13,7 +13,10 @@
 
 <div id="flash-message"><img src="assets/flashIcon.png"><span id="flash-message-span"></span></div>
 
+<div id="smartphone-nav-button"><a id="smartphone-nav-link" href="#" title="menu">&#9776;</a></div>
+
 <div id="top-nav">
+  <a id="top-logo" href="/"><img src="/assets/LogoBeta.png" alt="StuffMapper" title="StuffMapper"></a>
   <div id="search-form-current-city">
       <form id="search-form" action="/search" method="get">
         <input type="text" name="term" placeholder="Search" id="city-term" value="<%= @term %>">
@@ -28,7 +31,6 @@
         <a href="#" id="log-in">log in</a>
       <% end %>
   </div>
-  <a id="top-logo" href="/"><img src="/assets/LogoBeta.png" alt="StuffMapper" title="StuffMapper"></a>
 </div>
 
 <div id="left-nav">
@@ -75,7 +77,7 @@
 <% end %>
 
     <div id="more-stuff-dialog">
-        
+
     </div>
 
 </body>
