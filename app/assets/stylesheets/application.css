@@ -13,11 +13,19 @@
 
 /* html labels */
 
+html {
+    background-color: #b1d0ff;
+}
+
 body {
     background-color: #fff;
     color: #005c90;
     font-family: verdana, arial, helvetica, sans-serif;
     font-size: 13px;
+    width:100%;
+    height:100%;
+    margin:0px;
+    top:0px;
 }
 
 a {
