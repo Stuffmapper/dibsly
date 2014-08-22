@@ -113,7 +113,10 @@ function initializeMap() {
         center: new google.maps.LatLng(presets['latitude'],presets['longitude']),
         zoom: presets['zoom'],
         panControl: false,
-        zoomControl: false
+        zoomControl:true,
+        zoomControlOptions: {
+            style:google.maps.ZoomControlStyle.SMALL
+        }
     };
     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
