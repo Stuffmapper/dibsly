@@ -1,0 +1,8 @@
+access_type: "app_folder"
+app_key: "kuxxk3ij0s8qj15"
+app_secret: "ibaozo1snxhwz6r"
+# run this to get the following parameters
+# rake dropbox:authorize APP_KEY=kuxxk3ij0s8qj15 APP_SECRET=ibaozo1snxhwz6r ACCESS_TYPE=app_folder
+access_token: "0hwtp8s9g1cmfi8h"
+access_token_secret: "liwlsxu0hs2k8th"
+user_id: "45478477"

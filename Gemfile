@@ -48,6 +48,7 @@ gem 'rails_12factor', group: :production
 gem 'bcrypt-ruby', :require=>'bcrypt'
 gem 'recaptcha', '~> 0.3.6'
 gem 'paperclip'
+gem 'paperclip-dropbox', '>= 1.1.7'
 gem 'kaminari'
 gem 'mandrill-api'
 

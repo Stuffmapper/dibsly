@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20140805062213) do
   end
 
   create_table "posts", force: true do |t|
-    t.string   "title",              null: false
+    t.string   "title"
     t.text     "description"
     t.string   "image_url"
     t.string   "address"
