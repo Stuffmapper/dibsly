@@ -19,6 +19,7 @@ var pois = [];
 var markers = [];
 var infowindowClosed = true;
 var infoWindows = [];
+var customIcon = '/assets/icon.png';
 var presets = {};
 presets['latitude'] = 47.6612588;
 presets['longitude'] = -122.3078193;
@@ -41,7 +42,8 @@ var createMarker = function(poi) {
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(poi.latitude,poi.longitude),
         map: map,
-        title: poi.title
+        title: poi.title,
+        icon: customIcon
     });
     google.maps.event.addListener(marker, 'click', function() {
         for (var i=0;i<infoWindows.length;i++) {
