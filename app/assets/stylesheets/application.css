@@ -413,3 +413,7 @@ input[type=submit] {
 .dibs-image {
     float: right;
 }
+
+#preload {
+    display: none;
+}
