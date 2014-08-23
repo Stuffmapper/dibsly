@@ -34,4 +34,10 @@ class Message < ActiveRecord::Base
   rescue Mandrill::Error => e
     logger.debug "Mandrill error occurred: #{e.class} - #{e.message}"
   end
+
+
+  # to make sure we don't expose it
+  def ip
+    ''
+  end
 end

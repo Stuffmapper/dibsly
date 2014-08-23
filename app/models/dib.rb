@@ -10,4 +10,10 @@ class Dib < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :post_id
   validates :status, inclusion: {in: STATUSES}
+
+
+  # to make sure we don't expose it
+  def ip
+    ''
+  end
 end
