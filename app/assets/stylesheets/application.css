@@ -44,6 +44,10 @@ label {
     margin-top: 8px;
 }
 
+textarea {
+    color: inherit;
+}
+
 input {
     color: #005c90;
 }
@@ -235,7 +239,7 @@ input[type=submit] {
 
 #find-stuff-button {
     background-image:url("/assets/findStuffOn.png");
-    bottom: 410px;
+    bottom: 450px;
 }
 
 #find-stuff-button:hover {
@@ -244,7 +248,7 @@ input[type=submit] {
 
 #what-stuff-button {
     background-image:url("/assets/whatStuffOn.png");
-    bottom: 290px;
+    bottom: 330px;
 }
 
 #what-stuff-button:hover {
@@ -253,7 +257,7 @@ input[type=submit] {
 
 #give-stuff-away-button {
     background-image:url("/assets/giveStuffOn.png");
-    bottom: 140px;
+    bottom: 190px;
 }
 
 #give-stuff-away-button:hover {
@@ -262,7 +266,7 @@ input[type=submit] {
 
 #my-stuff-button {
     background-image:url("/assets/myStuffOn.png");
-    bottom: 20px;
+    bottom: 70px;
 }
 
 #my-stuff-button:hover {
