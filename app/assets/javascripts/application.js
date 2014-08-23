@@ -20,9 +20,9 @@ var markers = [];
 var infowindowClosed = true;
 var infoWindows = [];
 var presets = {};
-presets['latitude'] = 47.606163;
-presets['longitude'] = -122.330818;
-presets['zoom'] = 8;
+presets['latitude'] = 47.6612588;
+presets['longitude'] = -122.3078193;
+presets['zoom'] = 14;
 presets['grid_mode'] = false;
 
 // for the map

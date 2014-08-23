@@ -45,13 +45,13 @@ class UsersController < ApplicationController
   # POST /users/presets.json
   def presets
     if !session[:latitude]
-      session[:latitude] = 47.606163;
+      session[:latitude] = 47.6612588;
     end
     if !session[:longitude]
-      session[:longitude] = -122.330818;
+      session[:longitude] = -122.3078193;
     end
     if !session[:zoom]
-      session[:zoom] = 8;
+      session[:zoom] = 14;
     end
     if !session[:grid_mode]
       session[:grid_mode] = false;
