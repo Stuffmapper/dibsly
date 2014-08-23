@@ -22,7 +22,7 @@
         <input type="text" name="term" placeholder="Search" id="city-term" value="<%= @term %>">
       </form>
       <% if current_user %>
-        Hey there, <%= current_user.name %>
+        Greetings, <%= current_user.name %>
         <a href="#" id="messages-link">Messages</a> -
         <%= link_to "Log out", log_out_path %>
       <% else %>
