@@ -259,6 +259,9 @@ var ready = function() {
     $('#sign-up').click(function() {
         Recaptcha.reload();
         $('#sign-up-dialog').dialog({modal: true, minWidth: 365});
+        $(".ui-widget-overlay").click (function () {
+            $("#sign-up-dialog").dialog( "destroy" );
+        });
         return false;
     });
 
@@ -281,6 +284,9 @@ var ready = function() {
 
     $('#log-in').click(function() {
         $('#log-in-dialog').dialog({modal: true});
+        $(".ui-widget-overlay").click (function () {
+            $("#log-in-dialog").dialog( "destroy" );
+        });
         return false;
     });
 
@@ -295,7 +301,7 @@ var ready = function() {
         }).done(function(){
             $('#new-message-form').get(0).reset();
             $('#messages-new').hide();
-            $('#messages-dialog').dialog("close");
+            $('#messages-dialog').dialog("destroy");
         }).fail(function() {
             $('#new-message-form-errors').text('Invalid message.');
         });
@@ -322,6 +328,9 @@ var ready = function() {
             });
             $('#messages-inbox').html(inbox);
             $('#messages-dialog').dialog({modal: true});
+            $(".ui-widget-overlay").click (function () {
+                $("#messages-dialog").dialog( "destroy" );
+            });
         });
         return false;
     });
@@ -370,7 +379,7 @@ var ready = function() {
         }).done(function(){
             updateMap();
             $('#give-stuff-form').get(0).reset();
-            $('#give-stuff-dialog').dialog("close");
+            $('#give-stuff-dialog').dialog("destroy");
             $("#flash-message-span").text('Congrats on your Stuffmapper listing!');
             $("#flash-message").show().delay(500).fadeOut();
         }).fail(function(jqXHR, b, c) {
@@ -391,6 +400,9 @@ var ready = function() {
 
     $('#give-stuff').click(function() {
         $('#give-stuff-dialog').dialog({modal: true, dialogClass: "give-stuff-dialog-style"});
+        $(".ui-widget-overlay").click (function () {
+            $("#give-stuff-dialog").dialog( "destroy" );
+        });
         $('#phone-number-field').hide();
         initializeMiniMap();
         return false;
@@ -425,6 +437,9 @@ var ready = function() {
 
     $('#my-stuff').click(function() {
         $('#my-stuff-dialog').dialog({modal: true, dialogClass: "my-stuff-dialog-style"});
+        $(".ui-widget-overlay").click (function () {
+            $("#my-stuff-dialog").dialog( "destroy" );
+        });
         return false;
     });
 
@@ -440,6 +455,9 @@ var ready = function() {
 
     $('#more-stuff').click(function() {
         $('#more-stuff-dialog').dialog({modal: true});
+        $(".ui-widget-overlay").click (function () {
+            $("#more-stuff-dialog").dialog( "destroy" );
+        });
         return false;
     });
 
@@ -454,6 +472,8 @@ var ready = function() {
             document.getElementById("uploadFile").value = this.value;
         };
     }
+
+    $(document).tooltip();
 }
 
 $(document).ready(ready);
