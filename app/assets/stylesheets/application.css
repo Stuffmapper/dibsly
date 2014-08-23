@@ -98,7 +98,7 @@ input[type=submit] {
     width: 100%;
 }
 
-#uploadFile {
+#upload-file {
     width: 145px;
     background-color: white;
     border: 1px solid;

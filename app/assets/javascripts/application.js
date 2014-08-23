@@ -469,9 +469,15 @@ var ready = function() {
 
     if($("#post_image").length > 0) {
         document.getElementById("post_image").onchange = function () {
-            document.getElementById("uploadFile").value = this.value;
+            document.getElementById("upload-file").value = this.value;
         };
     }
+
+    $('#upload-file').click(function() {
+        $('#post_image').click();
+
+        return false;
+    });
 
     $(document).tooltip();
 }
