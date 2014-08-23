@@ -37,12 +37,27 @@ var clearMarkers =function() {
     markers = [];
 }
 
-var createMarker = function(poi) {
+var generateGridPost = function(post) {
+    var content = '<div class="grid-post">';
+    content += '<img src="'+post.image_url+'" /><br>';
+    content += post.title;
+    content += '  <div class="grid-post-details">';
+    content += '      <div class="grid-post-description">'+post.description+'</div>';
+    content += '    <div class="grid-post-address">'+post.address+'</div>';
+    content += '    <span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
+    content += '    <a rel="nofollow" href="/posts/'+post.id+'/dib" data-method="dib"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
+    content += '  </div>';
+    content += '</div>';
+
+    return content;
+}
+
+var createMarker = function(post) {
     var infoWindow;
     var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(poi.latitude,poi.longitude),
+        position: new google.maps.LatLng(post.latitude,post.longitude),
         map: map,
-        title: poi.title,
+        title: post.title,
         icon: customIcon
     });
     google.maps.event.addListener(marker, 'click', function() {
@@ -51,19 +66,9 @@ var createMarker = function(poi) {
             infoWindows = [];
         }
         infowindowClosed = false;
-        var infoWindowContent = '<div class="grid-post">';
-        infoWindowContent += '<img src="'+poi.image_url+'" /><br>';
-        infoWindowContent += poi.title;
-        infoWindowContent += '  <div class="grid-post-details">';
-        infoWindowContent += '      <div class="grid-post-description">'+poi.description+'</div>';
-        infoWindowContent += '    <div class="grid-post-address">'+poi.address+'</div>';
-        infoWindowContent += '    <span class="grid-post-date">Posted '+jQuery.timeago(poi.created_at)+'</span>';
-        infoWindowContent += '    <a rel="nofollow" href="/posts/'+poi.id+'/dib" data-method="dib"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
-        infoWindowContent += '  </div>';
-        infoWindowContent += '</div>';
 
         infoWindow = new google.maps.InfoWindow({
-            content: infoWindowContent
+            content: generateGridPost(post)
         })
         infoWindow.open(map,marker);
         infoWindows.push(infoWindow);
@@ -370,6 +375,11 @@ var ready = function() {
         }
     });
 
+    var flash = function(content) {
+        $("#flash-message-span").text(content);
+        $("#flash-message").show().delay(500).fadeOut();
+    }
+
     $('#give-stuff-form').submit(function(event) {
         event.preventDefault();
 
@@ -382,8 +392,7 @@ var ready = function() {
             updateMap();
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("destroy");
-            $("#flash-message-span").text('Congrats on your Stuffmapper listing!');
-            $("#flash-message").show().delay(500).fadeOut();
+            flash('Congrats on your Stuffmapper listing!');
         }).fail(function(jqXHR, b, c) {
             var errorMessage = "";
             $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
@@ -400,7 +409,7 @@ var ready = function() {
         return false;
     });
 
-    $('#give-stuff').click(function() {
+    $('.give-stuff').click(function() {
         $('#give-stuff-dialog').dialog({modal: true, dialogClass: "give-stuff-dialog-style"});
         $(".ui-widget-overlay").click (function () {
             $("#give-stuff-dialog").dialog( "destroy" );
@@ -482,6 +491,33 @@ var ready = function() {
     });
 
     $(document).tooltip();
+
+    /* infinite scrolling */
+    var page = 1;
+    var loading = false;
+
+    function nearBottomOfPage() {
+        return $(window).scrollTop() > $(document).height() - $(window).height() - 300;
+    }
+
+    $(window).scroll(function(){
+        if ((presets['grid_mode']) && (!loading) && (nearBottomOfPage())) {
+            loading=true;
+            page += 1;
+
+            var url = '/posts?page='+page
+            if ($('#city-term').val()) {
+                url = '/search?page='+page+'&term='+$('#city-term').val();
+            }
+
+            $.getJSON(url, function(data) {
+                loading=false;
+                $.each(data, function(key, post) {
+                    $("#grid-post-container").append(generateGridPost(post));
+                });
+            });
+        }
+    });
 }
 
 $(document).ready(ready);
