@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       session[:zoom] = 14;
     end
     if !session[:grid_mode]
-      session[:grid_mode] = false;
+      session[:grid_mode] = true;
     end
 
     respond_to do |format|

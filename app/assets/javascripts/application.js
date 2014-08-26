@@ -24,7 +24,7 @@ var presets = {};
 presets['latitude'] = 47.6612588;
 presets['longitude'] = -122.3078193;
 presets['zoom'] = 14;
-presets['grid_mode'] = false;
+presets['grid_mode'] = true;
 
 // for the map
 
@@ -210,7 +210,7 @@ var ready = function() {
         }
     });
 
-    // we only display the map at first
+    // we only display the grid at first
     $('#flash-message').hide();
     $('#give-stuff-dialog').hide();
     $('#my-stuff-dialog').hide();
