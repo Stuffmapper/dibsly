@@ -45,7 +45,7 @@ var generateGridPost = function(post) {
     content += '      <div class="grid-post-description">'+post.description+'</div>';
     content += '    <div class="grid-post-address">'+post.address+'</div>';
     content += '    <span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
-    content += '    <a rel="nofollow" href="/posts/'+post.id+'/dib" data-method="dib"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
+    content += '    <a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
     content += '  </div>';
     content += '</div>';
 
@@ -377,7 +377,7 @@ var ready = function() {
 
     var flash = function(content) {
         $("#flash-message-span").text(content);
-        $("#flash-message").show().delay(500).fadeOut();
+        $("#flash-message").show().delay(1500).fadeOut();
     }
 
     $('#give-stuff-form').submit(function(event) {
@@ -490,14 +490,50 @@ var ready = function() {
         return false;
     });
 
+    $(document).on('click', '.dib-link' , function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr("href"),
+            type: "POST",
+            dataType: "json"
+        }).done(function(){
+            if (presets['grid_mode']) {
+                flash('Great! Say hello to the lister. Your exclusive claim to the item\'s listing expires in one hour.');
+                $('#messages-link').click();
+            } else {
+                flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!');
+            }
+            // TODO: show already dibbed on grid mode
+            // TODO: center More free stuff to be added soon
+            // TODO: remove dib button
+            // TODO: show link to message owner
+            // TODO: show already claimed link
+        }).fail(function() {
+            flash('Sorry, someone already dibbed this stuff, but there is plenty more right here ;-)');
+            if (presets['grid_mode']) {
+                resetGridAndScroll();
+            } else {
+                updateMap();
+            }
+        });
+
+        return false;
+    });
+
     $(document).tooltip();
 
     /* infinite scrolling */
     var page = 1;
     var loading = false;
 
-    function nearBottomOfPage() {
+    var nearBottomOfPage = function() {
         return $(window).scrollTop() > $(document).height() - $(window).height() - 300;
+    }
+
+    var resetGridAndScroll = function() {
+        page = 0;
+        $("#grid-post-container").empty();
+        $('html, body').animate({scrollTop: $(document).height()}, 'slow');
     }
 
     $(window).scroll(function(){

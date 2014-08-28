@@ -72,13 +72,13 @@ class PostsController < ApplicationController
       @message.status = 'new'
       @message.ip = request.remote_ip
       @message.save
+      respond_to do |format|
+        format.json {render json: '[]', status: :ok}
+      end
     else
-      flash[:error] = 'Post not available'
-    end
-    
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.json {render json: [], status: :unprocessable_entity}
+      end
     end
   end
 
