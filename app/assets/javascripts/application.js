@@ -387,6 +387,13 @@ var ready = function() {
         $("#flash-message").show().delay(1500).fadeOut();
     }
 
+    $('#give-stuff-wrapper-link').click(function(event) {
+        $(event.target).parent().hide();
+        $('#give-stuff-wrapper').show();
+        initializeMiniMap();
+        return false;
+    });
+
     $('#give-stuff-form').submit(function(event) {
         event.preventDefault();
 
@@ -397,6 +404,8 @@ var ready = function() {
             dataType: "json"
         }).done(function(){
             updateMap();
+            $('#give-stuff-wrapper-span').show();
+            $('#give-stuff-wrapper').hide();
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("destroy");
             flash('Congrats on your Stuffmapper listing!');

@@ -11,32 +11,37 @@
 
     <%= f.hidden_field :image_url %>
   </div>
+  <span id="give-stuff-wrapper-span"><a href="#" id="give-stuff-wrapper-link">More information</a> <i class="fa fa-question" title="More information increases interest!"></i></span>
+  <div id="give-stuff-wrapper">
+    <div class="field">
+      <%= f.label :title %> <i class="fa fa-question" title="Providing more information could increase interest!"></i><br>
+      <%= f.text_field :title %>
+    </div>
+      <div class="field">
+      <%= f.label :description %><br>
+      <%= f.text_area :description %>
+    </div>
+    <div class="field">
+      <label>Click Stuff Location <i class="fa fa-question" title="Need to reposition item's location? Simply drag the pin."></i></label><br>
+      <div id="minimap-canvas" style="width: 238px; height: 238px;"></div>
+      <%= f.label :address %><br>
+      <%= f.text_area :address %>
+      <%= f.hidden_field :latitude %>
+      <%= f.hidden_field :longitude %>
+    </div>
+    <div class="field">
+      <label>Pickup</label><br>
+      <%= f.radio_button :on_the_curb, "true" %> <label for="post_on_the_curb_true">On the curb <i class="fa fa-question" title="Item is out of my hands. I'm only listing it."></i></label><br>
+      <%= f.radio_button :on_the_curb, "false" %> <label for="post_on_the_curb_false">Contact me for details <i class="fa fa-question" title="I'd like to be contacted to be contacted to coordinate stuff's pickup."></i></label><br>
+    </div>
+    <div class="field" id="phone-number-field">
+      <%= f.label :phone_number %><br>
+      <%= f.text_field :phone_number %>
+    </div>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
-  <div class="field">
-    <%= f.label :title %> <i class="fa fa-question" title="Providing more information could increase interest!"></i><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <label>Click Stuff Location <i class="fa fa-question" title="Need to reposition item's location? Simply drag the pin."></i></label><br>
-    <div id="minimap-canvas" style="width: 238px; height: 238px;"></div>
-    <%= f.label :address %><br>
-    <%= f.text_area :address %>
-    <%= f.hidden_field :latitude %>
-    <%= f.hidden_field :longitude %>
-  </div>
-  <div class="field">
-    <label>Pickup</label><br>
-    <%= f.radio_button :on_the_curb, "true" %> <label for="post_on_the_curb_true">On the curb <i class="fa fa-question" title="Item is out of my hands. I'm only listing it."></i></label><br>
-    <%= f.radio_button :on_the_curb, "false" %> <label for="post_on_the_curb_false">Contact me for details <i class="fa fa-question" title="I'd like to be contacted to be contacted to coordinate stuff's pickup."></i></label><br>
-  </div>
-  <div class="field" id="phone-number-field">
-    <%= f.label :phone_number %><br>
-    <%= f.text_field :phone_number %>
-  </div>
+
 <% end %>

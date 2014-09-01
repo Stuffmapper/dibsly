@@ -69,6 +69,11 @@ input[type=submit] {
 
 /* dialogs */
 
+.ui-dialog {
+    width: 380px !important;
+    padding: 7px 40px !important;
+}
+
 .ui-widget-content {
     color: #005c90 !important;
 }
@@ -88,6 +93,10 @@ input[type=submit] {
 
 .ui-icon-closethick {
     background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_white_256x240.png") !important;
+}
+
+#give-stuff-wrapper {
+    display: none;
 }
 
 #give-stuff-form [type=submit] {
