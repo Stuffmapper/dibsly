@@ -68,7 +68,11 @@ class PostsController < ApplicationController
       @message.sender_name = User.find(session[:user_id]).name
       @message.receiver_id = @post.creator_id
       @message.receiver_name = User.find(@post.creator_id).name
-      @message.content = 'I just dibbed your item'
+      if (@post.on_the_curb)
+        @message.content = 'Greetings. I just dibbed your item, I\'ll pick it up soon :)'
+      else
+        @message.content = 'Greetings. I just dibbed your item, can you tell me when can I go to pick it up? :)'
+      end
       @message.status = 'new'
       @message.ip = request.remote_ip
       @message.save
