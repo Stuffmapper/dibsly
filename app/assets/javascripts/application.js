@@ -49,7 +49,7 @@ var generateGridPost = function(post) {
     content +=     post.title;
     content +=     '<div class="grid-post-details">';
     content +=         '<div class="grid-post-description">'+post.description+'</div>';
-    content +=         '<div class="grid-post-address">'+post.address+'</div>';
+    content +=         '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="'+post.latitude+'" longitude="'+post.longitude+'">'+post.address+'</a></div>';
     content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
     content +=         '<div class="dib-wrapper"><a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i></a></div> <br>';
     content +=         '<a rel="nofollow" href="#" class="message-link">Already dibbed, message owner</a><br>';
@@ -505,6 +505,17 @@ var ready = function() {
 
         return false;
     });
+
+    $(document).on('click', '.grid-post-address-link' , function(event) {
+        event.preventDefault();
+
+        presets['latitude']= $(this).attr('latitude');
+        presets['longitude'] = $(this).attr('longitude');
+
+        $('#find-stuff').click();
+        return false;
+    });
+
 
     $(document).on('click', '.dib-link' , function(event) {
         event.preventDefault();

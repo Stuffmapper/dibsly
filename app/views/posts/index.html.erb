@@ -9,7 +9,7 @@
         <%= post.title %>
         <div class="grid-post-details">
           <div class="grid-post-description"><%= post.description %></div>
-          <div class="grid-post-address"><%= post.address %></div>
+          <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>"><%= post.address %></a></div>
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span>
           <div class="dib-wrapper">
             <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
