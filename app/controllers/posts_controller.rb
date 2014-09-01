@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :dib]
+  before_action :set_post, only: [:show, :dib, :claim]
 
   http_basic_authenticate_with :name => "startup", :password => "weekend"
 
@@ -7,6 +7,8 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", 'new', session[:user_id]).page(params[:page]).per(6)
+
+
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
       @message = Message.new()
@@ -100,6 +102,22 @@ class PostsController < ApplicationController
           @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click this link [insert link] to coordinate pickup!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> [insert link] to coordinate pickup!")
         end
       end
+      respond_to do |format|
+        format.json {render json: '[]', status: :ok}
+      end
+    else
+      respond_to do |format|
+        format.json {render json: [], status: :unprocessable_entity}
+      end
+    end
+  end
+
+  # POST /posts/claim/1
+  # POST /posts/claim/1.json
+  def claim
+    if (current_user) && (@post.status == 'new') && (@post.creator_id == current_user.id)
+      @post.status = 'claimed'
+      @post.save
       respond_to do |format|
         format.json {render json: '[]', status: :ok}
       end

@@ -47,7 +47,7 @@ var generateGridPost = function(post) {
     content +=         '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="'+post.latitude+'" longitude="'+post.longitude+'">'+post.address+'</a></div>';
     content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
     if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
-        content +=      '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'">Already claimed</a><br>';
+        content +=      '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Already claimed?</a><br>';
     }
     content +=         '<div class="dib-wrapper"><a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i></a></div> <br>';
     content +=     '</div>';
@@ -96,9 +96,12 @@ var renderPois = function() {
 }
 
 var updateMap = function() {
+    console.log('------updateMap');
     if (infowindowClosed) {
+        console.log('------infowindowClosed');
         var bounds = map.getBounds();
         if (bounds !== undefined) {
+            console.log('------bounds');
             var northEast = bounds.getNorthEast();
             var southWest = bounds.getSouthWest();
 
@@ -513,6 +516,42 @@ var ready = function() {
         return false;
     });
 
+    $(document).on('click', '.already-claimed-link' , function(event) {
+        event.preventDefault();
+
+        if (!$('body').attr('user-id')) {
+            return;
+        }
+
+        if ($(this).attr('creator-id') != $('body').attr('user-id')) {
+            return;
+        }
+
+        $.ajax({
+            url: '/posts/'+$(this).attr('post-id')+'/claim',
+            type: "POST",
+            dataType: "json"
+        }).done(function(){
+            flash('Stuff claimed! :)');
+        }).fail(function() {
+            flash('Sorry, we couldn\'t claim this stuff');
+        });
+        if (presets['grid_mode']) {
+            resetGridAndScroll();
+        } else {
+            if (!infowindowClosed) {
+                for (var i=0;i<infoWindows.length;i++) {
+                    infoWindows[i].close();
+                }
+                infoWindows = [];
+            }
+            infowindowClosed = true;
+            updateMap();
+        }
+
+        return false;
+    });
+
 
     $(document).on('click', '.dib-link' , function(event) {
         event.preventDefault();
@@ -555,6 +594,13 @@ var ready = function() {
             if (presets['grid_mode']) {
                 resetGridAndScroll();
             } else {
+                if (!infowindowClosed) {
+                    for (var i=0;i<infoWindows.length;i++) {
+                        infoWindows[i].close();
+                    }
+                    infoWindows = [];
+                }
+                infowindowClosed = true;
                 updateMap();
             }
         });
