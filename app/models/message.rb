@@ -12,19 +12,19 @@ class Message < ActiveRecord::Base
   validates_presence_of :content
   validates :status, inclusion: {in: STATUSES}
 
-  after_save :send_notifications
-
-  def send_notifications
+  def send_notification(subject, text_content, html_content)
     @receiver = User.find(self.receiver_id)
 
     require 'mandrill'
     mandrill = Mandrill::API.new '-q-BEin2lOraKbC6UOJsPw'
     template_name = 'new-message'
     template_content = [{}]
-    message = {"from_name"=>"Stuff Mapper",
+    message = {"from_name"=>"Stuffmapper",
                "from_email"=>"contactl@stuffmapper.com",
-               "subject"=>"You've got a message!",
-               "to"=> [{"email"=>@receiver.email}]
+               "subject"=>subject,
+               "to"=> [{"email"=>@receiver.email}],
+               "text"=>text_content,
+               "html"=>html_content,
     }
 
     async = false

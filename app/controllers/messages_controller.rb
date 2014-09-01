@@ -17,6 +17,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       @message.valid?
       if @message.save
+        @message.send_notification("You just got a message!", "Please, go to Stuffmapper.com to check it out.", "Please, go to <a href=\"http://stuffmapper.com\">Stuffmapper.com</a> to check it out.")
         format.json {render json: '[]', status: :ok}
       else
         format.json {render json: @message.errors, status: :unprocessable_entity}

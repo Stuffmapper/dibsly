@@ -63,19 +63,43 @@ class PostsController < ApplicationController
       @dib.creator_id = session[:user_id]
       @dib.save
 
+      # message to poster
       @message = Message.new()
       @message.sender_id = session[:user_id]
       @message.sender_name = User.find(session[:user_id]).name
       @message.receiver_id = @post.creator_id
       @message.receiver_name = User.find(@post.creator_id).name
       if (@post.on_the_curb)
-        @message.content = 'Greetings. I just dibbed your item, I\'ll pick it up soon :)'
+        @message.content = 'Greetings. I just dibbed your stuff, I\'ll pick it up soon :)'
       else
-        @message.content = 'Greetings. I just dibbed your item, can you tell me when can I go to pick it up? :)'
+        @message.content = 'Greetings. I just dibbed your st6uff, can you tell me when can I go to pick it up? :)'
       end
       @message.status = 'new'
       @message.ip = request.remote_ip
-      @message.save
+      if @message.save
+        @message.send_notification("#{@message.sender_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image.url(:medium)}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
+      end
+
+      # message to dibber
+      @message = Message.new()
+      @message.sender_id = @post.creator_id
+      @message.sender_name = User.find(@post.creator_id).name
+      @message.receiver_id = session[:user_id]
+      @message.receiver_name = User.find(session[:user_id]).name
+      if (@post.on_the_curb)
+        @message.content = 'Greetings. You just dibbed my stuff, pick it up soon :)'
+      else
+        @message.content = 'Greetings. You just dibbed my stuff, contact me to coordinate pickup of stuff :)'
+      end
+      @message.status = 'new'
+      @message.ip = request.remote_ip
+      if @message.save
+        if (@post.on_the_curb)
+          @message.send_notification("#{@message.sender_name}'s Dibs. Go get the stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Click this link to view the listing!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
+        else
+          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click this link [insert link] to coordinate pickup!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
+        end
+      end
       respond_to do |format|
         format.json {render json: '[]', status: :ok}
       end
