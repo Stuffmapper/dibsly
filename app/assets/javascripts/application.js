@@ -41,7 +41,9 @@ var generateGridPost = function(post) {
     var content;
     content += '<div class="grid-post">';
     content +=     '<img src="'+post.image_url+'" /><br>';
-    content +=     post.title;
+    if (post.title) {
+        content += post.title;
+    }
     content +=     '<div class="grid-post-details">';
     content +=         '<div class="grid-post-description">'+post.description+'</div>';
     content +=         '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="'+post.latitude+'" longitude="'+post.longitude+'">'+post.address+'</a></div>';
@@ -96,12 +98,9 @@ var renderPois = function() {
 }
 
 var updateMap = function() {
-    console.log('------updateMap');
     if (infowindowClosed) {
-        console.log('------infowindowClosed');
         var bounds = map.getBounds();
         if (bounds !== undefined) {
-            console.log('------bounds');
             var northEast = bounds.getNorthEast();
             var southWest = bounds.getSouthWest();
 
