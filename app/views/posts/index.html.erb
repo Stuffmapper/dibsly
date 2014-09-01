@@ -11,13 +11,16 @@
           <div class="grid-post-description"><%= post.description %></div>
           <div class="grid-post-address"><%= post.address %></div>
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span>
-          <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link" do %>
+          <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %>
             <image src="assets/dibs.png" class="dibs-image"></image>
           <% end %><br>
         </div>
       </div>
     <% end %>
   </div>
+  <noscript>
+    <%= paginate @posts %>
+  </noscript>
   <div id="bottom-message">
     More free stuff to be added soon!<br>
     <a href="#" class="give-stuff">Have stuff you want to give away?</a><br>

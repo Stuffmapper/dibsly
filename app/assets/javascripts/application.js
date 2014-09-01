@@ -38,15 +38,22 @@ var clearMarkers =function() {
 }
 
 var generateGridPost = function(post) {
-    var content = '<div class="grid-post">';
-    content += '<img src="'+post.image_url+'" /><br>';
-    content += post.title;
-    content += '  <div class="grid-post-details">';
-    content += '      <div class="grid-post-description">'+post.description+'</div>';
-    content += '    <div class="grid-post-address">'+post.address+'</div>';
-    content += '    <span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
-    content += '    <a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
-    content += '  </div>';
+    // body: pass user id
+    // post.on_the_curb
+    // post.creator_id
+    // post.dibber_id
+    // post.dibbed_until
+    var content;
+    content += '<div class="grid-post">';
+    content +=     '<img src="'+post.image_url+'" /><br>';
+    content +=     post.title;
+    content +=     '<div class="grid-post-details">';
+    content +=         '<div class="grid-post-description">'+post.description+'</div>';
+    content +=         '<div class="grid-post-address">'+post.address+'</div>';
+    content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
+    content +=         '<a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
+    content +=         '<a rel="nofollow" href="#" class="message-link">Already dibbed, message owner</a><br>';
+    content +=     '</div>';
     content += '</div>';
 
     return content;
@@ -492,22 +499,40 @@ var ready = function() {
 
     $(document).on('click', '.dib-link' , function(event) {
         event.preventDefault();
+
+        if (!$('body').attr('user-id')) {
+            return;
+        }
+
+        if ($(this).attr('creator-id') == $('body').attr('user-id')) {
+            return;
+        }
+
+        var confirmationResponse;
+
+        if ($(this).attr('on-the-curb') === 'true') {
+            confirmationResponse = confirm('Sure you want it?');
+        } else {
+            confirmationResponse = confirm('Sure you want it? You will now be connected with the lister to coordinate pickup.');
+        }
+
+        if (confirmationResponse != true) {
+            return;
+        }
+
         $.ajax({
             url: $(this).attr("href"),
             type: "POST",
             dataType: "json"
         }).done(function(){
-            if (presets['grid_mode']) {
+            if ($(this).attr('on-the-curb') === 'true') {
+                flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!');
+            } else {
                 flash('Great! Say hello to the lister. Your exclusive claim to the item\'s listing expires in one hour.');
                 $('#messages-link').click();
-            } else {
-                flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!');
             }
-            // TODO: show already dibbed on grid mode
-            // TODO: center More free stuff to be added soon
-            // TODO: remove dib button
-            // TODO: show link to message owner
-            // TODO: show already claimed link
+            $(event.target).remove();
+            $(this).remove();
         }).fail(function() {
             flash('Sorry, someone already dibbed this stuff, but there is plenty more right here ;-)');
             if (presets['grid_mode']) {
