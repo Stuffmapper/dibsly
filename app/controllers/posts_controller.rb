@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 'new').page(params[:page]).per(6)
+    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", 'new', session[:user_id]).page(params[:page]).per(6)
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
       @message = Message.new()
@@ -97,7 +97,7 @@ class PostsController < ApplicationController
         if (@post.on_the_curb)
           @message.send_notification("#{@message.sender_name}'s Dibs. Go get the stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Click this link to view the listing!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
         else
-          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click this link [insert link] to coordinate pickup!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
+          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click this link [insert link] to coordinate pickup!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> [insert link] to coordinate pickup!")
         end
       end
       respond_to do |format|
@@ -112,7 +112,7 @@ class PostsController < ApplicationController
 
   # POST /posts/geolocated.json
   def geolocated
-    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new', session[:user_id]).limit(50)
     @posts.each do |post|
       post.image_url = post.image.url(:medium)
     end
@@ -144,7 +144,7 @@ class PostsController < ApplicationController
 
   # GET /posts/search
   def search
-    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", "%#{params[:term]}%", 'new').page(params[:page]).per(6)
+    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", "%#{params[:term]}%", 'new', session[:user_id]).page(params[:page]).per(6)
     @term = params[:term]
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)

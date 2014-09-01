@@ -38,11 +38,6 @@ var clearMarkers =function() {
 }
 
 var generateGridPost = function(post) {
-    // body: pass user id
-    // post.on_the_curb
-    // post.creator_id
-    // post.dibber_id
-    // post.dibbed_until
     var content;
     content += '<div class="grid-post">';
     content +=     '<img src="'+post.image_url+'" /><br>';
@@ -50,9 +45,11 @@ var generateGridPost = function(post) {
     content +=     '<div class="grid-post-details">';
     content +=         '<div class="grid-post-description">'+post.description+'</div>';
     content +=         '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="'+post.latitude+'" longitude="'+post.longitude+'">'+post.address+'</a></div>';
-    content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
+    content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
+    if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
+        content +=      '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'">Already claimed</a><br>';
+    }
     content +=         '<div class="dib-wrapper"><a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i></a></div> <br>';
-    content +=         '<a rel="nofollow" href="#" class="message-link">Already dibbed, message owner</a><br>';
     content +=     '</div>';
     content += '</div>';
 
