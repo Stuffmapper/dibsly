@@ -11,6 +11,7 @@ Dibsly::Application.routes.draw do
   post 'messages' => 'messages#create'
 
   post 'posts/:id/dib', :to => 'posts#dib', :as => 'dib_post'
+  post 'posts/:id/claim', :to => 'posts#claim', :as => 'dib_claim'
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
   post 'posts/geolocated' => 'posts#geolocated'
