@@ -51,7 +51,7 @@ var generateGridPost = function(post) {
     content +=         '<div class="grid-post-description">'+post.description+'</div>';
     content +=         '<div class="grid-post-address">'+post.address+'</div>';
     content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span>';
-    content +=         '<a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"><image src="assets/dibs.png" class="dibs-image"></image></a><br>';
+    content +=         '<div class="dib-wrapper"><a rel="nofollow" href="/posts/'+post.id+'/dib" class="dib-link" on-the-curb="'+post.on_the_curb+'" creator-id="'+post.creator_id+'"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i></a></div> <br>';
     content +=         '<a rel="nofollow" href="#" class="message-link">Already dibbed, message owner</a><br>';
     content +=     '</div>';
     content += '</div>';

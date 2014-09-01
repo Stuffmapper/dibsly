@@ -419,7 +419,7 @@ input[type=submit] {
     overflow-x: hidden !important;
 }
 
-.dibs-image {
+.dib-wrapper {
     float: right;
 }
 
