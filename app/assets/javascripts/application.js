@@ -480,7 +480,7 @@ var ready = function() {
     });
 
     $('#more-stuff').click(function() {
-        $('#more-stuff-dialog').dialog({modal: true});
+        $('#more-stuff-dialog').dialog({modal: true, minWidth: 365});
         $(".ui-widget-overlay").click (function () {
             $("#more-stuff-dialog").dialog( "destroy" );
         });
