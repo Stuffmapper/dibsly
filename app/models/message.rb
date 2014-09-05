@@ -17,8 +17,6 @@ class Message < ActiveRecord::Base
 
     require 'mandrill'
     mandrill = Mandrill::API.new '-q-BEin2lOraKbC6UOJsPw'
-    template_name = 'new-message'
-    template_content = [{}]
     message = {"from_name"=>"Stuffmapper",
                "from_email"=>"contactl@stuffmapper.com",
                "subject"=>subject,
@@ -28,7 +26,7 @@ class Message < ActiveRecord::Base
     }
 
     async = false
-    result = mandrill.messages.send_template template_name, template_content, message, async
+    result = mandrill.messages.send message, async, "Main Pool"
     logger.debug "Mandrill result: #{result}"
 
   rescue Mandrill::Error => e
