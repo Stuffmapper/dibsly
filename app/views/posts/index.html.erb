@@ -13,13 +13,15 @@
           <div class="grid-post-description"><%= post.description %></div>
           <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>"><%= post.address %></a></div>
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span><br>
-          <% if current_user && (current_user.id == post.creator_id) %>
-            <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Already claimed?</a><br>
-          <% end %>
           <div class="dib-wrapper">
-            <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
-            <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i>
-          </div><br>
+            <% if current_user && (current_user.id == post.creator_id) %>
+                <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Already claimed</a>
+                <i class="fa fa-question" title="Click Already claimed if your stuff was already picked up."></i>
+            <% else %>
+                <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
+                <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>
