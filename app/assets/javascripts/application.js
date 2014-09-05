@@ -38,17 +38,20 @@ var clearMarkers =function() {
 }
 
 var generateGridPost = function(post) {
-    var content;
-    content += '<div class="grid-post">';
+    var content = '<div class="grid-post">';
     content +=     '<img src="'+post.image_url+'" /><br>';
     if (post.title) {
         content += post.title;
     }
     content +=     '<div class="grid-post-details">';
-    content +=         '<div class="grid-post-description">'+post.description+'</div>';
-    content +=         '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="'+post.latitude+'" longitude="'+post.longitude+'">'+post.address+'</a></div>';
-    content +=         '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
-    content +=         '<div class="dib-wrapper">';
+    if (post.description) {
+        content += '<div class="grid-post-description">' + post.description + '</div>';
+    }
+    if (post.latitude && post.longitude && post.address) {
+        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '">' + post.address + '</a></div>';
+    }
+    content +=     '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
+    content +=     '<div class="dib-wrapper">';
     if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
         content +=          '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Already claimed</a><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i>';
     } else {
