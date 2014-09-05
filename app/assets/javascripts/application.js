@@ -187,7 +187,8 @@ function initializeMiniMap() {
 
     minimapMarker = new google.maps.Marker({
         title: 'Position',
-        map: minimap
+        map: minimap,
+        icon: customIcon
     });
 
     google.maps.event.addListener(minimap, 'click', function(event) {
