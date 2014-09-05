@@ -28,7 +28,7 @@ class PostsController < ApplicationController
         urlSegments = post_params[:image_url].match(/data:(.*);base64,(.*)/)
         data = StringIO.new(Base64.decode64(urlSegments[2]))
         data.class.class_eval {attr_accessor :original_filename, :content_type}
-        data.original_filename = 'file'
+        data.original_filename = (Time.now.to_f * 1000).to_i.to_s
         data.content_type = urlSegments[0]
       end
 
