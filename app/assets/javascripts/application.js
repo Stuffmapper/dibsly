@@ -110,6 +110,9 @@ var updateMap = function() {
             var northEast = bounds.getNorthEast();
             var southWest = bounds.getSouthWest();
 
+            if (typeof ga !== "undefined" && ga !== null) {
+                ga('send', 'event', 'geolocated', 'geolocated');
+            }
             $.post('/posts/geolocated', {
                 'neLat': northEast.lat(),
                 'neLng': northEast.lng(),
@@ -203,6 +206,9 @@ function initializeMiniMap() {
 // everything else
 
 var ready = function() {
+    if (typeof ga !== "undefined" && ga !== null) {
+        ga('send', 'event', 'presets', 'presets');
+    }
     $.ajax({
         url: '/presets',
         type: "POST",
@@ -251,6 +257,10 @@ var ready = function() {
     $('#sign-up-form').submit(function(event) {
         event.preventDefault();
 
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'signUp', 'signUp');
+        }
+
         $.ajax({
             url: $(this).attr('action'),
             type: "POST",
@@ -288,6 +298,10 @@ var ready = function() {
     $('#log-in-form').submit(function(event) {
         event.preventDefault();
 
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('logIn', 'presets', $('body').attr('user-id'));
+        }
+
         $.ajax({
             url: $(this).attr('action'),
             type: "POST",
@@ -313,11 +327,15 @@ var ready = function() {
     $('#new-message-form').submit(function(event) {
         event.preventDefault();
 
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'newMessage', 'newMessage');
+        }
+
         $.ajax({
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json",
+            dataType: "json"
         }).done(function(){
             $('#new-message-form').get(0).reset();
             $('#messages-new').hide();
@@ -337,6 +355,10 @@ var ready = function() {
     });
 
     $('#messages-link').click(function() {
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'messages', 'messages');
+        }
+
         $.ajax({
             url: '/messages',
             type: "GET",
@@ -359,6 +381,11 @@ var ready = function() {
         $('#map-canvas').show();
         initializeMap();
         $('#main-grid').hide();
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'findStuff', 'findStuff');
+        }
+
         $.ajax({
             url: '/posts/grid_mode?grid_mode=false',
             type: "POST",
@@ -370,6 +397,11 @@ var ready = function() {
     $('#what-stuff').click(function() {
         $('#map-canvas').hide();
         $('#main-grid').show();
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'whatStuff', 'whatStuff');
+        }
+
         $.ajax({
             url: '/posts/grid_mode?grid_mode=true',
             type: "POST",
@@ -402,6 +434,10 @@ var ready = function() {
 
     $('#give-stuff-form').submit(function(event) {
         event.preventDefault();
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'giveStuff', 'giveStuff');
+        }
 
         $.ajax({
             url: $(this).attr('action'),
@@ -444,6 +480,10 @@ var ready = function() {
 
     $('#my-stuff-form').submit(function(event) {
         event.preventDefault();
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'myStuff', 'myStuff');
+        }
 
         $.ajax({
             url: $(this).attr('action'),
@@ -534,6 +574,10 @@ var ready = function() {
             return;
         }
 
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'claim', 'claim');
+        }
+
         $.ajax({
             url: '/posts/'+$(this).attr('post-id')+'/claim',
             type: "POST",
@@ -581,6 +625,10 @@ var ready = function() {
 
         if (confirmationResponse != true) {
             return;
+        }
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'dibs', 'dibs');
         }
 
         $.ajax({
