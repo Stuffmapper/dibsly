@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :dib, :claim]
 
-  http_basic_authenticate_with :name => "startup", :password => "weekend"
+  before_filter :authentication_check
 
   # GET /posts
   # GET /posts.json
@@ -182,5 +182,11 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :description, :image_url, :latitude, :longitude, :zoom, :address, :grid_mode, :phone_number, :image, :on_the_curb)
+    end
+
+    def authentication_check
+      authenticate_or_request_with_http_basic do |username, password|
+        username == "startup" && password == "weekend" || username == "stuff" && password == "testitall" || username == "stuff" && password == "letstest"
+      end
     end
 end
