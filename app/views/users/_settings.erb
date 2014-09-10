@@ -3,9 +3,9 @@
   if current_user
     @user = current_user
 %>
-    <div id="my-stuff-form-errors" class="form-errors"></div>
+    <div id="settings-form-errors" class="form-errors"></div>
 
-    <%= form_for @user, :html=> {:id => 'my-stuff-form'} do |f| %>
+    <%= form_for @user, :html=> {:id => 'settings-form'} do |f| %>
         <p>
           <%= f.label :name %><br />
           <%= f.text_field :name %>

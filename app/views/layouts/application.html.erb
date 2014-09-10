@@ -23,8 +23,9 @@
         <input type="text" name="term" placeholder="Search" id="city-term" value="<%= @term %>">
       </form>
       <% if current_user %>
-        Greetings, <%= current_user.name %>
+        Greetings, <%= current_user.name %> -
         <a href="#" id="messages-link">Messages</a> -
+        <a href="#" id="settings-link">Settings</a> -
         <%= link_to "Log out", log_out_path %>
       <% else %>
         <a href="#" id="sign-up">Sign up</a>
@@ -59,8 +60,8 @@
     <div id="give-stuff-dialog">
         <%= render 'form' %>
     </div>
-    <div id="my-stuff-dialog">
-        <%= render 'users/mystuff' %>
+    <div id="settings-dialog">
+        <%= render 'users/settings' %>
     </div>
     <div id="messages-dialog">
         <div id="messages-new">

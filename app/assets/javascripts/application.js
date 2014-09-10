@@ -232,7 +232,7 @@ var ready = function() {
     // we only display the grid at first
     $('#flash-message').hide();
     $('#give-stuff-dialog').hide();
-    $('#my-stuff-dialog').hide();
+    $('#settings-dialog').hide();
     $('#sign-up-dialog').hide();
     $('#log-in-dialog').hide()
     $('#more-stuff-dialog').hide();
@@ -478,7 +478,7 @@ var ready = function() {
         return false;
     });
 
-    $('#my-stuff-form').submit(function(event) {
+    $('#settings-form').submit(function(event) {
         event.preventDefault();
 
         if (typeof ga !== "undefined" && ga !== null) {
@@ -502,17 +502,17 @@ var ready = function() {
                     errorMessage = errorMessage + fieldName+' '+value+'.<br>';
                 });
             });
-            $('#my-stuff-form-errors').html(errorMessage);
+            $('#settings-form-errors').html(errorMessage);
             window.scrollTo(0, 0);
         });
         return false;
 
     });
 
-    $('#my-stuff').click(function() {
-        $('#my-stuff-dialog').dialog({modal: true, dialogClass: "my-stuff-dialog-style"});
+    $('#settings-link').click(function() {
+        $('#settings-dialog').dialog({modal: true, dialogClass: "settings-dialog-style"});
         $(".ui-widget-overlay").click (function () {
-            $("#my-stuff-dialog").dialog( "destroy" );
+            $("#settings-dialog").dialog( "destroy" );
         });
         return false;
     });

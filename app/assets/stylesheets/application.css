@@ -155,7 +155,7 @@ input[type=submit] {
     overflow: hidden;
 }
 
-.my-stuff-dialog-style {
+.settings-dialog-style {
     -webkit-border-radius: 10px !important;
     -moz-border-radius: 10px !important;
     border-radius: 10px !important;
