@@ -89,9 +89,9 @@ class PostsController < ApplicationController
       @message.receiver_id = session[:user_id]
       @message.receiver_name = User.find(session[:user_id]).name
       if (@post.on_the_curb)
-        @message.content = 'Greetings. You just dibbed my stuff, pick it up soon :)'
+        @message.content = 'You just Dibbed some stuff! Go get it! :-)'
       else
-        @message.content = 'Greetings. You just dibbed my stuff, contact me to coordinate pickup of stuff :)'
+        @message.content = 'You just Dibbed my stuff! When can you come pick it up? :-)'
       end
       @message.status = 'new'
       @message.ip = request.remote_ip
