@@ -79,7 +79,7 @@ class PostsController < ApplicationController
       @message.status = 'new'
       @message.ip = request.remote_ip
       if @message.save
-        @message.send_notification("#{@message.sender_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image.url(:medium)}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
+        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image.url(:medium)}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
       end
 
       # message to dibber

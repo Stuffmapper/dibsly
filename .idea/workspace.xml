@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2fee8a3-05d0-466b-a3c4-70a358fb29e6" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/users/_mystuff.erb" afterPath="$PROJECT_DIR$/app/views/users/_settings.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/application.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/posts_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/posts_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dibsly.iws" />
@@ -35,10 +32,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33271375" vertical-offset="7381" max-vertical-offset="10620">
+            <state vertical-scroll-proportion="-6.6296296" vertical-offset="7381" max-vertical-offset="10620">
               <caret line="504" column="24" selection-start-line="504" selection-start-column="24" selection-end-line="504" selection-end-column="24" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -108,21 +105,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-2.0588236" vertical-offset="0" max-vertical-offset="510">
               <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-              <folding>
-                <marker date="1410334567053" expanded="true" signature="226:312" placeholder="..." />
-                <marker date="1410334567053" expanded="true" signature="326:449" placeholder="..." />
-                <marker date="1410334567053" expanded="true" signature="463:577" placeholder="..." />
-                <marker date="1410334567053" expanded="true" signature="589:742" placeholder="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="posts_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="posts_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/posts_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2384" max-vertical-offset="2970">
-              <caret line="190" column="4" selection-start-line="190" selection-start-column="4" selection-end-line="190" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.33271375" vertical-offset="1036" max-vertical-offset="2970">
+              <caret line="81" column="34" selection-start-line="81" selection-start-column="17" selection-end-line="81" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -131,8 +123,8 @@
       <file leaf-file-name="message.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/message.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="705">
-              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="705">
+              <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -187,11 +179,11 @@
         <option value="$PROJECT_DIR$/app/models/message.rb" />
         <option value="$PROJECT_DIR$/app/views/posts/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/_new.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/posts_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
         <option value="$PROJECT_DIR$/app/views/users/_mystuff.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/application.js" />
+        <option value="$PROJECT_DIR$/app/controllers/posts_controller.rb" />
       </list>
     </option>
   </component>
@@ -687,7 +679,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1368" height="749" extended-state="1" />
+    <frame x="-1" y="23" width="1368" height="749" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1027,14 +1019,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/message.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="705">
-          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/messages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="660">
@@ -1073,32 +1057,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/posts_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2384" max-vertical-offset="2970">
-          <caret line="190" column="4" selection-start-line="190" selection-start-column="4" selection-end-line="190" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.8888888" vertical-offset="4095" max-vertical-offset="6600">
           <caret line="280" column="8" selection-start-line="280" selection-start-column="1" selection-end-line="280" selection-end-column="8" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_settings.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0588236" vertical-offset="0" max-vertical-offset="510">
-          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-          <folding>
-            <marker date="1410334567053" expanded="true" signature="226:312" placeholder="..." />
-            <marker date="1410334567053" expanded="true" signature="326:449" placeholder="..." />
-            <marker date="1410334567053" expanded="true" signature="463:577" placeholder="..." />
-            <marker date="1410334567053" expanded="true" signature="589:742" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1112,11 +1075,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33271375" vertical-offset="7381" max-vertical-offset="10620">
+        <state vertical-scroll-proportion="-6.6296296" vertical-offset="7381" max-vertical-offset="10620">
           <caret line="504" column="24" selection-start-line="504" selection-start-column="24" selection-end-line="504" selection-end-column="24" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/_settings.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0588236" vertical-offset="0" max-vertical-offset="510">
+          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/message.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="705">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/posts_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33271375" vertical-offset="1036" max-vertical-offset="2970">
+          <caret line="81" column="34" selection-start-line="81" selection-start-column="17" selection-end-line="81" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
