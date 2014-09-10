@@ -420,9 +420,9 @@ var ready = function() {
         }
     });
 
-    var flash = function(content) {
+    var flash = function(content, miliseconds) {
         $("#flash-message-span").text(content);
-        $("#flash-message").show().delay(1500).fadeOut();
+        $("#flash-message").show().delay(miliseconds).fadeOut();
     }
 
     $('#give-stuff-wrapper-link').click(function(event) {
@@ -450,7 +450,7 @@ var ready = function() {
             $('#give-stuff-wrapper').hide();
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("destroy");
-            flash('Congrats on your Stuffmapper listing!');
+            flash('Congrats on your Stuffmapper listing!', 5000);
         }).fail(function(jqXHR, b, c) {
             var errorMessage = "";
             $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
@@ -583,9 +583,9 @@ var ready = function() {
             type: "POST",
             dataType: "json"
         }).done(function(){
-            flash('Stuff claimed! :)');
+            flash('Stuff claimed! :)', 1500);
         }).fail(function() {
-            flash('Sorry, we couldn\'t claim this stuff');
+            flash('Sorry, we couldn\'t claim this stuff', 1500);
         });
         if (presets['grid_mode']) {
             resetGridAndScroll();
@@ -637,15 +637,15 @@ var ready = function() {
             dataType: "json"
         }).done(function(){
             if ($(this).attr('on-the-curb') === 'true') {
-                flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!');
+                flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!', 1500);
             } else {
-                flash('Great! Say hello to the lister. Your exclusive claim to the item\'s listing expires in one hour.');
+                flash('Great! Say hello to the lister. Your exclusive claim to the item\'s listing expires in one hour.', 7000);
                 $('#messages-link').click();
             }
             $(event.target).remove();
             $(this).remove();
         }).fail(function() {
-            flash('Sorry, someone already dibbed this stuff, but there is plenty more right here ;-)');
+            flash('Sorry, someone already dibbed this stuff, but there is plenty more right here ;-)', 1500);
             if (presets['grid_mode']) {
                 resetGridAndScroll();
             } else {
