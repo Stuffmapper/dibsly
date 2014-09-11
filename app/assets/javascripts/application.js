@@ -347,7 +347,7 @@ var ready = function() {
 
     });
 
-    $('#messages-inbox').on('click', '.answer-link', function() {
+    $('#messages-inbox').on('click', '.reply-link', function() {
         $('#receiver-name').text($(this).attr('sender-name'));
         $('#message_receiver_id').val($(this).attr('sender-id'));
         $('#messages-new').show();
@@ -366,7 +366,7 @@ var ready = function() {
         }).done(function(messages){
             var inbox = '';
             $.each(messages, function(index, message) {
-                inbox = inbox + '<div>From '+message.sender_name+'<br>'+message.content+'<br><a href="#" class="answer-link" sender-id="'+message.sender_id+'" sender-name="'+message.sender_name+'" >Answer</a></div>'
+                inbox = inbox + '<div>From '+message.sender_name+'<br>'+message.content+'<br><a href="#" class="reply-link" sender-id="'+message.sender_id+'" sender-name="'+message.sender_name+'" >Reply</a></div>'
             });
             $('#messages-inbox').html(inbox);
             $('#messages-dialog').dialog({modal: true});

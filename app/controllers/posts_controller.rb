@@ -74,7 +74,7 @@ class PostsController < ApplicationController
       if (@post.on_the_curb)
         @message.content = 'Greetings. I just dibbed your stuff, I\'ll pick it up soon :)'
       else
-        @message.content = 'Greetings. I just dibbed your st6uff, can you tell me when can I go to pick it up? :)'
+        @message.content = 'Greetings. I just dibbed your stuff, can you tell me when can I go to pick it up? :)'
       end
       @message.status = 'new'
       @message.ip = request.remote_ip
@@ -89,17 +89,17 @@ class PostsController < ApplicationController
       @message.receiver_id = session[:user_id]
       @message.receiver_name = User.find(session[:user_id]).name
       if (@post.on_the_curb)
-        @message.content = 'You just Dibbed some stuff! Go get it! :-)'
+        @message.content = 'You just Dibbed my stuff! Go get it! :-)'
       else
-        @message.content = 'You just Dibbed my stuff! When can you come pick it up? :-)'
+        @message.content = 'Thanks for Dibbing my stuff! When will you come by to get it? :-)'
       end
       @message.status = 'new'
       @message.ip = request.remote_ip
       if @message.save
         if (@post.on_the_curb)
-          @message.send_notification("#{@message.sender_name}'s Dibs. Go get the stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Click this link to view the listing!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
+          @message.send_notification("#{@message.sender_name}'s Dibs. Go get the stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
         else
-          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click this link [insert link] to coordinate pickup!", "#{@message.sender_name}, your Dibs on [insert image of stuff they Dibbed] is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> [insert link] to coordinate pickup!")
+          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
         end
       end
       respond_to do |format|

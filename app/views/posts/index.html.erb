@@ -18,7 +18,7 @@
                 <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Already claimed</a>
                 <i class="fa fa-question" title="Click Already claimed if your stuff was already picked up."></i>
             <% else %>
-                <%= link_to dib_post_path(post), :title => "Dibs", :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
+                <%= link_to dib_post_path(post), :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
                 <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else for one hour."></i>
             <% end %>
           </div>
