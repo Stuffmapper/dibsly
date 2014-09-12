@@ -229,6 +229,21 @@ function initializeMiniMap() {
         updateMarkerPosition(event.latLng);
         geocodePosition(event.latLng);
     });
+
+    autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('post_address')),
+        { types: ['geocode'] }
+    );
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        setLatLng();
+    });
+
+    function setLatLng() {
+        var location = autocomplete.getPlace().geometry.location;
+        updateMarkerPosition(location);
+        minimap.setCenter(location);
+    };
 }
 
 // everything else
