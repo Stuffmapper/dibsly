@@ -20,11 +20,32 @@ var markers = [];
 var infowindowClosed = true;
 var infoWindows = [];
 var customIcon = '/assets/icon.png';
+
 var presets = {};
 presets['latitude'] = 47.6612588;
 presets['longitude'] = -122.3078193;
 presets['zoom'] = 14;
 presets['grid_mode'] = true;
+
+$.xhrPool = [];
+$.xhrPool.abortAll = function() {
+    $(this).each(function(idx, jqXHR) {
+        jqXHR.abort();
+    });
+    $.xhrPool.length = 0
+};
+
+$.ajaxSetup({
+    beforeSend: function(jqXHR) {
+        $.xhrPool.push(jqXHR);
+    },
+    complete: function(jqXHR) {
+        var index = $.inArray(jqXHR, $.xhrPool);
+        if (index > -1) {
+            $.xhrPool.splice(index, 1);
+        }
+    }
+});
 
 // for the map
 
@@ -104,6 +125,7 @@ var renderPois = function() {
 }
 
 var updateMap = function() {
+    $.xhrPool.abortAll();
     if (infowindowClosed) {
         var bounds = map.getBounds();
         if (bounds !== undefined) {
@@ -113,13 +135,17 @@ var updateMap = function() {
             if (typeof ga !== "undefined" && ga !== null) {
                 ga('send', 'event', 'geolocated', 'geolocated');
             }
-            $.post('/posts/geolocated', {
-                'neLat': northEast.lat(),
-                'neLng': northEast.lng(),
-                'swLat': southWest.lat(),
-                'swLng': southWest.lng(),
-                'zoom': map.getZoom(),
-                'term': $('#city-term').val()
+            $.ajax({
+                type: "POST",
+                url: '/posts/geolocated',
+                data: {
+                    'neLat': northEast.lat(),
+                    'neLng': northEast.lng(),
+                    'swLat': southWest.lat(),
+                    'swLng': southWest.lng(),
+                    'zoom': map.getZoom(),
+                    'term': $('#city-term').val()
+                }
             }).done(function(newPois) {
                 if (!(JSON.stringify(pois)==JSON.stringify(newPois))) {
                     pois = newPois;
@@ -131,6 +157,8 @@ var updateMap = function() {
 };
 
 function initializeMap() {
+    pois = [];
+
     var mapOptions = {
         center: new google.maps.LatLng(presets['latitude'],presets['longitude']),
         zoom: presets['zoom'],
@@ -213,7 +241,7 @@ var ready = function() {
         url: '/presets',
         type: "POST",
         dataType: "json",
-        async:false
+        timeout:2000
     }).done(function(data){
         if(data['grid_mode']) {
             $('#map-canvas').hide();
@@ -265,7 +293,8 @@ var ready = function() {
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(){
             window.location.href = "/";
         }).fail(function(jqXHR, b, c) {
@@ -307,6 +336,7 @@ var ready = function() {
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
+            async: false
         }).done(function(){
             window.location.href = "/";
         }).fail(function() {
@@ -335,7 +365,8 @@ var ready = function() {
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(){
             $('#new-message-form').get(0).reset();
             $('#messages-new').hide();
@@ -362,7 +393,8 @@ var ready = function() {
         $.ajax({
             url: '/messages',
             type: "GET",
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(messages){
             var inbox = '';
             $.each(messages, function(index, message) {
@@ -443,7 +475,8 @@ var ready = function() {
             url: $(this).attr('action'),
             type: "POST",
             data: $(this).serialize(),
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(){
             updateMap();
             $('#give-stuff-wrapper-span').show();
@@ -490,6 +523,7 @@ var ready = function() {
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
+            async: false
         }).done(function(){
             window.location.href = "/";
         }).fail(function(jqXHR, b, c) {
@@ -581,7 +615,8 @@ var ready = function() {
         $.ajax({
             url: '/posts/'+$(this).attr('post-id')+'/claim',
             type: "POST",
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(){
             flash('Stuff claimed! :)', 1500);
         }).fail(function() {
@@ -634,7 +669,8 @@ var ready = function() {
         $.ajax({
             url: $(this).attr("href"),
             type: "POST",
-            dataType: "json"
+            dataType: "json",
+            async: false
         }).done(function(){
             if ($(this).attr('on-the-curb') === 'true') {
                 flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!', 1500);
