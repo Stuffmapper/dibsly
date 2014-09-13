@@ -276,8 +276,7 @@ var ready = function() {
     $('#flash-message').hide();
     $('#give-stuff-dialog').hide();
     $('#settings-dialog').hide();
-    $('#sign-up-dialog').hide();
-    $('#log-in-dialog').hide()
+    $('#log-in-sign-up-dialog').hide();
     $('#more-stuff-dialog').hide();
     $('#messages-dialog').hide();
     $('#messages-new').hide();
@@ -330,11 +329,11 @@ var ready = function() {
 
     });
 
-    $('#sign-up').click(function() {
+    $('#log-in-sign-up').click(function() {
         Recaptcha.reload();
-        $('#sign-up-dialog').dialog({modal: true, minWidth: 365});
+        $('#log-in-sign-up-dialog').dialog({modal: true, minWidth: 650, dialogClass: "log-in-sign-up-dialog-style"});
         $(".ui-widget-overlay").click (function () {
-            $("#sign-up-dialog").dialog( "destroy" );
+            $("#log-in-sign-up-dialog").dialog( "destroy" );
         });
         return false;
     });
@@ -359,14 +358,6 @@ var ready = function() {
         });
         return false;
 
-    });
-
-    $('#log-in').click(function() {
-        $('#log-in-dialog').dialog({modal: true});
-        $(".ui-widget-overlay").click (function () {
-            $("#log-in-dialog").dialog( "destroy" );
-        });
-        return false;
     });
 
     $('#new-message-form').submit(function(event) {

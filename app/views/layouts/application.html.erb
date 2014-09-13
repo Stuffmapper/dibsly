@@ -28,9 +28,7 @@
         <a href="#" id="settings-link">Settings</a> -
         <%= link_to "Log out", log_out_path %>
       <% else %>
-        <a href="#" id="sign-up">Sign up</a>
-        or
-        <a href="#" id="log-in">log in</a>
+        <a href="#" id="log-in-sign-up">Log in or sign up</a>
       <% end %>
   </div>
 </div>
@@ -70,11 +68,13 @@
         <div id="messages-inbox"></div>
     </div>
 <% else %>
-    <div id="sign-up-dialog">
-        <%= render 'users/new' %>
-    </div>
-    <div id="log-in-dialog">
+    <div id="log-in-sign-up-dialog">
+      <div id="log-in-wrapper">
         <%= render 'sessions/new' %>
+      </div>
+      <div id="sign-up-wrapper">
+        <%= render 'users/new' %>
+      </div>
     </div>
 <% end %>
 

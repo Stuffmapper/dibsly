@@ -155,17 +155,22 @@ input[type=submit] {
     overflow: hidden;
 }
 
-.settings-dialog-style {
-    -webkit-border-radius: 10px !important;
-    -moz-border-radius: 10px !important;
-    border-radius: 10px !important;
-    border-width: 10px !important;
-    border-color: #5b51aa !important;
-}
-
 .form-errors {
     color: red !important;
  }
+
+.log-in-sign-up-dialog-style {
+    width: 650px !important;
+}
+
+#sign-up-wrapper, #log-in-wrapper {
+    display: inline-block;
+    vertical-align:top;
+}
+
+#log-in-wrapper {
+    margin-right: 50px;
+}
 
 /* flash messages */
 
