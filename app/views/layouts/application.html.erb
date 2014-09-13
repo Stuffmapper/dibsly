@@ -69,11 +69,11 @@
     </div>
 <% else %>
     <div id="log-in-sign-up-dialog">
-      <div id="log-in-wrapper">
-        <%= render 'sessions/new' %>
-      </div>
       <div id="sign-up-wrapper">
         <%= render 'users/new' %>
+      </div>
+      <div id="log-in-wrapper">
+        <%= render 'sessions/new' %>
       </div>
     </div>
 <% end %>
