@@ -507,6 +507,11 @@ var ready = function() {
     });
 
     $('.give-stuff').click(function() {
+        if (!$('body').attr('user-id')) {
+            $('#log-in-sign-up').click();
+            return;
+        }
+
         $('#give-stuff-wrapper-span').show();
         $('#give-stuff-wrapper').hide();
         $('#give-stuff-dialog').dialog({modal: true, dialogClass: "give-stuff-dialog-style"});
@@ -607,6 +612,7 @@ var ready = function() {
         event.preventDefault();
 
         if (!$('body').attr('user-id')) {
+            $('#log-in-sign-up').click();
             return;
         }
 
@@ -649,6 +655,7 @@ var ready = function() {
         event.preventDefault();
 
         if (!$('body').attr('user-id')) {
+            $('#log-in-sign-up').click();
             return;
         }
 
