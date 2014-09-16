@@ -135,6 +135,9 @@ var updateMap = function() {
             if (typeof ga !== "undefined" && ga !== null) {
                 ga('send', 'event', 'geolocated', 'geolocated');
             }
+            if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+                pSUPERFLY.virtualPage("/geolocated", "geolocated");
+            }
             $.ajax({
                 type: "POST",
                 url: '/posts/geolocated',
@@ -252,6 +255,9 @@ var ready = function() {
     if (typeof ga !== "undefined" && ga !== null) {
         ga('send', 'event', 'presets', 'presets');
     }
+    if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        pSUPERFLY.virtualPage("/presets", "presets");
+    }
     $.ajax({
         url: '/presets',
         type: "POST",
@@ -302,6 +308,9 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'signUp', 'signUp');
         }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/signUp", "signUp");
+        }
 
         $.ajax({
             url: $(this).attr('action'),
@@ -344,6 +353,9 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('logIn', 'presets', $('body').attr('user-id'));
         }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/logIn", "logIn");
+        }
 
         $.ajax({
             url: $(this).attr('action'),
@@ -365,6 +377,9 @@ var ready = function() {
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'newMessage', 'newMessage');
+        }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/newMessage", "newMessage");
         }
 
         $.ajax({
@@ -395,6 +410,9 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'messages', 'messages');
         }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/messages", "messages");
+        }
 
         $.ajax({
             url: '/messages',
@@ -423,6 +441,9 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'findStuff', 'findStuff');
         }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/findStuff", "findStuff");
+        }
 
         $.ajax({
             url: '/posts/grid_mode?grid_mode=false',
@@ -438,6 +459,9 @@ var ready = function() {
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'whatStuff', 'whatStuff');
+        }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/whatStuff", "whatStuff");
         }
 
         $.ajax({
@@ -475,6 +499,9 @@ var ready = function() {
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'giveStuff', 'giveStuff');
+        }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/giveStuff", "giveStuff");
         }
 
         $.ajax({
@@ -527,6 +554,9 @@ var ready = function() {
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'myStuff', 'myStuff');
+        }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/myStuff", "myStuff");
         }
 
         $.ajax({
@@ -623,6 +653,9 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'claim', 'claim');
         }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/claim", "claim");
+        }
 
         $.ajax({
             url: '/posts/'+$(this).attr('post-id')+'/claim',
@@ -677,6 +710,9 @@ var ready = function() {
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'dibs', 'dibs');
+        }
+        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            pSUPERFLY.virtualPage("/dibs", "dibs");
         }
 
         $.ajax({
