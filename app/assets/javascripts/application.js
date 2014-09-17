@@ -435,6 +435,7 @@ var ready = function() {
     });
 
     $('#find-stuff').click(function() {
+        presets['grid_mode'] = false;
         $('#map-canvas').show();
         initializeMap();
         $('#main-grid').hide();
@@ -455,6 +456,7 @@ var ready = function() {
     });
 
     $('#what-stuff').click(function() {
+        presets['grid_mode'] = true;
         if (myStuff) {
             myStuff = false;
             resetGridAndScroll();
@@ -698,6 +700,7 @@ var ready = function() {
         if (presets['grid_mode']) {
             resetGridAndScroll();
         } else {
+            debugger;
             if (!infowindowClosed) {
                 for (var i=0;i<infoWindows.length;i++) {
                     infoWindows[i].close();
@@ -783,7 +786,7 @@ var ready = function() {
     var loading = false;
 
     var nearBottomOfPage = function() {
-        return $(window).scrollTop() > $(document).height() - $(window).height() - 300;
+        return $(window).scrollTop() > $(document).height() - $(window).height() - 600;
     }
 
     var resetGridAndScroll = function() {
