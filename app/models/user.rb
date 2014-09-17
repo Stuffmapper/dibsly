@@ -16,10 +16,6 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
-  
-  geocoded_by :address
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :geocode
 
   def self.authenticate(name, password)
     user = find_by_name(name)
