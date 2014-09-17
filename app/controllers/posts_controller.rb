@@ -97,9 +97,9 @@ class PostsController < ApplicationController
       @message.ip = request.remote_ip
       if @message.save
         if (@post.on_the_curb)
-          @message.send_notification("#{@message.sender_name}'s Dibs. Go get the stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Go get the stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
         else
-          @message.send_notification("#{@message.sender_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.sender_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.sender_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
         end
       end
       respond_to do |format|
