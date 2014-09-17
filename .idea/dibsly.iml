@@ -147,7 +147,6 @@
     <orderEntry type="library" scope="PROVIDED" name="excon (v0.39.4, rbenv: 2.1.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.2.1, rbenv: 2.1.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="font-awesome-sass (v4.1.0, rbenv: 2.1.0) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="geocoder (v1.2.3, rbenv: 2.1.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hike (v1.2.3, rbenv: 2.1.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.11, rbenv: 2.1.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v1.5.3, rbenv: 2.1.0) [gem]" level="application" />

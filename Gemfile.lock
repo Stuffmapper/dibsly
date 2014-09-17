@@ -48,7 +48,6 @@ GEM
     execjs (2.2.1)
     font-awesome-sass (4.1.0)
       sass (~> 3.2)
-    geocoder (1.2.3)
     hike (1.2.3)
     i18n (0.6.11)
     jbuilder (1.5.3)
@@ -70,6 +69,7 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.10.1)
+    newrelic_rpm (3.9.4.245)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -143,11 +143,11 @@ DEPENDENCIES
   bcrypt-ruby
   coffee-rails (~> 4.0.0)
   font-awesome-sass
-  geocoder
   jbuilder (~> 1.2)
   jquery-rails
   kaminari
   mandrill-api
+  newrelic_rpm
   paperclip
   paperclip-dropbox (>= 1.1.7)
   pg
