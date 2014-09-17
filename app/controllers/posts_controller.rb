@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", 'new', session[:user_id]).page(params[:page]).per(6)
+    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 'new').page(params[:page]).per(6)
 
 
     if (current_user)
@@ -130,7 +130,7 @@ class PostsController < ApplicationController
 
   # POST /posts/geolocated.json
   def geolocated
-    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new', session[:user_id]).limit(50)
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
     @posts.each do |post|
       post.image_url = post.image.url(:medium)
     end
@@ -162,7 +162,20 @@ class PostsController < ApplicationController
 
   # GET /posts/search
   def search
-    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()) OR creator_id = ?)", "%#{params[:term]}%", 'new', session[:user_id]).page(params[:page]).per(6)
+    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", "%#{params[:term]}%", 'new').page(params[:page]).per(6)
+    @term = params[:term]
+    if (current_user)
+      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
+      @message = Message.new()
+    else
+      @user = User.new
+    end
+    render action: 'index'
+  end
+
+  # GET /posts/my_stuff
+  def my_stuff
+    @posts = Post.where("creator_id = ? OR dibber_id = ?", session[:user_id], session[:user_id]).page(params[:page]).per(6)
     @term = params[:term]
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)

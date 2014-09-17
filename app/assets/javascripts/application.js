@@ -18,6 +18,7 @@ var map;
 var pois = [];
 var markers = [];
 var infowindowClosed = true;
+var myStuff = false;
 var infoWindows = [];
 var customIcon = '/assets/icon.png';
 
@@ -135,7 +136,7 @@ var updateMap = function() {
             if (typeof ga !== "undefined" && ga !== null) {
                 ga('send', 'event', 'geolocated', 'geolocated');
             }
-            if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+            if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
                 pSUPERFLY.virtualPage("/geolocated", "geolocated");
             }
             $.ajax({
@@ -255,7 +256,7 @@ var ready = function() {
     if (typeof ga !== "undefined" && ga !== null) {
         ga('send', 'event', 'presets', 'presets');
     }
-    if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+    if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
         pSUPERFLY.virtualPage("/presets", "presets");
     }
     $.ajax({
@@ -308,7 +309,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'signUp', 'signUp');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/signUp", "signUp");
         }
 
@@ -353,7 +354,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('logIn', 'presets', $('body').attr('user-id'));
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/logIn", "logIn");
         }
 
@@ -378,7 +379,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'newMessage', 'newMessage');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/newMessage", "newMessage");
         }
 
@@ -410,7 +411,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'messages', 'messages');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/messages", "messages");
         }
 
@@ -441,7 +442,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'findStuff', 'findStuff');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/findStuff", "findStuff");
         }
 
@@ -454,13 +455,17 @@ var ready = function() {
     });
 
     $('#what-stuff').click(function() {
+        if (myStuff) {
+            myStuff = false;
+            resetGridAndScroll();
+        }
         $('#map-canvas').hide();
         $('#main-grid').show();
 
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'whatStuff', 'whatStuff');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/whatStuff", "whatStuff");
         }
 
@@ -469,6 +474,29 @@ var ready = function() {
             type: "POST",
             dataType: "json"
         });
+        return false;
+    });
+
+    $('#my-stuff').click(function() {
+        if (!$('body').attr('user-id')) {
+            $('#log-in-sign-up').click();
+            return;
+        }
+
+        myStuff = true;
+
+        $('#map-canvas').hide();
+        $('#main-grid').show();
+
+        if (typeof ga !== "undefined" && ga !== null) {
+            ga('send', 'event', 'myStuff', 'myStuff');
+        }
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
+            pSUPERFLY.virtualPage("/myStuff", "myStuff");
+        }
+
+        resetGridAndScroll();
+
         return false;
     });
 
@@ -500,7 +528,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'giveStuff', 'giveStuff');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/giveStuff", "giveStuff");
         }
 
@@ -555,7 +583,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'myStuff', 'myStuff');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/myStuff", "myStuff");
         }
 
@@ -653,7 +681,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'claim', 'claim');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/claim", "claim");
         }
 
@@ -711,7 +739,7 @@ var ready = function() {
         if (typeof ga !== "undefined" && ga !== null) {
             ga('send', 'event', 'dibs', 'dibs');
         }
-        if (typeof pSUPERFLY !== "undefined" && ga !== null) {
+        if (typeof pSUPERFLY !== "undefined" && pSUPERFLY !== null) {
             pSUPERFLY.virtualPage("/dibs", "dibs");
         }
 
@@ -770,6 +798,11 @@ var ready = function() {
             page += 1;
 
             var url = '/posts?page='+page
+
+            if (myStuff) {
+                var url = '/my-stuff?page='+page
+            }
+
             if ($('#city-term').val()) {
                 url = '/search?page='+page+'&term='+$('#city-term').val();
             }
