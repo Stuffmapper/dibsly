@@ -5,7 +5,7 @@
   <div id="grid-post-container">
     <% @posts.each do |post| %>
       <div class="grid-post">
-        <%= image_tag post.image.url(:medium) %><br>
+        <%= image_tag post.image_url %><br>
         <% if post.title %>
         <%= post.title %>
         <% end %>

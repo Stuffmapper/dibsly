@@ -8,6 +8,13 @@ class PostsController < ApplicationController
   def index
     @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 'new').page(params[:page]).per(6)
 
+    @posts.each do |post|
+      if ((post.image != nil) && (post.image_url == nil))
+        post.image_url = post.image.url(:medium)
+        post.save
+      end
+    end
+
 
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
@@ -35,8 +42,8 @@ class PostsController < ApplicationController
       post_params.delete :image_url
 
       @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
-      @post.image_url = nil
       @post.image = data
+      @post.image_url = @post.image.url(:medium)
 
       respond_to do |format|
         if @post.save
@@ -79,7 +86,7 @@ class PostsController < ApplicationController
       @message.status = 'new'
       @message.ip = request.remote_ip
       if @message.save
-        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image.url(:medium)}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
+        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image_url}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
       end
 
       # message to dibber
@@ -97,9 +104,9 @@ class PostsController < ApplicationController
       @message.ip = request.remote_ip
       if @message.save
         if (@post.on_the_curb)
-          @message.send_notification("#{@message.receiver_name}'s Dibs. Go get the stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Go get the stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
         else
-          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image.url(:medium)}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
         end
       end
       respond_to do |format|
@@ -136,9 +143,6 @@ class PostsController < ApplicationController
       @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
     end
 
-    @posts.each do |post|
-      post.image_url = post.image.url(:medium)
-    end
     @term = params[:term]
     render json: @posts
 
