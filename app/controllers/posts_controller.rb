@@ -43,10 +43,12 @@ class PostsController < ApplicationController
 
       @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
       @post.image = data
-      @post.image_url = @post.image.url(:medium)
+      @post.image_url = nil
 
       respond_to do |format|
         if @post.save
+          @post.image_url = @post.image.url(:medium)
+          @post.save
           format.json {render json: '[]', status: :ok}
         else
           format.json {render json: @post.errors, status: :unprocessable_entity}
