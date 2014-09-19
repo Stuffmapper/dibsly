@@ -730,7 +730,7 @@ var ready = function() {
         var confirmationResponse;
 
         if ($(this).attr('on-the-curb') === 'true') {
-            confirmationResponse = confirm('Sure you want it?');
+            confirmationResponse = confirm('Cool! You are about to Dib this stuff. Click "OK" to continue.');
         } else {
             confirmationResponse = confirm('Sure you want it? You will now be connected with the lister to coordinate pickup.');
         }

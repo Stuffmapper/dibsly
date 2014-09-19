@@ -88,7 +88,9 @@ class PostsController < ApplicationController
       @message.status = 'new'
       @message.ip = request.remote_ip
       if @message.save
-        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!", "Remember that stuff you mapped? Someone wants it! Check your messages to coordinate pickup of stuff", "Remember that stuff you mapped? <img src=\"#{@post.image_url}\"> Someone wants it! Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup of stuff")
+        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!",
+                                   "#{@message.receiver_name}, someone Dibbed your stuff. Fabulous! Check your messages to contact Dibber.",
+                                   "#{@message.receiver_name}, someone Dibbed your stuff. Fabulous! <a href='http://www.stuffmapper.com'>Click</a> to contact Dibber.")
       end
 
       # message to dibber
@@ -106,7 +108,7 @@ class PostsController < ApplicationController
       @message.ip = request.remote_ip
       if @message.save
         if (@post.on_the_curb)
-          @message.send_notification("#{@message.receiver_name}'s Dibs. Go get the stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to view the listing!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to view the listing!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Go get the stuff!", "#{@message.receiver_name}, your priority access to the mapping lasts for one hour. Check your messages to contact the Mapper!", "#{@message.receiver_name}, your priority access to the mapping lasts for one hour. <a href='http://www.stuffmapper.com'>Click</a> to contact the Mapper!")
         else
           @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
         end
