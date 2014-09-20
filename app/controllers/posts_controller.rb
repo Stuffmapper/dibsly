@@ -31,6 +31,7 @@ class PostsController < ApplicationController
       @user = User.find(session[:user_id])
 
       data = nil
+      
       if post_params[:image_url] && !post_params[:image_url].blank?
         urlSegments = post_params[:image_url].match(/data:(.*);base64,(.*)/)
         data = StringIO.new(Base64.decode64(urlSegments[2]))
