@@ -3,8 +3,12 @@ class Post < ActiveRecord::Base
   has_many :dibs, :class_name => Dib, :foreign_key => :post_id
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
-    :storage => :dropbox,
-    :dropbox_credentials => Rails.root.join("config/dropbox.yml")
+    :storage => :google_drive,
+    :google_drive_credentials => "#{Rails.root}/config/google_drive.yml",
+    :google_drive_options => {
+        :public_folder_id => '0B28-gAjiQhi6ejZCdkxvOE14NmM',
+        :path => proc { |style| "#{image.original_filename}" }
+    }
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   attr_readonly :creator_id
   
