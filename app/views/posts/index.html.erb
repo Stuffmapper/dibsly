@@ -15,11 +15,11 @@
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span><br>
           <div class="dib-wrapper">
             <% if current_user && (current_user.id == post.creator_id) %>
-                <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Already claimed</a>
-                <i class="fa fa-question" title="Click Already claimed if your stuff was already picked up."></i>
+                <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Remove</a>
+                <i class="fa fa-question" title="Pin will no longer appear on map."></i>
             <% else %>
                 <%= link_to dib_post_path(post), :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
-                <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else for one hour."></i>
+                <i class="fa fa-question" title="Click Dibs to claim and hide this mapping from everyone else for one hour."></i>
             <% end %>
           </div>
         </div>

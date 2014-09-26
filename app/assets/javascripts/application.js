@@ -75,7 +75,7 @@ var generateGridPost = function(post) {
     content +=     '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
     content +=     '<div class="dib-wrapper">';
     if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
-        content +=          '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Already claimed</a><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else for one hour."></i>';
+        content +=          '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Remove</a><i class="fa fa-question" title="Pin will no longer appear on map."></i>';
     } else {
         content +=          '<a rel="nofollow" href="/posts/' + post.id + '/dib" class="dib-link" on-the-curb="' + post.on_the_curb + '" creator-id="' + post.creator_id + '"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff and hide the listing from everyone else during one hour."></i></a>';
     }
@@ -546,7 +546,7 @@ var ready = function() {
             $('#give-stuff-wrapper').hide();
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("destroy");
-            flash('Congrats on your Stuffmapper listing!', 5000);
+            flash('Congrats on your Stuffmapper mapping!', 10000);
         }).fail(function(jqXHR, b, c) {
             var errorMessage = "";
             $.each(jqXHR.responseJSON, function(keyArray, valueArray) {
@@ -755,7 +755,7 @@ var ready = function() {
             if ($(this).attr('on-the-curb') === 'true') {
                 flash('Great! Your exclusive claim to the item\'s listing expires in one hour. Go get it!', 1500);
             } else {
-                flash('Great! Say hello to the lister. Your exclusive claim to the item\'s listing expires in one hour.', 7000);
+                flash('Great! Say hello to the mapper. Your exclusive claim to the stuff\'s mapping expires in one hour.', 7000);
                 $('#messages-link').click();
             }
             $(event.target).remove();

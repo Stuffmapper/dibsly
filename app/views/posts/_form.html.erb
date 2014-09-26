@@ -22,7 +22,7 @@
       <%= f.text_area :description %>
     </div>
     <div class="field">
-      <label>Click Stuff Location <i class="fa fa-question" title="Need to reposition item's location? Simply double-tap the pin."></i></label><br>
+      <label>Click Stuff Location <i class="fa fa-question" title="Need to reposition item's location? Simply double-tap the pin. If you don't want to disclose location, don't tap exact address."></i></label><br>
       <div id="minimap-canvas" style="width: 238px; height: 238px;"></div>
       <%= f.label :address %><br>
       <%= f.text_area :address %>
@@ -31,8 +31,8 @@
     </div>
     <div class="field">
       <label>Pickup</label><br>
-      <%= f.radio_button :on_the_curb, "true" %> <label for="post_on_the_curb_true">Only mapping <i class="fa fa-question" title="Stuff is out of my hands. I'm only mapping it."></i></label><br>
-      <%= f.radio_button :on_the_curb, "false" %> <label for="post_on_the_curb_false">Contact me for details <i class="fa fa-question" title="Message me if someone wants my stuff."></i></label><br>
+      <%= f.radio_button :on_the_curb, "true" %> <label for="post_on_the_curb_true">Only mapping <i class="fa fa-question" title="Stuff is out of my hands (i.e. on curb). I'm only mapping it."></i></label><br>
+      <%= f.radio_button :on_the_curb, "false" %> <label for="post_on_the_curb_false">Contact me for details <i class="fa fa-question" title="Message me if someone wants my stuff (Messaging is anonymous and private)."></i></label><br>
     </div>
     <!--
     <div class="field" id="phone-number-field">
