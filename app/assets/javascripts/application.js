@@ -693,7 +693,7 @@ var ready = function() {
             dataType: "json",
             async: false
         }).done(function(){
-            flash('Stuff claimed! :)', 1500);
+            flash('Removed! :)', 1500);
         }).fail(function() {
             flash('Sorry, we couldn\'t claim this stuff', 1500);
         });
