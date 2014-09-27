@@ -318,7 +318,12 @@ var ready = function() {
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
-            async: false
+            async: false,
+            beforeSend: function() {
+                $('#spinner-wrapper').show();
+            }
+        }).always(function(){
+            $('#spinner-wrapper').hide();
         }).done(function(){
             window.location.href = "/";
         }).fail(function(jqXHR, b, c) {
@@ -539,7 +544,12 @@ var ready = function() {
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
-            async: false
+            async: false,
+            beforeSend: function() {
+                $('#spinner-wrapper').show();
+            }
+        }).always(function(){
+            $('#spinner-wrapper').hide();
         }).done(function(){
             updateMap();
             $('#give-stuff-wrapper-span').show();
