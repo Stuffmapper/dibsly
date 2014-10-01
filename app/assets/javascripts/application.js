@@ -675,6 +675,7 @@ var ready = function() {
 
     $(document).on('click', '.grid-post-address-link' , function(event) {
         event.preventDefault();
+        $.xhrPool.abortAll();
 
         presets['latitude']= $(this).attr('latitude');
         presets['longitude'] = $(this).attr('longitude');
