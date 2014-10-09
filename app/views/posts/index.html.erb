@@ -19,7 +19,7 @@
                 <i class="fa fa-question" title="Pin will no longer appear on map."></i>
             <% else %>
                 <%= link_to dib_post_path(post), :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
-                <i class="fa fa-question" title="Click Dibs to claim and hide this mapping from everyone else for one hour."></i>
+                <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff AND hide the listing from everyone else (lasts 12 hours)"></i>
             <% end %>
           </div>
         </div>

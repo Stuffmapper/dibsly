@@ -62,7 +62,6 @@ class PostsController < ApplicationController
   # POST /posts/dib/1.json
   def dib
     if (current_user) && (@post.status == 'new') && ((@post.dibbed_until == nil) || (@post.dibbed_until <= Time.now))
-      # 3600 seconds = 1 hour
       @post.dibbed_until = Time.now + Dib.timeSpan
       @post.status == 'dibbed'
       @post.dibber_id = session[:user_id]

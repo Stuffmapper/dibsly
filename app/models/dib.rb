@@ -3,8 +3,9 @@ class Dib < ActiveRecord::Base
   belongs_to :post, :class_name => Post
   
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
-  
-  @@timeSpan = 3600
+
+  # 43200 seconds = 12 hours
+  @@timeSpan = 43200
   cattr_reader :timeSpan
   
   validates_presence_of :creator_id
