@@ -823,14 +823,7 @@ var ready = function() {
         return $(window).scrollTop() > $(document).height() - $(window).height() - 600;
     }
 
-    var resetGridAndScroll = function() {
-        page = 0;
-        $("#grid-post-container").empty();
-        $('html, body').animate({scrollTop: $(document).height()}, 'fast');
-        $('html, body').animate({scrollTop: 0}, 'fast');
-    }
-
-    $(window).scroll(function(){
+    var reloadGrid = function() {
         if ((presets['grid_mode']) && (!loading) && (nearBottomOfPage())) {
             loading=true;
             page += 1;
@@ -851,7 +844,20 @@ var ready = function() {
                     $("#grid-post-container").append(generateGridPost(post));
                 });
             });
-        }
+        } 
+    }
+
+    var resetGridAndScroll = function() {
+        page = 0;
+        $("#grid-post-container").empty();
+        $('html, body').animate({scrollTop: $(document).height()}, 'fast');
+        $('html, body').animate({scrollTop: 0}, 'fast');
+        reloadGrid();
+    }
+
+
+    $(window).scroll(function(){
+        reloadGrid();
     });
 }
 
