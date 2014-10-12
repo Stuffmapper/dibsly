@@ -100,6 +100,9 @@ var createMarker = function(post) {
             infoWindows[i].close();
             infoWindows = [];
         }
+        for (var markerId in markers) {
+            markers[markerId].setIcon(customIcon);
+        }
         infowindowClosed = false;
 
         infoWindow = new google.maps.InfoWindow({
