@@ -12,14 +12,14 @@
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql:dibsly_test</jdbc-url>
-      <user-name>yo</user-name>
+      <user-name>yoo</user-name>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails dibsly: production" uuid="6cfa99e7-b736-4634-aec1-58f1d6944f35">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql:dibsly_production</jdbc-url>
-      <user-name>yo</user-name>
+      <user-name>yoo</user-name>
       <libraries />
     </data-source>
   </component>
