@@ -176,7 +176,7 @@ input[type=submit] {
 
 #flash-message {
     color: white;
-    z-index: 40;
+    z-index: 110;
     position: fixed;
     width: 300px;
     margin: 0 0 0 -150px;
@@ -496,4 +496,8 @@ input[type=submit] {
           transform: scale(1.0);
           -webkit-transform: scale(1.0);
       }
+}
+
+#map-canvas img {
+    max-width: none;
 }
