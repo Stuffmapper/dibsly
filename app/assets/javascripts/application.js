@@ -21,6 +21,7 @@ var infowindowClosed = true;
 var myStuff = false;
 var infoWindows = [];
 var customIcon = '/assets/icon.png';
+var customIconGreen = '/assets/green-icon-small.png';
 
 var presets = {};
 presets['latitude'] = 47.6612588;
@@ -108,7 +109,9 @@ var createMarker = function(post) {
         infoWindows.push(infoWindow);
         google.maps.event.addListener(infoWindow,'closeclick',function(){
             infowindowClosed = true;
+            marker.setIcon(customIcon);
         });
+        marker.setIcon(customIconGreen);
     });
     return marker;
 }
