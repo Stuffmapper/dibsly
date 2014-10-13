@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 
-var map;
+var map = null;
 var pois = [];
 var markers = [];
 var infowindowClosed = true;
@@ -77,7 +77,7 @@ var generateGridPost = function(post) {
     if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
         content +=          '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Remove</a><i class="fa fa-question" title="Pin will no longer appear on map."></i>';
     } else {
-        content +=          '<a rel="nofollow" href="/posts/' + post.id + '/dib" class="dib-link" on-the-curb="' + post.on_the_curb + '" creator-id="' + post.creator_id + '"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff AND hide the listing from everyone else (lasts 12 hours)"></i></a>';
+        content +=          '<a rel="nofollow" href="/posts/' + post.id + '/dib" class="dib-link" on-the-curb="' + post.on_the_curb + '" creator-id="' + post.creator_id + '"> <image src="assets/dibs.png" class="dibs-image"></image><i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff AND hide the mapping from everyone else (lasts 12 hours)."></i></a>';
     }
     content +=          '</div>';
     content +=     '</div>';
@@ -164,19 +164,25 @@ function initializeMap() {
     pois = [];
 
     var mapOptions = {
-        center: new google.maps.LatLng(presets['latitude'],presets['longitude']),
+        center: new google.maps.LatLng(presets['latitude'], presets['longitude']),
         zoom: presets['zoom'],
         panControl: false,
-        zoomControl:true,
+        zoomControl: true,
         zoomControlOptions: {
-            style:google.maps.ZoomControlStyle.SMALL
+            style: google.maps.ZoomControlStyle.SMALL
         }
     };
     map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-    google.maps.event.addListener(map, 'dragend', function(){updateMap();});
-    google.maps.event.addListener(map, 'zoom_changed', function(){updateMap();});
-    google.maps.event.addListener(map, 'idle', function(){updateMap();});
+    google.maps.event.addListener(map, 'dragend', function () {
+        updateMap();
+    });
+    google.maps.event.addListener(map, 'zoom_changed', function () {
+        updateMap();
+    });
+    google.maps.event.addListener(map, 'idle', function () {
+        updateMap();
+    });
 };
 
 // for the minimap
@@ -326,7 +332,7 @@ var ready = function() {
         }).always(function(){
             $('#spinner-wrapper').hide();
         }).done(function(){
-            window.location.href = "/";
+            window.location.href = '/';
         }).fail(function(jqXHR, b, c) {
             Recaptcha.reload();
             var errorMessage = "";
