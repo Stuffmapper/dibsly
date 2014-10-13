@@ -273,6 +273,9 @@ var ready = function() {
     }).done(function(data){
         if(data['grid_mode']) {
             $('#map-canvas').hide();
+
+            // to make sure you are at the top after refreshing a scrolled, what stuff page
+            window.scrollTo(0, 0);
         } else {
             $('#main-grid').hide();
         }
