@@ -227,9 +227,12 @@ function initializeMiniMap() {
         center: minimapLatLng,
         zoom: map.getZoom(),
         panControl: false,
-        zoomControl: false,
         streetViewControl: false,
-        mapTypeControl: false
+        mapTypeControl: false,
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL
+        }
 
     };
     minimap = new google.maps.Map(document.getElementById("minimap-canvas"), minimapOptions);
