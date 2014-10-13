@@ -501,3 +501,9 @@ input[type=submit] {
 #map-canvas img {
     max-width: none;
 }
+
+#message_content {
+    width: 325px;
+    height: 95px;
+}
+
