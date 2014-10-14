@@ -20,6 +20,7 @@ var markers = [];
 var infowindowClosed = true;
 var myStuff = false;
 var infoWindows = [];
+var openInfowindowForPostId = null;
 var customIcon = '/assets/icon.png';
 var customIconGreen = '/assets/green-icon-small.png';
 
@@ -71,7 +72,7 @@ var generateGridPost = function(post) {
         content += '<div class="grid-post-description">' + post.description + '</div>';
     }
     if (post.latitude && post.longitude && post.address) {
-        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '">' + post.address + '</a></div>';
+        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '" post-id="' + post.id + '">' + post.address + '</a></div>';
     }
     content +=     '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
     content +=     '<div class="dib-wrapper">';
@@ -88,7 +89,9 @@ var generateGridPost = function(post) {
 }
 
 var createMarker = function(post) {
-    var infoWindow;
+    var infoWindow = new google.maps.InfoWindow({
+        content: generateGridPost(post)
+    });
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(post.latitude,post.longitude),
         map: map,
@@ -104,10 +107,6 @@ var createMarker = function(post) {
             markers[markerId].setIcon(customIcon);
         }
         infowindowClosed = false;
-
-        infoWindow = new google.maps.InfoWindow({
-            content: generateGridPost(post)
-        })
         infoWindow.open(map,marker);
         infoWindows.push(infoWindow);
         google.maps.event.addListener(infoWindow,'closeclick',function(){
@@ -116,6 +115,13 @@ var createMarker = function(post) {
         });
         marker.setIcon(customIconGreen);
     });
+
+    if (openInfowindowForPostId == post.id) {
+        openInfowindowForPostId = null;
+        infowindowClosed = false;
+        infoWindow.open(map,marker);
+    }
+
     return marker;
 }
 
@@ -694,6 +700,8 @@ var ready = function() {
     $(document).on('click', '.grid-post-address-link' , function(event) {
         event.preventDefault();
         $.xhrPool.abortAll();
+
+        openInfowindowForPostId = $(this).attr('post-id');
 
         presets['latitude']= $(this).attr('latitude');
         presets['longitude'] = $(this).attr('longitude');
