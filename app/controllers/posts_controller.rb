@@ -15,12 +15,18 @@ class PostsController < ApplicationController
       end
     end
 
-
     if (current_user)
       @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
       @message = Message.new()
     else
       @user = User.new
+
+      #cookies.delete :first_time
+      if cookies.permanent[:first_time] == nil
+        cookies.permanent[:first_time] = 1
+      else
+        cookies.permanent[:first_time] = 0
+      end
     end
   end
 

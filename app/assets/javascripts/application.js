@@ -309,8 +309,21 @@ var ready = function() {
     $('#settings-dialog').hide();
     $('#log-in-sign-up-dialog').hide();
     $('#more-stuff-dialog').hide();
+    $('#how-it-works-dialog').hide();
     $('#messages-dialog').hide();
     $('#messages-new').hide();
+
+    if ($('body').attr('display-how-it-works') == 1) {
+        $('#how-it-works-dialog').dialog({modal: true, minWidth: 650, dialogClass: "how-it-works-dialog-style"});
+        $(".ui-widget-overlay").click(function () {
+            $("#how-it-works-dialog").dialog("destroy");
+        });
+    }
+
+    $('.sign-up-now').click(function() {
+        $("#how-it-works-dialog").dialog("destroy");
+        $('#log-in-sign-up').click();
+    });
 
     initializeMap();
 
