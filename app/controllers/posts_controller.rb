@@ -114,9 +114,9 @@ class PostsController < ApplicationController
       @message.ip = request.remote_ip
       if @message.save
         if (@post.on_the_curb)
-          @message.send_notification("Dibs confirmation", "#{@message.receiver_name}, your priority access to the mapping lasts for one hour. Check your messages to contact the Mapper!", "#{@message.receiver_name}, your priority access to the mapping lasts for one hour. <a href='http://www.stuffmapper.com'>Click</a> to contact the Mapper!")
+          @message.send_notification("Dibs confirmation", "#{@message.receiver_name}, your priority access to the mapping lasts for 12 hours. Check your messages to contact the Mapper!", "#{@message.receiver_name}, your priority access to the mapping lasts for 12 hours. <a href='http://www.stuffmapper.com'>Click</a> to contact the Mapper!")
         else
-          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for one hour. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for one hour. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
+          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for 12 hours. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for 12 hours. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
         end
       end
       respond_to do |format|

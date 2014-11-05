@@ -309,6 +309,7 @@ var ready = function() {
     $('#settings-dialog').hide();
     $('#log-in-sign-up-dialog').hide();
     $('#more-stuff-dialog').hide();
+    $('#feedback-dialog').hide();
     $('#how-it-works-dialog').hide();
     $('#messages-dialog').hide();
     $('#messages-new').hide();
@@ -411,6 +412,26 @@ var ready = function() {
             window.location.href = "/";
         }).fail(function() {
             $('#log-in-form-errors').text('Invalid name or password.');
+        });
+        return false;
+
+    });
+
+    $('#feedback-form').submit(function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            async: false
+        }).done(function(){
+            $('#feedback-form').get(0).reset();
+            $('#feedback-dialog').dialog("destroy");
+            flash('Message sent. Thank you!', 10000);
+        }).fail(function() {
+            $('#feedback-form-errors').text('Invalid message.');
         });
         return false;
 
@@ -692,6 +713,14 @@ var ready = function() {
         return false;
     });
 
+    $('#feedback').click(function() {
+        $('#feedback-dialog').dialog({modal: true, minWidth: 365});
+        $(".ui-widget-overlay").click (function () {
+            $("#feedback-dialog").dialog( "destroy" );
+        });
+        return false;
+    });
+
     $('#smartphone-nav-button').click(function() {
         $('#top-nav').toggle();
 
@@ -787,7 +816,7 @@ var ready = function() {
         if ($(this).attr('on-the-curb') === 'true') {
             confirmationResponse = confirm('Cool! You are about to Dib this stuff. Click "OK" to continue.');
         } else {
-            confirmationResponse = confirm('Sure you want it? You will now be connected with the lister to coordinate pickup.');
+            confirmationResponse = confirm('Sure you want it? You will now be connected with the mapper to coordinate pickup.');
         }
 
         if (confirmationResponse != true) {

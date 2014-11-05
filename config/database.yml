@@ -48,7 +48,7 @@ test:
   encoding: unicode
   database: dibsly_test
   pool: 5
-  username: yoo
+  username: yo
   password:
 
 production:
@@ -56,5 +56,5 @@ production:
   encoding: unicode
   database: dibsly_production
   pool: 5
-  username: yoo
+  username: yo
   password:

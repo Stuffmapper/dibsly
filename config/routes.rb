@@ -18,6 +18,7 @@ Dibsly::Application.routes.draw do
   post 'posts/grid_mode' => 'posts#grid_mode'
   get 'search' => 'posts#search'
   get 'my-stuff' => 'posts#my_stuff'
+  post 'feedbacks/create'
 
   root 'posts#index'
 end

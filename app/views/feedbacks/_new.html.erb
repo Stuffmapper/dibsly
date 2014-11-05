@@ -1,0 +1,11 @@
+<div id="feedback-form-errors" class="form-errors"></div>
+
+<%= form_tag '/feedbacks/create', :id => 'feedback-form' do %>
+    <p>
+      <%= email_field_tag :email, params[:email], placeholder: 'Your email (optional)' %>
+    </p>
+    <p>
+      <%= text_area_tag :message, params[:message], placeholder: 'Your message' %>
+    </p>
+    <p class="button"><%= submit_tag "Send" %></p>
+<% end %>
