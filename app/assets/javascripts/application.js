@@ -72,7 +72,7 @@ var generateGridPost = function(post) {
         content += '<div class="grid-post-description">' + post.description + '</div>';
     }
     if (post.latitude && post.longitude && post.address) {
-        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '" post-id="' + post.id + '">' + post.latitude + ", " + post.longitude + '</a></div>';
+        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '" post-id="' + post.id + '"> Locate on map </a></div>';
     }
     content +=     '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
     content +=     '<div class="dib-wrapper">';
@@ -313,13 +313,15 @@ var ready = function() {
     $('#how-it-works-dialog').hide();
     $('#messages-dialog').hide();
     $('#messages-new').hide();
+    
+    // disabled welcome popup
 
-    if ($('body').attr('display-how-it-works') == 1) {
-        $('#how-it-works-dialog').dialog({modal: true, minWidth: 650, dialogClass: "how-it-works-dialog-style"});
-        $(".ui-widget-overlay").click(function () {
-            $("#how-it-works-dialog").dialog("destroy");
-        });
-    }
+    // if ($('body').attr('display-how-it-works') == 1) {
+    //     $('#how-it-works-dialog').dialog({modal: true, minWidth: 650, dialogClass: "how-it-works-dialog-style"});
+    //     $(".ui-widget-overlay").click(function () {
+    //         $("#how-it-works-dialog").dialog("destroy");
+    //     });
+    // }
 
     $('.sign-up-now').click(function() {
         $("#how-it-works-dialog").dialog("destroy");
