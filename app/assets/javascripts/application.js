@@ -25,8 +25,8 @@ var customIcon = '/assets/icon.png';
 var customIconGreen = '/assets/green-icon-small.png';
 
 var presets = {};
-presets['latitude'] = 47.6612588;
-presets['longitude'] = -122.3078193;
+presets['latitude'] = 47.547573;
+presets['longitude'] = -122.387034;
 presets['zoom'] = 14;
 presets['grid_mode'] = true;
 
