@@ -72,7 +72,7 @@ var generateGridPost = function(post) {
         content += '<div class="grid-post-description">' + post.description + '</div>';
     }
     if (post.latitude && post.longitude && post.address) {
-        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '" post-id="' + post.id + '">' + post.address + '</a></div>';
+        content += '<div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="' + post.latitude + '" longitude="' + post.longitude + '" post-id="' + post.id + '">' + post.latitude + ", " + post.longitude + '</a></div>';
     }
     content +=     '<span class="grid-post-date">Posted '+jQuery.timeago(post.created_at)+'</span><br>';
     content +=     '<div class="dib-wrapper">';

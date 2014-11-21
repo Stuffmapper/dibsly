@@ -11,7 +11,7 @@
         <% end %>
         <div class="grid-post-details">
           <div class="grid-post-description"><%= post.description %></div>
-          <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>" post-id="<%= post.id %>">Contact poster for an exact address </a></div>
+          <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>" post-id="<%= post.id %>"> <%= + post.latitude %> , <%= post.longitude %> </a></div>
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span><br>
           <div class="dib-wrapper">
             <% if current_user && (current_user.id == post.creator_id) %>
