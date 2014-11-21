@@ -281,6 +281,7 @@ input[type=submit] {
     background-color: #fff;
     padding: 14px 18px 9px 18px;
 
+
     -webkit-border-bottom-right-radius: 10px;
     -webkit-border-bottom-left-radius: 10px;
     -moz-border-radius-bottomright: 10px;
@@ -290,8 +291,11 @@ input[type=submit] {
 }
 
 #top-logo img {
-    width: 280px;
+    width: 80px;
+
 }
+
+
 #search-form-current-city {
     float: right;
 }
@@ -431,6 +435,32 @@ input[type=submit] {
 /* smartphone */
 #smartphone-nav-button {
     display: none;
+}
+@media only screen and (min-width: 640px)   {
+
+    #top-nav {
+        height:10px;
+    }
+    #search-form-current-city input{
+        display: none;
+    }
+    #top-logo img{
+        margin-top: -13px;
+
+        width: 40px;
+    }
+    #top-nav:hover{
+        height: 40px;
+    }
+     #top-nav:hover #search-form-current-city input{
+        display: block;
+     }
+    #top-nav:hover #top-logo img{
+        margin-top: -13px;
+
+        width: 100px;
+     }
+
 }
 
 @media only screen and (max-width: 640px)   {
