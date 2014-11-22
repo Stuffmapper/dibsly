@@ -2,6 +2,12 @@ Dibsly::Application.routes.draw do
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
 
+  get 'auth/:provider/callback', to: 'sessions#create'
+ 
+
+
+
+
   post 'users' => 'users#create'
   patch 'users/:id' => 'users#my_stuff'
   post 'users/:id', :to => 'users#show', :as => :user
