@@ -9,10 +9,11 @@ class SessionsController < ApplicationController
         session[:longitude] = user.longitude
         session[:zoom] = user.zoom
         session[:grid_mode] = user.grid_mode
-        render json: '[]', status: :ok
-      else
-        render json: '[]', status: :unprocessable_entity
-      end
+        #render json: '[]', status: :ok
+        redirect_to root_url
+       else
+         render json: '[]', status: :unprocessable_entity
+       end
   end
 
   def destroy
