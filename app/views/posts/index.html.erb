@@ -3,17 +3,24 @@
 
 <div id="main-grid">
   <div id="grid-post-container">
+  <div id="fb-root"></div>
     <% @posts.each do |post| %>
+
       <div class="grid-post">
-        <%= image_tag post.image_url %><br>
+        <%= image_tag post.image_url %>
+        <br>
         <% if post.title %>
         <%= post.title %>
         <% end %>
         <div class="grid-post-details">
-          <div class="grid-post-description" class="grid-post-address"> <%= post.description %></div>
+          <div class="grid-post-description" class="grid-post-address"> <%=link_to post.description, posts_path(:id =>post.id) %></div>
+
           <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>" post-id="<%= post.id %>"> Locate on map </a></div>
           <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span><br>
+
+          <div class="fb-share-button" data-href=<%="http://stuffmapper-dev.herokuapp.com/" + "posts?id=" + post.id.to_s %> data-layout="button"></div>
           <div class="dib-wrapper">
+
             <% if current_user && (current_user.id == post.creator_id) %>
                 <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Remove</a>
                 <i class="fa fa-question" title="Pin will no longer appear on map."></i>

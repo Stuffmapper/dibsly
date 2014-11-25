@@ -30,6 +30,23 @@ presets['longitude'] = -122.387034;
 presets['zoom'] = 14;
 presets['grid_mode'] = true;
 
+//fb js
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1497795170480964',
+      xfbml      : true,
+      version    : 'v2.2'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
 $.xhrPool = [];
 $.xhrPool.abortAll = function() {
     $(this).each(function(idx, jqXHR) {
@@ -37,6 +54,7 @@ $.xhrPool.abortAll = function() {
     });
     $.xhrPool.length = 0
 };
+//end fb js
 
 $.ajaxSetup({
     beforeSend: function(jqXHR) {
