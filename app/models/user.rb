@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
-  validates_format_of :invite_code, :with => /\AOJ2014TRIAL\z/
+  validates_format_of :invite_code, :with => /\AOJ2014TRIAL\z/, :on => :create
   validates :status, inclusion: {in: STATUSES}
 
   def self.authenticate(name, password)
