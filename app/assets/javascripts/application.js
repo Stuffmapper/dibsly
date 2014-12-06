@@ -97,7 +97,7 @@ var generateGridPost = function(post) {
     if (($('body').attr('user-id')) && (post.creator_id == $('body').attr('user-id'))) {
         content +=          '<a rel="nofollow" href="#" class="already-claimed-link" post-id="'+post.id+'" creator-id="'+post.creator_id+'">Remove</a><i class="fa fa-question" title="Pin will no longer appear on map."></i>';
     } else {
-        content +=          '<a rel="nofollow" mailto:=' + post.contact_email + '" subject="Regarding your stuffmapper posting:' + post.title + '"> <image src="assets/envelope.png" class="mail-image"></image><i class="fa fa-question" title="Email to coordinate pickup of stuff."></i></a>';
+        content +=          '<a mailto:' + post.contact_email + '" subject="Regarding your stuffmapper posting:' + post.title + '"> <image src="assets/envelope.png" class="mail-image"></image><i class="fa fa-question" title="Email to coordinate pickup of stuff."></i></a>';
     }
 
     content +=          '</div>';
