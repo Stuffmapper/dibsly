@@ -15,7 +15,7 @@
 /* html labels */
 
 html {
-    background-color: #b1d0ff;
+    background-color: rgb(190,195,200);
 }
 
 body {
@@ -274,10 +274,9 @@ input[type=submit] {
 
 #top-nav {
     display: block;
-    left: 50%;
+    left: 0px;
     top: 0px;
-    margin-left: -318px;
-    width: 636px;
+
     background-color: #fff;
     padding: 14px 18px 9px 18px;
 
@@ -298,6 +297,7 @@ input[type=submit] {
 
 #search-form-current-city {
     float: right;
+    margin-right: 5%
 }
 
 
@@ -384,7 +384,7 @@ input[type=submit] {
 /* grid */
 
 #main-grid {
-    background-color: #b1d0ff;
+    background-color: rgb(190,195,200);
     width: 100%;
     margin: 0px;
     padding: 120px 0px 120px 0;
@@ -442,6 +442,8 @@ input[type=submit] {
 
     #top-nav {
         height:14px;
+        width: 100%;
+
     }
     #search-form-current-city input{
         display: none;
@@ -493,6 +495,7 @@ input[type=submit] {
 
     #search-form-current-city {
         margin-top: 10px;
+
     }
 
     #bottom-nav {
