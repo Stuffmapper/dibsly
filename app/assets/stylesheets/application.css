@@ -297,7 +297,6 @@ input[type=submit] {
 
 #search-form-current-city {
     float: right;
-    margin-right: 5%
 }
 
 
@@ -443,11 +442,19 @@ input[type=submit] {
     #top-nav {
         height:14px;
         width: 100%;
+        border-bottom: 1px solid rgb(190,195,200);
+        margin-left: 4%;
 
     }
     #search-form-current-city input{
         display: none;
+
     }
+    #search-form-current-city {
+
+     margin-right: 10%;
+    }
+
     #log-in-sign-up{
         float:right;
     }
@@ -511,6 +518,7 @@ input[type=submit] {
     #search-form-current-city {
         float: none;
     }
+
 }
 
 /* everything else */
