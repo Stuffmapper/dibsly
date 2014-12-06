@@ -25,8 +25,15 @@
                 <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Remove</a>
                 <i class="fa fa-question" title="Pin will no longer appear on map."></i>
             <% else %>
-                <%= link_to dib_post_path(post), :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
-                <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff AND hide the mapping from everyone else (lasts 12 hours)."></i>
+              <% if current_user %>
+                <%= mail_to post.contact_email, :subject => "Regarding your stuffmapper posting: #{post.title} " do %><image src="assets/envelope.png" class="mail-image"></image>
+                  <i class="fa fa-question" title="Email to coordinate pickup of stuff."></i>
+              <% end %>
+            <% end %>
+           <% if !current_user %>
+          
+                <i class="fa fa-question" title="Sign up or sign in to contact poster."></i>
+          <% end %>
             <% end %>
           </div>
         </div>

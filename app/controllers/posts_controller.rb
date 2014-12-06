@@ -55,6 +55,7 @@ class PostsController < ApplicationController
       params.delete :image_url
 
       @post = Post.new(post_params.merge(:image_url => nil, :ip => request.remote_ip, :status => 'new', :creator_id => session[:user_id]))
+      @post.contact_email = @user.email
       @post.image_url = nil
       @post.image = data
 
