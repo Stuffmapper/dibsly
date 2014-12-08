@@ -337,7 +337,7 @@ var ready = function() {
 
     // we only display the grid at first
     $('#flash-message').hide();
-   
+    $('#give-stuff-dialog').hide();
     $('#settings-dialog').hide();
     $('#log-in-sign-up-dialog').hide();
     $('#more-stuff-dialog').hide();
@@ -650,7 +650,7 @@ var ready = function() {
                 updateMap();
             }
             $('#give-stuff-wrapper-span').show();
-            $('#give-stuff-wrapper').hide();
+          
             $('#give-stuff-form').get(0).reset();
             $('#give-stuff-dialog').dialog("destroy");
             flash('Congrats on your Stuffmapper mapping!', 10000);
