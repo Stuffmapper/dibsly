@@ -673,7 +673,7 @@ var ready = function() {
         }
 
         $('#give-stuff-wrapper-span').show();
-        $('#give-stuff-wrapper').hide();
+
         $('#give-stuff-dialog').dialog({modal: true, dialogClass: "give-stuff-dialog-style"});
         $(".ui-widget-overlay").click (function () {
             $("#give-stuff-dialog").dialog( "destroy" );
