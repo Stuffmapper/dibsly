@@ -2,9 +2,9 @@
 
 <%= form_for @post, :html => {:id => 'give-stuff-form' } do |f| %>
   <div class="image">
-    <label>Upload Image *</label>
+    <label>Image File *</label>
     <div class="fileUpload btn btn-primary">
-      <span>Upload</span>
+      <span>Add File</span>
       <input type="file" name="post[image]" id="post_image" class="upload" accept="image/png,image/gif,image/jpeg">
     </div>
     <input id="upload-file" readonly />

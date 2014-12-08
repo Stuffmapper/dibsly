@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 
+
 var map = null;
 var pois = [];
 var markers = [];
@@ -199,6 +200,9 @@ var updateMap = function() {
         }
     }
 };
+
+
+
 
 function initializeMap() {
     pois = [];
@@ -759,7 +763,8 @@ var ready = function() {
 
     if($("#post_image").length > 0) {
         document.getElementById("post_image").onchange = function () {
-            document.getElementById("upload-file").value = this.value;
+            document.getElementById("upload-file").value = this.value.replace(/^.*\\/, "");;
+            upload-file
         };
     }
 

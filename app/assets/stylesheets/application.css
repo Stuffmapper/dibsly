@@ -108,13 +108,14 @@ input[type=submit] {
 #upload-file {
     width: 145px;
     background-color: white;
-    border: 1px solid;
+    border: 0px solid;
 }
 
 .fileUpload {
     position: relative;
     overflow: hidden;
     margin: 10px;
+    margin-right: 60px;
     float: right;
 }
 .fileUpload input.upload {
@@ -127,6 +128,7 @@ input[type=submit] {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+
 }
 
 .fileUpload span {
