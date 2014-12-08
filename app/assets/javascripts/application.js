@@ -337,7 +337,7 @@ var ready = function() {
 
     // we only display the grid at first
     $('#flash-message').hide();
-    $('#give-stuff-dialog').hide();
+   
     $('#settings-dialog').hide();
     $('#log-in-sign-up-dialog').hide();
     $('#more-stuff-dialog').hide();
