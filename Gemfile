@@ -34,6 +34,24 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :test do
+  gem "minitest"
+  gem 'minitest-spec-rails'
+  gem 'minitest-reporters'
+  gem 'ruby-prof'
+  gem 'factory_girl_rails'
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+end
+
+group :development do
+  gem 'guard'
+  gem 'guard-minitest'
+end
+ 
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -1,0 +1,54 @@
+Running in verbose mode
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:48:51 2015
+-----------------------------------------------------------------
+
+check for "/usr/local/Cellar/postgresql/9.2.4/bin" failed: No such file or directory
+
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:49:46 2015
+-----------------------------------------------------------------
+
+check for "/usr/local/Cellar/postgresql/9.2.4/bin" failed: No such file or directory
+
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:49:54 2015
+-----------------------------------------------------------------
+
+You must identify the directory where the old cluster binaries reside.
+Please use the -b command-line option or the PGBINOLD environment variable.
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:50:14 2015
+-----------------------------------------------------------------
+
+check for "/usr/local/Cellar/postgresql/9.2.4/bin" failed: No such file or directory
+
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:51:05 2015
+-----------------------------------------------------------------
+
+You must identify the directory where the new cluster binaries reside.
+Please use the -B command-line option or the PGBINNEW environment variable.
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:52:01 2015
+-----------------------------------------------------------------
+
+You must identify the directory where the old cluster data resides.
+Please use the -d command-line option or the PGDATAOLD environment variable.
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jan  5 20:53:21 2015
+-----------------------------------------------------------------
+
+
+*failure*
+Consult the last few lines of "pg_upgrade_server.log" for
+the probable cause of the failure.
+There seems to be a postmaster servicing the old cluster.
+Please shutdown that postmaster and try again.

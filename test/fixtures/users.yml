@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  email: MyString
+  name: MyString1
+  email: MyString1@email.com 
   password_salt: MyString
   password_hash: MyString
   latitude: 9.99
@@ -11,8 +11,8 @@ one:
   ip: MyString
 
 two:
-  name: MyString
-  email: MyString
+  name: MyString2
+  email: MyString2@email.com
   password_salt: MyString
   password_hash: MyString
   latitude: 9.99

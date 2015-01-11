@@ -1,12 +1,16 @@
 <div id="give-stuff-form-errors" class="form-errors"></div>
 
 <%= form_for @post, :html => {:id => 'give-stuff-form' } do |f| %>
+
   <div class="image">
     <label>Image File *</label>
+
     <div class="fileUpload btn btn-primary">
       <span>Add File</span>
       <input type="file" name="post[image]" id="post_image" class="upload" accept="image/png,image/gif,image/jpeg">
     </div>
+
+
     <input id="upload-file" readonly />
 
     <%= f.hidden_field :image_url %>
@@ -33,7 +37,7 @@
       <label>Click Stuff Location <i class="fa fa-question" title="Need to reposition item's location? Simply double-tap the pin. If you don't want to disclose location, don't tap exact address."></i></label><br>
 
 
-      <div id="minimap-canvas" style="width: 350px; height: 350px;"></div>
+      <div id="minimap-canvas" style="width: 350px; height: 290px;"></div>
 
      
       

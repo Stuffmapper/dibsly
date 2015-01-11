@@ -1,11 +1,6 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  email: MyString
-  comment: MyString
-  ip: MyString
-
-two:
-  email: MyString
-  comment: MyString
-  ip: MyString
+  message: 'boggaly boo'
+  email: fake@email.com
+  ip:   1234
+  created_at: 2014-02-16 22:26:14
+  updated_at: 2014-02-17 22:26:14
