@@ -33,7 +33,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+#gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -42,7 +42,9 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
+
+
 
 gem 'rails_12factor', group: :production
 gem 'bcrypt-ruby', :require=>'bcrypt'
@@ -55,3 +57,21 @@ gem 'font-awesome-sass'
 gem 'newrelic_rpm'
 
 #gem 'geocoder'
+group :development do
+  gem 'guard'
+
+end
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'jasmine'
+end
+
+gem 'factory_girl_rails'
+
+group :test do
+  gem 'rspec'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+
+end
+
