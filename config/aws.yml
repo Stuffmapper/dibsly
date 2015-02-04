@@ -1,7 +1,7 @@
 development:
-  access_key_id: AKIAJD3HLE6HGZSM6E4A
-  secret_access_key: 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
-  bucket: stuffmapper-dev
+  access_key_id: AKIAJGMZDKJSR7OJR7ZQ
+  secret_access_key: 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
+  bucket: stuffmapper-dev2
 test:
   access_key_id: AKIAJGMZDKJSR7OJR7ZQ
   secret_access_key: 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
