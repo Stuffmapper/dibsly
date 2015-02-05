@@ -14,6 +14,10 @@
 
 /* html labels */
 
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+
 html {
     background-color: #b1d0ff;
 }
