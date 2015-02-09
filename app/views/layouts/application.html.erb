@@ -13,52 +13,30 @@
 
 
 </head>
-     <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <%= link_to image_tag('logo-wo-bg.png'), root_path, class: "navbar-brand"  %>
-           
-            </div>
 
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-      </nav>
+  <body>
+       <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <%= link_to image_tag('logo-wo-bg.png'), root_path, class: "navbar-brand"  %>
+             
+              </div>
 
+            </div><!--/.nav-collapse -->
+          </div><!--/.container-fluid -->
+        </nav>
+        <!-- Static navbar -->
+        
+  <%= yield %>
+   
 
+        <!-- Main component for a primary marketing message or call to action -->
+  </body>
 
-
-<div class="container">
-
-      <!-- Static navbar -->
- 
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div id="stuffmapper-menu">
-        <div role="tabpanel">
-
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Get Stuff</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Give Stuff</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">My Stuff</a></li>
-
-          </ul>
-
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">..dd.</div>
-            <div role="tabpanel" class="tab-pane" id="profile">..boo.</div>
-            <div role="tabpanel" class="tab-pane" id="messages">..ss.</div>
-            <div role="tabpanel" class="tab-pane" id="settings">.ss..</div>
-          </div>
-
-      </div><!-- tab-panel -->
-
-    </div><!-- stuffmapper-menu -->
 </html>
