@@ -1,0 +1,2 @@
+stfmpr = angular.module('stfmpr',[
+])

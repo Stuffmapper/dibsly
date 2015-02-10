@@ -21,16 +21,17 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-#for using bootstrap
 
-gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
+#for using angular
+gem 'active_model_serializers'
+gem 'sass', '3.2.19' 
+
+#for bower
+gem 'bower-rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -46,29 +47,32 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
+
+
 # Use debugger
 gem 'debugger', group: [:development, :test]
 
-
+#for heroku
+gem "foreman"
 
 gem 'rails_12factor', group: :production
 gem 'bcrypt-ruby', :require=>'bcrypt'
 gem 'recaptcha', '~> 0.3.6'
 gem 'paperclip', '~> 3.4'
-gem 'paperclip-googledrive'
 gem 'aws-sdk'
 gem 'kaminari'
 gem 'mandrill-api'
-gem 'font-awesome-sass'
 gem 'newrelic_rpm'
 
 #gem 'geocoder'
+
 group :development do
-  gem 'guard'
+  gem 'guard-rspec', require: false
+ 
 
 end
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0'
+  gem "rspec-rails", "~> 2.0"
   gem 'jasmine'
   gem 'factory_girl_rails'
 end
@@ -76,9 +80,10 @@ end
 
 
 group :test do
-  gem 'rspec'
-  gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
-
+  gem 'capybara', '~> 2.4.4'
+  gem 'shoulda-matchers','~> 2.4.0'
+  gem 'vcr'
+  gem 'simplecov', :require => false
+  gem "selenium-webdriver"
 end
 
