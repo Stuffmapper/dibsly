@@ -29,9 +29,15 @@ gem 'jbuilder', '~> 1.2'
 #for using angular
 gem 'active_model_serializers'
 gem 'sass', '3.2.19' 
+gem 'angular-rails-templates'
 
 #for bower
 gem 'bower-rails'
+
+#heroku
+gem "foreman"
+
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -66,6 +72,13 @@ gem 'newrelic_rpm'
 
 #gem 'geocoder'
 
+group :production, :staging do
+  gem "rails_12factor"
+  gem "rails_stdout_logging"
+  gem "rails_serve_static_assets"
+end
+
+
 group :development do
   gem 'guard-rspec', require: false
  
@@ -75,9 +88,8 @@ group :development, :test do
   gem "rspec-rails", "~> 2.0"
   gem 'jasmine'
   gem 'factory_girl_rails'
+
 end
-
-
 
 group :test do
   gem 'capybara', '~> 2.4.4'

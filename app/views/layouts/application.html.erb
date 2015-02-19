@@ -14,7 +14,9 @@
 
 </head>
 
-  <body>
+  <body ng-app="stfmpr" ng-controller="MapsController as mappy">
+ 
+       
        <nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <div class="navbar-header">
@@ -32,11 +34,13 @@
           </div><!--/.container-fluid -->
         </nav>
         <!-- Static navbar -->
+                     <ui-gmap-google-map center='map.center' zoom='map.zoom' ></ui-gmap-google-map>
         
   <%= yield %>
    
 
         <!-- Main component for a primary marketing message or call to action -->
+
   </body>
 
 </html>
