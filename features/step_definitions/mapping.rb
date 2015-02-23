@@ -13,7 +13,7 @@ When(/^I visit the home page$/) do
 end
 
 Then(/^I should see a map$/) do
-  expect(page).to have_css('ui-gmap-google-map')
+  expect(page).to have_css('.angular-google-map')
 end
 
 Then(/^I should see some items on the map$/) do

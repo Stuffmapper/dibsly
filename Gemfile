@@ -75,8 +75,8 @@ group :development, :test do
   gem 'jasmine'
   gem 'factory_girl_rails'
   gem 'teaspoon'
-  gem 'phantomjs'
-  gem 'cucumber-rails'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'cucumber-rails', require: false
   gem 'rack_session_access'
 
 end
@@ -87,6 +87,8 @@ group :test do
   gem 'vcr'
   gem 'simplecov', :require => false
   gem "selenium-webdriver"
-   gem 'database_cleaner'
+  gem 'database_cleaner'
+  gem 'poltergeist'
+  gem 'launchy'
 end
 
