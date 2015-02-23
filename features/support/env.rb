@@ -76,8 +76,10 @@ else
     Capybara::Poltergeist::Driver.new(
       app,
       window_size: [1280, 1024],
-      :phantomjs => Phantomjs.path
+      :phantomjs => Phantomjs.path,
+      extensions: [File.expand_path("./phantomjs_ext/geolocation.js", __FILE__)]
       #debug:       true
+
     )
   end
   Capybara.default_driver    = :poltergeist

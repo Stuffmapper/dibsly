@@ -17,7 +17,7 @@ Then(/^I should see a map$/) do
 end
 
 Then(/^I should see some items on the map$/) do
-  pending
-  #to container 10 markers 
+
+  expect(page).to have_selector('ui-gmap-markers')
 end
 
