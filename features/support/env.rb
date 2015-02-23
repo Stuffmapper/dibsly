@@ -5,6 +5,7 @@
 # files.
 
 require 'cucumber/rails'
+require 'rack_session_access/capybara'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -25,7 +26,9 @@ require 'cucumber/rails'
 #
 # 2) Set the value below to true. Beware that doing this globally is not
 # recommended as it will mask a lot of errors for you!
+
 #
+
 ActionController::Base.allow_rescue = false
 
 # Remove/comment out the lines below if your app doesn't have a database.

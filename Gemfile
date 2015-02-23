@@ -25,11 +25,17 @@ gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+gem 'bcrypt-ruby', :require=>'bcrypt'
+gem 'recaptcha', '~> 0.3.6'
+gem 'paperclip', '~> 3.4'
+gem 'aws-sdk'
+gem 'kaminari'
+gem 'mandrill-api'
+gem 'newrelic_rpm'
 
 #for using angular
 gem 'active_model_serializers'
 gem 'sass', '3.2.19' 
-gem 'angular-rails-templates'
 
 #for bower
 gem 'bower-rails'
@@ -38,37 +44,18 @@ gem 'bower-rails'
 gem "foreman"
 
 
+# Use debugger
+gem 'debugger', group: [:development, :test]
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-# Use ActiveModel has_secure_password
-#gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
 
 
 
-# Use debugger
-gem 'debugger', group: [:development, :test]
 
-#for heroku
-gem "foreman"
-
-gem 'rails_12factor', group: :production
-gem 'bcrypt-ruby', :require=>'bcrypt'
-gem 'recaptcha', '~> 0.3.6'
-gem 'paperclip', '~> 3.4'
-gem 'aws-sdk'
-gem 'kaminari'
-gem 'mandrill-api'
-gem 'newrelic_rpm'
 
 #gem 'geocoder'
 
@@ -80,16 +67,17 @@ end
 
 
 group :development do
-  gem 'guard-rspec', require: false
- 
-
+  gem 'guard-rspec', require: false 
 end
+
 group :development, :test do
   gem "rspec-rails", "~> 2.0"
   gem 'jasmine'
   gem 'factory_girl_rails'
   gem 'teaspoon'
   gem 'phantomjs'
+  gem 'cucumber-rails'
+  gem 'rack_session_access'
 
 end
 
@@ -99,5 +87,6 @@ group :test do
   gem 'vcr'
   gem 'simplecov', :require => false
   gem "selenium-webdriver"
+   gem 'database_cleaner'
 end
 
