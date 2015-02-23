@@ -34,12 +34,16 @@
           </div><!--/.container-fluid -->
         </nav>
         <!-- Static navbar -->
-                     <ui-gmap-google-map center='map.center' zoom='map.zoom' ></ui-gmap-google-map>
-                     <ui-gmap-marker
-        idKey='1'
-        coords= '{latitude: 47.547240099999996, longitude:-122.38658799999999}'
-        >
-</ui-gmap-marker>
+                     <ui-gmap-google-map center='map.center' zoom='map.zoom' >
+
+
+                      <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+        </ui-gmap-marker>
+
+                     </ui-gmap-google-map>
+
+
+
         
   <%= yield %>
    
