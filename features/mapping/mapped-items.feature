@@ -6,7 +6,8 @@ Feature: Write Articles
 
   Background:
   	Given that there are some items posted near me and I'm geolocated
-
+  	
+  @javascript
   Scenario: Successfully write articles
     When I visit the home page
     Then I should see a map 

@@ -54,9 +54,6 @@ end
 
 
 
-
-
-
 #gem 'geocoder'
 
 group :production, :staging do
@@ -90,5 +87,6 @@ group :test do
   gem 'database_cleaner'
   gem 'poltergeist'
   gem 'launchy'
+  gem 'capybara-angular'
 end
 

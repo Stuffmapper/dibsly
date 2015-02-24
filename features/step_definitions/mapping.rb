@@ -17,7 +17,8 @@ Then(/^I should see a map$/) do
 end
 
 Then(/^I should see some items on the map$/) do
+	save_and_open_page
 
-  expect(page).to have_selector('ui-gmap-markers')
+  expect(page).to have_css('.angular-google-map-marker')
 end
 
