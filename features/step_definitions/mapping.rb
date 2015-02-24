@@ -13,12 +13,11 @@ When(/^I visit the home page$/) do
 end
 
 Then(/^I should see a map$/) do
-  expect(page).to have_css('.angular-google-map')
+  expect(page).to have_css('.angular-google-map-container')
 end
 
 Then(/^I should see some items on the map$/) do
-	save_and_open_page
 
-  expect(page).to have_css('.angular-google-map-marker')
+  expect(page).to have_css('span.angular-google-map-marker')
 end
 
