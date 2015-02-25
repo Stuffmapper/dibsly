@@ -29,6 +29,22 @@
               <%= link_to image_tag('logo-wo-bg.png'), root_path, class: "navbar-brand"  %>
              
               </div>
+               <ul class="nav navbar-nav navbar-right" ng-controller="SignUpCtrl" >
+                <li><a href='#' ng-click="open()">Sign Up</a></li>
+                 <li><a href='#' ng-click="open('signin')">Sign In</a></li>
+
+                
+                </ul>
+                
+
+
+   
+
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+</div>
+
+
+               <ul>
 
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->

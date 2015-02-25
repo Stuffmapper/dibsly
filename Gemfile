@@ -36,6 +36,8 @@ gem 'newrelic_rpm'
 #for using angular
 gem 'active_model_serializers'
 gem 'sass', '3.2.19' 
+gem 'angular-rails-templates'
+
 
 #for bower
 gem 'bower-rails'
@@ -63,18 +65,17 @@ group :production, :staging do
 end
 
 
-group :development do
-  gem 'guard-rspec', require: false 
-end
 
 group :development, :test do
-  gem "rspec-rails", "~> 2.0"
+  gem "rspec-rails"
   gem 'jasmine'
   gem 'factory_girl_rails'
   gem 'teaspoon'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'cucumber-rails', require: false
   gem 'rack_session_access'
+  gem 'autotest-rails'
+  gem 'rspec-autotest'
 
 end
 

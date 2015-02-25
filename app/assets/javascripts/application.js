@@ -15,10 +15,12 @@
 //= require angular/angular
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets.js
 //= require angular-route/angular-route
+//= require angular-rails-templates
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/dist/lodash.min.js
 //= require angular-google-maps/dist/angular-google-maps.min.js
+//= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require_tree .
 
 

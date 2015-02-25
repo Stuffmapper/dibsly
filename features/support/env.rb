@@ -66,7 +66,6 @@ end
   # IN_BROWSER=true bundle exec cucumber
   # or (to have a pause of 1 second between each step):
   # IN_BROWSER=true PAUSE=1 bundle exec cucumber
-Capybara.default_driver = :selenium
 
 
 Cucumber::Rails::Database.javascript_strategy = :truncation

@@ -1,6 +1,9 @@
 stfmpr = angular.module('stfmpr',[
+        'templates',
         'controllers',
-        'uiGmapgoogle-maps'
+        'uiGmapgoogle-maps',
+        'ui.bootstrap',
+        
 		
 ])
 
