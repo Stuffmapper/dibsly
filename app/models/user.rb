@@ -8,17 +8,16 @@ class User < ActiveRecord::Base
   attr_accessor :password
   before_save :encrypt_password
   
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_presence_of :first_name
+  validates_presence_of :last_name
+  validates_uniqueness_of :username
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
 
-  def self.authenticate(name, password)
-    user = find_by_name(name)
+  def self.authenticate(username, password)
+    user = find_by_username(username)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else

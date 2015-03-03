@@ -74,8 +74,10 @@ group :development, :test do
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'cucumber-rails', require: false
   gem 'rack_session_access'
-  gem 'autotest-rails'
-  gem 'rspec-autotest'
+  gem 'guard-rspec', require: false
+  gem 'guard-cucumber'
+  gem 'guard-rails'
+  gem "guard-teaspoon"
 
 end
 

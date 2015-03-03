@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   def create
-    user = User.authenticate(params[:name], params[:password])
+    
+    user = User.authenticate(params[:username], params[:password])
 
       if user
         session[:user_id] = user.id
@@ -10,6 +11,7 @@ class SessionsController < ApplicationController
         session[:grid_mode] = user.grid_mode
         render json: '[]', status: :ok
       else
+        
         render json: '[]', status: :unprocessable_entity
       end
   end
@@ -26,7 +28,7 @@ class SessionsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def sessions_params
-      params.permit(:name, :password)
+      params.permit(:username, :password)
     end
 end
 

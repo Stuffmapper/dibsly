@@ -10,20 +10,28 @@ Given(/^that I have the signup page open\.$/) do
   click_link('Sign Up')
 end
 
-Given(/^I enter username password email and phone$/) do
+Given(/^I signup with a username password email and phone$/) do
  
   fill_in 'username', with: 'fakeuser'
+  fill_in 'first_name', with: 'Ben'
+  fill_in 'last_name', with: 'Dere'
   fill_in 'email', with: @email
   fill_in 'password', with: "123456"
   fill_in 'password_confirmation', with: "123456"
   fill_in 'phone_number', with: "8675309"
+  within('.modal-footer') do 
+    click_button "Sign Up"
+  end  
+  sleep(1)
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
   click_link 'Sign In'
   fill_in 'username', with: 'fakeuser'
   fill_in 'password', with: '123456'
-  click_button 'Sign In'
+  within('.modal-footer') do 
+     click_button 'Sign In'
+  end
   expect(page).to have_text('Successfully Signed In')
 end
 

@@ -8,7 +8,7 @@ Feature: Standard Sign Up
 	@javascript	
 	Scenario: Old Fashion Signup
 		Given that I have the signup page open.
-		And I enter username password email and phone
+		And I signup with a username password email and phone
 		Then I should be able to sign in with my username and password
 		And I should be able to go to my account with google and facebook
 

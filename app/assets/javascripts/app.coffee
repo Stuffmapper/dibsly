@@ -1,8 +1,12 @@
 stfmpr = angular.module('stfmpr',[
         'templates',
         'controllers',
+        'ngRoute',
+        'ngResource',
         'uiGmapgoogle-maps',
         'ui.bootstrap',
+        'angular-flash.service',
+        'angular-flash.flash-alert-directive'
         
 		
 ])
@@ -18,6 +22,13 @@ stfmpr.config( (uiGmapGoogleMapApiProvider)->
         libraries: 'weather,geometry,visualization'
  	})
 )	
+
+stfmpr.config ($httpProvider) ->
+  # read CSRF token
+  token = $("meta[name=\"csrf-token\"]").attr("content")
+
+  # include token in $httpProvider default headers
+  $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token
 
 
 
