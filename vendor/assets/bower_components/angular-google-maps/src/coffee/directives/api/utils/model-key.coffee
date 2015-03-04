@@ -4,22 +4,36 @@ angular.module('uiGmapgoogle-maps.directives.api.utils')
     class ModelKey extends BaseObject
       constructor: (@scope) ->
         super()
+        ##common scope keys interface for iterating comparators
+        @interface = {}
+        @interface.scopeKeys = []
+
         @defaultIdKey = 'id'
         @idKey = undefined
 
       evalModelHandle: (model, modelKey) ->
-        if model == undefined or modelKey == undefined
-          return undefined
+        return if not model? or not modelKey?
+
         if modelKey == 'self'
           model
         else #modelKey may use dot-notation
+          modelKey = modelKey() if _.isFunction(modelKey)
           GmapUtil.getPath(model, modelKey)
 
       modelKeyComparison: (model1, model2) =>
-        scope = if @scope.coords? then @scope else @parentScope
-        if not scope? then throw 'No scope or parentScope set!'
-        GmapUtil.equalCoords @evalModelHandle(model1, scope.coords),
-          @evalModelHandle(model2, scope.coords)
+        hasCoords = _.contains(@interface.scopeKeys, 'coords')
+        scope = @scope if hasCoords and  @scope.coords? or not hasCoords
+        if not scope? then throw 'No scope set!'
+        if hasCoords
+          isEqual = GmapUtil.equalCoords @evalModelHandle(model1, scope.coords),
+            @evalModelHandle(model2, scope.coords)
+          #deep comparison of the rest of properties
+          return isEqual unless isEqual
+        #compare the rest of the properties that are being watched by scope
+        isEqual = _.every _.without(@interface.scopeKeys, 'coords'), (k) =>
+          @evalModelHandle(model1, scope[k]) == @evalModelHandle(model2, scope[k])
+        isEqual
+
 
       setIdKey: (scope) =>
         @idKey = if scope.idKey? then scope.idKey else @defaultIdKey
@@ -113,4 +127,11 @@ angular.module('uiGmapgoogle-maps.directives.api.utils')
           @scope.$destroy()
         else
           @clean()
+
+      updateChild:(child, model) =>
+        unless model[@idKey]?
+          @$log.error("Model has no id to assign a child to. This is required for performance. Please assign id, or redirect id to a different key.")
+          return
+        #set isInit to true to force redraw after all updates are processed
+        child.updateModel model
 ]

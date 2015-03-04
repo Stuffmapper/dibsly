@@ -1,38 +1,9 @@
 
 controllers = angular.module('controllers')
-controllers.controller('SignUpCtrl', [ '$scope', '$modal', '$log',
- ($scope, $modal, $log)-> 
 
- 
 
-  $scope.open = (type) -> 
-    if type == 'signin'
-      template = 'signIn.html'
-    else
-      template = 'signUp.html'
 
-    modalInstance = $modal.open(
-      templateUrl: template,
-      controller: 'ModalInstanceCtrl',
-      resolve: {
-        items: -> 
-          return $scope.items;
-        
-      }
-    )
-
-    modalInstance.result.then( (selectedItem)-> 
-      $scope.selected = selectedItem
-      -> 
-      $log.info('Modal dismissed at: ' + new Date());
-    )
-  
-])
-
-#Please note that $modalInstance represents a modal window (instance) dependency.
-#It is not the same as the $modal service used above.
-
-controllers.controller('ModalInstanceCtrl', [ '$scope', '$modalInstance', '$http',
+controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http',
  ($scope, $modalInstance, $http ) -> 
 
   

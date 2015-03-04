@@ -1,7 +1,7 @@
-controllers = angular.module('controllers')
 
-controllers.controller("MapsController", [ '$scope', 'uiGmapGoogleMapApi', 
-  ($scope, uiGmapGoogleMapApi )->
+controllers = angular.module('controllers', )
+controllers.controller("MapsCtrl", [ '$scope', 'uiGmapGoogleMapApi', '$modal'
+  ($scope, uiGmapGoogleMapApi, $modal )->
   
 
     map_object = { center:{latitude:0,longitude:0} , zoom: 17 }

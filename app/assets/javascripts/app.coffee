@@ -15,13 +15,39 @@ stfmpr = angular.module('stfmpr',[
  
 controllers = angular.module('controllers',[])
 
-stfmpr.config( (uiGmapGoogleMapApiProvider)-> 
-    uiGmapGoogleMapApiProvider.configure({
+stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvider',
+
+
+    ($routeProvider,$locationProvider,uiGmapGoogleMapApiProvider)->
+
+      $locationProvider.html5Mode(true)
+
+      $routeProvider
+        .when('/', {
+          templateUrl:'home.html',
+          controller: 'MapsCtrl'
+        })
+        .when('/signup',{
+          templateUrl:'signUp.html',
+          controller:'SignUpCtrl'
+        })
+        .when('/signin',{
+          templateUrl:'signIn.html',
+          controller:'SignUpCtrl'
+        })
+   
+
+      uiGmapGoogleMapApiProvider.configure({
       
         v: '3.17',
         libraries: 'weather,geometry,visualization'
- 	})
-)	
+      })
+
+])	
+
+
+
+
 
 stfmpr.config ($httpProvider) ->
   # read CSRF token

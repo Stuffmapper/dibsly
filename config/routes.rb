@@ -21,4 +21,6 @@ Dibsly::Application.routes.draw do
   post 'feedbacks/create'
 
   root 'posts#index'
+
+  get '(*url)' => 'posts#index'
 end

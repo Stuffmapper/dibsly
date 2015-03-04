@@ -1,6 +1,6 @@
 {
   "name": "angular-google-maps",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "AngularJS directives for Google Maps",
   "repository": {
     "type": "git",
@@ -9,8 +9,7 @@
   "scripts": {
     "build": "grunt",
     "example": "grunt example",
-    "test": "grunt",
-    "postinstall": "bower install && grunt curl"
+    "test": "grunt"
   },
   "keywords": [
     "angularjs",

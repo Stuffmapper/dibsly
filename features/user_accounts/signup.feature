@@ -11,9 +11,9 @@ Feature: Standard Sign Up
 		And I signup with a username password email and phone
 		Then I should be able to sign in with my username and password
 		And I should be able to go to my account with google and facebook
-
+		
+	@javascript	
 	Scenario: Old Fashion already have an account
 		Given that I already have an account
-		And I enter username password email and phone
-		And press SignUp
+		And I signup with a username password email and phone
 		Then I should be see the "Account already created" message

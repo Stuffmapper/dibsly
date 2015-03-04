@@ -7,6 +7,7 @@
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+   <base href="/"> </base>
 
 
 
@@ -14,7 +15,7 @@
 
 </head>
 
-  <body ng-app="stfmpr" ng-controller="MapsController as mappy">
+  <body ng-app="stfmpr" ng-controller="MainNavCtrl as mainnav">
  
        
        <nav class="navbar navbar-inverse">
@@ -29,34 +30,21 @@
               <%= link_to image_tag('logo-wo-bg.png'), root_path, class: "navbar-brand"  %>
              
               </div>
-               <ul class="nav navbar-nav navbar-right" ng-controller="SignUpCtrl" >
-                <li><a href='#' ng-click="open()">Sign Up</a></li>
-                 <li><a href='#' ng-click="open('signin')">Sign In</a></li>
+               <ul class="nav navbar-nav navbar-right" >
+                <li><a href='#' ng-click="showSignup()">Sign Up</a></li>
+                 <li><a href='#' ng-click="showSignin()">Sign In</a></li>
 
-                
                 </ul>
-                
+               </div>
 
 
-   
-
-    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
-</div>
-
-
-               <ul>
 
             </div><!--/.nav-collapse -->
           </div><!--/.container-fluid -->
         </nav>
         <!-- Static navbar -->
-        <ui-gmap-google-map center='map.center' zoom='map.zoom' >
 
-
-          <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-         </ui-gmap-marker>
-
-      </ui-gmap-google-map>
+       <ng-view></ng-view>
 
 
 

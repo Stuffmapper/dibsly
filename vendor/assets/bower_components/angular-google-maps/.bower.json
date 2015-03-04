@@ -1,6 +1,6 @@
 {
   "name": "angular-google-maps",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "main": "./dist/angular-google-maps.js",
   "dependencies": {
     "angular": ">=1.2.0",
@@ -14,11 +14,11 @@
     "data-structures": "~1.4.2"
   },
   "homepage": "https://github.com/angular-ui/angular-google-maps",
-  "_release": "2.0.12",
+  "_release": "2.0.13",
   "_resolution": {
     "type": "version",
-    "tag": "2.0.12",
-    "commit": "b22b334c27882d33a4efc4e6b7eba4168f9f944b"
+    "tag": "2.0.13",
+    "commit": "e1ede639cc28418ab9beff5026a55bf8ff359a27"
   },
   "_source": "git://github.com/angular-ui/angular-google-maps.git",
   "_target": "*",
