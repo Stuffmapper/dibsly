@@ -25,6 +25,16 @@ class SessionsController < ApplicationController
     redirect_to root_url, :notice => "Logged out!"
   end
 
+  def check
+    if current_user
+      
+      render json: '{message: User is logged in }', status: :ok
+    else
+      render json: '{error: User not logged in }', status: :unauthorized
+    end
+
+  end
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def sessions_params

@@ -1,6 +1,7 @@
 Dibsly::Application.routes.draw do
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
+  get 'log_out' => 'sessions#check'
 
   post 'users' => 'users#create'
   patch 'users/:id' => 'users#my_stuff'

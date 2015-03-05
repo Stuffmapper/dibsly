@@ -18,6 +18,7 @@ RSpec.describe SessionsController, :type => :controller do
 
     end
 
+
     context "with incorrect name " do
       let (:username) {'Superbland'}
       let (:password) {'123456'}
@@ -28,4 +29,34 @@ RSpec.describe SessionsController, :type => :controller do
 
     end
   end
+  describe "Get check user" do
+    before do
+      user = create(:user)
+      xhr :post, :create, format: :json, username: 'Superbad', password: '123456'
+    end
+
+    context "user logged in " do
+      
+
+      it 'should 200' do
+        xhr :get, :check
+        expect(response.status).to eq(200)
+      end
+
+    end
+
+    context "user logged out " do
+
+
+      it 'should 401' do
+        xhr :get, :destroy, format: :json
+        xhr :get, :check
+        expect(response.status).to eq(401)
+      end
+
+    end
+  end
+
+
+
 end

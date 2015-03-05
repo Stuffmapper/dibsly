@@ -1,6 +1,7 @@
 stfmpr = angular.module('stfmpr',[
         'templates',
         'controllers',
+        'factories',
         'ngRoute',
         'ngResource',
         'uiGmapgoogle-maps',
@@ -14,6 +15,7 @@ stfmpr = angular.module('stfmpr',[
 
  
 controllers = angular.module('controllers',[])
+factories = angular.module('factories',[])
 
 stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvider',
 
