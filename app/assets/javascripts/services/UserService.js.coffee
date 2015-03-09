@@ -7,11 +7,15 @@ factories.factory('UserService',['$http',
             (username,password,callback) -> 
                 self = this
                 loginData={ username:username, password:password};
+                console.log(loginData)
                 $http.post('/sessions/create', loginData)
                 .success (data) ->
+
                     if(data && data.user)
                         self.currentUser=data.user
+                        console.log(self)
                     else
+                        console.log(data)
                         self.currentUser=false;
                 
                     callback(null,data)
@@ -32,7 +36,7 @@ factories.factory('UserService',['$http',
         check: 
             (callback) ->
                 self=this;
-                $http.get('/api/auth')
+                $http.get('/auth/check')
                 
                 .success (data)->
                     if (data && data.user)

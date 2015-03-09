@@ -59,5 +59,12 @@ stfmpr.config ($httpProvider) ->
   $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token
 
 
+stfmpr.run(['UserService',(UserService)->
+
+    UserService.check((err,data)->
+        console.log('check',err,data)
+      ) 
+])
+
 
 

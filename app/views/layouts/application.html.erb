@@ -31,8 +31,9 @@
              
               </div>
                <ul class="nav navbar-nav navbar-right" >
-                <li><a href='#' ng-click="showSignup()">Sign Up</a></li>
-                 <li><a href='#' ng-click="showSignin()">Sign In</a></li>
+                <li><a href='#' ng-click="showSignup()" ng-hide="currentUser">Sign Up</a></li>
+                 <li><a href='#' ng-click="showSignin()" ng-hide="currentUser" >Sign In</a></li>
+                 <li><a href='#' ng-click="logout()" ng-show="currentUser" >Sign Out</a></li>
 
                 </ul>
                </div>

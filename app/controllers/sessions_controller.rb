@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
         session[:longitude] = user.longitude
         session[:zoom] = user.zoom
         session[:grid_mode] = user.grid_mode
-        render json: '[]', status: :ok
+        render json: {user:user.username}, status: :ok
       else
         
         render json: '[]', status: :unprocessable_entity
@@ -27,10 +27,10 @@ class SessionsController < ApplicationController
 
   def check
     if current_user
-      
+
       render json: '{message: User is logged in }', status: :ok
     else
-      render json: '{error: User not logged in }', status: :unauthorized
+      render json: '{message: User not logged in }', status: :unauthorized
     end
 
   end

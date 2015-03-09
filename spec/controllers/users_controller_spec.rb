@@ -6,8 +6,10 @@ RSpec.describe UsersController, :type => :controller do
   describe "Post create" do
     before do
 
-      :post, :create, user: user_var
-   end
+      xhr :post,:create, user: user_var
+    end
+
+   
     
 
     context "When the data is complete" do

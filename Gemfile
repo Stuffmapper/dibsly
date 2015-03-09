@@ -46,8 +46,8 @@ gem 'bower-rails'
 gem "foreman"
 
 
-# Use debugger
-gem 'debugger', group: [:development, :test]
+# # Use a debugger
+gem 'pry-byebug', group: [:development, :test]
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

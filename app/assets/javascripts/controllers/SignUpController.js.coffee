@@ -3,8 +3,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http',
- ($scope, $modalInstance, $http ) -> 
+controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', 'UserService',
+ ($scope, $modalInstance, $http, UserService ) -> 
 
   
 
@@ -32,16 +32,17 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http',
     $http.post('/users', {user: user}  )
       .success -> 
         $modalInstance.dismiss('cancel')
-  $scope.signin = ->
-    user = {
-        username: $scope.username
-        password: $scope.password
-        }
 
-    
-    $http.post('/sessions/create', user  )
-      .success -> 
-        $modalInstance.dismiss('cancel')
-  
+  $scope.signin = ->
+      UserService.login($scope.username, $scope.password,
+          (err,data) ->
+              if(err)
+                  alert(err)
+              else if(data.user)
+                $modalInstance.dismiss('cancel');
+                console.log($scope.currentUser)
+              else  
+                alert(data.error)   
+        )
 ])
 
