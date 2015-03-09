@@ -23,9 +23,18 @@ RSpec.describe SessionsController, :type => :controller do
       let (:password) {'123456'}
       it 'should 422' do
         expect(response.status).to eq(422)
+
       end
     end
 
+  end
+
+  describe "Get Log out" do 
+    it "should be successful" do 
+      
+      xhr :get, :destroy, format: :json
+      expect(response.status).to eq(200)
+    end
   end
 
   describe "Get check user" do
@@ -38,6 +47,7 @@ RSpec.describe SessionsController, :type => :controller do
       it 'should 200' do
         xhr :get, :check
         expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['user']).to eq('Superbad')
       end
     end
 
@@ -49,6 +59,5 @@ RSpec.describe SessionsController, :type => :controller do
       end
     end
 
-  end
-
+  end   
 end

@@ -22,15 +22,15 @@ class SessionsController < ApplicationController
     session[:longitude] = nil
     session[:zoom] = nil
     session[:grid_mode] = nil
-    redirect_to root_url, :notice => "Logged out!"
+    render json: '[]', status: :ok
   end
 
   def check
     if current_user
 
-      render json: '{message: User is logged in }', status: :ok
+      render json: {message: 'User is logged in', user: current_user.username }, status: :ok
     else
-      render json: '{message: User not logged in }', status: :unauthorized
+      render json: {message: 'User not logged in' }, status: :unauthorized
     end
 
   end
