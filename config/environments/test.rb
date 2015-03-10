@@ -33,4 +33,11 @@ Dibsly::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  config.paperclip_defaults = {
+  :s3_host_name => 's3-us-west-2.amazonaws.com',
+  :storage => :s3,
+  :s3_credentials => {
+    :bucket => 'stuffmapper-dev'
+  }
+}
 end

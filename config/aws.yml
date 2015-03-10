@@ -5,6 +5,7 @@ development:
 test:
   access_key_id: AKIAJGMZDKJSR7OJR7ZQ
   secret_access_key: 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
+  bucket: stuffmapper-test
 
 production:
   access_key_id: AKIAJGMZDKJSR7OJR7ZQ
