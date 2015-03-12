@@ -4,7 +4,7 @@ controllers.controller("MapsCtrl", [ '$scope', 'uiGmapGoogleMapApi', 'uiGmapIsRe
   ($scope, uiGmapGoogleMapApi, uiGmapIsReady )->
     
     
-    map_object = { center:{latitude:,longitude:} , zoom: 17 }
+    map_object = { center:{latitude:'-122',longitude:'47'} , zoom: 17 }
     console.log(window.location)
  
     $scope.map = map_object
