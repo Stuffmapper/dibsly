@@ -4,10 +4,15 @@ class PostsController < ApplicationController
 
   # GET /posts
   # GET /posts.json
+
+  #this is all stupid long hacked crap
   def index
     @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 'new').page(params[:page]).per(6)
 
     @posts.each do |post|
+
+      #this should be part of the model _ on save
+      #grr!!!!!!
       if ((post.image != nil) && (post.image_url == nil))
         post.image_url = post.image.url(:medium)
         post.save
@@ -80,6 +85,7 @@ class PostsController < ApplicationController
       @dib.save
 
       # message to poster
+      #put in separate method 
       @message = Message.new()
       @message.sender_id = session[:user_id]
       @message.sender_name = User.find(session[:user_id]).name
@@ -99,6 +105,8 @@ class PostsController < ApplicationController
       end
 
       # message to dibber
+      # add to model
+
       @message = Message.new()
       @message.sender_id = @post.creator_id
       @message.sender_name = User.find(@post.creator_id).name
@@ -146,14 +154,17 @@ class PostsController < ApplicationController
 
   # POST /posts/geolocated.json
   def geolocated
-    if params[:term] == ''
-      @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", params[:neLat], params[:swLat], params[:neLng], params[:swLng], 'new').limit(50)
-    else
-      @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
-    end
+    
+    #if params[:term] == ''
+    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 
+              params[:neLat], params[:swLat], params[:neLng], params[:swLng], 'new').limit(50)
+    #else
+    #  @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 
+    #    params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
+    #end
 
     @term = params[:term]
-    render json: @posts
+    render json: @posts#Post.where("latitude <= 48 AND latitude >= 46 AND longitude <= -121 AND longitude >= -123 AND status = 'new' AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))")
 
     session[:latitude] = params[:swLat].to_f + ((params[:neLat].to_f - params[:swLat].to_f)/2)
     session[:longitude] = params[:swLng].to_f + ((params[:neLng].to_f - params[:swLng].to_f)/2)

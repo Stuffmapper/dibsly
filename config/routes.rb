@@ -15,7 +15,7 @@ Dibsly::Application.routes.draw do
   post 'posts/:id/claim', :to => 'posts#claim', :as => 'dib_claim'
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
-  post 'posts/geolocated' => 'posts#geolocated'
+  get 'posts/geolocated' => 'posts#geolocated'
   post 'posts/grid_mode' => 'posts#grid_mode'
   get 'search' => 'posts#search'
   get 'my-stuff' => 'posts#my_stuff'

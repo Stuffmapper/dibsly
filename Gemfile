@@ -91,5 +91,6 @@ group :test do
   gem 'poltergeist'
   gem 'launchy'
   gem 'capybara-angular'
+  gem 'webmock'
 end
 
