@@ -21,7 +21,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-
+#http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
@@ -45,6 +45,7 @@ gem 'bower-rails'
 #heroku
 gem "foreman"
 
+gem 'geocoder'
 
 # # Use a debugger
 gem 'pry-byebug', group: [:development, :test]

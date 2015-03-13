@@ -4,18 +4,19 @@ controllers.controller("MapsCtrl", [ '$scope', 'uiGmapGoogleMapApi', 'uiGmapIsRe
   ($scope, uiGmapGoogleMapApi, uiGmapIsReady )->
     
     
-    map_object = { center:{latitude:'-122',longitude:'47'} , zoom: 17 }
+    map_object = { center:{latitude:'0',longitude:'47'} , zoom: 17 }
     console.log(window.location)
  
     $scope.map = map_object
     $scope.map.control = {}
     center = navigator.geolocation.getCurrentPosition((position)->
       $scope.$apply(->
-        $scope.map.center.latitude =  position.coords.latitude
-        $scope.map.center.longitude = position.coords.longitude  
+        
+        map1 = $scope.map.control.getGMap()
+        map1.panTo({lat:position.coords.latitude,lng: position.coords.longitude},30)
+
 
         uiGmapIsReady.promise().then((maps) ->
-          map1 = $scope.map.control.getGMap()
           console.log(map1.getBounds().toUrlValue()) 
          )
         )

@@ -1,51 +1,16 @@
 
-      <div id="stuffmapper-menu" >
-      
-        <div role="tabpanel">
 
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Get Stuff</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Give Stuff</a></li>
-            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">My Stuff</a></li>
+<div class="container-fluid" ng-controller="MapsCtrl as mappy">
+   
+ <ui-gmap-google-map center=<%= @map_center %>  zoom='map.zoom' control="map.control" >
+    
 
-          </ul>
 
-          <!-- Tab panes -->
-          <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">
-                <div class="container-fluid">
-                 <% counter = 0 %>
-                  <div class="row">
-                  <% @posts.each do |post| %>
+    <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+    </ui-gmap-marker>
 
-                    <div class="col-lg-6 offset-lg-1">
-                      <img src="<%= post.image_url %>" class="col-md-12">
-                    </div>
-                    <% counter += 1 %>
+ </ui-gmap-google-map>
 
-                    <% if counter == 2 %>
-                      <% counter = 0 %>
-                      </div>
-                      <div class="row">
-                      <% end %>
-                  <% end %>
-                    <% if counter < 2 %>
-                      </div>
-                    <% end %>
-
-                </div>
-
-            </div>
-            <div role="tabpanel" class="tab-pane" id="profile">..boo.</div>
-            <div role="tabpanel" class="tab-pane" id="messages"></div>
-            <div role="tabpanel" class="tab-pane" id="settings">.ss..</div>
-          </div>
-
-      </div><!-- tab-panel -->
-     </div> <!-- stuffmapper-menu -->
-
-<div class="container-fluid" >
 
 
 

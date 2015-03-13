@@ -18,6 +18,14 @@ class Post < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
 
   # to make sure we don't expose it
+
+        #grr!!!!!!
+      #if ((post.image != nil) && (post.image_url == nil))
+        #post.image_url = post.image.url(:medium)
+       # post.save
+      #end
+
+
   def ip
     ''
   end

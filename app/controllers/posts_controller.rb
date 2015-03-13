@@ -1,36 +1,26 @@
 class PostsController < ApplicationController
+ 
   before_action :set_post, only: [:show, :dib, :claim]
-
+        #this should be part of the model _ on save
 
   # GET /posts
   # GET /posts.json
 
   #this is all stupid long hacked crap
   def index
-    @posts = Post.where("status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 'new').page(params[:page]).per(6)
-
-    @posts.each do |post|
-
-      #this should be part of the model _ on save
-      #grr!!!!!!
-      if ((post.image != nil) && (post.image_url == nil))
-        post.image_url = post.image.url(:medium)
-        post.save
-      end
-    end
-
-    if (current_user)
-      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
-      @message = Message.new()
+    #request.ip = '71.231.222.31'
+    user_ip = request.location
+    
+    if user_ip
+      @map_center = {'latitude'=> user_ip.latitude, 'longitude'=> user_ip.longitude }.to_json
     else
-      @user = User.new
 
-      #cookies.delete :first_time
-      if cookies.permanent[:first_time] == nil
-        cookies.permanent[:first_time] = 1
-      else
-        cookies.permanent[:first_time] = 0
-      end
+    
+    #http://dev.virtualearth.net/REST/v1/Locations?query=locationQuery&userIp=71.231.222.&includeNeighborhood=includeNeighborhood&include=includeValue&maxResults=maxResults&key=At4V1cWbwV6EWaLug6Kkz4FmG5-bKbI-JNRqHG2g3MGcrsafhDuqGr1rtWjf30-3
+    #http://dev.virtualearth.net/REST/v1/Locations?userIp=71.231.222.31&output=json&key=At4V1cWbwV6EWaLug6Kkz4FmG5-bKbI-JNRqHG2g3MGcrsafhDuqGr1rtWjf30-3
+   #http://dev.virtualearth.net/REST/version/restApi/resourcePath?queryParameters&key=BingMapsKey
+    
+    @map_center = {'latitude'=> 60, 'longitude'=> 122 }.to_json
     end
   end
 
