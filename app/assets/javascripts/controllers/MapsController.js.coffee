@@ -1,35 +1,55 @@
 
 controllers = angular.module('controllers', )
-controllers.controller("MapsCtrl", [ '$scope', 'uiGmapGoogleMapApi', 'uiGmapIsReady'
-  ($scope, uiGmapGoogleMapApi, uiGmapIsReady )->
+controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'uiGmapIsReady'
+  ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady )->
+
+    updateMarkers = ->
+      map2 = $scope.map.control.getGMap()
+      neBounds = map2.getBounds().getNorthEast()
+      swBounds = map2.getBounds().getSouthWest()
+      $http(
+         url: '/posts/geolocated'
+         params: 
+             neLat: neBounds.lat()
+             swLat: swBounds.lat() 
+             neLng: neBounds.lng() 
+             swLng: swBounds.lng()
+      ).success((data)->
+        $scope.markers = data.posts
+        )
+
     
-    
-    map_object = { center:{latitude:'0',longitude:'47'} , zoom: 17 }
-    console.log(window.location)
+    map_object = {
+                   zoom: 12 
+                   bounds: {}
+                   events:
+                    zoom_changed: -> updateMarkers() 
+                    dragend: -> updateMarkers() 
+                  }
  
     $scope.map = map_object
     $scope.map.control = {}
+   
+    
+
     center = navigator.geolocation.getCurrentPosition((position)->
       $scope.$apply(->
-        
+
         map1 = $scope.map.control.getGMap()
         map1.panTo({lat:position.coords.latitude,lng: position.coords.longitude},30)
-
+          
 
         uiGmapIsReady.promise().then((maps) ->
-          console.log(map1.getBounds().toUrlValue()) 
-         )
+          console.log($scope.map.bounds)
+          updateMarkers()
+          )
         )
       )
-    $scope.marker = {
-      id: 0,
-      coords: {
-        latitude: 47.547,
-        longitude: -122.386
-      }
-    } 
 
     uiGmapGoogleMapApi.then((maps) ->
+      
+     
+
       
     )
 

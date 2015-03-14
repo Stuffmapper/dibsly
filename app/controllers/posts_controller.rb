@@ -6,21 +6,14 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
 
-  #this is all stupid long hacked crap
   def index
     #request.ip = '71.231.222.31'
     user_ip = request.location
     
-    if user_ip
+    if !user_ip.longitude == 0.0
       @map_center = {'latitude'=> user_ip.latitude, 'longitude'=> user_ip.longitude }.to_json
     else
-
-    
-    #http://dev.virtualearth.net/REST/v1/Locations?query=locationQuery&userIp=71.231.222.&includeNeighborhood=includeNeighborhood&include=includeValue&maxResults=maxResults&key=At4V1cWbwV6EWaLug6Kkz4FmG5-bKbI-JNRqHG2g3MGcrsafhDuqGr1rtWjf30-3
-    #http://dev.virtualearth.net/REST/v1/Locations?userIp=71.231.222.31&output=json&key=At4V1cWbwV6EWaLug6Kkz4FmG5-bKbI-JNRqHG2g3MGcrsafhDuqGr1rtWjf30-3
-   #http://dev.virtualearth.net/REST/version/restApi/resourcePath?queryParameters&key=BingMapsKey
-    
-    @map_center = {'latitude'=> 60, 'longitude'=> 122 }.to_json
+    @map_center = {'latitude'=> 47.6097, 'longitude'=> -122.3331 }.to_json
     end
   end
 
@@ -142,29 +135,10 @@ class PostsController < ApplicationController
     end
   end
 
-  # POST /posts/geolocated.json
-  def geolocated
-    
-    #if params[:term] == ''
-    @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 
-              params[:neLat], params[:swLat], params[:neLng], params[:swLng], 'new').limit(50)
-    #else
-    #  @posts = Post.where("latitude <= ? AND latitude >= ? AND longitude <= ? AND longitude >= ? AND title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", 
-    #    params[:neLat], params[:swLat], params[:neLng], params[:swLng], "%#{params[:term]}%", 'new').limit(50)
-    #end
-
-    @term = params[:term]
-    render json: @posts#Post.where("latitude <= 48 AND latitude >= 46 AND longitude <= -121 AND longitude >= -123 AND status = 'new' AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))")
-
-    session[:latitude] = params[:swLat].to_f + ((params[:neLat].to_f - params[:swLat].to_f)/2)
-    session[:longitude] = params[:swLng].to_f + ((params[:neLng].to_f - params[:swLng].to_f)/2)
-    session[:zoom] = params[:zoom]
-    if (current_user)
-      current_user.latitude = session[:latitude]
-      current_user.longitude = session[:longitude]
-      current_user.zoom = params[:zoom]
-      current_user.save
-    end
+  def geolocated 
+    @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
+                 .where(:longitude => params[:swLng]..params[:neLng])
+    render json: @posts
   end
 
   # POST /posts/grid_mode.json
