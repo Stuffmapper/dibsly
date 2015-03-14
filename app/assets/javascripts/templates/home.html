@@ -1,13 +1,18 @@
-   
+<div class="container overlap"  >
+	<div class="col-md-4 col-md-offset-8" id="stuffmapper-menu"> 
+	
+
+  <tabset>
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+      {{tab.content}}
+    </tab>
+
+  </tabset>
+
+  <hr />
 
 
-<!-- 
- <ui-gmap-google-map center='map.center' zoom='map.zoom' control="map.control" >
- 	  
 
+	</div>
 
-    <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-    </ui-gmap-marker>
-
- </ui-gmap-google-map>
- -->
+</div>

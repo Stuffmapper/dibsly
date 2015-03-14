@@ -27,7 +27,7 @@ stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvide
       $routeProvider
         .when('/', {
           templateUrl:'home.html',
-          controller: 'MapsCtrl'
+          controller: 'StuffCtrl'
         })
         .when('/signup',{
           templateUrl:'signUp.html',
