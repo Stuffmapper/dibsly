@@ -15,6 +15,7 @@ class Post < ActiveRecord::Base
 
   validates_attachment_presence :image
   validates_presence_of :creator_id
+  validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
 
   # to make sure we don't expose it

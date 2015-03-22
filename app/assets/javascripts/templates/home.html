@@ -1,17 +1,55 @@
 <div class="container overlap"  >
-	<div class="col-md-4 col-md-offset-8" id="stuffmapper-menu"> 
+	<div class="col-md-4 col-md-offset-8 modal-body" id="stuffmapper-menu"> 
 	
 
   <tabset>
     <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
       {{tab.content}}
     </tab>
+  <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
+      <p> Take a picture of the stuff that you want to give </p>
+      <form>
+
+       <div class="form-group">
+         <input type="file" file-upload />
+         <ul>
+            <li ng-repeat="file in files">{{file.name}}</li>
+          </ul>
+       </div>
+
+      <div class="form-group">
+
+        <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
+          <option>Stuff</option>
+          <option>Other Stuff</option>
+          <option>More Stuff</option>
+          <option>Best Stuff</option>
+        </select>
+       
+       </div>
+
+      <div class="form-group"> 
+        <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
+      </div>
+
+      <div class="checkbox">
+        <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me </label>
+      </div>
+
+      <div class="form-group">
+          <button class="btn btn-primary" ng-click="submitPost()">Submit</button>
+      </div>
+
+   
+    </form>
+
+
+     
+    </tab>
+  
 
   </tabset>
-
-  <hr />
-
-
+ 
 
 	</div>
 

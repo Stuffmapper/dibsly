@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+require 'base64'
 
 RSpec.describe PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
@@ -9,7 +9,7 @@ RSpec.describe PostsController, :type => :controller do
 
 		before do
 			@user = create(:user)
-		    @post = create(:post, creator_id: @user.id )
+		    @post = build(:post, creator_id: @user.id )
 	
 	
 		#Paperclip::Attachment.any_instance.stub(:save_attached_files).and_return(true)
@@ -32,7 +32,9 @@ RSpec.describe PostsController, :type => :controller do
 			   @post.save!
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
-			   expect(JSON.parse(response.body.as_json)['posts'][0]).to eq JSON.parse(@post.to_json)
+		       parsed_response = JSON.parse(response.body.as_json)
+			   expect(parsed_response['posts'][0]['id'] ).to eq @post.id
+			   expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
 			   expect(response.status).to eq(200)
 			end
 			
@@ -43,12 +45,54 @@ RSpec.describe PostsController, :type => :controller do
 			   @post.save!
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
-			   expect(JSON.parse(response.body.as_json)['posts'][0]).to eq nil
+		       parsed_response = JSON.parse(response.body.as_json)
+			   expect(parsed_response['posts'][0]).to eq nil
 			   expect(response.status).to eq(200)   
- 
 
 
 			end
+		end
+	end
+	describe "Post create post", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+		end
+
+		context "without login " do 
+
+			it 'should 401' do 
+				xhr :post, :create 
+		     	expect(response.status).to eq(401) 
+			end
+		end
+
+		context "with login", :vcr => vcr_options do 
+			before do
+			shoes = File.read("spec/factories/shoes.png")
+			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+			end
+
+
+			it 'should 422 with incomplete data' do 
+				sign_in(@user)
+				xhr :post, :create, {post: {title:''} }
+				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+		     	expect(response.status).to eq(422) 
+			end
+			it 'should 422 without location data' do 
+				sign_in(@user)
+				xhr :post, :create, {post: {title:'', image: @file } }
+				expect(response.body).to eq("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+				expect(response.status).to eq(422) 
+			end
+			
+			it 'should 200 with complete data' do 
+				sign_in(@user)
+				xhr :post, :create, {post: {title:'', image: @file, latitude:'47',longitude:'-122' } }
+				expect(response.status).to eq(200) 
+			end
+
+
 		end
 	end
 end

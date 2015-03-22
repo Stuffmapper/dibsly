@@ -40,7 +40,6 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', 'Use
                   alert(err)
               else if(data.user)
                 $modalInstance.dismiss('cancel');
-                console.log($scope.currentUser)
               else  
                 alert(data.error)   
         )

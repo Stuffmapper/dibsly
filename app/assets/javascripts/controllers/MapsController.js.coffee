@@ -1,7 +1,13 @@
 
 controllers = angular.module('controllers', )
-controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'uiGmapIsReady'
-  ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady )->
+controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'uiGmapIsReady','MapsService',
+  ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady, MapsService )->
+    $scope.$watchCollection('MapsService', ->
+            $scope.map = MapsService.stuffMap   
+        )
+    
+  
+
 
     updateMarkers = ->
       map2 = $scope.map.control.getGMap()
@@ -15,20 +21,26 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
              neLng: neBounds.lng() 
              swLng: swBounds.lng()
       ).success((data)->
-        $scope.markers = data.posts
+        # $scope.markers = data.posts
+        MapsService.addMarkers( data.posts )
+        $scope.markers = MapsService.markers 
+        
         )
 
+      
     
-    map_object = {
+    MapsService.gMap({
                    zoom: 12 
                    bounds: {}
+                   control: {}
                    events:
                     zoom_changed: -> updateMarkers() 
                     dragend: -> updateMarkers() 
-                  }
+                    click: -> console.log('not working')
+                  })
  
-    $scope.map = map_object
-    $scope.map.control = {}
+    
+    
    
     
 
@@ -37,11 +49,11 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
 
         map1 = $scope.map.control.getGMap()
         map1.panTo({lat:position.coords.latitude,lng: position.coords.longitude},30)
-          
+        MapsService.rgMap(map1) 
 
         uiGmapIsReady.promise().then((maps) ->
-          console.log($scope.map.bounds)
           updateMarkers()
+
           )
         )
       )
