@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.2.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -50,14 +50,13 @@ gem 'geocoder'
 # # Use a debugger
 gem 'pry-byebug', group: [:development, :test]
 
+gem 'spring', group: :development
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-
-
-#gem 'geocoder'
 
 group :production, :staging do
   gem "rails_12factor"

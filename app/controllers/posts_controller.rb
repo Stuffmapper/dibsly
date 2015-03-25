@@ -22,23 +22,7 @@ class PostsController < ApplicationController
   def create
     if (current_user)
       @user = User.find( current_user.id )
-
-      # if post_params[:image] && !post_params[:image].blank?
-
-        
-      
-      #   urlSegments = post_params[:image].match(/data:(.*);base64,(.*)/)
-      #   data = StringIO.new(Base64.decode64(urlSegments[2]))
-      #   data.class.class_eval {attr_accessor :original_filename, :content_type}
-      #   data.original_filename = (Time.now.to_f * 1000).to_i.to_s
-      #   data.content_type = urlSegments[1]
-      # end
-      parsed_post = JSON.parse(post_params[:post])
-
-      
-      
-      @post = Post.new(parsed_post.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id, :image => post_params[:image_url] ))
-      
+      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
 
       if @post.save
         @post.image_url = @post.image.url(:medium)
@@ -189,7 +173,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.permit(:image_url,:post)
+      params.permit(:image,:category, :latitude, :longitude)
       #params.require(:post)#.permit.(:description, :image_url, :latitude, :longitude, :zoom, :address, :grid_mode, :phone_number, :image, :on_the_curb)
     end
 

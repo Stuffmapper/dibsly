@@ -30,8 +30,10 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService', '$http'
 
      $scope.submitPost = ->
         formdata = new FormData();
-        formdata.append('post', angular.toJson($scope.post))
-        formdata.append('image_url', $scope.files[0]);
+        formdata.append('latitude', $scope.post.latitude)
+        formdata.append('longitude', $scope.post.longitude)
+        formdata.append('category', $scope.post.category)
+        formdata.append('image', $scope.files[0]);
         $http.post( "/posts", formdata, {
             headers: {'Content-Type': undefined}
             transformRequest: angular.identity
