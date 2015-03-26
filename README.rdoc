@@ -22,8 +22,8 @@ Install postgress
 
 Bundle install
 
-	Rake db:create
-	Rake db:migrate
+	rake db:create
+	rake db:migrate
 
 To start the server
 
@@ -41,7 +41,7 @@ This uses, angular.js and bootstrap on the front end.  And used bower to handle 
 
 Postgres should be installed
 
-angular specs are written in 
+angular specs are written i
 
 
 run angular front end test
@@ -55,10 +55,6 @@ Rspec tests
 
 
 Rails s
-
-
-
-user.maps << map
 
 
 

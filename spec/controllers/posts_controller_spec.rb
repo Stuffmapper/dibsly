@@ -82,13 +82,13 @@ RSpec.describe PostsController, :type => :controller do
 			it 'should 422 without location data' do 
 				sign_in(@user)
 				xhr :post, :create, {post: {title:'', image: @file } }
-				expect(response.body).to eq("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+				expect(response.body).to eq("""{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}""")
 				expect(response.status).to eq(422) 
 			end
 			
 			it 'should 200 with complete data' do 
 				sign_in(@user)
-				xhr :post, :create, {post: {title:'', image: @file, latitude:'47',longitude:'-122' } }
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' } 
 				expect(response.status).to eq(200) 
 			end
 

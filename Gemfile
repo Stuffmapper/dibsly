@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby "2.2.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
@@ -27,7 +27,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'bcrypt-ruby', :require=>'bcrypt'
 gem 'recaptcha', '~> 0.3.6'
-gem 'paperclip', '~> 3.4'
+gem 'paperclip', '~> 4.2.1'
 gem 'aws-sdk', '< 2.0'
 gem 'kaminari'
 gem 'mandrill-api'
