@@ -7,7 +7,6 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    #request.ip = '71.231.222.31'
     user_ip = request.location
     
     if !user_ip.longitude == 0.0

@@ -38,6 +38,11 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
                     dragend: -> updateMarkers() 
                     click: -> console.log('not working')
                   })
+
+    uiGmapIsReady.promise().then((maps) ->
+          updateMarkers()
+
+          )
  
     
     
@@ -58,10 +63,7 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
         )
       )
 
-    uiGmapGoogleMapApi.then((maps) ->
-      
-     
-
+    uiGmapGoogleMapApi.then((maps) ->   
       
     )
 

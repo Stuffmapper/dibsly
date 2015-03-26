@@ -6,9 +6,9 @@
 
 require 'rspec/expectations'
 require 'capybara/cucumber'
-require 'capybara/poltergeist'
 require 'cucumber/rails'
 require 'rack_session_access/capybara'
+require 'vcr'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
@@ -33,6 +33,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # recommended as it will mask a lot of errors for you!
 
 #
+World(FactoryGirl::Syntax::Methods)
 
 ActionController::Base.allow_rescue = false
 

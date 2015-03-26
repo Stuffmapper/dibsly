@@ -3,8 +3,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', 'UserService',
- ($scope, $modalInstance, $http, UserService ) -> 
+controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$timeout','UserService','AlertService'
+ ($scope, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
 
   
 
@@ -39,7 +39,8 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', 'Use
               if(err)
                   alert(err)
               else if(data.user)
-                $modalInstance.dismiss('cancel');
+                AlertService.add('success','You have been signed in.')
+                $modalInstance.dismiss('cancel')
               else  
                 alert(data.error)   
         )
