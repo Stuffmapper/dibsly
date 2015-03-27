@@ -75,7 +75,7 @@ $ rake db:migrate RAILS_ENV=development
 ```
 ### Starting rails:
 ```
-$rails s
+$ rails s
 ```
 
 *Should be able to view it at localhost:3000*
