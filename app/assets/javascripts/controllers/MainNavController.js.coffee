@@ -24,6 +24,7 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal', 'UserServic
         $scope.showLogout = ->
         	#do nothing
         	UserService.logout (err,data)->
+            AlertService.add('success','You have been logged out.')
 
       
     

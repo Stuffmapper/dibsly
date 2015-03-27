@@ -20,9 +20,9 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     if (current_user)
+      cleaned_params = post_params.delete_if{ |key, value| value == 'undefined'  }
       @user = User.find( current_user.id )
-      @post = Post.new(post_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
-
+      @post = Post.new(cleaned_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
       if @post.save
         @post.image_url = @post.image.url(:medium)
         @post.save

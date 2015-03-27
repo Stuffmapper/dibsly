@@ -4,8 +4,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService', '$http',
- ($scope, $window, MapsService, $http ) -> 
+controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertService', '$http', 
+ ($scope, $window, MapsService, AlertService, $http ) -> 
      $scope.$watch( ->
             return MapsService.newMarker
         (newValue) ->
@@ -26,7 +26,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService', '$http'
                     $scope.files.push(args.file)
                     console.log($scope.files)
                 ))
-
+     $scope.stuff = MapsService.markers 
 
      $scope.submitPost = ->
         formdata = new FormData();
@@ -39,8 +39,10 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService', '$http'
             transformRequest: angular.identity
             }).success (data, status, headers, config) -> 
                 console.log('it worked')
-            .error (data, status, headers, config) ->
-                console.log('it DID NOT work')
+                AlertService.add('success', "You've Posted Your Stuff")
+            .error (data) ->
+                for key, value of data
+                    AlertService.add('danger', key + ' ' + value )
 
 
 

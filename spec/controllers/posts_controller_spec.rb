@@ -16,6 +16,11 @@ RSpec.describe PostsController, :type => :controller do
 	
 		end
 		context "when there are far and near posts " do
+			before do
+			   @post.latitude = '49'
+			   @post.longitude = '-122'
+			   @post.save!
+			end
 
 			it "200 does" do
 
@@ -39,17 +44,21 @@ RSpec.describe PostsController, :type => :controller do
 			end
 			
 			it "does not returns post out of scope " do
-			   
-			   @post.latitude = '49'
-			   @post.longitude = '-122'
-			   @post.save!
+
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
 			   expect(parsed_response['posts'][0]).to eq nil
 			   expect(response.status).to eq(200)   
 
-
+			end
+			it "does not returns post out of scope " do
+			  
+			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
+		       #ugly need to fix
+		       parsed_response = JSON.parse(response.body.as_json)
+			   expect(parsed_response['posts'][0]).to eq nil
+			   expect(response.status).to eq(200)   
 			end
 		end
 	end
@@ -75,14 +84,14 @@ RSpec.describe PostsController, :type => :controller do
 
 			it 'should 422 with incomplete data' do 
 				sign_in(@user)
-				xhr :post, :create, {post: {title:''} }
+				xhr :post, :create, {title:''} 
 				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
 		     	expect(response.status).to eq(422) 
 			end
 			it 'should 422 without location data' do 
 				sign_in(@user)
-				xhr :post, :create, {post: {title:'', image: @file } }
-				expect(response.body).to eq("""{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}""")
+				xhr :post, :create, {title:'', image: @file } 
+				expect(response.body).to eq("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
 				expect(response.status).to eq(422) 
 			end
 			

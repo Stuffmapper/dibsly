@@ -22,7 +22,7 @@ factories.factory('MapsService', [ '$http','uiGmapIsReady','uiGmapGoogleMapApi'
  	addMarkers:
  		(newMarkers)->
  
- 			this.markers = this.markers.concat newMarkers
+ 			this.markers = newMarkers
 
  	increaseListeners: 
  		(listener,funname)->  
