@@ -9,15 +9,17 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
      $scope.$watch( ->
             return MapsService.newMarker
         (newValue) ->
-         console.log("watched", newValue)
          $scope.newMarker = newValue
          $scope.post.latitude = $scope.newMarker.getPosition().lat()
          $scope.post.longitude = $scope.newMarker.getPosition().lng()
 
         )
-     $scope.tabs = [ { title:'Stuff', content:'Stuff', active: 'true'},
-        { title:'My Stuff', content:'My Stuff Here'}
-        ]
+     $scope.$watch( ->
+            return MapsService.markers
+        (newValue) ->
+         $scope.stuff = newValue
+
+        )
      $scope.post = {}
 
      $scope.files = []
@@ -26,7 +28,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
                     $scope.files.push(args.file)
                     console.log($scope.files)
                 ))
-     $scope.stuff = MapsService.markers 
+
+     $scope.stuff =  MapsService.markers
+     $scope.mystuff = []
+     $http(
+         url: '/my-stuff'
+      ).success((data)->
+        $scope.mystuff =  data.posts  
+        )
+
 
      $scope.submitPost = ->
         formdata = new FormData();
@@ -40,6 +50,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
             }).success (data, status, headers, config) -> 
                 console.log('it worked')
                 AlertService.add('success', "You've Posted Your Stuff")
+                $scope.files = []
             .error (data) ->
                 for key, value of data
                     AlertService.add('danger', key + ' ' + value )

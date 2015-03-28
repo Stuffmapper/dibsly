@@ -17,6 +17,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
+  after_validation :update_image
 
   # to make sure we don't expose it
 
@@ -32,7 +33,16 @@ class Post < ActiveRecord::Base
 
 
 
+
   def ip
     ''
   end
+
+  protected
+
+  def update_image
+
+    self.image_url = self.image.url(:medium)
+  end
+
 end

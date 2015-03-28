@@ -31,10 +31,14 @@ nav{
     background: white;
     bottom: 50px;
     right: 50px;
+    max-height:400px;
+    overflow-y: auto;
 }
+
 @media (max-width: 600px) {
 	#stuffmapper-menu{
 		width: 80%;
+		max-height:200px;
 	}
 }
 

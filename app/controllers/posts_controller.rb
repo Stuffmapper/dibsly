@@ -24,7 +24,6 @@ class PostsController < ApplicationController
       @user = User.find( current_user.id )
       @post = Post.new(cleaned_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
       if @post.save
-        @post.image_url = @post.image.url(:medium)
         @post.save
         render json: '[]', status: :ok
       else
@@ -33,7 +32,6 @@ class PostsController < ApplicationController
     else
       render json: {error: 'not authorized '}, status: :unauthorized
     end
-     
   end
   
   # POST /posts/dib/1
@@ -153,16 +151,14 @@ class PostsController < ApplicationController
 
   # GET /posts/my_stuff
   def my_stuff
-    @posts = Post.where("creator_id = ? OR dibber_id = ?", session[:user_id], session[:user_id]).page(params[:page]).per(6)
-    @term = params[:term]
     if (current_user)
-      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
-      @message = Message.new()
+      @posts = Post.where(:creator_id => current_user.id )
+      render json: @posts
     else
-      @user = User.new
+      render json: {message: 'User not logged in' }, status: :unauthorized
     end
-    render action: 'index'
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -173,7 +169,6 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.permit(:image,:category, :latitude, :longitude)
-      #params.require(:post)#.permit.(:description, :image_url, :latitude, :longitude, :zoom, :address, :grid_mode, :phone_number, :image, :on_the_curb)
     end
 
 

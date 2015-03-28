@@ -60,6 +60,18 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(parsed_response['posts'][0]).to eq nil
 			   expect(response.status).to eq(200)   
 			end
+			it "returns a post with an image_url" do
+			   
+			   @post.latitude = '47'
+			   @post.longitude = '-122'
+			   @post.save!
+			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
+		       #ugly need to fix
+		       parsed_response = JSON.parse(response.body.as_json)
+			   expect(parsed_response['posts'][0]['id'] ).to eq @post.id
+			   expect(parsed_response['posts'][0]['image_url'] ).to match(/http:\/\/s3-us-west-2.amazonaws.com\/stuffmapper-test\/posts\/image/)
+			   expect(response.status).to eq(200)
+			end
 		end
 	end
 	describe "Post create post", :vcr => vcr_options do
@@ -102,6 +114,39 @@ RSpec.describe PostsController, :type => :controller do
 			end
 
 
+		end
+	end
+	describe "Get mystuff", :vcr => vcr_options do
+		 
+
+		before do
+			@user = create(:user)
+		    create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
+		end
+		context 'without login' do
+			it 'should return 401' do 
+				xhr :get, :my_stuff 
+		     	expect(response.status).to eq(401) 
+
+			end
+		end
+				
+		context 'with login' do
+
+			it 'should return 200' do 
+				sign_in(@user)
+				xhr :get, :my_stuff 
+		     	expect(response.status).to eq(200) 
+			end
+
+
+			it 'should return my stuff' do 
+				sign_in(@user)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
+				expect(response.status).to eq(200)
+			end
 		end
 	end
 end
