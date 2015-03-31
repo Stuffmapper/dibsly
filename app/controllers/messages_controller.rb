@@ -1,5 +1,7 @@
 class MessagesController < ApplicationController
   before_action :only_for_user, only: [:index]
+  before_filter :verify_logged_in
+
 
   # GET /messages
   # GET /messages.json
@@ -29,6 +31,12 @@ class MessagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def only_for_user
       @message = Message.where("receiver_id = ?", session[:user_id])
+    end
+
+    def verify_logged_in
+      if not current_user 
+        render json: '[]', status: :unauthorized
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'base64'
 
 RSpec.describe PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
