@@ -6,14 +6,19 @@
 
      <tab heading="Stuff" disabled="tab.disabled" >
         <div ng-repeat="item in stuff track by $index" class="col-md-3 clearfix" >
-        <img class="img-thumbnail stuff-image" src="{{item.image_url}}"></img>          
+        <img class="img-thumbnail stuff-image" src="{{item.image_url}}"></img> 
+        <button class= "btn btn-default" ng-click="giveMe(item.id)">I want it</button>            
         </div>
      </tab>
 
      <tab heading="MyStuff" disabled="tab.disabled" >
+      <div class="container-fluid col-md-12">
         <div ng-repeat="stuff in mystuff track by $index" class="col-md-3 clearfix" >
-        <img class="img-thumbnail stuff-image" src="{{stuff.image_url}}"></img>          
+        <img class="img-thumbnail col-md-3 stuff-image" src="{{stuff.image_url}}"></img>
+        <button class= "btn btn-default" >I don't want it</button>    
+              
         </div>
+      </div>
      </tab>
 
 

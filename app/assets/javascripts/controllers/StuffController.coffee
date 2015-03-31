@@ -36,6 +36,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
       ).success((data)->
         $scope.mystuff =  data.posts  
         )
+     $scope.giveMe = (post_id)->
+        console.log("Hello")
+        $http.post(
+            '/claim', { id: post_id }
+            ).success((data)->
+                AlertService.add('success', "Dibbed your stuff")
+            ).error (data) ->
+                AlertService.add('danger', 'You probably need to log in')
+
 
 
      $scope.submitPost = ->
