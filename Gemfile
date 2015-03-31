@@ -20,6 +20,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'mailboxer', :git => 'git://github.com/div/mailboxer.git', :branch => 'rails42-foreigner'
 
 #http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

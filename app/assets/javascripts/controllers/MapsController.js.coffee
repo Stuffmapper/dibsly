@@ -5,9 +5,6 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
     $scope.$watchCollection('MapsService', ->
             $scope.map = MapsService.stuffMap   
         )
-    
-  
-
 
     updateMarkers = ->
       map2 = $scope.map.control.getGMap()

@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   validates_presence_of :password, :on => :create
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
+  acts_as_messageable
 
   def self.authenticate(username, password)
     user = find_by_username(username)
@@ -30,6 +31,10 @@ class User < ActiveRecord::Base
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def mailboxer_email(object)
+    self.email
   end
 
   # to make sure we don't expose it

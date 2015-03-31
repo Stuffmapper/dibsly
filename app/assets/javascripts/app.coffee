@@ -23,6 +23,11 @@ stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvide
 
 
     ($routeProvider,$locationProvider,uiGmapGoogleMapApiProvider)->
+      uiGmapGoogleMapApiProvider.configure({
+      
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+      })
 
       $locationProvider.html5Mode(true)
 
@@ -41,11 +46,6 @@ stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvide
         })
    
 
-      uiGmapGoogleMapApiProvider.configure({
-      
-        v: '3.17',
-        libraries: 'weather,geometry,visualization'
-      })
 
 ])	
 

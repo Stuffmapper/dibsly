@@ -2,7 +2,6 @@
 controllers = angular.module('controllers')
 
 
-
 controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$timeout','UserService','AlertService'
  ($scope, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
 

@@ -90,3 +90,5 @@ Dibsly::Application.configure do
 }
 
 end
+
+Rails.application.routes.default_url_options[:host] = '???'

@@ -19,13 +19,23 @@ class Post < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
   after_validation :update_image
 
-  # to make sure we don't expose it
+  def send_message_to_creator (dibber, body, subject)
+    dibber.send_message( User.find(self.creator_id), body,subject) 
+  end
 
-        #grr!!!!!!
-      #if ((post.image != nil) && (post.image_url == nil))
-        #post.image_url = post.image.url(:medium)
-       # post.save
-      #end
+  def create_new_dib (dibber)
+    self.dibbed_until = Time.now + Dib.timeSpan
+    self.status == 'dibbed'
+    self.dibber_id = dibber.id
+    self.save
+    send_message_to_creator(dibber, (dibber.username + " Has dibbed your stuff" ), " respond_to this message to get in contact")
+  end
+
+  def available_to_dib?
+    self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
+  end
+
+
 
   def coords
     {'lat'=> self.latitude, 'lng'=> self.longitude }

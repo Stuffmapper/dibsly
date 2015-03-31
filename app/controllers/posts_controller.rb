@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
  
-  before_action :set_post, only: [:show, :dib, :claim]
+  before_action :set_post, only: [:show, :claim]
         #this should be part of the model _ on save
 
   # GET /posts
@@ -37,86 +37,22 @@ class PostsController < ApplicationController
   # POST /posts/dib/1
   # POST /posts/dib/1.json
   def dib
-    if (current_user) && (@post.status == 'new') && ((@post.dibbed_until == nil) || (@post.dibbed_until <= Time.now))
-      @post.dibbed_until = Time.now + Dib.timeSpan
-      @post.status == 'dibbed'
-      @post.dibber_id = session[:user_id]
-      @post.save
-      
-      @dib = @post.dibs.build
-      @dib.ip = request.remote_ip
-      @dib.valid_until = @post.dibbed_until
-      @dib.status = 'new'
-      @dib.creator_id = session[:user_id]
-      @dib.save
+    if current_user && dib_params[:id] 
 
-      # message to poster
-      #put in separate method 
-      @message = Message.new()
-      @message.sender_id = session[:user_id]
-      @message.sender_name = User.find(session[:user_id]).name
-      @message.receiver_id = @post.creator_id
-      @message.receiver_name = User.find(@post.creator_id).name
-      if (@post.on_the_curb)
-        @message.content = 'Greetings. I just dibbed your stuff, I\'ll pick it up soon :)'
-      else
-        @message.content = 'Greetings. I just dibbed your stuff, can you tell me when can I go to pick it up? :)'
-      end
-      @message.status = 'new'
-      @message.ip = request.remote_ip
-      if @message.save
-        @message.send_notification("#{@message.receiver_name}, someone wants your stuff!",
-                                   "#{@message.receiver_name}, someone Dibbed your stuff. Fabulous! Check your messages to contact Dibber.",
-                                   "#{@message.receiver_name}, someone Dibbed your stuff. Fabulous! <a href='http://www.stuffmapper.com'>Click</a> to contact Dibber.")
-      end
-
-      # message to dibber
-      # add to model
-
-      @message = Message.new()
-      @message.sender_id = @post.creator_id
-      @message.sender_name = User.find(@post.creator_id).name
-      @message.receiver_id = session[:user_id]
-      @message.receiver_name = User.find(session[:user_id]).name
-      if (@post.on_the_curb)
-        @message.content = 'You just Dibbed my stuff! Go get it! :-)'
-      else
-        @message.content = 'Thanks for Dibbing my stuff! When will you come by to get it? :-)'
-      end
-      @message.status = 'new'
-      @message.ip = request.remote_ip
-      if @message.save
-        if (@post.on_the_curb)
-          @message.send_notification("Dibs confirmation", "#{@message.receiver_name}, your priority access to the mapping lasts for 12 hours. Check your messages to contact the Mapper!", "#{@message.receiver_name}, your priority access to the mapping lasts for 12 hours. <a href='http://www.stuffmapper.com'>Click</a> to contact the Mapper!")
-        else
-          @message.send_notification("#{@message.receiver_name}'s Dibs. Connect and coordinate pickup of stuff!", "#{@message.receiver_name}, your Dibs is live and your priority access to the stuff's listing lasts for 12 hours. Go to stuffmapper.com to coordinate pickup!", "#{@message.receiver_name}, your Dibs on <img src=\"#{@post.image_url}\"> is live and your priority access to the stuff's listing lasts for 12 hours. Click <a href=\"http://stuffmapper.com\">this link</a> to coordinate pickup!")
-        end
-      end
-      respond_to do |format|
-        format.json {render json: '[]', status: :ok}
+      @post = Post.find(dib_params[:id])
+    
+      if @post.available_to_dib?
+         @post.create_new_dib(current_user)
+         add_dib(@post, request, current_user)
+         render json: '[]', status: :ok 
       end
     else
-      respond_to do |format|
-        format.json {render json: [], status: :unprocessable_entity}
-      end
+      render json: '[]', status: :unprocessable_entity
     end
   end
 
   # POST /posts/claim/1
   # POST /posts/claim/1.json
-  def claim
-    if (current_user) && (@post.status == 'new') && (@post.creator_id == current_user.id)
-      @post.status = 'claimed'
-      @post.save
-      respond_to do |format|
-        format.json {render json: '[]', status: :ok}
-      end
-    else
-      respond_to do |format|
-        format.json {render json: [], status: :unprocessable_entity}
-      end
-    end
-  end
 
   def geolocated 
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
@@ -169,6 +105,18 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.permit(:image,:category, :latitude, :longitude)
+    end
+    def dib_params
+      params.permit(:id)
+    end
+
+    def add_dib (post, request, current_user)
+      @dib = post.dibs.build
+      @dib.ip = request.remote_ip
+      @dib.valid_until = post.dibbed_until
+      @dib.status = 'new'
+      @dib.creator_id = current_user.id 
+      @dib.save
     end
 
 
