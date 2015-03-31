@@ -1,6 +1,8 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require 'simplecov'
+require 'metric_fu/metrics/rcov/simplecov_formatter'
+SimpleCov.formatter = SimpleCov::Formatter::MetricFu
 SimpleCov.start
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
