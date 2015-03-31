@@ -20,7 +20,7 @@ RSpec.describe MessagesController, :type => :controller do
 		end
 		it "should return 200 when logged in" do 
 			sign_in(@user)
-			byebug
+			 
 			
 
 			xhr :get, :index 

@@ -48,8 +48,6 @@ gem "foreman"
 
 gem 'geocoder'
 
-# # Use a debugger
-gem 'pry-byebug', group: [:development, :test]
 
 gem 'spring', group: :development
 
@@ -79,6 +77,9 @@ group :development, :test do
   gem 'guard-cucumber'
   gem 'guard-rails'
   gem "guard-teaspoon"
+  # Use a debugger
+  gem 'pry-byebug'
+  gem 'metric_fu'
 
 end
 
