@@ -37,9 +37,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
         $scope.mystuff =  data.posts  
         )
      $scope.giveMe = (post_id)->
-        console.log("Hello")
+        post_url = 'posts/' + post_id + '/dibs'
         $http.post(
-            '/claim', { id: post_id }
+            post_url
             ).success((data)->
                 AlertService.add('success', "Dibbed your stuff")
             ).error (data) ->
