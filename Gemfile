@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-
+ruby "2.2.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.2.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -20,58 +20,79 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'mailboxer', :git => 'git://github.com/div/mailboxer.git', :branch => 'rails42-foreigner'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-
+#http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
+
+gem 'bcrypt-ruby', :require=>'bcrypt'
+gem 'recaptcha', '~> 0.3.6'
+gem 'paperclip', '~> 4.2.1'
+gem 'aws-sdk', '< 2.0'
+gem 'kaminari'
+gem 'mandrill-api'
+gem 'newrelic_rpm'
+
+#for using angular
+gem 'active_model_serializers'
+gem 'sass', '3.2.19' 
+gem 'angular-rails-templates'
+
+
+#for bower
+gem 'bower-rails'
+
+#heroku
+gem "foreman"
+
+gem 'geocoder'
+
+
+gem 'spring', group: :development
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-# Use ActiveModel has_secure_password
-#gem 'bcrypt-ruby', '~> 3.1.2'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-gem 'debugger', group: [:development, :test]
-
-
-
-gem 'rails_12factor', group: :production
-gem 'bcrypt-ruby', :require=>'bcrypt'
-gem 'recaptcha', '~> 0.3.6'
-gem 'paperclip', '~> 3.4'
-gem 'paperclip-googledrive'
-gem 'kaminari'
-gem 'mandrill-api'
-gem 'font-awesome-sass'
-gem 'newrelic_rpm'
-
-#gem 'geocoder'
-group :development do
-  gem 'guard'
-
+group :production, :staging do
+  gem "rails_12factor"
+  gem "rails_stdout_logging"
+  gem "rails_serve_static_assets"
 end
+
+
+
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0'
+  gem "rspec-rails"
   gem 'jasmine'
-end
+  gem 'factory_girl_rails'
+  gem 'teaspoon'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'cucumber-rails', require: false
+  gem 'rack_session_access'
+  gem 'guard-rspec', require: false
+  gem 'guard-cucumber'
+  gem 'guard-rails'
+  gem "guard-teaspoon"
+  # Use a debugger
+  gem 'pry-byebug'
+  gem 'metric_fu'
 
-gem 'factory_girl_rails'
+end
 
 group :test do
-  gem 'rspec'
-  gem 'cucumber-rails', :require => false
+  gem 'capybara', '~> 2.4.4'
+  gem 'shoulda-matchers','~> 2.4.0'
+  gem 'vcr'
+  gem 'simplecov', :require => false
+  gem "selenium-webdriver"
   gem 'database_cleaner'
-
+  gem 'poltergeist'
+  gem 'launchy'
+  gem 'capybara-angular'
+  gem 'webmock'
 end
 

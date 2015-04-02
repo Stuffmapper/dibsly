@@ -3,8 +3,18 @@
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
+require 'simplecov'
+require 'metric_fu/metrics/rcov/simplecov_formatter'
+SimpleCov.formatter = SimpleCov::Formatter::MetricFu
+SimpleCov.start 'rails'
 
+require 'rspec/expectations'
+require 'capybara/cucumber'
 require 'cucumber/rails'
+require 'rack_session_access/capybara'
+require 'vcr'
+
+WebMock.disable_net_connect!(allow_localhost: true)
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -25,7 +35,10 @@ require 'cucumber/rails'
 #
 # 2) Set the value below to true. Beware that doing this globally is not
 # recommended as it will mask a lot of errors for you!
+
 #
+World(FactoryGirl::Syntax::Methods)
+
 ActionController::Base.allow_rescue = false
 
 # Remove/comment out the lines below if your app doesn't have a database.
@@ -54,5 +67,15 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
+
+  # On demand: non-headless tests via Selenium/WebDriver
+  # To run the scenarios in browser (default: Firefox), use the following command line:
+  # IN_BROWSER=true bundle exec cucumber
+  # or (to have a pause of 1 second between each step):
+  # IN_BROWSER=true PAUSE=1 bundle exec cucumber
+
+
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+
 

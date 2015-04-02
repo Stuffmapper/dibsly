@@ -8,17 +8,17 @@ class User < ActiveRecord::Base
   attr_accessor :password
   before_save :encrypt_password
   
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_presence_of :first_name
+  validates_presence_of :last_name
+  validates_uniqueness_of :username
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
+  acts_as_messageable
 
-  def self.authenticate(name, password)
-    user = find_by_name(name)
+  def self.authenticate(username, password)
+    user = find_by_username(username)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else
@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
+  end
+
+  def mailboxer_email(object)
+    self.email
   end
 
   # to make sure we don't expose it

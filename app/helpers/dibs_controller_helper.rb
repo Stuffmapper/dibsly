@@ -1,0 +1,2 @@
+module DibsControllerHelper
+end

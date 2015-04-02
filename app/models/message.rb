@@ -5,7 +5,7 @@ class Message < ActiveRecord::Base
 
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_READ = 'read']
 
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
 
   validates_presence_of :sender_id
   validates_presence_of :receiver_id

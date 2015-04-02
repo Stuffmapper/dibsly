@@ -1,36 +1,20 @@
-<div id="map-canvas" style="width: 100%; height: 100%; margin: 0px; top: 0px; left: 0px; overflow: hidden; z-index: 1; position: absolute; background-color: rgb(229, 227, 223);"></div>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true&libraries=places"></script>
 
-<div id="main-grid">
-  <div id="grid-post-container">
-    <% @posts.each do |post| %>
-      <div class="grid-post">
-        <%= image_tag post.image_url %><br>
-        <% if post.title %>
-        <%= post.title %>
-        <% end %>
-        <div class="grid-post-details">
-          <div class="grid-post-description"><%= post.description %></div>
-          <div class="grid-post-address"><a href="#" class="grid-post-address-link" latitude="<%= post.latitude %>" longitude="<%= post.longitude %>" post-id="<%= post.id %>"><%= post.address %></a></div>
-          <span class="grid-post-date">Posted <%= distance_of_time_in_words(post.created_at, Time.now) %> ago</span><br>
-          <div class="dib-wrapper">
-            <% if current_user && (current_user.id == post.creator_id) %>
-                <a rel="nofollow" href="#" class="already-claimed-link" post-id="<%= post.id %>" creator-id="<%= post.creator_id %>">Remove</a>
-                <i class="fa fa-question" title="Pin will no longer appear on map."></i>
-            <% else %>
-                <%= link_to dib_post_path(post), :class => "dib-link", :"on-the-curb" =>post.on_the_curb, :"creator-id" => post.creator_id do %><image src="assets/dibs.png" class="dibs-image"></image><% end %>
-                <i class="fa fa-question" title="Click Dibs to coordinate pickup of stuff AND hide the mapping from everyone else (lasts 12 hours)."></i>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-  <noscript>
-    <%= paginate @posts %>
-  </noscript>
-  <div id="bottom-message">
-    More stuff to be added soon!<br>
-    <a href="#" class="give-stuff">Have stuff you want to map?</a>
-  </div>
+
+<div class="container-fluid" ng-controller="MapsCtrl as mappy">
+   
+ <ui-gmap-google-map center=<%= @map_center %>  zoom='map.zoom' control="map.control" bounds="map.bounds" events='map.events'>
+    
+
+
+    <ui-gmap-marker ng-repeat="marker in markers" coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+    </ui-gmap-marker>
+
+ 
+
+ </ui-gmap-google-map>
+
+
+
+
+
 </div>

@@ -15,16 +15,16 @@ class UsersController < ApplicationController
     @user.zoom = session[:zoom]
     @user.grid_mode = session[:grid_mode]
 
-    respond_to do |format|
-      # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
-      @user.valid?
-      if verify_recaptcha(:model => @user, :attribute => 'captcha', :message => ' is invalid') && @user.save
-        session[:user_id] = @user.id
-        format.json {render json: '[]', status: :ok}
-      else
-        format.json {render json: @user.errors, status: :unprocessable_entity}
-      end
+
+ 
+    
+    if @user.save
+      session[:user_id] = @user.id
+      render json: '[]', status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
     end
+  
   end
 
   # POST /users
@@ -73,6 +73,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :latitude, :longitude, :on_the_curb, :phone_number)
+      params.require(:user).permit(:first_name,:last_name, :username, :email, :password, :password_confirmation, :address, :latitude, :longitude, :on_the_curb, :phone_number)
     end
 end

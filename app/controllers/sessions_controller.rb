@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   def create
-    user = User.authenticate(params[:name], params[:password])
+    
+    user = User.authenticate(params[:username], params[:password])
 
       if user
         session[:user_id] = user.id
@@ -8,8 +9,9 @@ class SessionsController < ApplicationController
         session[:longitude] = user.longitude
         session[:zoom] = user.zoom
         session[:grid_mode] = user.grid_mode
-        render json: '[]', status: :ok
+        render json: {user:user.username}, status: :ok
       else
+        
         render json: '[]', status: :unprocessable_entity
       end
   end
@@ -20,13 +22,23 @@ class SessionsController < ApplicationController
     session[:longitude] = nil
     session[:zoom] = nil
     session[:grid_mode] = nil
-    redirect_to root_url, :notice => "Logged out!"
+    render json: '[]', status: :ok
+  end
+
+  def check
+    if current_user
+
+      render json: {message: 'User is logged in', user: current_user.username }, status: :ok
+    else
+      render json: {message: 'User not logged in' }, status: :unauthorized
+    end
+
   end
 
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def sessions_params
-      params.permit(:name, :password)
+      params.permit(:username, :password)
     end
 end
 
