@@ -42,7 +42,14 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 end
 
 Given(/^that I already have an account$/) do
-  pending # express the regexp above with the code you wish you had
+  
+  User.create :last_name  => 'Name',
+              :first_name => 'fake', 
+              :username   => 'fakeuser',
+              :password   => '123456',
+              :email      => 'fake@email.com',
+              :status     => 'new',
+              :ip         => '' 
 end
 
 Given(/^press SignUp$/) do
