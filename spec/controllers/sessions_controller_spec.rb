@@ -4,7 +4,7 @@ RSpec.describe SessionsController, :type => :controller do
 
   describe "Post create" do
     before do
-      user = create(:user)
+      user = create(:user, :username => 'Superbad' )
       xhr :post, :create, format: :json, username: username, password: password
     end    
 
@@ -39,7 +39,7 @@ RSpec.describe SessionsController, :type => :controller do
 
   describe "Get check user" do
     before do
-      user = create(:user)
+      user = create(:user, :username => 'Superbad')
       xhr :post, :create, format: :json, username: 'Superbad', password: '123456'
     end
 

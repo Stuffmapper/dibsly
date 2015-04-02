@@ -4,6 +4,7 @@ RSpec.describe MessagesController, :type => :controller do
 	
 	before do
 		@user = create(:user)
+		@user2 = create(:user)
 	end
 
 	describe "Get message" do
@@ -18,13 +19,14 @@ RSpec.describe MessagesController, :type => :controller do
 			xhr :get, :index 
 		    expect(response.status).to eq(200) 
 		end
-		it "should return 200 when logged in" do 
+		it "should return messages when logged in" do 
+			@user2.send_message(@user,"Body","Subject")
+   
 			sign_in(@user)
 			 
-			
-
 			xhr :get, :index 
 		    expect(response.status).to eq(200) 
+		    # expect(response.body).to eq("something to parse") 
 		end
 
 	end
