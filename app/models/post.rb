@@ -23,11 +23,17 @@ class Post < ActiveRecord::Base
     dibber.send_message( User.find(self.creator_id), body,subject) 
   end
 
-  def create_new_dib (dibber)
+  def create_new_dib (dibber, request_ip='')
     self.dibbed_until = Time.now + Dib.timeSpan
     self.status == 'dibbed'
     self.dibber_id = dibber.id
     self.save
+    dib = self.dibs.build
+    dib.ip = request_ip
+    dib.valid_until = self.dibbed_until
+    dib.status = 'new'
+    dib.creator_id = dibber.id 
+    dib.save
     send_message_to_creator(dibber, (dibber.username + " Has dibbed your stuff" ), " respond_to this message to get in contact")
   end
 

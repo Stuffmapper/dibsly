@@ -11,7 +11,6 @@ Dibsly::Application.routes.draw do
   get 'messages' => 'messages#index'
   post 'messages' => 'messages#create'
 
-  post '/claim', :to => 'posts#dib', :as => 'make_post'
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
   get 'posts/geolocated' => 'posts#geolocated'
@@ -19,6 +18,10 @@ Dibsly::Application.routes.draw do
   get 'search' => 'posts#search'
   get 'my-stuff' => 'posts#my_stuff'
   post 'feedbacks/create'
+  
+  resources :posts do 
+    resources :dibs 
+  end
 
   root 'posts#index'
 

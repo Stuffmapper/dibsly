@@ -148,37 +148,5 @@ RSpec.describe PostsController, :type => :controller do
 			end
 		end
 	end
-	describe "dib post", :vcr => vcr_options do
-		 
-
-		before do
-  		  	@user = create(:user)
-        	@user2 = create(:user, {username: 'user2', email: 'anotherfake@email.com'})
-        	@post = create(:post, creator_id: @user.id, longitude: 0, latitude:0  ) 	
-		end
-		context 'without login' do
-			it 'should return 422' do 
-				xhr :post, :dib
-		     	expect(response.status).to eq(422) 
-			end
-		end	
-		context 'with login' do
-
-			it 'should return 200 with params' do 
-				sign_in(@user2)
-				xhr :get, :dib, :id => @post.id  
-		     	expect(response.status).to eq(200) 
-			end
-			it 'should create a message 200 with params' do 
-				sign_in(@user2)
-				xhr :get, :dib, :id => @post.id  
-		     	expect(response.status).to eq(200) 
-		     	expect(response.status).to eq(200) 
-		     	conversation =  @user.mailbox.inbox.last
-      			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to eq("user2 Has dibbed your stuff") }
-			end
-
-		end
-	end
+	
 end
