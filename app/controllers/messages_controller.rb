@@ -1,13 +1,29 @@
 class MessagesController < ApplicationController
-  before_action :only_for_user, only: [:index]
   before_filter :verify_logged_in
 
-
-  # GET /messages
-  # GET /messages.json
   def index
-    @messages = Message.where("receiver_id = ?", session[:user_id]).page(params[:page]).per(5)
+    @messages = current_user.mailbox.inbox
     render json: @messages, status: :ok
+  end
+
+  def show
+    conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
+    receipts = conversation.receipts
+    messages = receipts.collect{ |receipt| receipt.message }
+    render json: messages, status: :ok
+  
+  end
+
+  def update
+     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
+
+     current_user.reply_to_conversation(conversation, message_params[:body])
+
+     receipts = conversation.receipts
+     messages = receipts.collect{ |receipt| receipt.message }
+
+     render json: messages, status: :ok
+     
   end
 
   # POST /messages
@@ -29,9 +45,6 @@ class MessagesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def only_for_user
-      @message = Message.where("receiver_id = ?", session[:user_id])
-    end
 
     def verify_logged_in
       if not current_user 
@@ -41,6 +54,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:receiver_id, :content)
+      params.require(:message).permit(:receiver_username, :body, :subject)
     end
 end

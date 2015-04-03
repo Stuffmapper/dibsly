@@ -106,18 +106,7 @@ class PostsController < ApplicationController
     def post_params
       params.permit(:image,:category, :latitude, :longitude)
     end
-    def dib_params
-      params.permit(:id)
-    end
 
-    def add_dib (post, request, current_user)
-      @dib = post.dibs.build
-      @dib.ip = request.remote_ip
-      @dib.valid_until = post.dibbed_until
-      @dib.status = 'new'
-      @dib.creator_id = current_user.id 
-      @dib.save
-    end
 
 
 end
