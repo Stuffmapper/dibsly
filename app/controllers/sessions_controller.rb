@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    
+
     user = User.authenticate(params[:username], params[:password])
 
       if user
@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
         session[:grid_mode] = user.grid_mode
         render json: {user:user.username}, status: :ok
       else
-        
         render json: '[]', status: :unprocessable_entity
       end
   end
@@ -28,15 +27,20 @@ class SessionsController < ApplicationController
   def check
     if current_user
 
-      render json: {message: 'User is logged in', user: current_user.username }, status: :ok
+      render json: {
+          message: 'User is logged in',
+          user: current_user.username },
+          status: :ok
     else
-      render json: {message: 'User not logged in' }, status: :unauthorized
+      render json: {
+          message: 'User not logged in' },
+          status: :unauthorized
     end
-
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, 
+    # only allow the white list through.
     def sessions_params
       params.permit(:username, :password)
     end
