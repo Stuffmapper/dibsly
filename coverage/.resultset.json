@@ -171,12 +171,6 @@
         null,
         null
       ],
-      "/Users/cynicman2001/railsapps/peaceful-island-3906/config/initializers/recaptcha.rb": [
-        1,
-        1,
-        1,
-        null
-      ],
       "/Users/cynicman2001/railsapps/peaceful-island-3906/config/initializers/secret_token.rb": [
         null,
         null,
@@ -1420,7 +1414,7 @@
         null
       ]
     },
-    "timestamp": 1428248103
+    "timestamp": 1428249220
   },
   "Cucumber Features": {
     "coverage": {
@@ -1903,6 +1897,6 @@
         null
       ]
     },
-    "timestamp": 1428248892
+    "timestamp": 1428249394
   }
 }

@@ -22,6 +22,94 @@ metric_fu shift the first line
 -- 
 
 ================================================================================
+ ./app/controllers/dibs_controller.rb
+================================================================================
+   class DibsController < ApplicationController
+-- 
+-- 
+   def create
+       if current_user && params[:post_id] 
+-- 
+         @post = Post.find(params[:post_id])
+--     
+         if @post.available_to_dib?
+            @post.create_new_dib(current_user, request.remote_ip)
+            render json: '[]', status: :ok 
+--       end
+--     else
+         render json: '[]', status: :unprocessable_entity
+--     end
+--   end
+-- 
+     private
+-- 
+-- 
+-- end
+
+================================================================================
+ ./app/controllers/messages_controller.rb
+================================================================================
+   class MessagesController < ApplicationController
+     before_filter :verify_logged_in
+-- 
+     def index
+       @messages = current_user.mailbox.inbox
+       render json: @messages, status: :ok
+--   end
+-- 
+     def show
+       conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
+       receipts = conversation.receipts
+       messages = receipts.collect{ |receipt| receipt.message }
+       render json: messages, status: :ok
+--   
+--   end
+-- 
+     def update
+        conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
+-- 
+        current_user.reply_to_conversation(conversation, message_params[:body])
+-- 
+        receipts = conversation.receipts
+        messages = receipts.collect{ |receipt| receipt.message }
+-- 
+        render json: messages, status: :ok
+--      
+--   end
+-- 
+--   # POST /messages
+--   # POST /messages.json
+     def create
+!!     @message = Message.new(message_params.merge(:ip => request.remote_ip, :status => 'new', :sender_id => session[:user_id], :sender_name => User.find(session[:user_id]).name, :receiver_name =>  User.find(message_params[:receiver_id]).name))
+-- 
+--     # ensures that the models errors array is populated so that if the captcha is incorrect the user will see that message as well as all the model error validation messages.
+!!     respond_to do |format|
+!!       @message.valid?
+!!       if @message.save
+!!         @message.send_notification("You just got a message!", "Please, go to Stuffmapper.com to check it out.", "Please, go to <a href=\"http://stuffmapper.com\">Stuffmapper.com</a> to check it out.")
+!!         format.json {render json: '[]', status: :ok}
+--       else
+!!         format.json {render json: @message.errors, status: :unprocessable_entity}
+--       end
+--     end
+--   end
+-- 
+     private
+--     # Use callbacks to share common setup or constraints between actions.
+-- 
+       def verify_logged_in
+         if not current_user 
+           render json: '[]', status: :unauthorized
+--       end
+--     end
+-- 
+--     # Never trust parameters from the scary internet, only allow the white list through.
+       def message_params
+         params.require(:message).permit(:receiver_username, :body, :subject)
+--     end
+-- end
+
+================================================================================
  ./app/controllers/posts_controller.rb
 ================================================================================
    class PostsController < ApplicationController
@@ -45,18 +133,18 @@ metric_fu shift the first line
 --   # POST /posts
 --   # POST /posts.json
      def create
-!!     if (current_user)
-!!       cleaned_params = post_params.delete_if{ |key, value| value == 'undefined'  }
-!!       @user = User.find( current_user.id )
-!!       @post = Post.new(cleaned_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
-!!       if @post.save
-!!         @post.save
-!!         render json: '[]', status: :ok
+       if (current_user)
+         cleaned_params = post_params.delete_if{ |key, value| value == 'undefined'  }
+         @user = User.find( current_user.id )
+         @post = Post.new(cleaned_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
+         if @post.save
+           @post.save
+           render json: '[]', status: :ok
 --       else
-!!         render json: @post.errors, status: :unprocessable_entity
+           render json: @post.errors, status: :unprocessable_entity
 --       end
 --     else
-!!       render json: {error: 'not authorized '}, status: :unauthorized
+         render json: {error: 'not authorized '}, status: :unauthorized
 --     end
 --   end
 --   
@@ -114,8 +202,8 @@ metric_fu shift the first line
 --   # GET /posts/my_stuff
      def my_stuff
        if (current_user)
-!!       @posts = Post.where(:creator_id => current_user.id )
-!!       render json: @posts
+         @posts = Post.where(:creator_id => current_user.id )
+         render json: @posts
 --     else
          render json: {message: 'User not logged in' }, status: :unauthorized
 --     end
@@ -130,7 +218,7 @@ metric_fu shift the first line
 -- 
 --     # Never trust parameters from the scary internet, only allow the white list through.
        def post_params
-!!       params.permit(:image,:category, :latitude, :longitude)
+         params.permit(:image,:category, :latitude, :longitude)
 --     end
 -- 
 -- 
@@ -154,23 +242,23 @@ metric_fu shift the first line
            render json: {user:user.username}, status: :ok
 --       else
 --         
-!!         render json: '[]', status: :unprocessable_entity
+           render json: '[]', status: :unprocessable_entity
 --       end
 --   end
 -- 
      def destroy
-!!     session[:user_id] = nil
-!!     session[:latitude] = nil
-!!     session[:longitude] = nil
-!!     session[:zoom] = nil
-!!     session[:grid_mode] = nil
-!!     render json: '[]', status: :ok
+       session[:user_id] = nil
+       session[:latitude] = nil
+       session[:longitude] = nil
+       session[:zoom] = nil
+       session[:grid_mode] = nil
+       render json: '[]', status: :ok
 --   end
 -- 
      def check
        if current_user
 -- 
-!!       render json: {message: 'User is logged in', user: current_user.username }, status: :ok
+         render json: {message: 'User is logged in', user: current_user.username }, status: :ok
 --     else
          render json: {message: 'User not logged in' }, status: :unauthorized
 --     end
@@ -212,7 +300,7 @@ metric_fu shift the first line
          session[:user_id] = @user.id
          render json: '[]', status: :ok
 --     else
-!!       render json: @user.errors, status: :unprocessable_entity
+         render json: @user.errors, status: :unprocessable_entity
 --     end
 --   
 --   end
@@ -335,7 +423,7 @@ metric_fu shift the first line
 -- 
 --   # to make sure we don't expose it
      def ip
-!!     ''
+       ''
 --   end
 -- end
 
@@ -409,25 +497,25 @@ metric_fu shift the first line
      after_validation :update_image
 -- 
      def send_message_to_creator (dibber, body, subject)
-!!     dibber.send_message( User.find(self.creator_id), body,subject) 
+       dibber.send_message( User.find(self.creator_id), body,subject) 
 --   end
 -- 
      def create_new_dib (dibber, request_ip='')
-!!     self.dibbed_until = Time.now + Dib.timeSpan
-!!     self.status == 'dibbed'
-!!     self.dibber_id = dibber.id
-!!     self.save
-!!     dib = self.dibs.build
-!!     dib.ip = request_ip
-!!     dib.valid_until = self.dibbed_until
-!!     dib.status = 'new'
-!!     dib.creator_id = dibber.id 
-!!     dib.save
-!!     send_message_to_creator(dibber, (dibber.username + " Has dibbed your stuff" ), " respond_to this message to get in contact")
+       self.dibbed_until = Time.now + Dib.timeSpan
+       self.status == 'dibbed'
+       self.dibber_id = dibber.id
+       self.save
+       dib = self.dibs.build
+       dib.ip = request_ip
+       dib.valid_until = self.dibbed_until
+       dib.status = 'new'
+       dib.creator_id = dibber.id 
+       dib.save
+       send_message_to_creator(dibber, (dibber.username + " Has dibbed your stuff" ), " respond_to this message to get in contact")
 --   end
 -- 
      def available_to_dib?
-!!     self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
+       self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
 --   end
 -- 
 -- 
