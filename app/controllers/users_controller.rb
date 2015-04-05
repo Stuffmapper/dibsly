@@ -9,15 +9,14 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params.merge(:ip => request.remote_ip, :status => 'new'))
+    @user = User.new(user_params.merge(
+            :ip => request.remote_ip,
+            :status => 'new'))
     @user.latitude = session[:latitude]
     @user.longitude = session[:longitude]
     @user.zoom = session[:zoom]
     @user.grid_mode = session[:grid_mode]
 
-
- 
-    
     if @user.save
       session[:user_id] = @user.id
       render json: '[]', status: :ok
@@ -33,9 +32,15 @@ class UsersController < ApplicationController
     respond_to do |format|
       @user.valid?
       if @user.update(user_params)
-        format.json {render json: '[]', status: :ok}
+        format.json {
+            render json: '[]',
+            status: :ok
+        }
       else
-        format.json {render json: @user.errors, status: :unprocessable_entity}
+        format.json {
+            render json: @user.errors,
+            status: :unprocessable_entity
+        }
       end
     end
   end
@@ -71,8 +76,20 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, 
+    # only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name,:last_name, :username, :email, :password, :password_confirmation, :address, :latitude, :longitude, :on_the_curb, :phone_number)
+      params.require(:user).permit(
+          :first_name,
+          :last_name,
+          :username,
+          :email,
+          :password,
+          :password_confirmation,
+          :address,
+          :latitude,
+          :longitude,
+          :on_the_curb,
+          :phone_number)
     end
 end
