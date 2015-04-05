@@ -10,9 +10,16 @@ class PostsController < ApplicationController
     user_ip = request.location
     
     if !user_ip.longitude == 0.0
-      @map_center = {'latitude'=> user_ip.latitude, 'longitude'=> user_ip.longitude }.to_json
+      @map_center = {
+          'latitude'=> user_ip.latitude,
+          'longitude'=> user_ip.longitude 
+      }.to_json
+
     else
-    @map_center = {'latitude'=> 47.6097, 'longitude'=> -122.3331 }.to_json
+      @map_center = {
+          'latitude'=> 47.6097,
+          'longitude'=> -122.3331
+      }.to_json
     end
   end
 
@@ -20,9 +27,15 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     if (current_user)
-      cleaned_params = post_params.delete_if{ |key, value| value == 'undefined'  }
+      cleaned_params = post_params.delete_if{
+          |key, value| value == 'undefined'  
+      }
       @user = User.find( current_user.id )
-      @post = Post.new(cleaned_params.merge(:ip => request.remote_ip, :status => 'new', :creator_id => @user.id ))
+      @post = Post.new(cleaned_params.merge(
+          :ip => request.remote_ip, 
+          :status => 'new', 
+          :creator_id => @user.id ))
+
       if @post.save
         @post.save
         render json: '[]', status: :ok
@@ -33,7 +46,7 @@ class PostsController < ApplicationController
       render json: {error: 'not authorized '}, status: :unauthorized
     end
   end
-  
+
   # POST /posts/dib/1
   # POST /posts/dib/1.json
   def dib
@@ -74,10 +87,18 @@ class PostsController < ApplicationController
 
   # GET /posts/search
   def search
-    @posts = Post.where("title ILIKE ? AND status = ? AND (dibbed_until IS NULL OR (dibbed_until IS NOT NULL AND dibbed_until <= NOW()))", "%#{params[:term]}%", 'new').page(params[:page]).per(6)
+    @posts = Post.where("title ILIKE ? 
+                 AND status = ? 
+                 AND (dibbed_until IS NULL 
+                   OR (dibbed_until IS NOT NULL 
+                     AND dibbed_until <= NOW()))", 
+                 "%#{params[:term]}%",
+                 'new').page(params[:page]).per(6)
     @term = params[:term]
     if (current_user)
-      @post = Post.new(:on_the_curb => 1, :phone_number => current_user.phone_number)
+      @post = Post.new(
+          :on_the_curb => 1,
+          :phone_number => current_user.phone_number)
       @message = Message.new()
     else
       @user = User.new
@@ -102,11 +123,11 @@ class PostsController < ApplicationController
       @post = Post.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the scary internet, 
+    # only allow the white list through.
     def post_params
       params.permit(:image,:category, :latitude, :longitude)
     end
-
 
 
 end
