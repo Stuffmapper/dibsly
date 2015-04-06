@@ -48,7 +48,7 @@ RSpec.describe MessagesController, :type => :controller do
 		    expect(response.status).to eq(200) 
 		end
 
-		it "should return messages for converstion to be returned" do 
+		it "should return messages for conversation to be returned" do 
 			sign_in(@user)
 			xhr :get, :show, :id => @conversation.id  
 		    expect(response.status).to eq(200) 
