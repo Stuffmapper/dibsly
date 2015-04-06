@@ -8,6 +8,7 @@ Dibsly::Application.routes.draw do
   post 'users/:id', :to => 'users#show', :as => :user
   post 'presets' => 'users#presets'
 
+  post 'messages/:id', :to => 'messages#reply'
   resources :messages
 
   get 'posts' => 'posts#index'

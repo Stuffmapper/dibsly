@@ -57,7 +57,7 @@ RSpec.describe MessagesController, :type => :controller do
 		end
 	end
 
-	describe "Get reply to conversation" do
+	describe "Post reply to conversation" do
 		before do 
 			@user2.send_message(@user,"This is the Body","This is aSubject")
 			@conversation =  @user.mailbox.inbox.last
@@ -65,21 +65,46 @@ RSpec.describe MessagesController, :type => :controller do
       	#receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username} Has dibbed your stuff") }
 
 		it "shouldn't return messages when not logged in" do 
-			xhr :post, :update, :id => @conversation.id 
+			xhr :post, :reply, :id => @conversation.id 
 		    expect(response.status).to eq(401) 
 		end
 		it "should return 200 when logged in" do 
 			sign_in(@user)
-			xhr :post, :update, :id => @conversation.id , :message => {:body => "I'm replying to the last post" }
+			xhr :post, :reply , :id => @conversation.id , :message => {:body => "I'm replying to the last post" }
 		    expect(response.status).to eq(200) 
 		end
 
-		it "should return messages for converstion to be returned" do 
+		it "should return messages for conversation to be returned" do 
 			sign_in(@user)
-			xhr :post, :update, :id => @conversation.id , :message => {:body => "I'm replying to the last post" } 
+			xhr :post, :reply , :id => @conversation.id , :message => {:body => "I'm replying to the last post" } 
 		    expect(response.status).to eq(200) 
 		    response_first_body = JSON.parse(response.body)['messages'][0]['body']
 		    expect(response_first_body).to eq("I'm replying to the last post")
+		end
+	end
+	describe "Post new message" do
+		before do 
+			@user2.send_message(@user,"This is the Body","This is aSubject")
+			@conversation =  @user.mailbox.inbox.last
+      	end
+      	#receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username} Has dibbed your stuff") }
+
+		it "shouldn't return messages when not logged in" do 
+			xhr :post, :create,:message => {:receiver_username => @user2.username ,:subject=> "something", :body => "Now about that stuff" }
+		    expect(response.status).to eq(401) 
+		end
+		it "should return 200 when logged in" do 
+			sign_in(@user)
+			xhr :post, :create,:message => {:receiver_username => @user2.username ,:subject=> "something", :body => "Now about that stuff" }
+		    expect(response.status).to eq(200) 
+		end
+
+		it "should return messages for conversation to be returned" do 
+			sign_in(@user)
+			xhr :post, :create,:message => {:receiver_username => @user2.username ,:subject=> "something", :body => "Now about that stuff" }
+			expect(response.status).to eq(200) 
+		    response_first_body = JSON.parse(response.body)['messages'][0]['body']
+		    expect(response_first_body).to eq("Now about that stuff" )
 		end
 	end
 
