@@ -1,0 +1,403 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+
+ */
+
+/* html labels */
+
+
+body {
+    background-color: #fff;
+    color: #005c90;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 13px;
+}
+
+a {
+    color: #005c90 !important;
+}
+
+a:visited {
+    color: #22ac10 !important;
+}
+
+label {
+    color: #005c90;
+    display: inline-block;
+    font-size: 1.1em;
+    margin-top: 8px;
+}
+
+input {
+    color: #005c90;
+}
+
+input[type=file] {
+    color: #005c90;
+}
+
+input[type=submit] {
+    padding: 5px 15px;
+    color: #fff;
+    background: #005c90;
+    border: 0 none;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/* dialogs */
+
+.ui-widget-content {
+    color: #005c90 !important;
+}
+
+.ui-widget-header {
+    background: none !important;
+    border: none !important;
+    float: right;
+}
+
+.ui-button {
+    color: #fff !important;
+    background-color: #005c90 !important;
+    background-image: none !important;
+    border-color: #005c90 !important;
+}
+
+.ui-icon-closethick {
+    background-image: url("http://download.jqueryui.com/themeroller/images/ui-icons_white_256x240.png") !important;
+}
+
+#give-stuff-form [type=submit] {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+    padding: 20px 10px;
+    width: 100%;
+}
+
+#uploadFile {
+    width: 145px;
+    background-color: white;
+    border: 1px solid;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    float: right;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.fileUpload span {
+    color: #fff;
+    background-color: #005c90;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border-width: 10px;
+    padding: 6px;
+    display: inline-block;
+    margin-top: 6px;
+}
+
+.give-stuff-dialog-style {
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    border-radius: 10px !important;
+    border-width: 10px !important;
+    border-color: #dc8c0f !important;
+}
+
+#give-stuff-dialog {
+    overflow: hidden;
+}
+
+.my-stuff-dialog-style {
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    border-radius: 10px !important;
+    border-width: 10px !important;
+    border-color: #5b51aa !important;
+}
+
+.form-errors {
+    color: red !important;
+ }
+
+/* flash messages */
+
+#flash-message {
+    color: white;
+    z-index: 40;
+    position: fixed;
+    width: 300px;
+    margin: 0 0 0 -150px;
+    left: 50%;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #22ac10;
+    display: none;
+}
+
+#flash-content {
+    width: 16px;
+    height: 16px;
+    display:inline-block;
+}
+
+/* navigation */
+#top-nav, #left-nav, #bottom-nav {
+    z-index: 10;
+    position: fixed;
+}
+
+#left-nav {
+    z-index: 20;
+    top: 0px;
+    height: 100%;
+}
+
+#top-nav {
+    display: block;
+    left: 50%;
+    top: 0px;
+    margin-left: -318px;
+    width: 636px;
+    background-color: #fff;
+    padding: 14px 18px 9px 18px;
+
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#top-logo img {
+    width: 280px;
+}
+#search-form-current-city {
+    float: right;
+}
+#search-form {
+    display: block;
+}
+
+#city-term {
+    width: 275px;
+}
+
+.left-button {
+    background-size: 44px 130px;
+    width: 44px;
+    height: 130px;
+    display: inline-block;
+    position: absolute;
+    z-index: 10;
+}
+
+.left-button:hover {
+    cursor: pointer;
+}
+
+#find-stuff-button {
+    background-image:url("/assets/findStuffOn.png");
+    bottom: 410px;
+}
+
+#find-stuff-button:hover {
+    background-image: url("/assets/findStuffOff.png");
+}
+
+#what-stuff-button {
+    background-image:url("/assets/whatStuffOn.png");
+    bottom: 290px;
+}
+
+#what-stuff-button:hover {
+    background-image: url("/assets/whatStuffOff.png");
+}
+
+#give-stuff-away-button {
+    background-image:url("/assets/giveStuffOn.png");
+    bottom: 140px;
+}
+
+#give-stuff-away-button:hover {
+    background-image: url("/assets/giveStuffOff.png");
+}
+
+#my-stuff-button {
+    background-image:url("/assets/myStuffOn.png");
+    bottom: 20px;
+}
+
+#my-stuff-button:hover {
+    background-image: url("/assets/myStuffOff.png");
+}
+
+#bottom-nav {
+    height: 44px;
+    padding: 10px;
+    bottom: 0px;
+    background-color: #fff;
+    width: 100%;
+    padding: 6px 24px;
+}
+
+/* social pins */
+
+#social-pins {
+    float: right;
+    margin-right: 40px;
+}
+
+.social-pin img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* forms */
+
+/* grid */
+
+#main-grid {
+    background-color: #b1d0ff;
+    width: 100%;
+    margin: 0px;
+    padding: 120px 0px 120px 80px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+}
+
+#grid-post-container {
+    clear: both;
+    float: left;
+}
+
+.grid-post {
+    display: inline-block;
+    position: relative;
+    background-color: #fff;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
+    height: 323px;
+    float: left;
+}
+
+.grid-post:hover .grid-post-details {
+    display: inline-block;
+}
+
+.grid-post-details {
+    display: none;
+    width: 300px;
+    position: absolute;
+    bottom: 20px;
+    background-color:rgba(255,255,255,0.95);
+    left: 20px;
+}
+
+.grid-post-description, .grid-post-address {
+    margin: 10px 0px;
+}
+
+.grid-post-date {
+    color: #d3d3d3;
+}
+
+/* smartphone */
+#smartphone-nav-button {
+    display: none;
+}
+
+@media only screen and (max-width : 640px)   {
+    #smartphone-nav-button {
+        display: block;
+        z-index: 30;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-color: #fff;
+        padding: 14px 18px 9px 18px;
+
+        -webkit-border-bottom-right-radius: 10px;
+        -webkit-border-bottom-left-radius: 10px;
+        -moz-border-radius-bottomright: 10px;
+        -moz-border-radius-bottomleft: 10px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    #smartphone-nav-link {
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+    #search-form-current-city {
+        margin-top: 10px;
+    }
+
+    #bottom-nav {
+        display: none;
+    }
+
+    #top-nav {
+        display: none;
+        left: auto;
+        margin-left: 45px;
+    }
+
+    #search-form-current-city {
+        float: none;
+    }
+}
+
+/* everything else */
+
+#main-container {
+    margin: 100px 0px 100px 100px;
+}
+
+#more-stuff {
+    margin-left: 40px;
+    line-height: 40px;
+}
+
+.gm-style-iw div{
+    overflow-x: hidden !important;
+}
+
+.dibs-image {
+    float: right;
+}
