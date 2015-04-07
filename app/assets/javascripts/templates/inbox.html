@@ -16,14 +16,20 @@
           <div ng-repeat="message in messages[conversation.id]" class="col-md-3 clearfix" >
               <p> {{message.body}} </p>
           </div>
+
+          <form >
+            <div class="form-group">
+            <input type="text" class="form-control" id="reply-body" placeholder="reply" ng-model="reply_message.body">
+            </div>
+
+          
+           <button class= "btn btn-default" ng-click="postReply(conversation.id, reply_message.body)" >Reply</button>
+          </form>
         </div>
 
 </div>
 
 
-<form >
-   Put messages here
-</form>
 
 
 </div>
