@@ -30,6 +30,7 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
         $modalInstance.dismiss('cancel')
       .error (data) ->
         for key, value of data
+          
           AlertService.add('danger', key + ' ' + value )
 
   $scope.signin = ->

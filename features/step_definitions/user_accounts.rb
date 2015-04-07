@@ -28,12 +28,9 @@ end
 
 Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
-  click_link 'Sign In'
-  fill_in 'username', with: 'fakeuser'
-  fill_in 'password', with: '123456'
-  within('.modal-footer') do 
-     click_button 'Sign In'
-  end
+  
+  sign_in User.find_by_username('fakeuser')
+
   expect(page).to have_text('Sign Out')
   expect(page).to have_text('You have been signed in')
 end

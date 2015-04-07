@@ -9,7 +9,8 @@ Feature:
 
   @javascript	
   Scenario: Sucessfully send a message
-    When the  "Jill" logs in and visits the inbox
-    Then "Jack's dibbed you shoes!" should be visible.
-    And "Jill" should be able to respond "It's on the curb at the junction"
-    And "Jack" should see the "It's on the curb at the junction" in his inbox
+    When "Jill" logs in
+    Then "Jack's dibbed your stuff" should be visible in the inbox
+    And "Jill" should be able to respond "It's on the curb at the junction" and log out
+    When "Jack" logs in
+    Then "It's on the curb at the junction" should be visible in the inbox
