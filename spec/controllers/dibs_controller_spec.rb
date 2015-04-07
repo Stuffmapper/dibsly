@@ -29,7 +29,7 @@ RSpec.describe DibsController, type: :controller do
 		     	expect(response.status).to eq(200) 
 		     	conversation =  @user.mailbox.inbox.last
       			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username} Has dibbed your stuff") }
+      			receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username}'s dibbed your stuff!") }
 			end
 
 		end
