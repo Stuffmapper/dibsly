@@ -9,6 +9,7 @@ class MessagesController < ApplicationController
   def show
     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
     get_messages_from_conversation(conversation)
+
     render json: @messages, status: :ok
   end
 
@@ -55,7 +56,7 @@ class MessagesController < ApplicationController
     end
 
     def get_messages_from_conversation conversation
-      receipts = conversation.receipts
+      receipts = conversation.receipts_for current_user
       @messages = receipts.collect{ |receipt| receipt.message }
     end
 end
