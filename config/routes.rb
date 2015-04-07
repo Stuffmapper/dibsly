@@ -8,7 +8,8 @@ Dibsly::Application.routes.draw do
   post 'users/:id', :to => 'users#show', :as => :user
   post 'presets' => 'users#presets'
 
-  resources :messages
+  post 'messages/:id', :to => 'messages#reply'
+  resources :messages, only: [:show, :create, :index]
 
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
@@ -18,8 +19,8 @@ Dibsly::Application.routes.draw do
   get 'my-stuff' => 'posts#my_stuff'
   post 'feedbacks/create'
 
-  resources :posts do 
-    resources :dibs 
+  resources :posts, only: [:create, :index] do 
+    resources :dibs, only: [:create ] 
   end
 
   root 'posts#index'

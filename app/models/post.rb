@@ -34,7 +34,7 @@ class Post < ActiveRecord::Base
     dib.status = 'new'
     dib.creator_id = dibber.id 
     dib.save
-    send_message_to_creator(dibber, (dibber.username + " Has dibbed your stuff" ), " respond_to this message to get in contact")
+    send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
   end
 
   def available_to_dib?

@@ -15,6 +15,11 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal', 'UserServic
             $modal.open
                 templateUrl:'signUp.html',
                 controller:'SignUpCtrl'
+                
+        $scope.showMessages = ->
+            $modal.open
+                templateUrl:'inbox.html',
+                controller:'MessagesCtrl'
 
         $scope.showSignin = ->
             $modal.open

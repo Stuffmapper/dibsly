@@ -1,0 +1,37 @@
+<div>
+<div class="modal-header">
+<h3 class="modal-title">Inbox</h3>
+</div>
+<div class="modal-body">
+<alerts></alerts>
+<div>
+  <p> Put the dib here </p>
+</div>
+<div>
+       <div class="container-fluid col-md-12">
+          <div ng-repeat="conversation in inbox track by $index" class="col-md-3 clearfix" >
+          <p> {{conversation.subject}}</p>
+          <p> {{conversation.message}}</p>
+          <button class= "btn btn-default" ng-click="getMessages(conversation.id)" >Show Messages</button>    
+          <div ng-repeat="message in messages[conversation.id]" class="col-md-3 clearfix" >
+              <p> {{message.body}} </p>
+          </div>
+
+          <form >
+            <div class="form-group">
+            <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message.body">
+            </div>
+
+          
+           <button class= "btn btn-default" ng-click="postReply(conversation.id, reply_message.body)" >Reply</button>
+          </form>
+        </div>
+
+</div>
+
+
+
+
+</div>
+</form>
+</div>

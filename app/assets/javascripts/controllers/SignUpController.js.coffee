@@ -24,13 +24,14 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
         phone_number: $scope.phone_number
         }
 
-
-
-    console.log(user)
     
     $http.post('/users', {user: user}  )
       .success -> 
         $modalInstance.dismiss('cancel')
+      .error (data) ->
+        for key, value of data
+          
+          AlertService.add('danger', key + ' ' + value )
 
   $scope.signin = ->
       UserService.login($scope.username, $scope.password,
