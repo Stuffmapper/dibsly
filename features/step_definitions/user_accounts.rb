@@ -10,6 +10,7 @@ Given(/^that I have the signup page open\.$/) do
   click_link('Sign Up')
 end
 
+
 Given(/^I signup with a username password email and phone$/) do
  
   fill_in 'username', with: 'fakeuser'
@@ -57,5 +58,5 @@ Given(/^press SignUp$/) do
 end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  expect(page.body).to have_text(arg1)
 end

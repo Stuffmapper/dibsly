@@ -4,7 +4,8 @@ Feature:
   We want to have an in app conversation after a Jill has dibbed Jill's stuff.
 
   Background:
-  	Given that "Jill"  has  posted shoes and "Jack" has dibbed them.
+    Given that "Jill" and "Jack" are registered users
+  	And that "Jill"  has  posted shoes and "Jack" has dibbed them.
 
   @javascript	
   Scenario: Sucessfully send a message

@@ -12,12 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params.merge(
             :ip => request.remote_ip,
             :status => 'new'))
-    @user.latitude = session[:latitude]
-    @user.longitude = session[:longitude]
-    @user.zoom = session[:zoom]
-    @user.grid_mode = session[:grid_mode]
-
-    if @user.save
+    if  @user.save
       session[:user_id] = @user.id
       render json: '[]', status: :ok
     else

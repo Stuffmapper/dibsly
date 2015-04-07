@@ -17,6 +17,13 @@ class User < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable
 
+  def save(*args)
+    super
+  rescue ActiveRecord::RecordNotUnique => error
+    errors[:base] << "Duplicate username or email"
+    false
+  end
+
   def self.authenticate(username, password)
     user = find_by_username(username)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
