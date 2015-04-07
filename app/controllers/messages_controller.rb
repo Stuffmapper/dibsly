@@ -14,7 +14,6 @@ class MessagesController < ApplicationController
   end
 
   def reply
-     byebug
      conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
      current_user.reply_to_conversation(conversation, message_params[:body])
      get_messages_from_conversation(conversation)
