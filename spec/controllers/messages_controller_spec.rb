@@ -55,6 +55,14 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_body = JSON.parse(response.body)['messages'][0]['body']
 		    expect(response_first_body).to eq('This is the Body')
 		end
+
+		it "should return the sender's username " do 
+			sign_in(@user)
+			xhr :get, :show, :id => @conversation.id  
+		    expect(response.status).to eq(200) 
+		    response_first_sender = JSON.parse(response.body)['messages'][0]['sender']
+		    expect(response_first_sender).to eq(@user2.username)
+		end
 	end
 
 	describe "Post reply to conversation" do

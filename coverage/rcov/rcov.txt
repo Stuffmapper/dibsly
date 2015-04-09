@@ -57,7 +57,7 @@ metric_fu shift the first line
        conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
        get_messages_from_conversation(conversation)
 -- 
-       render json: @messages, status: :ok
+       render json: @messages, each_serializer: MessageSerializer, status: :ok
 --   end
 -- 
      def reply
@@ -104,6 +104,7 @@ metric_fu shift the first line
 -- 
        def get_messages_from_conversation conversation
          receipts = conversation.receipts_for current_user
+-- 
          @messages = receipts.collect{ |receipt| receipt.message }
 --     end
 -- end
@@ -628,6 +629,18 @@ metric_fu shift the first line
 --   # to make sure we don't expose it
      def ip
        ''
+--   end
+-- end
+
+================================================================================
+ ./app/serializers/message_serializer.rb
+================================================================================
+   class MessageSerializer < ActiveModel::Serializer
+     attributes :body, :subject, :sender, :sender_type
+-- 
+     def sender
+-- 
+   	object.sender.username
 --   end
 -- end
 
