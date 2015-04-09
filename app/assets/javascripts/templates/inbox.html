@@ -11,10 +11,9 @@
        <div class="container-fluid col-md-12">
           <div ng-repeat="conversation in inbox track by $index" class="col-md-3 clearfix" >
           <p> {{conversation.subject}}</p>
-          <p> {{conversation.message}}</p>
           <button class= "btn btn-default" ng-click="getMessages(conversation.id)" >Show Messages</button>    
           <div ng-repeat="message in messages[conversation.id]" class="col-md-3 clearfix" >
-              <p> {{message.body}} </p>
+              <p> {{message.sender}}: {{message.body}} </p>
           </div>
 
           <form >
