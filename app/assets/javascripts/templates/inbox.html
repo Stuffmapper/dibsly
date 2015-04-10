@@ -14,11 +14,11 @@
 
     <form >
       <div class="form-group">
-        <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message.body">
+        <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
       </div>
 
     
-     <button class= "btn btn-default" ng-click="postReply(conversation.id, reply_message.body)" >Reply</button>
+     <button class= "btn btn-default" ng-click="postReply(conversation.id)" >Reply</button>
     </form>
   </div>
 </div>

@@ -24,20 +24,22 @@ class Post < ActiveRecord::Base
   end
 
   def create_new_dib (dibber, request_ip='')
-    self.dibbed_until = Time.now + Dib.timeSpan
-    self.status == 'dibbed'
-    self.dibber_id = dibber.id
-    self.save
     dib = self.dibs.build
     dib.ip = request_ip
-    dib.valid_until = self.dibbed_until
     dib.status = 'new'
     dib.creator_id = dibber.id 
-    dib.save
-    send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
+    dib.valid_until = Time.now + Dib.timeSpan
+    if dib.save
+      self.dibbed_until = dib.valid_until
+      self.status == 'dibbed'
+      self.dibber_id = dibber.id
+      self.save
+      send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
+    end
+    dib
   end
 
-  def available_to_dib?
+  def available_to_dib? 
     self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
   end
 
@@ -47,7 +49,9 @@ class Post < ActiveRecord::Base
     {'lat'=> self.latitude, 'lng'=> self.longitude }
   end
 
-
+  def creator
+    return User.find(self.creator_id)
+  end
 
 
   def ip
