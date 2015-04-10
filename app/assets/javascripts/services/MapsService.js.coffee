@@ -1,21 +1,17 @@
 factories = angular.module('factories')
 
 factories.factory('MapsService', [ '$http',
- ($http,uiGmapIsReady)->
- 	rgMap: (gmappy)-> 
- 		this.rstuffMap = gmappy
- 
+ ($http )->
 
  	addStuffMarker: (marker)-> 
  		if this.newMarker 
  		 	this.newMarker.setMap(null)
  		this.newMarker = marker
- 		this.newMarker.setMap(this.rstuffMap)
+ 		this.newMarker.setMap(this.map)
 
  	markers:
  		[]
- 	stuffMap:
- 		{events:{}, zoom:12, control:{} }
+
  	rstuffMap: 
  		{}
 
@@ -24,13 +20,11 @@ factories.factory('MapsService', [ '$http',
  
  			this.markers = newMarkers
 
- 	increaseListeners: 
- 		(listener,funname)->  
- 			this.stuffMap.events[listener] = funname
+
 
  	gMap:
  		(options)->
-		  	this.stuffMap = options
+		  	this.map = options
 
 	#addStuffMarker: (marker)-> marker.setMap(this.rgMap)
 

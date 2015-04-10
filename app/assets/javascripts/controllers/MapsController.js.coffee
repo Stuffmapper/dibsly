@@ -1,47 +1,35 @@
 
 controllers = angular.module('controllers', )
-controllers.controller("MapsCtrl", [ '$scope','$http',
-  ($scope, $http)->
-    # $scope.$watchCollection('MapsService', ->
-    #         $scope.map = MapsService.stuffMap   
-    #     )
+controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
+  ($scope, $http, MapsService )->
 
-    # updateMarkers = ->
-    #   map2 = $scope.map.control.getGMap()
-    #   neBounds = map2.getBounds().getNorthEast()
-    #   swBounds = map2.getBounds().getSouthWest()
-    #   $http(
-    #      url: '/posts/geolocated'
-    #      params: 
-    #          neLat: neBounds.lat()
-    #          swLat: swBounds.lat() 
-    #          neLng: neBounds.lng() 
-    #          swLng: swBounds.lng()
-    #   ).success((data)->
-    #     # $scope.markers = data.posts
-    #     MapsService.addMarkers( data.posts )
-    #     $scope.markers = MapsService.markers 
-        
-    #     )
+    updateMarkers = ->
 
-      
-    
-    # MapsService.gMap({
-    #                zoom: 12 
-    #                bounds: {}
-    #                control: {}
-    #                events:
-    #                 zoom_changed: -> updateMarkers() 
-    #                 dragend: -> updateMarkers() 
-    #                 click: -> console.log('not working')
-    #               })
-
+      neBounds = $scope.map.getBounds().getNorthEast()
+      swBounds = $scope.map.getBounds().getSouthWest()
+      $http(
+         url: '/posts/geolocated'
+         params: 
+             neLat: neBounds.lat()
+             swLat: swBounds.lat() 
+             neLng: neBounds.lng() 
+             swLng: swBounds.lng()
+      ).success((data)->
+        console.log(data)
+        $scope.markers = data.posts
+        MapsService.markers = data.posts
+        for post in $scope.markers
+            latlng = new google.maps.LatLng(post.coords.latitude,post.coords.longitude)
+            marker = new google.maps.Marker(position: latlng, map:$scope.map,title:post.description)
+        )
 
     $scope.$on('mapInitialized', (evt, map) ->
+      updateMarkers() 
+      MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
-        console.log(position)
+        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
-          map.setCenter(position)
+          $scope.map.panTo(current_location)
           )
         )
       )

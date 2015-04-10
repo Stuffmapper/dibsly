@@ -70,19 +70,12 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
 
 
      $scope.startMapper = ->
-        MapsService.increaseListeners('click', (mapModel, eventName, originalEventArgs)->
-                                                lat = originalEventArgs[0].latLng.lat()
-                                                lng = originalEventArgs[0].latLng.lng()
-                                                newMarker =
-                                                    new google.maps.Marker({
-                                                    position: originalEventArgs[0].latLng
-                                                    title:"Hello World!"
-                                                    })
-
-
-                                                MapsService.addStuffMarker(newMarker)
-
-                                                MapsService.rstuffMap.panTo({lat:lat,lng: lng},30)
+        console.log('say hello gracy')
+        google.maps.event.addListener(MapsService.map, 'click', (mapModel)->
+                                                console.log(mapModel.latLng)
+                                                marker = new google.maps.Marker(position: mapModel.latLng, map:MapsService.map,title:'new stuff')
+                                                MapsService.map.panTo(mapModel.latLng,30)
+                                                MapsService.addStuffMarker(marker)
                                 
                                                 )
 
