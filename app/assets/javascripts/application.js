@@ -19,7 +19,7 @@
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/dist/lodash.min.js
-//= require angular-google-maps/dist/angular-google-maps.min.js
+//= require ngmap/build/scripts/ng-map.min.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require_tree .
 

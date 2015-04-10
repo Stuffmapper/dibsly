@@ -43,7 +43,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
             ).success((data)->
                 AlertService.add('success', "Dibbed your stuff")
             ).error (data) ->
-                AlertService.add('danger', 'You probably need to log in')
+                for key, value of data
+                    AlertService.add('danger', key + ' ' + value )
 
 
 
@@ -70,19 +71,13 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
 
 
      $scope.startMapper = ->
-        MapsService.increaseListeners('click', (mapModel, eventName, originalEventArgs)->
-                                                lat = originalEventArgs[0].latLng.lat()
-                                                lng = originalEventArgs[0].latLng.lng()
-                                                newMarker =
-                                                    new google.maps.Marker({
-                                                    position: originalEventArgs[0].latLng
-                                                    title:"Hello World!"
-                                                    })
-
-
-                                                MapsService.addStuffMarker(newMarker)
-
-                                                MapsService.rstuffMap.panTo({lat:lat,lng: lng},30)
+        google.maps.event.addListener(MapsService.map, 'click', (mapModel)->
+                                                marker = new google.maps.Marker(position: mapModel.latLng, map:MapsService.map,title:'new stuff')
+                                                MapsService.map.panTo(mapModel.latLng,30)
+                                                MapsService.addStuffMarker(marker)
+                                                $scope.post.latitude = marker.getPosition().lat()
+                                                $scope.post.longitude = marker.getPosition().lng()
+                                                MapsService.map.setZoom(16)
                                 
                                                 )
 

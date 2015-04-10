@@ -3,7 +3,10 @@
 <head>
 
   <title>Stuffmapper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtQdmOLwCcyu6hzhTLSQU4DLe6QUugrnk"
+  type="text/javascript"></script>
   <%= stylesheet_link_tag    "application", media: "all" %>
  
   <%= javascript_include_tag "application" %>
@@ -30,8 +33,8 @@
 
                <ul class="nav navbar-nav navbar-right" >
                <li>
-               <button type="button" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages">
-                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+               <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
+                <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
                 </button>
                 <li><a href='#' ng-click="showSignup()" ng-hide="currentUser">Sign Up</a></li>
                  <li><a href='#' ng-click="showSignin()" ng-hide="currentUser" >Sign In</a></li>
@@ -39,7 +42,6 @@
 
                 </ul>
                </div>
-
 
 
             </div><!--/.nav-collapse -->

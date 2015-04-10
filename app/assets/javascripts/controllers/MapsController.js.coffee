@@ -1,15 +1,13 @@
 
 controllers = angular.module('controllers', )
-controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'uiGmapIsReady','MapsService',
-  ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady, MapsService )->
-    $scope.$watchCollection('MapsService', ->
-            $scope.map = MapsService.stuffMap   
-        )
+controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
+  ($scope, $http, MapsService )->
+    
 
     updateMarkers = ->
-      map2 = $scope.map.control.getGMap()
-      neBounds = map2.getBounds().getNorthEast()
-      swBounds = map2.getBounds().getSouthWest()
+      $scope.markers = []
+      neBounds = $scope.map.getBounds().getNorthEast()
+      swBounds = $scope.map.getBounds().getSouthWest()
       $http(
          url: '/posts/geolocated'
          params: 
@@ -18,51 +16,27 @@ controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'ui
              neLng: neBounds.lng() 
              swLng: swBounds.lng()
       ).success((data)->
-        # $scope.markers = data.posts
-        MapsService.addMarkers( data.posts )
-        $scope.markers = MapsService.markers 
-        
+
+        $scope.markers = data.posts
+        MapsService.markers = data.posts
+        for post in $scope.markers
+            latlng = new google.maps.LatLng(post.coords.latitude,post.coords.longitude)
+            marker = new google.maps.Marker(position: latlng, map:$scope.map,title:post.description)
         )
 
-      
-    
-    MapsService.gMap({
-                   zoom: 12 
-                   bounds: {}
-                   control: {}
-                   events:
-                    zoom_changed: -> updateMarkers() 
-                    dragend: -> updateMarkers() 
-                    click: -> console.log('not working')
-                  })
-
-    uiGmapIsReady.promise().then((maps) ->
-          updateMarkers()
-
-          )
- 
-    
-    
-   
-    
-
-    center = navigator.geolocation.getCurrentPosition((position)->
-      $scope.$apply(->
-
-        map1 = $scope.map.control.getGMap()
-        map1.panTo({lat:position.coords.latitude,lng: position.coords.longitude},30)
-        MapsService.rgMap(map1) 
-
-        uiGmapIsReady.promise().then((maps) ->
-          updateMarkers()
-
+    $scope.$on('mapInitialized', (evt, map) ->
+      updateMarkers()
+      google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
+      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
+      MapsService.map = $scope.map
+      navigator.geolocation.getCurrentPosition((position)->
+        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        $scope.$apply(->
+          $scope.map.panTo(current_location)
           )
         )
       )
 
-    uiGmapGoogleMapApi.then((maps) ->   
-      
-    )
 
 
 ])

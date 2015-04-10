@@ -22,15 +22,17 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
         password: $scope.password
         password_confirmation: $scope.password_confirmation 
         phone_number: $scope.phone_number
+        anonymous: $scope.anonymous
         }
 
-
-
-    console.log(user)
     
     $http.post('/users', {user: user}  )
       .success -> 
         $modalInstance.dismiss('cancel')
+      .error (data) ->
+        for key, value of data
+          
+          AlertService.add('danger', key + ' ' + value )
 
   $scope.signin = ->
       UserService.login($scope.username, $scope.password,

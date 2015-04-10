@@ -29,8 +29,22 @@ RSpec.describe DibsController, type: :controller do
 		     	expect(response.status).to eq(200) 
 		     	conversation =  @user.mailbox.inbox.last
       			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username} Has dibbed your stuff") }
+      			receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username}'s dibbed your stuff!") }
 			end
+			it 'should not allow you to dib your own stuff' do 
+				sign_in(@user)
+				xhr :get, :create, :post_id => @post.id  
+		     	expect(response.status).to eq(422) 
+		     	expect(response.body).to eq("{\"dib\":[\"You can't dib your own stuff\"]}") 
+			end
+
+			it 'should not allow you to dib dibed stuff' do 
+				sign_in(@user2)
+				@post.create_new_dib(@user2)
+				assert @post.available_to_dib? == false
+				xhr :get, :create, :post_id => @post.id  
+		     	expect(response.body).to eq("{\"dib\":[\"post not available to div\"]}") 
+		     end
 
 		end
 	end

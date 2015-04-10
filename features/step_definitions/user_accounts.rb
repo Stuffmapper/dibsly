@@ -10,6 +10,7 @@ Given(/^that I have the signup page open\.$/) do
   click_link('Sign Up')
 end
 
+
 Given(/^I signup with a username password email and phone$/) do
  
   fill_in 'username', with: 'fakeuser'
@@ -27,12 +28,9 @@ end
 
 Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
-  click_link 'Sign In'
-  fill_in 'username', with: 'fakeuser'
-  fill_in 'password', with: '123456'
-  within('.modal-footer') do 
-     click_button 'Sign In'
-  end
+  
+  sign_in User.find_by_username('fakeuser')
+
   expect(page).to have_text('Sign Out')
   expect(page).to have_text('You have been signed in')
 end
@@ -57,5 +55,5 @@ Given(/^press SignUp$/) do
 end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  expect(page.body).to have_text(arg1)
 end

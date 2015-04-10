@@ -15,5 +15,6 @@ Feature: Standard Sign Up
 	@javascript	
 	Scenario: Old Fashion already have an account
 		Given that I already have an account
+		And that I have the signup page open.
 		And I signup with a username password email and phone
-		Then I should be see the "Account already created" message
+		Then I should be see the "username has already been taken" message
