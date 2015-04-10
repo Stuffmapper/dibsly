@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
 
       get_messages_from_conversation(conversation)
 
-      render json: @messages, status: :ok
+      render json: @messages.sort , status: :ok
     else
       render json: '[]',  status: :unprocessable_entity
     end
@@ -58,6 +58,6 @@ class MessagesController < ApplicationController
     def get_messages_from_conversation conversation
       receipts = conversation.receipts_for current_user
 
-      @messages = receipts.collect{ |receipt| receipt.message }
+      @messages = receipts.sort.collect{ |receipt| receipt.message }
     end
 end

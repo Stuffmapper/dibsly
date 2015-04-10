@@ -13,8 +13,11 @@ controllers.controller('MessagesCtrl', [ '$scope','$http',
     $scope.getMessages = (conversationID) ->
         $http.get( '/messages/' + conversationID ).success((data)-> $scope.messages[conversationID] =  data.messages)
     $scope.postReply = (conversationID) ->
-
-        $http.post( '/messages/' + conversationID, message: $scope.reply_message )
+        $http.post( '/messages/' + conversationID, message: $scope.reply_message 
+            ).success((data)->
+                $scope.reply_message = {}
+                $scope.messages[conversationID] =  data.messages
+                )
 
 
 
