@@ -10,13 +10,8 @@ class PostsController < ApplicationController
     user_ip = request.location
     
     if !user_ip.longitude == 0.0
-
-
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
-
-
     else
-      byebug
       @map = '47.6097,-122.3331'
     end
   end
