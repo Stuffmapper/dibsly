@@ -22,6 +22,7 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
         password: $scope.password
         password_confirmation: $scope.password_confirmation 
         phone_number: $scope.phone_number
+        anonymous: $scope.anonymous
         }
 
     

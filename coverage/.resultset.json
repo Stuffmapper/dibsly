@@ -901,13 +901,8 @@
         0,
         null,
         0,
-        null,
-        null,
         0,
         null,
-        null,
-        null,
-        0,
         0,
         null,
         null,
@@ -1270,6 +1265,7 @@
         null,
         null,
         null,
+        null,
         null
       ],
       "/Users/cynicman2001/railsapps/peaceful-island-3906/spec/models/post_spec.rb": [
@@ -1534,7 +1530,7 @@
         null
       ]
     },
-    "timestamp": 1428662643
+    "timestamp": 1428702821
   },
   "Cucumber Features": {
     "coverage": {
@@ -2145,9 +2141,10 @@
         null,
         null,
         null,
+        null,
         null
       ]
     },
-    "timestamp": 1428663046
+    "timestamp": 1428705575
   }
 }

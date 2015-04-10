@@ -14,6 +14,10 @@ require 'cucumber/rails'
 require 'rack_session_access/capybara'
 require 'vcr'
 
+Capybara.app_host = "http://localhost:7654"
+Capybara.server_host = "localhost"
+Capybara.server_port = "7654"
+#set so that I can use an api key with google
 
 WebMock.disable_net_connect!(allow_localhost: true)
 

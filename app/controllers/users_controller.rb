@@ -85,6 +85,7 @@ class UsersController < ApplicationController
           :latitude,
           :longitude,
           :on_the_curb,
-          :phone_number)
+          :phone_number,
+          :anonymous)
     end
 end
