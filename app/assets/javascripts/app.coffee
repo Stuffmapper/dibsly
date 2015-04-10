@@ -5,7 +5,7 @@ stfmpr = angular.module('stfmpr',[
         'directives',
         'ngRoute',
         'ngResource',
-        'uiGmapgoogle-maps',
+        'ngMap',
         'ui.bootstrap',
         'angular-flash.service',
         'angular-flash.flash-alert-directive'
@@ -19,15 +19,11 @@ controllers = angular.module('controllers',[])
 factories = angular.module('factories',[])
 directives = angular.module('directives',[])
 
-stfmpr.config( ['$routeProvider','$locationProvider', 'uiGmapGoogleMapApiProvider',
+stfmpr.config( ['$routeProvider','$locationProvider',
 
 
-    ($routeProvider,$locationProvider,uiGmapGoogleMapApiProvider)->
-      uiGmapGoogleMapApiProvider.configure({
-      
-        v: '3.17',
-        libraries: 'weather,geometry,visualization'
-      })
+    ($routeProvider,$locationProvider)->
+
 
       $locationProvider.html5Mode(true)
 

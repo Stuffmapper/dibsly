@@ -10,16 +10,14 @@ class PostsController < ApplicationController
     user_ip = request.location
     
     if !user_ip.longitude == 0.0
-      @map_center = {
-          'latitude'=> user_ip.latitude,
-          'longitude'=> user_ip.longitude 
-      }.to_json
+
+
+      @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
+
 
     else
-      @map_center = {
-          'latitude'=> 47.6097,
-          'longitude'=> -122.3331
-      }.to_json
+      byebug
+      @map = '47.6097,-122.3331'
     end
   end
 
