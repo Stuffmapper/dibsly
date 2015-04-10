@@ -76,6 +76,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
                                                 marker = new google.maps.Marker(position: mapModel.latLng, map:MapsService.map,title:'new stuff')
                                                 MapsService.map.panTo(mapModel.latLng,30)
                                                 MapsService.addStuffMarker(marker)
+                                                $scope.post.latitude = marker.getPosition().lat()
+                                                $scope.post.longitude = marker.getPosition().lng()
+                                                MapsService.map.setZoom(16)
                                 
                                                 )
 
