@@ -2,9 +2,10 @@
 controllers = angular.module('controllers', )
 controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
   ($scope, $http, MapsService )->
+    
 
     updateMarkers = ->
-
+      $scope.markers = []
       neBounds = $scope.map.getBounds().getNorthEast()
       swBounds = $scope.map.getBounds().getSouthWest()
       $http(
@@ -15,7 +16,7 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
              neLng: neBounds.lng() 
              swLng: swBounds.lng()
       ).success((data)->
-        console.log(data)
+
         $scope.markers = data.posts
         MapsService.markers = data.posts
         for post in $scope.markers
@@ -24,7 +25,9 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
         )
 
     $scope.$on('mapInitialized', (evt, map) ->
-      updateMarkers() 
+      updateMarkers()
+      google.maps.event.addListener($scope.map, 'bounds_changed', -> updateMarkers() )
+
       MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
