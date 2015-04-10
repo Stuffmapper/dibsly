@@ -20,32 +20,6 @@ metric_fu shift the first line
 -- 
 
 ================================================================================
- ./app/controllers/dibs_controller.rb
-================================================================================
-   class DibsController < ApplicationController
--- 
-   def create
-       if current_user && params[:post_id] 
--- 
-         @post = Post.find(params[:post_id])
-         dib = @post.create_new_dib(current_user, request.remote_ip)
--- 
--- 
-         if dib.valid?
-            render json: '[]', status: :ok
---       else
-           render json: dib.errors , status: :unprocessable_entity
---       end
--- 
---     else
-         render json: '[]', status: :unprocessable_entity
---     end
---   end
--- 
-     private
--- end
-
-================================================================================
  ./app/controllers/messages_controller.rb
 ================================================================================
    class MessagesController < ApplicationController
@@ -74,17 +48,17 @@ metric_fu shift the first line
 --   # POST /messages
 --   # POST /messages.json
      def create
-       if message_params[:receiver_username].present? and message_params[:body].present?
-         receipient = User.find_by_username(message_params[:receiver_username])
+!!     if message_params[:receiver_username].present? and message_params[:body].present?
+!!       receipient = User.find_by_username(message_params[:receiver_username])
 -- 
-         subject, body = message_params[:subject], message_params[:body]
-         current_user.send_message(receipient, body, subject)
+!!       subject, body = message_params[:subject], message_params[:body]
+!!       current_user.send_message(receipient, body, subject)
 -- 
-         conversation = current_user.mailbox.conversations.first
+!!       conversation = current_user.mailbox.conversations.first
 -- 
-         get_messages_from_conversation(conversation)
+!!       get_messages_from_conversation(conversation)
 -- 
-         render json: @messages.sort , status: :ok
+!!       render json: @messages.sort , status: :ok
 --     else
 !!       render json: '[]',  status: :unprocessable_entity
 --     end
@@ -95,7 +69,7 @@ metric_fu shift the first line
 -- 
        def verify_logged_in
          if not current_user
-           render json: '[]', status: :unauthorized
+!!         render json: '[]', status: :unauthorized
 --       end
 --     end
 -- 
@@ -133,76 +107,76 @@ metric_fu shift the first line
 --     end
 --   end
 -- 
-!!   # POST /posts
-!!   # POST /posts.json
+--   # POST /posts
+--   # POST /posts.json
      def create
 !!     if (current_user)
 !!       cleaned_params = post_params.delete_if{
 !!           |key, value| value == 'undefined'  
 --       }
-         @user = User.find( current_user.id )
-         @post = Post.new(cleaned_params.merge(
-             :ip => request.remote_ip, 
-             :status => 'new', 
+!!       @user = User.find( current_user.id )
+!!       @post = Post.new(cleaned_params.merge(
+--           :ip => request.remote_ip, 
+--           :status => 'new', 
 --           :creator_id => @user.id ))
-   
-         if @post.save
+-- 
+!!       if @post.save
 !!         @post.save
 !!         render json: '[]', status: :ok
 --       else
 !!         render json: @post.errors, status: :unprocessable_entity
-         end
-       else
-         render json: {error: 'not authorized '}, status: :unauthorized
+--       end
+--     else
+!!       render json: {error: 'not authorized '}, status: :unauthorized
 --     end
-     end
+--   end
 -- 
 --   # POST /posts/dib/1
-     # POST /posts/dib/1.json
+--   # POST /posts/dib/1.json
      def dib
 !!     if current_user && dib_params[:id] 
 -- 
 !!       @post = Post.find(dib_params[:id])
 --     
-         if @post.available_to_dib?
+!!       if @post.available_to_dib?
 !!          @post.create_new_dib(current_user)
 !!          add_dib(@post, request, current_user)
 !!          render json: '[]', status: :ok 
 --       end
-!!     else
+--     else
 !!       render json: '[]', status: :unprocessable_entity
-!!     end
-!!   end
+--     end
+--   end
 -- 
 --   # POST /posts/claim/1
-!!   # POST /posts/claim/1.json
+--   # POST /posts/claim/1.json
 -- 
      def geolocated 
        @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
 --                  .where(:longitude => params[:swLng]..params[:neLng])
        render json: @posts
 --   end
-   
-     # POST /posts/grid_mode.json
+-- 
+--   # POST /posts/grid_mode.json
      def grid_mode
-       session[:grid_mode] = params[:grid_mode]
+!!     session[:grid_mode] = params[:grid_mode]
 !!     if (current_user)
 !!       current_user.grid_mode = session[:grid_mode]
 !!       current_user.save
-       end
+--     end
 !!     respond_to do |format|
 !!         format.json {render json: '[]', status: :ok}
-!!     end
-!!   end
+--     end
+--   end
 -- 
-!!   # GET /posts/search
+--   # GET /posts/search
      def search
 !!     @posts = Post.where("title ILIKE ? 
 --                  AND status = ? 
 --                  AND (dibbed_until IS NULL 
 --                    OR (dibbed_until IS NOT NULL 
-                        AND dibbed_until <= NOW()))", 
-!!                  "%#{params[:term]}%",
+--                      AND dibbed_until <= NOW()))", 
+--                  "%#{params[:term]}%",
 --                  'new').page(params[:page]).per(6)
 !!     @term = params[:term]
 !!     if (current_user)
@@ -210,37 +184,37 @@ metric_fu shift the first line
 --           :on_the_curb => 1,
 --           :phone_number => current_user.phone_number)
 !!       @message = Message.new()
-!!     else
+--     else
 !!       @user = User.new
 --     end
 !!     render action: 'index'
-!!   end
+--   end
 -- 
-!!   # GET /posts/my_stuff
+--   # GET /posts/my_stuff
      def my_stuff
        if (current_user)
 !!       @posts = Post.where(:creator_id => current_user.id )
 !!       render json: @posts
 --     else
          render json: {message: 'User not logged in' }, status: :unauthorized
-       end
-     end
-   
+--     end
+--   end
+-- 
 -- 
      private
 --     # Use callbacks to share common setup or constraints between actions.
        def set_post
 !!       @post = Post.find(params[:id])
 --     end
-   
+-- 
 --     # Never trust parameters from the scary internet, 
-       # only allow the white list through.
+--     # only allow the white list through.
        def post_params
 !!       params.permit(:image,:category, :latitude, :longitude)
 --     end
 -- 
 -- 
-   end
+-- end
 
 ================================================================================
  ./app/controllers/sessions_controller.rb
@@ -258,7 +232,7 @@ metric_fu shift the first line
            session[:grid_mode] = user.grid_mode
            render json: {user:user.username}, status: :ok
 --       else
-           render json: '[]', status: :unprocessable_entity
+!!         render json: '[]', status: :unprocessable_entity
 --       end
 --   end
 -- 
@@ -274,7 +248,7 @@ metric_fu shift the first line
      def check
        if current_user
 -- 
-         render json: {
+!!       render json: {
 --           message: 'User is logged in',
 --           user: current_user.username },
 --           status: :ok
@@ -384,7 +358,8 @@ metric_fu shift the first line
 --           :latitude,
 --           :longitude,
 --           :on_the_curb,
---           :phone_number)
+--           :phone_number,
+--           :anonymous)
 --     end
 -- end
 
@@ -461,13 +436,13 @@ metric_fu shift the first line
 -- 
      def cannot_dib_own_post
        if self.creator_id == self.post.creator_id
-         errors.add(:dib, "You can't dib your own stuff")
+!!       errors.add(:dib, "You can't dib your own stuff")
 --     end
 --   end
 -- 
      def available_to_dib?
        if !Post.find(self.post_id).available_to_dib?
-         errors.add(:dib, "post not available to div")
+!!       errors.add(:dib, "post not available to div")
 --     end
 --   end
 -- 
@@ -619,8 +594,8 @@ metric_fu shift the first line
      def save(*args)
        super
 --   rescue ActiveRecord::RecordNotUnique => error
-       errors[:base] << "Duplicate username or email"
-       false
+!!     errors[:base] << "Duplicate username or email"
+!!     false
 --   end
 -- 
      def self.authenticate(username, password)
