@@ -26,8 +26,8 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
 
     $scope.$on('mapInitialized', (evt, map) ->
       updateMarkers()
-      google.maps.event.addListener($scope.map, 'bounds_changed', -> updateMarkers() )
-
+      google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
+      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
       MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
