@@ -7,7 +7,7 @@
     "angular-resource": "latest",
     "angular-mocks": "latest",
     "angular-flash": "latest",
-    "angular-google-maps": "latest",
+    "ngmap": "latest",
     "angular-bootstrap": "git@github.com:angular-ui/bootstrap-bower.git"
   }
 }

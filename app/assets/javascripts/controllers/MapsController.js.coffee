@@ -1,68 +1,51 @@
 
 controllers = angular.module('controllers', )
-controllers.controller("MapsCtrl", [ '$scope','$http', 'uiGmapGoogleMapApi', 'uiGmapIsReady','MapsService',
-  ($scope, $http, uiGmapGoogleMapApi, uiGmapIsReady, MapsService )->
-    $scope.$watchCollection('MapsService', ->
-            $scope.map = MapsService.stuffMap   
-        )
+controllers.controller("MapsCtrl", [ '$scope','$http',
+  ($scope, $http)->
+    # $scope.$watchCollection('MapsService', ->
+    #         $scope.map = MapsService.stuffMap   
+    #     )
 
-    updateMarkers = ->
-      map2 = $scope.map.control.getGMap()
-      neBounds = map2.getBounds().getNorthEast()
-      swBounds = map2.getBounds().getSouthWest()
-      $http(
-         url: '/posts/geolocated'
-         params: 
-             neLat: neBounds.lat()
-             swLat: swBounds.lat() 
-             neLng: neBounds.lng() 
-             swLng: swBounds.lng()
-      ).success((data)->
-        # $scope.markers = data.posts
-        MapsService.addMarkers( data.posts )
-        $scope.markers = MapsService.markers 
+    # updateMarkers = ->
+    #   map2 = $scope.map.control.getGMap()
+    #   neBounds = map2.getBounds().getNorthEast()
+    #   swBounds = map2.getBounds().getSouthWest()
+    #   $http(
+    #      url: '/posts/geolocated'
+    #      params: 
+    #          neLat: neBounds.lat()
+    #          swLat: swBounds.lat() 
+    #          neLng: neBounds.lng() 
+    #          swLng: swBounds.lng()
+    #   ).success((data)->
+    #     # $scope.markers = data.posts
+    #     MapsService.addMarkers( data.posts )
+    #     $scope.markers = MapsService.markers 
         
-        )
+    #     )
 
       
     
-    MapsService.gMap({
-                   zoom: 12 
-                   bounds: {}
-                   control: {}
-                   events:
-                    zoom_changed: -> updateMarkers() 
-                    dragend: -> updateMarkers() 
-                    click: -> console.log('not working')
-                  })
+    # MapsService.gMap({
+    #                zoom: 12 
+    #                bounds: {}
+    #                control: {}
+    #                events:
+    #                 zoom_changed: -> updateMarkers() 
+    #                 dragend: -> updateMarkers() 
+    #                 click: -> console.log('not working')
+    #               })
 
-    uiGmapIsReady.promise().then((maps) ->
-          updateMarkers()
 
-          )
- 
-    
-    
-   
-    
-
-    center = navigator.geolocation.getCurrentPosition((position)->
-      $scope.$apply(->
-
-        map1 = $scope.map.control.getGMap()
-        map1.panTo({lat:position.coords.latitude,lng: position.coords.longitude},30)
-        MapsService.rgMap(map1) 
-
-        uiGmapIsReady.promise().then((maps) ->
-          updateMarkers()
-
+    $scope.$on('mapInitialized', (evt, map) ->
+      navigator.geolocation.getCurrentPosition((position)->
+        console.log(position)
+        $scope.$apply(->
+          map.setCenter(position)
           )
         )
       )
 
-    uiGmapGoogleMapApi.then((maps) ->   
-      
-    )
 
 
 ])

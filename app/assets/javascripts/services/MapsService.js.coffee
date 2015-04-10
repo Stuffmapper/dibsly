@@ -1,7 +1,7 @@
 factories = angular.module('factories')
 
-factories.factory('MapsService', [ '$http','uiGmapIsReady','uiGmapGoogleMapApi'
- ($http,uiGmapIsReady,uiGmapGoogleMapApi)->
+factories.factory('MapsService', [ '$http',
+ ($http,uiGmapIsReady)->
  	rgMap: (gmappy)-> 
  		this.rstuffMap = gmappy
  

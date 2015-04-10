@@ -1,20 +1,9 @@
 
 
-<div class="container-fluid" ng-controller="MapsCtrl as mappy">
+<div class="container-fluid" ng-controller="MapsCtrl as map" >
    
- <ui-gmap-google-map center=<%= @map_center %>  zoom='map.zoom' control="map.control" bounds="map.bounds" events='map.events'>
-    
 
 
-    <ui-gmap-marker ng-repeat="marker in markers" coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-    </ui-gmap-marker>
-
- 
-
- </ui-gmap-google-map>
-
-
-
-
+   <map id="google-map-container"  center=<%= @map %> zoom="12"></map>
 
 </div>
