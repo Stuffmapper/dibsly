@@ -43,7 +43,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
             ).success((data)->
                 AlertService.add('success', "Dibbed your stuff")
             ).error (data) ->
-                AlertService.add('danger', 'You probably need to log in')
+                for key, value of data
+                    AlertService.add('danger', key + ' ' + value )
 
 
 
