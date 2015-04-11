@@ -13,4 +13,3 @@ directives.directive('alerts', ->
     replace:true,
     template:'<alert ng-repeat="alert in getAlerts()" type="{{alert.type}}" close="closeAlert($index)">{{alert.text}}</alert>'
 )
-
