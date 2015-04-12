@@ -31,6 +31,15 @@
           </button>
           <a class="navbar-brand" href="/">Stuffmapper.com</a>
 
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
+                <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+              </button>
+              
+            </li>
+          </ul>
+
 
         </div>
 
@@ -48,11 +57,10 @@
        
 
         <!-- Static navbar -->
-        <div class="container overlap"  >
-          <alerts></alerts>
-        </div>
+
 
        <ng-view></ng-view>
+       <alerts></alerts>
 
 
 

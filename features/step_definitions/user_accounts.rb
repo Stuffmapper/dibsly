@@ -32,7 +32,7 @@ Then(/^I should be able to sign in with my username and password$/) do
   sign_in User.find_by_username('fakeuser')
 
   expect(page).to have_text('Sign Out')
-  expect(page).to have_text('You have been signed in')
+  expect(page.body).to have_text('You have been signed in')
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do

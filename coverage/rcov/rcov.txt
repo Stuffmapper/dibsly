@@ -1340,6 +1340,10 @@ metric_fu shift the first line
        status "new"
        ip ""
        image { fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png') }
+<<<<<<< HEAD
+=======
+       description 'shoes'
+>>>>>>> development
 --   end
 -- end
 -- 
