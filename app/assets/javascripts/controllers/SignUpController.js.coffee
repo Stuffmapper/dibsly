@@ -12,7 +12,6 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modal','$modalInstance', '$ht
 
 
   $scope.showUserAgreement = ->
-      $scope.cancel()
       $modal.open
           templateUrl:'userAgreement.html',
           controller:'SignUpCtrl'
