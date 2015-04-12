@@ -5,6 +5,7 @@ FactoryGirl.define do
     status "new"
     ip ""
     image { fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png') }
+    description 'shoes'
   end
 end
 
