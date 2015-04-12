@@ -1,3 +1,9 @@
+Given(/^that I am on the home page$/) do
+  visit('/')
+end
+
+
+
 Given(/^that I am using the same email for my google and facebook$/) do
  	@facebook_email = 'fake@email.com'
  	@google_email = 'fake@email.com'
