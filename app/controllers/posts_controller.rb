@@ -127,6 +127,7 @@ class PostsController < ApplicationController
       authenticate_or_request_with_http_basic do |username, password|
         username == "startup" && password == "weekend" || username == "stuff" && password == "testitall" || username == "stuff" && password == "letstest"
       end
+      
     end
 
 end
