@@ -41,8 +41,9 @@ Then(/^I should be able to sign in with my username and password$/) do
   
   sign_in User.find_by_username('fakeuser')
 
-  expect(page).to have_text('Sign Out')
-  expect(page.body).to have_text('You have been signed in')
+  expect(page.body).to have_text('Sign Out')
+   sleep(1)
+  expect(page).to have_text('You have been signed in.')
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
@@ -60,10 +61,46 @@ Given(/^that I already have an account$/) do
               :ip         => '' 
 end
 
-Given(/^press SignUp$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
   expect(page.body).to have_text(arg1)
 end
+
+Given(/^that I have an account and my username is Jack$/) do
+  create(:user, :username => 'Jack')
+end
+
+Given(/^that I have the signin page open\.$/) do
+  visit('/')
+  click_link('Sign In')
+end
+
+Given(/^I fail to sign in with the password "(.*?)"$/) do |arg1|
+  fill_in 'username', with: 'Jack'
+  fill_in 'password', with: arg1
+  within('.modal-footer') do 
+    click_button 'Sign In'
+  end
+  expect(page.body).to have_text("Wrong username or password")  
+end
+
+Then(/^I should see a forgot password\? button$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I follow the forgot password link and enter my email$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should receive an email with a link to reset my password$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I follow the reset password link and set my new password to "(.*?)"$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should be able to login with my username and IamB@tman(\d+)$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+

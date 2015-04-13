@@ -38,7 +38,7 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
       UserService.login($scope.username, $scope.password,
           (err,data) ->
               if(err)
-                  AlertService.add('danger', "can't sign in ")
+                  AlertService.add('danger', "Wrong username or password")
               else if(data.user)
                 AlertService.add('success','You have been signed in.')
                 $modalInstance.dismiss('cancel')
