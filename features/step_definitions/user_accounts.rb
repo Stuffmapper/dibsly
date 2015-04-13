@@ -81,15 +81,19 @@ Given(/^I fail to sign in with the password "(.*?)"$/) do |arg1|
   within('.modal-footer') do 
     click_button 'Sign In'
   end
+  sleep(1)
   expect(page.body).to have_text("Wrong username or password")  
 end
 
-Then(/^I should see a forgot password\? button$/) do
-  pending # express the regexp above with the code you wish you had
+Then(/^I should see a forgot password\? link$/) do
+
+  expect(page).to have_selector(:link_or_button, 'Forgot Password?')
 end
 
 When(/^I follow the forgot password link and enter my email$/) do
-  pending # express the regexp above with the code you wish you had
+  click_button('Forgot Password?') 
+  fill_in 'email', with: 'fake@email.com'
+  click_button('Reset') 
 end
 
 Then(/^I should receive an email with a link to reset my password$/) do

@@ -8,7 +8,7 @@ Feature: Standard Sign Up
 	Scenario: I reset my password
 		Given that I have the signin page open.
 		And I fail to sign in with the password "IamB@tman1"
-		Then I should see a forgot password? button 
+		Then I should see a forgot password? link 
 		When I follow the forgot password link and enter my email
 		Then I should receive an email with a link to reset my password
 		When I follow the reset password link and set my new password to "IamB@tman1"

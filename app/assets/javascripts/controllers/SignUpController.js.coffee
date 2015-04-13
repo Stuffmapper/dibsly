@@ -2,8 +2,8 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$timeout','UserService','AlertService'
- ($scope, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
+controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http', '$timeout','UserService','AlertService'
+ ($scope, $modal, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
 
   
 
@@ -45,5 +45,10 @@ controllers.controller('SignUpCtrl', [ '$scope', '$modalInstance', '$http', '$ti
               else  
                 alert(data.error)   
         )
+  $scope.resetPW = ->
+    $modalInstance.dismiss('cancel')
+    $modal.open
+      templateUrl:'resetPw.html',
+      controller:'SignUpCtrl'
 ])
 
