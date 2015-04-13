@@ -16,7 +16,7 @@ Dibsly::Application.configure do
   config.active_record.raise_in_transactional_callbacks = true
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -33,9 +33,10 @@ Dibsly::Application.configure do
   :storage => :s3,
   :s3_credentials => {
     :bucket => 'stuffmapper-dev'
+    }
   }
-}
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 end
 
-Rails.application.routes.default_url_options[:host] = '???'
+#Rails.application.routes.default_url_options[:host] = '???'
 
