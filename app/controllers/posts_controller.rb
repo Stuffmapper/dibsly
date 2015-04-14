@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
  
   before_action :set_post, only: [:show, :claim]
-  before_filter :authentication_check
+  
   
 
   # GET /posts
@@ -123,11 +123,5 @@ class PostsController < ApplicationController
       params.permit(:image,:category, :latitude, :longitude)
     end
 
-    def authentication_check
-      authenticate_or_request_with_http_basic do |username, password|
-        username == "startup" && password == "weekend" || username == "stuff" && password == "testitall" || username == "stuff" && password == "letstest"
-      end
-      
-    end
 
 end
