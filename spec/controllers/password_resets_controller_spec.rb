@@ -9,12 +9,12 @@ RSpec.describe PasswordResetsController, type: :controller do
 
 			it "finds the user " do 
 				expect(User).to receive(:find_by).with(email: user.email).and_return(user)
-				post :create, email: user.email 
+				xhr :get, :create, email: user.email 
 			end
 
 
 			it "generates a new password reset token" do 
-				expect{ post :create, email: user.email; user.reload }.to change{ user.password_reset_token }
+				expect{ xhr :post, :create, email: user.email; user.reload }.to change{ user.password_reset_token }
 			end
 
 			it "sends a password reset email " do 
