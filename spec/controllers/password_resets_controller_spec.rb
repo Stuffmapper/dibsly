@@ -21,15 +21,16 @@ RSpec.describe PasswordResetsController, type: :controller do
 				expect{ post :create, email: user.email }.to change( ActionMailer::Base.deliveries, :size )
 
 			end 
-			it "sets the flash success message " do 
-				post :create, email: user.email 
-				expect(flash[:success]).to match(/check your email/)
+			it "sends a message via Json " do 
+				xhr :post, :create, email: user.email 
+				expect(JSON.parse(response.body)["message"]).to match(/Reset instructions sent! Check your email!/)
 			end
 
 		end
 		context "with no user found" do 
 			it "renders the new page " do 
-				#returns an error
+				xhr :post, :create, email: 'junk'
+				expect(JSON.parse(response.body)["message"]).to match(/User not found/)
 			end
 
 		end
@@ -41,26 +42,27 @@ RSpec.describe PasswordResetsController, type: :controller do
 				before { user.generate_password_reset_token! }
 
 				it "assigns a user @user" do 
-					get :edit, id: user.password_reset_token
+					xhr :get, :edit, id: user.password_reset_token
 					expect(assigns(:user)).to eq(user)
 				end
 			end
 
 			context "with a no password_reset_token " do 
-				it "renders the 404  " do 
-					get :edit, id: 'notfound'
+				it "sends a 404 response  " do 
+					xhr :get, :edit, id: 'notfound'
 					expect(response.status).to eq(404)
-					expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+					expect(JSON.parse(response.body)["message"]).to match(/User not found/)
+		
 				end
 
 			end
 		end
 
-		describe "PATCH update " do 
+		describe "Post update " do 
 			context "with not token found " do 
-				it "returs 401" do 
-					patch :update, id: 'notfound', user: {password: 'fake123', password_confirmation: 'fake123' }
-					expect(response).to render_template('edit')	
+				it "returns 401" do 
+					xhr :post, :update, id: 'notfound', user: {password: 'fake123', password_confirmation: 'fake123' }
+					expect(response.status).to eq(401)	
 					#change to resource not found		
 				end
 			end
@@ -71,17 +73,17 @@ RSpec.describe PasswordResetsController, type: :controller do
 
 				it "updates the user's password" do 
 
-					digest = user.password_digest
-					patch :update, id: user.password_reset_token ,
+					digest = user.password_hash
+					xhr :post, :update, id: user.password_reset_token ,
 					user: {password: 'Sofake123', password_confirmation: 'Sofake123' }
 					user.reload 
-					expect(user.password_digest).to_not eq(digest)
+					expect(user.password_hash).to_not eq(digest)
 					 
 					
 				end
 
 				it "clears the password_reset_token " do 
-					patch :update, id: user.password_reset_token ,
+					xhr :post, :update, id: user.password_reset_token ,
 					user: {password: 'Sofake123', password_confirmation: 'Sofake123' }
 					user.reload 
 					expect(user.password_reset_token).to be_blank
