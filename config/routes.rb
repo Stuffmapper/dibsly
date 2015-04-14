@@ -22,6 +22,7 @@ Dibsly::Application.routes.draw do
   resources :posts, only: [:create, :index] do 
     resources :dibs, only: [:create ] 
   end
+  resources :password_resets,  only: [:new, :create, :edit, :update]
 
   root 'posts#index'
 
