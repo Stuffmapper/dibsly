@@ -30,9 +30,9 @@ Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
   
   sign_in User.find_by_username('fakeuser')
-
-  expect(page).to have_text('Sign Out')
   expect(page.body).to have_text('You have been signed in')
+  expect(page).to have_text('Sign Out')
+
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
