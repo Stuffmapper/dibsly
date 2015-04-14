@@ -87,7 +87,9 @@ Dibsly::Application.configure do
   :s3_credentials => {
     :bucket => 'stuffmapper'
   }
-}
+ }
+  config.action_mailer.default_url_options = { host: 'www.stuffmapper.com' }
+  config.action_mailer.delivery_method = :smtp
 
 end
 
