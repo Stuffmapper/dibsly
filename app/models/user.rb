@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+  validates_presence_of :privacy_policy_agreement
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable
 

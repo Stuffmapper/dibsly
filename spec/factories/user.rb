@@ -10,7 +10,8 @@ FactoryGirl.define do
     sequence :email do |n|
         "Superbad#{n}@email.com"
     end
- 
+    privacy_policy_agreement true
+
     status "new"
     ip ""
   end
