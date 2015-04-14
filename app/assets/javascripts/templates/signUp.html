@@ -6,10 +6,15 @@
 
  <form >
   <div class="form-group">
-    <label for="first_name">First Name *</label>
-    <input type="text" class="form-control" id="first_name" placeholder="First Name" ng-model="first_name">
-    <label for="last_name">Last Name *</label>
-    <input type="text" class="form-control" id="last_name" placeholder="Last Name" ng-model="last_name">
+    <div id="first-name">
+      <label for="first_name">First Name *</label>
+      <input type="text" class="form-control" id="first_name" placeholder="First Name" ng-model="first_name">
+    </div>
+
+    <div id="last-name">
+      <label for="last_name">Last Name *</label>
+      <input type="text" class="form-control" id="last_name" placeholder="Last Name" ng-model="last_name">
+    </div>
   </div>
 
   <div class="form-group">
@@ -41,7 +46,11 @@
     <label><input type="checkbox" id="anonymous" value="1" ng-model="anonymous"> Remain Anonymous to Other Users</label>
   </div>
   <div class="form-group">
+<<<<<<< HEAD
     <label><input type="checkbox" id="user-agreement" value="1" ng-model="user-agreement"> I agree to the <a href="#" ng-click="showUserAgreement()">user agreement</a> </label>
+=======
+    <label><input type="checkbox" id="user-agreement" value="1" ng-model="user_agreement"> I agree to the <a href="#" ng-click="showUserAgreement()">user agreement</a> </label>
+>>>>>>> 8e396b796487a4cc06298e5f21c98bccc87bf4cc
   </div>
 
 </div>
