@@ -20,6 +20,7 @@ Given(/^I signup with a username password email and phone$/) do
   fill_in 'password', with: "123456"
   fill_in 'password_confirmation', with: "123456"
   fill_in 'phone_number', with: "8675309"
+  check('privacy_policy_agreement')
   within('.modal-footer') do 
     click_button "Sign Up"
   end  
@@ -46,6 +47,7 @@ Given(/^that I already have an account$/) do
               :username   => 'fakeuser',
               :password   => '123456',
               :email      => 'fake@email.com',
+              :privacy_policy_agreement => true,
               :status     => 'new',
               :ip         => '' 
 end
