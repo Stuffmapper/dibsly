@@ -93,12 +93,16 @@ end
 When(/^I follow the forgot password link and enter my email$/) do
   click_button('Forgot Password?') 
   fill_in 'email', with: @user.email
-  click_button('Reset') 
+
+  
+  click_button "Reset"
+  sleep(2)
+  
 end
 
 Then(/^I should receive an email with a link to reset my password$/) do
   open_email(@user.email)
-  byebug
+  expect(ActionMailer::Base.deliveries.empty?).to be(false)
   current_email.click_link "http://"
   expect(page).to have_content("Change Your Password")
 end

@@ -15,6 +15,7 @@ require 'rack_session_access/capybara'
 require 'capybara/email'
 require 'vcr'
 
+
 Capybara.app_host = "http://localhost:7654"
 Capybara.server_host = "localhost"
 Capybara.server_port = "7654"
@@ -45,6 +46,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 #
 World(FactoryGirl::Syntax::Methods)
 World(Capybara::Email::DSL)
+
 
 
 ActionController::Base.allow_rescue = false

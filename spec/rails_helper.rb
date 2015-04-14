@@ -11,6 +11,7 @@ require 'webmock/rspec'
 require 'vcr_setup'
 require 'capybara/email/rspec'
 
+
 WebMock.disable_net_connect!(allow_localhost: true)
 ActiveRecord::Migration.maintain_test_schema!
 
