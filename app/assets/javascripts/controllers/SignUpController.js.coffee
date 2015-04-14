@@ -49,6 +49,20 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
     $modalInstance.dismiss('cancel')
     $modal.open
       templateUrl:'resetPw.html',
-      controller:'SignUpCtrl'
+      controller: 'SignUpCtrl'
+
+  $scope.submitReset = ->
+    console.log($scope.email)
+    $http(
+         url: '/password_resets'
+         method: 'POST'
+         params: 
+             email: $scope.email )
+      .success -> 
+        $modalInstance.dismiss('cancel')
+      .error (data) ->
+        for key, value of data
+          
+          AlertService.add('danger', key + ' ' + value )
 ])
 

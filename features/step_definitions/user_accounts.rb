@@ -5,8 +5,9 @@ Given(/^that I am using the same email for my google and facebook$/) do
 end
 
 Given(/^that I am not logged in and don't have an account$/) do
-  
+  #do nothing  
 end
+
 
 Then(/^I should see a field for "(.*?)"$/) do |arg1|
   expect(page).to have_field(arg1)
@@ -66,7 +67,7 @@ Then(/^I should be see the "(.*?)" message$/) do |arg1|
 end
 
 Given(/^that I have an account and my username is Jack$/) do
-  create(:user, :username => 'Jack')
+  @user = create(:user, :username => 'Jack')
 end
 
 Given(/^that I have the signin page open\.$/) do
@@ -91,12 +92,15 @@ end
 
 When(/^I follow the forgot password link and enter my email$/) do
   click_button('Forgot Password?') 
-  fill_in 'email', with: 'fake@email.com'
+  fill_in 'email', with: @user.email
   click_button('Reset') 
 end
 
 Then(/^I should receive an email with a link to reset my password$/) do
-  pending # express the regexp above with the code you wish you had
+  open_email(@user.email)
+  byebug
+  current_email.click_link "http://"
+  expect(page).to have_content("Change Your Password")
 end
 
 When(/^I follow the reset password link and set my new password to "(.*?)"$/) do |arg1|

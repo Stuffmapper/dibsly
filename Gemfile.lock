@@ -81,6 +81,9 @@ GEM
       xpath (~> 2.0)
     capybara-angular (0.1.0)
       capybara
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -455,6 +458,7 @@ DEPENDENCIES
   bower-rails
   capybara (~> 2.4.4)
   capybara-angular
+  capybara-email
   coffee-rails (~> 4.0.0)
   cucumber-rails
   database_cleaner
