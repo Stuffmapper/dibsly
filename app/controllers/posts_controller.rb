@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
  
   before_action :set_post, only: [:show, :claim]
-        #this should be part of the model _ on save
+  
+  
 
   # GET /posts
   # GET /posts.json
