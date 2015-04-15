@@ -4,8 +4,8 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 require 'simplecov'
-require 'metric_fu/metrics/rcov/simplecov_formatter'
-SimpleCov.formatter = SimpleCov::Formatter::MetricFu
+# require 'metric_fu/metrics/rcov/simplecov_formatter'
+# SimpleCov.formatter = SimpleCov::Formatter::MetricFu
 SimpleCov.start 'rails'
 
 require 'rspec/expectations'
