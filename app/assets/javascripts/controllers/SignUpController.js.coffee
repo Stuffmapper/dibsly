@@ -2,13 +2,25 @@
 controllers = angular.module('controllers')
 
 
+<<<<<<< HEAD
 controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http', '$timeout','UserService','AlertService'
  ($scope, $modal, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
+=======
+controllers.controller('SignUpCtrl', [ '$scope', '$modal','$modalInstance', '$http', '$timeout','UserService','AlertService'
+ ($scope,$modal, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
+>>>>>>> development
 
   
 
   $scope.cancel = ->  
     $modalInstance.dismiss('cancel')
+
+
+  $scope.showUserAgreement = ->
+      $modal.open
+          templateUrl:'userAgreement.html',
+          controller:'SignUpCtrl'
+          
 
  
 

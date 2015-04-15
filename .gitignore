@@ -16,9 +16,8 @@
 /tmp
 
 
-coverage/.last_run.json
-coverage/.resultset.json
-coverage/rcov/rcov.txt
+coverage
+
 
 
 
