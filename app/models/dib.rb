@@ -26,7 +26,7 @@ class Dib < ActiveRecord::Base
 
   def available_to_dib?
     if !Post.find(self.post_id).available_to_dib?
-      errors.add(:dib, "post not available to div")
+      errors.add(:dib, "post not available to dib")
     end
   end
 
