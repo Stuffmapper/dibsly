@@ -10,7 +10,19 @@ Given(/^that I am using the same email for my google and facebook$/) do
  	@email = 'fake@email.com'   # express the regexp above with the code you wish you had
 end
 
-Given(/^that I have the signup page open$/) do 
+
+Given(/^that I am not logged in and don't have an account$/) do
+  
+end
+
+Then(/^I should see a field for "(.*?)"$/) do |arg1|
+  expect(page).to have_field(arg1)
+end
+
+
+
+Given(/^that I have the signup page open\.$/) do 
+
 	# express the regexp above with the code you wish you had
   visit('/')
   click_link('Sign Up')
@@ -22,7 +34,7 @@ Given(/^I signup with a username password email and phone$/) do
   fill_in 'username', with: 'fakeuser'
   fill_in 'first_name', with: 'Ben'
   fill_in 'last_name', with: 'Dere'
-  fill_in 'email', with: @email
+  fill_in 'email', with: 'fake@email.com'
   fill_in 'password', with: "123456"
   fill_in 'password_confirmation', with: "123456"
   fill_in 'phone_number', with: "8675309"
@@ -39,7 +51,8 @@ Then(/^I should be able to sign in with my username and password$/) do
   expect(page.body).to have_text('You have been signed in')
 
   expect(page).to have_text('Sign Out')
-  
+
+
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
