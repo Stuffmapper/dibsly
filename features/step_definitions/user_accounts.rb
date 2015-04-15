@@ -21,7 +21,7 @@ end
 
 
 
-Given(/^that I have the signup page open\.$/) do 
+Given(/^that I have the signup page open$/) do 
 
 	# express the regexp above with the code you wish you had
   visit('/')
