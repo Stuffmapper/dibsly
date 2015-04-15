@@ -7,8 +7,7 @@ Feature: User Agreement
 
 	@javascript	
 	Scenario: Old Fashion Signup
-		Given that I have the signup page open.
-		And I signup with a username password email and phone
+		Given that I have the signup page open
 		Then I should expect to see a user agreement
 
 		
