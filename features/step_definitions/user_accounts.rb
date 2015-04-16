@@ -60,6 +60,7 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 end
 
 Given(/^that I already have an account$/) do
+
   
   @current_user = create(:user, :last_name  => 'Name',
               :first_name => 'fake', 
@@ -68,6 +69,8 @@ Given(/^that I already have an account$/) do
               :email      => 'fake@email.com',
               :status     => 'new',
               :ip         => '' )
+
+
 end
 
 Given(/^press SignUp$/) do

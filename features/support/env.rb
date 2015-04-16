@@ -9,6 +9,7 @@ require 'simplecov'
 SimpleCov.start 'rails'
 
 require 'rspec/expectations'
+require 'cucumber/rspec/doubles'
 require 'capybara/cucumber'
 require 'cucumber/rails'
 require 'rack_session_access/capybara'

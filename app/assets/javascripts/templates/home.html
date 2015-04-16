@@ -28,10 +28,10 @@
 
     <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
         <p> Take a picture of the stuff that you want to give </p>
-        <form>
+        <form id="give-stuff-form">
 
          <div class="form-group">
-           <input type="file" file-upload />
+           <input type="file" id="give-stuff-file" file-upload />
            <ul>
               <li ng-repeat="file in files">{{file.name}}</li>
             </ul>
