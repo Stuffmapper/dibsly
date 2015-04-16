@@ -1,5 +1,5 @@
 Given(/^that there are some items posted near me and I'm geolocated$/) do
-	VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do 
+	VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
 		@user = create(:user)
    		10.times do |x| 
    			x = (x * 0.001)
