@@ -11,12 +11,13 @@ When(/^I log in and give stuff$/) do
 
 Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
 	expect(@current_user.posts.count).to eq 0
-  #because this is an upload -  needs a better 
+  #because this is an upload -  needs a better solution
+  #this may be a mock train wreck I need to get paperclip mocking 
+  #to work and to remove the VCR calls
    VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do 
-      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: 'shoes', image_url: 'http://fakeimage.com/fake.png' ) 
+      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: arg1 ) 
       @post.save!
    end
-
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_return( true )
 
@@ -31,5 +32,8 @@ Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
 end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  click_link "My Stuff" 
+  within('#my-stuff-container') do 
+   expect(page).to have_text(arg1)
+  end
 end
