@@ -1,8 +1,15 @@
+Given(/^that I am on the home page$/) do
+  visit('/')
+end
+
+
+
 Given(/^that I am using the same email for my google and facebook$/) do
  	@facebook_email = 'fake@email.com'
  	@google_email = 'fake@email.com'
  	@email = 'fake@email.com'   # express the regexp above with the code you wish you had
 end
+
 
 Given(/^that I am not logged in and don't have an account$/) do
   
@@ -14,7 +21,8 @@ end
 
 
 
-Given(/^that I have the signup page open\.$/) do 
+Given(/^that I have the signup page open$/) do 
+
 	# express the regexp above with the code you wish you had
   visit('/')
   click_link('Sign Up')
@@ -41,7 +49,9 @@ Then(/^I should be able to sign in with my username and password$/) do
   
   sign_in User.find_by_username('fakeuser')
   expect(page.body).to have_text('You have been signed in')
+
   expect(page).to have_text('Sign Out')
+
 
 end
 
@@ -62,6 +72,11 @@ end
 
 Given(/^press SignUp$/) do
   pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should expect to see a user agreement$/) do
+  click_link('user agreement')
+   expect(page.body).to have_text("This is a user agreement")
 end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
