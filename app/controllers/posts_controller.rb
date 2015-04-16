@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   def index
     user_ip = request.location
     
-    if !user_ip.longitude == 0.0
+    if user_ip && !user_ip.longitude == 0.0
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
     else
       @map = '47.6097,-122.3331'
