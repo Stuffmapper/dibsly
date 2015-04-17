@@ -36,15 +36,6 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
             url: '/my-stuff'
           ).success((data)->
             $scope.mystuff =  data.posts  )
-     $scope.giveMe = (post_id)->
-        post_url = 'posts/' + post_id + '/dibs'
-        $http.post(
-            post_url
-            ).success((data)->
-                AlertService.add('success', "Dibbed your stuff")
-            ).error (data) ->
-                for key, value of data
-                    AlertService.add('danger', key + ' ' + value )
 
 
 

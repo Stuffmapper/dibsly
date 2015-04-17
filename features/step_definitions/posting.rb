@@ -37,8 +37,18 @@ Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1
    expect(page).to have_text(arg1)
   end
 end
-
+#
+#
+#
+#
+#
+#
 #description field
+#
+#
+#
+#
+#
 
 Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
    jack = create(:user, username: "Jack" ) 
@@ -61,5 +71,39 @@ Then(/^I should see the description$/) do
   within('#show-post') do
     expect(page).to have_text(@post.description)
   end # express the regexp above with the code you wish you had
+end
+#
+#
+#
+#
+#
+##LOGIN REQUIRED
+##
+Given(/^that I am not logged in and can see some there is an item I want to dib$/) do
+  
+  VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+      user1 = create(:user)
+      @post = build(:post, 
+                creator_id: user1.id, 
+                latitude: "47.6097", 
+                longitude: '-122.3331') 
+      @post.save
+     
+   end # express the regexp above with the code you wish you had
+end
+
+When(/^I try to dib an item$/) do
+  visit('/post/' + @post.id.to_s )
+  within('#show-post') do 
+    click_button('Dib')
+  end
+end
+
+Then(/^I should see a message asking me to sign in$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see a message directing me to sign in$/) do
+  pending # express the regexp above with the code you wish you had
 end
 
