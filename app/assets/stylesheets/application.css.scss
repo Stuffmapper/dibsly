@@ -64,8 +64,11 @@ nav{
 	position:relative;
 	z-index:6;
 }
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
 
-<<<<<<< HEAD
+
 /*** POST ***/
 #show-post{
 	position:relative;
@@ -78,9 +81,5 @@ nav{
 
 
 
-=======
-.ng-invalid.ng-dirty {
-	border-color: #FA787E;
-}
->>>>>>> user-agreement
+
  								
