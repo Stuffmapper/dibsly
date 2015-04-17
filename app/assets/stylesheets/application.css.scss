@@ -64,6 +64,10 @@ nav{
 	position:relative;
 	z-index:6;
 }
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+
 
 /*** POST ***/
 #show-post{
@@ -74,6 +78,7 @@ nav{
 	width:500px;
 	height:600px;
 }
+
 
 
 
