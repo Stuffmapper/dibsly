@@ -64,4 +64,8 @@ nav{
 	position:relative;
 	z-index:6;
 }
+
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
  								
