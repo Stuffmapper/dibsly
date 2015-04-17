@@ -106,4 +106,15 @@ end
 Then(/^I should see the sign in window$/) do
   expect(page).to have_selector('#sign-in-form')  
 end
+Given(/^that I am not logged in$/) do
+  #do nothing 
+end
+
+When(/^I try to post an item$/) do
+  visit('/')
+  click_link('Give Stuff')
+  click_button('Submit')
+end
+
+
 

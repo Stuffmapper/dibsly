@@ -1,5 +1,5 @@
 
-Feature: Add a description 
+Feature: login to dib
   As a looker who wants to dibs or on my way an item, I must sign in before proceeding.
 
   Background:
