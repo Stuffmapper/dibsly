@@ -42,12 +42,15 @@ end
 
 Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
    jack = create(:user, username: "Jack" ) 
-   @post = build(:post, 
-         creator_id: jack.id, 
-         latitude: "47.6097", 
-         longitude: '-122.3331',
-         description: arg1  )
-    @post.save
+   VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+
+     @post = build(:post, 
+           creator_id: jack.id, 
+           latitude: "47.6097", 
+           longitude: '-122.3331',
+           description: arg1  )
+      @post.save
+    end
 end
 
 Given(/^I visit the page for shoes$/) do
