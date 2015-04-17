@@ -100,10 +100,10 @@ When(/^I try to dib an item$/) do
 end
 
 Then(/^I should see a message asking me to sign in$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_text('Please sign in to continue') 
 end
 
-Then(/^I should see a message directing me to sign in$/) do
-  pending # express the regexp above with the code you wish you had
+Then(/^I should see the sign in window$/) do
+  expect(page).to have_selector('#sign-in-form')  
 end
 
