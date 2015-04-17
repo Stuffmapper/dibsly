@@ -10,6 +10,7 @@
      <tab heading="Get Stuff" disabled="tab.disabled" >
         <div ng-repeat="item in stuff track by $index" class="col-md-3 clearfix" >
         <img class="img-thumbnail stuff-image" src="{{item.image_url}}"></img> 
+        <a href="post/{{item.id}}">more details </a>
         <button class= "btn btn-default" ng-click="giveMe(item.id)">I want it</button>            
         </div>
      </tab>
