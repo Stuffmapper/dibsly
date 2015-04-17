@@ -1,10 +1,28 @@
+Given(/^that I am on the home page$/) do
+  visit('/')
+end
+
+
+
 Given(/^that I am using the same email for my google and facebook$/) do
  	@facebook_email = 'fake@email.com'
  	@google_email = 'fake@email.com'
  	@email = 'fake@email.com'   # express the regexp above with the code you wish you had
 end
 
-Given(/^that I have the signup page open\.$/) do 
+
+Given(/^that I am not logged in and don't have an account$/) do
+  
+end
+
+Then(/^I should see a field for "(.*?)"$/) do |arg1|
+  expect(page).to have_field(arg1)
+end
+
+
+
+Given(/^that I have the signup page open$/) do 
+
 	# express the regexp above with the code you wish you had
   visit('/')
   click_link('Sign Up')
@@ -16,7 +34,7 @@ Given(/^I signup with a username password email and phone$/) do
   fill_in 'username', with: 'fakeuser'
   fill_in 'first_name', with: 'Ben'
   fill_in 'last_name', with: 'Dere'
-  fill_in 'email', with: @email
+  fill_in 'email', with: 'fake@email.com'
   fill_in 'password', with: "123456"
   fill_in 'password_confirmation', with: "123456"
   fill_in 'phone_number', with: "8675309"
@@ -30,9 +48,11 @@ Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
   
   sign_in User.find_by_username('fakeuser')
+  expect(page.body).to have_text('You have been signed in')
 
   expect(page).to have_text('Sign Out')
-  expect(page).to have_text('You have been signed in')
+
+
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
@@ -40,18 +60,26 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 end
 
 Given(/^that I already have an account$/) do
+
   
-  User.create :last_name  => 'Name',
+  @current_user = create(:user, :last_name  => 'Name',
               :first_name => 'fake', 
               :username   => 'fakeuser',
               :password   => '123456',
               :email      => 'fake@email.com',
               :status     => 'new',
-              :ip         => '' 
+              :ip         => '' )
+
+
 end
 
 Given(/^press SignUp$/) do
   pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should expect to see a user agreement$/) do
+  click_link('user agreement')
+   expect(page.body).to have_text("This is a user agreement")
 end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|

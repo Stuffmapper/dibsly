@@ -9,10 +9,7 @@ RSpec.describe PostsController, :type => :controller do
 		before do
 			@user = create(:user)
 		    @post = build(:post, creator_id: @user.id )
-	
-	
-		#Paperclip::Attachment.any_instance.stub(:save_attached_files).and_return(true)
-	
+
 		end
 		context "when there are far and near posts " do
 			before do
@@ -112,6 +109,12 @@ RSpec.describe PostsController, :type => :controller do
 				expect(response.status).to eq(200) 
 			end
 
+			it 'should update a description' do 
+				sign_in(@user)
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122', description: 'shoes' } 
+				expect(Post.last.description).to eq('shoes') 
+			end
+
 
 		end
 	end
@@ -140,13 +143,50 @@ RSpec.describe PostsController, :type => :controller do
 
 
 			it 'should return my stuff' do 
+				
 				sign_in(@user)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
 				expect(response.status).to eq(200)
+
+			end
+
+			it 'should return my stuff with a description' do 
+				post = @user.posts.last
+				post.description = "awesome kicks"
+				post.save
+				sign_in(@user)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
+
 			end
 		end
+	end
+	describe "Get show", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+		    @post = build(:post, 
+		    		creator_id: @user.id,
+		    		latitude: '49',
+		    		longitude: '-122' 
+		    		)
+		    @post.save
+		end
+
+		it "should return a 200 response" do
+			
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+		end
+
+		it "should return the right post" do	
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+			expect(JSON.parse(response.body)['post']['id']).to eq(@post.id)
+		end
+
 	end
 	
 end
