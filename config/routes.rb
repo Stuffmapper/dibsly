@@ -13,6 +13,7 @@ Dibsly::Application.routes.draw do
 
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
+
   get 'posts/geolocated' => 'posts#geolocated'
   post 'posts/grid_mode' => 'posts#grid_mode'
   get 'search' => 'posts#search'
@@ -22,6 +23,7 @@ Dibsly::Application.routes.draw do
   resources :posts, only: [:create, :index] do 
     resources :dibs, only: [:create ] 
   end
+  get 'posts/:id' => 'posts#show'
 
   root 'posts#index'
 

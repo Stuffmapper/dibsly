@@ -37,3 +37,23 @@ Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1
    expect(page).to have_text(arg1)
   end
 end
+
+#description field
+
+Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
+   jack = create(:user, username: "Jack" ) 
+   build(:post, 
+         creator_id: jack.id, 
+         latitude: "47.6097", 
+         longitude: '-122.3331',
+         description: arg1  )# express the regexp above with the code you wish you had
+end
+
+Given(/^I visit the page for shoes$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see the description$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
