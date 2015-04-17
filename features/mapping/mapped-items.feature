@@ -4,7 +4,6 @@ Feature: Look at map
   I want to be able to see what items are listed near me
   on a map.
 
-
   Background:
   	Given that there are some items posted near me and I'm geolocated
 

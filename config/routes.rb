@@ -23,6 +23,7 @@ Dibsly::Application.routes.draw do
   resources :posts, only: [:create, :index] do 
     resources :dibs, only: [:create ] 
   end
+  
   get 'posts/:id' => 'posts#show'
 
   root 'posts#index'
