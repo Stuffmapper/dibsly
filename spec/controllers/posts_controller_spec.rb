@@ -9,10 +9,7 @@ RSpec.describe PostsController, :type => :controller do
 		before do
 			@user = create(:user)
 		    @post = build(:post, creator_id: @user.id )
-	
-	
-		#Paperclip::Attachment.any_instance.stub(:save_attached_files).and_return(true)
-	
+
 		end
 		context "when there are far and near posts " do
 			before do
@@ -121,7 +118,7 @@ RSpec.describe PostsController, :type => :controller do
 
 		end
 	end
-	describe "Get my stuff", :vcr => vcr_options do
+	describe "Get mystuff", :vcr => vcr_options do
 		 
 
 		before do
@@ -166,6 +163,30 @@ RSpec.describe PostsController, :type => :controller do
 
 			end
 		end
+	end
+	describe "Get show", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+		    @post = build(:post, 
+		    		creator_id: @user.id,
+		    		latitude: '49',
+		    		longitude: '-122' 
+		    		)
+		    @post.save
+		end
+
+		it "should return a 200 response" do
+			
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+		end
+
+		it "should return the right post" do	
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+			expect(JSON.parse(response.body)['post']['id']).to eq(@post.id)
+		end
+
 	end
 	
 end

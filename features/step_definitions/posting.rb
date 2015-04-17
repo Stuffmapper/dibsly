@@ -37,3 +37,29 @@ Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1
    expect(page).to have_text(arg1)
   end
 end
+
+#description field
+
+Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
+   jack = create(:user, username: "Jack" ) 
+   VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+
+     @post = build(:post, 
+           creator_id: jack.id, 
+           latitude: "47.6097", 
+           longitude: '-122.3331',
+           description: arg1  )
+      @post.save
+    end
+end
+
+Given(/^I visit the page for shoes$/) do
+  visit('/post/' + @post.id.to_s )
+end
+
+Then(/^I should see the description$/) do
+  within('#show-post') do
+    expect(page).to have_text(@post.description)
+  end # express the regexp above with the code you wish you had
+end
+

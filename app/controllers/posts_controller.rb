@@ -109,6 +109,12 @@ class PostsController < ApplicationController
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
   end
+  def show 
+    @post = Post.find(params[:id])
+   render json: @post
+
+    
+  end
 
 
   private
