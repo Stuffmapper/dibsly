@@ -112,10 +112,16 @@ RSpec.describe PostsController, :type => :controller do
 				expect(response.status).to eq(200) 
 			end
 
+			it 'should update a description' do 
+				sign_in(@user)
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122', description: 'shoes' } 
+				expect(Post.last.description).to eq('shoes') 
+			end
+
 
 		end
 	end
-	describe "Get mystuff", :vcr => vcr_options do
+	describe "Get my stuff", :vcr => vcr_options do
 		 
 
 		before do
@@ -140,11 +146,24 @@ RSpec.describe PostsController, :type => :controller do
 
 
 			it 'should return my stuff' do 
+				
 				sign_in(@user)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
 				expect(response.status).to eq(200)
+
+			end
+
+			it 'should return my stuff with a description' do 
+				post = @user.posts.last
+				post.description = "awesome kicks"
+				post.save
+				sign_in(@user)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
+
 			end
 		end
 	end

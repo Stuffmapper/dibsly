@@ -31,11 +31,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
 
      $scope.stuff =  MapsService.markers
      $scope.mystuff = []
-     $http(
-         url: '/my-stuff'
-      ).success((data)->
-        $scope.mystuff =  data.posts  
-        )
+     $scope.getMyStuff = ->
+        $http(
+            url: '/my-stuff'
+          ).success((data)->
+            $scope.mystuff =  data.posts  )
      $scope.giveMe = (post_id)->
         post_url = 'posts/' + post_id + '/dibs'
         $http.post(
@@ -53,6 +53,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
         formdata.append('latitude', $scope.post.latitude)
         formdata.append('longitude', $scope.post.longitude)
         formdata.append('category', $scope.post.category)
+        formdata.append('description', $scope.post.description)
         formdata.append('image', $scope.files[0]);
         $http.post( "/posts", formdata, {
             headers: {'Content-Type': undefined}

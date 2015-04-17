@@ -7,17 +7,20 @@
 
   <tabset>
 
-     <tab heading="Stuff" disabled="tab.disabled" >
+     <tab heading="Get Stuff" disabled="tab.disabled" >
         <div ng-repeat="item in stuff track by $index" class="col-md-3 clearfix" >
         <img class="img-thumbnail stuff-image" src="{{item.image_url}}"></img> 
         <button class= "btn btn-default" ng-click="giveMe(item.id)">I want it</button>            
         </div>
      </tab>
 
-     <tab heading="MyStuff" disabled="tab.disabled" >
-      <div class="container-fluid col-md-12">
+     <tab heading="My Stuff" disabled="tab.disabled" ng-click="getMyStuff()">
+      <div class="container-fluid col-md-12" id="my-stuff-container">
         <div ng-repeat="stuff in mystuff track by $index" class="col-md-3 clearfix" >
         <img class="img-thumbnail col-md-3 stuff-image" src="{{stuff.image_url}}"></img>
+        <div class="col-md-6">
+         <p>{{stuff.description}}</p>
+         </div>
         <button class= "btn btn-default" >I don't want it</button>    
               
         </div>
@@ -28,10 +31,10 @@
 
     <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
         <p> Take a picture of the stuff that you want to give </p>
-        <form>
+        <form id="give-stuff-form">
 
          <div class="form-group">
-           <input type="file" file-upload />
+           <input type="file" id="give-stuff-file" file-upload />
            <ul>
               <li ng-repeat="file in files">{{file.name}}</li>
             </ul>
