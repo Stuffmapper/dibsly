@@ -40,6 +40,10 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl:'signIn.html',
           controller:'SignUpCtrl'
         })
+        .when('/post/:postId',{
+          templateUrl: "post.html"
+          controller: 'StuffViewCtrl'
+       })
    
 
 

@@ -42,18 +42,21 @@ end
 
 Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
    jack = create(:user, username: "Jack" ) 
-   build(:post, 
+   @post = build(:post, 
          creator_id: jack.id, 
          latitude: "47.6097", 
          longitude: '-122.3331',
-         description: arg1  )# express the regexp above with the code you wish you had
+         description: arg1  )
+    @post.save
 end
 
 Given(/^I visit the page for shoes$/) do
-  pending # express the regexp above with the code you wish you had
+  visit('/post/' + @post.id.to_s )
 end
 
 Then(/^I should see the description$/) do
-  pending # express the regexp above with the code you wish you had
+  within('#show-post') do
+    expect(page).to have_text(@post.description)
+  end # express the regexp above with the code you wish you had
 end
 
