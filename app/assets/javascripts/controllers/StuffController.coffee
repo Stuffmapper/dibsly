@@ -4,8 +4,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertService', '$http', 
- ($scope, $window, MapsService, AlertService, $http ) -> 
+controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http', 
+ ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) -> 
      $scope.$watch( ->
             return MapsService.newMarker
         (newValue) ->
@@ -31,40 +31,38 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
 
      $scope.stuff =  MapsService.markers
      $scope.mystuff = []
-     $http(
-         url: '/my-stuff'
-      ).success((data)->
-        $scope.mystuff =  data.posts  
-        )
-     $scope.giveMe = (post_id)->
-        post_url = 'posts/' + post_id + '/dibs'
-        $http.post(
-            post_url
-            ).success((data)->
-                AlertService.add('success', "Dibbed your stuff")
-            ).error (data) ->
-                for key, value of data
-                    AlertService.add('danger', key + ' ' + value )
+     $scope.getMyStuff = ->
+        $http(
+            url: '/my-stuff'
+          ).success((data)->
+            $scope.mystuff =  data.posts  )
 
 
 
      $scope.submitPost = ->
-        formdata = new FormData();
-        formdata.append('latitude', $scope.post.latitude)
-        formdata.append('longitude', $scope.post.longitude)
-        formdata.append('category', $scope.post.category)
-        formdata.append('image', $scope.files[0]);
-        $http.post( "/posts", formdata, {
-            headers: {'Content-Type': undefined}
-            transformRequest: angular.identity
-            }).success (data, status, headers, config) -> 
-                console.log('it worked')
-                AlertService.add('success', "You've Posted Your Stuff")
-                $scope.files = []
-            .error (data) ->
-                for key, value of data
-                    AlertService.add('danger', key + ' ' + value )
-
+        UserService.check(->)
+        if UserService.currentUser
+            formdata = new FormData();
+            formdata.append('latitude', $scope.post.latitude)
+            formdata.append('longitude', $scope.post.longitude)
+            formdata.append('category', $scope.post.category)
+            formdata.append('description', $scope.post.description)
+            formdata.append('image', $scope.files[0]);
+            $http.post( "/posts", formdata, {
+                headers: {'Content-Type': undefined}
+                transformRequest: angular.identity
+                }).success (data, status, headers, config) -> 
+                    console.log('it worked')
+                    AlertService.add('success', "You've Posted Your Stuff")
+                    $scope.files = []
+                .error (data) ->
+                    for key, value of data
+                        AlertService.add('danger', key + ' ' + value )
+        else
+            AlertService.add('danger', 'Please sign in to continue' )
+            $modal.open
+                templateUrl:'signIn.html',
+                controller:'SignUpCtrl'
 
 
           
@@ -72,14 +70,14 @@ controllers.controller('StuffCtrl', [ '$scope','$window', 'MapsService','AlertSe
 
      $scope.startMapper = ->
         google.maps.event.addListener(MapsService.map, 'click', (mapModel)->
-                                                marker = new google.maps.Marker(position: mapModel.latLng, map:MapsService.map,title:'new stuff')
-                                                MapsService.map.panTo(mapModel.latLng,30)
-                                                MapsService.addStuffMarker(marker)
-                                                $scope.post.latitude = marker.getPosition().lat()
-                                                $scope.post.longitude = marker.getPosition().lng()
-                                                MapsService.map.setZoom(16)
-                                
-                                                )
+                                                    marker = new google.maps.Marker(position: mapModel.latLng, map:MapsService.map,title:'new stuff')
+                                                    MapsService.map.panTo(mapModel.latLng,30)
+                                                    MapsService.addStuffMarker(marker)
+                                                    $scope.post.latitude = marker.getPosition().lat()
+                                                    $scope.post.longitude = marker.getPosition().lng()
+                                                    MapsService.map.setZoom(16)
+                                    
+                                                    )
 
 
 

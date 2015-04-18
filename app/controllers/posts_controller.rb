@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   def index
     user_ip = request.location
     
-    if !user_ip.longitude == 0.0
+    if user_ip && !user_ip.longitude == 0.0
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
     else
       @map = '47.6097,-122.3331'
@@ -109,6 +109,12 @@ class PostsController < ApplicationController
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
   end
+  def show 
+    @post = Post.find(params[:id])
+   render json: @post
+
+    
+  end
 
 
   private
@@ -120,7 +126,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, 
     # only allow the white list through.
     def post_params
-      params.permit(:image,:category, :latitude, :longitude)
+      params.permit(:image,:category, :latitude, :longitude, :description)
     end
 
 

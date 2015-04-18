@@ -61,14 +61,17 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 end
 
 Given(/^that I already have an account$/) do
+
   
-  User.create :last_name  => 'Name',
+  @current_user = create(:user, :last_name  => 'Name',
               :first_name => 'fake', 
               :username   => 'fakeuser',
               :password   => '123456',
               :email      => 'fake@email.com',
               :status     => 'new',
-              :ip         => '' 
+              :ip         => '' )
+
+
 end
 
 

@@ -64,4 +64,30 @@ nav{
 	position:relative;
 	z-index:6;
 }
+
+/*** validator ***/
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+
+/*** optional ***/
+#option {
+	color: gray;
+}
+
+
+/*** POST ***/
+#show-post{
+	position:relative;
+	z-index:6;
+	background:white;
+	margin: 20px;
+	width:500px;
+	height:600px;
+}
+
+
+
+
+
  								

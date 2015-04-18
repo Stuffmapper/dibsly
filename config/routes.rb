@@ -13,6 +13,7 @@ Dibsly::Application.routes.draw do
 
   get 'posts' => 'posts#index'
   post 'posts' => 'posts#create'
+
   get 'posts/geolocated' => 'posts#geolocated'
   post 'posts/grid_mode' => 'posts#grid_mode'
   get 'search' => 'posts#search'
@@ -23,6 +24,9 @@ Dibsly::Application.routes.draw do
     resources :dibs, only: [:create ] 
   end
   resources :password_resets,  only: [:new, :create, :edit, :update]
+  
+  get 'posts/:id' => 'posts#show'
+
 
   root 'posts#index'
 
