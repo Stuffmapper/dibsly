@@ -1,0 +1,26 @@
+
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title">Reset Password</h3>
+		<alerts></alerts>
+	</div>
+
+	<div class="modal-body">
+
+
+		<form >
+
+
+			<div class="form-group">
+			    <label for="email">Change password {{username}}</label>
+			    <input type="email" class="form-control" id="email" placeholder="Your@Email.com" ng-model="email">
+			</div>
+
+
+			<div class="modal-footer">
+				<button class="btn btn-primary" ng-click="submitReset()">Reset</button>
+				<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

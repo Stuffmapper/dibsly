@@ -14,7 +14,7 @@ class PasswordResetsController < ApplicationController
 	def edit
 		@user = User.find_by(password_reset_token: params[:id] )
 		if @user 
-			render json: @user.id, status: :ok
+			render json: {message: "[]"}, status: :ok
 		else
 			render json: {message: "User not found"}, :status => 404
 		end

@@ -32,13 +32,13 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl:'home.html',
           controller: 'StuffCtrl'
         })
-        .when('/signup',{
-          templateUrl:'signUp.html',
-          controller:'SignUpCtrl'
+        .when('/user/:modalId',{
+          templateUrl:'home.html',
+          controller:'MainRouteCtrl'
         })
-        .when('/signin',{
-          templateUrl:'signIn.html',
-          controller:'SignUpCtrl'
+        .when('/user/:modalId/:user',{
+          templateUrl:'home.html',
+          controller:'MainRouteCtrl'
         })
         .when('/post/:postId',{
           templateUrl: "post.html"
