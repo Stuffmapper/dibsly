@@ -121,15 +121,26 @@ end
 Then(/^I should receive an email with a link to reset my password$/) do
   open_email(@user.email)
   expect(ActionMailer::Base.deliveries.empty?).to be(false)
-  current_email.click_link "http://"
-  expect(page).to have_content("Change Your Password")
+  expect(current_email.body).to have_text(   'user/reset/' + User.find_by_email(@user.email).password_reset_token )
+
 end
 
 When(/^I follow the reset password link and set my new password to "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  current_email.click_link "http://"
+  expect(page).to have_content("Change Your Password") 
+  fill_in 'password', with: arg1
+  fill_in 'password_confirmation', with: arg1
+  click_button 'Change Password'
+  sleep(1)
+  expect(page).to have_text ('Password Changed')
 end
 
-Then(/^I should be able to login with my username and IamB@tman(\d+)$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
 
+Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
+    click_link 'Sign In'
+    fill_in 'username', with: @user.username
+    fill_in 'password', with: arg1
+    within('.modal-footer') do 
+       click_button 'Sign In'
+    end
+end

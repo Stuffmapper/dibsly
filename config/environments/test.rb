@@ -45,5 +45,7 @@ Dibsly::Application.configure do
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
   config.action_mailer.default_url_options = { host: "http://localhost:7654" }
 end
+Rails.application.routes.default_url_options[:host] = "http://localhost:7654"
+
 ActionMailer::Base.delivery_method = :test 
-#Rails.application.routes.default_url_options[:host] = '???'
+

@@ -16,4 +16,4 @@ Feature: Standard Sign Up
 		When I follow the forgot password link and enter my email
 		Then I should receive an email with a link to reset my password
 		When I follow the reset password link and set my new password to "IamB@tman1"
-		Then I should be able to login with my username and IamB@tman1
+		Then I should be able to login with my username and "IamB@tman1"
