@@ -1,12 +1,14 @@
 controllers = angular.module('controllers', )
-controllers.controller('MainNavCtrl',['$scope','$location','$modal', 'UserService', 'AlertService',
+controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParams','UserService', 'AlertService',
 
-    ($scope,$location,$modal,UserService,AlertService)->
+    ($scope,$location,$modal,$routeParams,UserService,AlertService)->
 
         $scope.UserService = UserService;
         $scope.$watchCollection('UserService',->
             $scope.currentUser = UserService.currentUser
         )
+        console.log($routeParams.modal)
+
     
 
 
@@ -30,6 +32,10 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal', 'UserServic
         	#do nothing
         	UserService.logout (err,data)->
             AlertService.add('success','You have been logged out.')
+
+        if $routeParams.modal == 'signup'
+            $scope.showSignin()
+            console.log('routed')
 
       
     

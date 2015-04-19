@@ -25,7 +25,11 @@ end
 Then(/^"(.*?)" should be able to respond "(.*?)" and log out$/) do |user, message |
   fill_in 'message_response', with: message
   click_button 'Reply'
-  click_link "Sign"
+  sleep(1)
+  within('.converation-messages') do 
+    expect(page).to have_text(message)
+  end  
+  click_link "Sign Out"
 end
 
 Then(/^"(.*?)" should see the "(.*?)" in his inbox$/) do |arg1, arg2|

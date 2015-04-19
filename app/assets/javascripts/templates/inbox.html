@@ -8,8 +8,10 @@
   <div ng-repeat="conversation in inbox track by $index" class="clearfix" >
     <p> {{conversation.subject}}</p>
     <button class= "btn btn-default" ng-click="getMessages(conversation.id)" >Show Messages</button>    
-    <div ng-repeat="message in messages[conversation.id]" class="clearfix" >
-      <p>{{message.sender}}: {{message.body}} </p>
+    <div class="converation-messages">
+      <div ng-repeat="message in messages[conversation.id]" class="clearfix" >
+        <p>{{message.sender}}: {{message.body}} </p>
+      </div>
     </div>
 
     <form >

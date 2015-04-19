@@ -30,6 +30,7 @@ Dibsly::Application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.perform_deliveries = true
 
   config.active_record.raise_in_transactional_callbacks = true
   # Print deprecation notices to the stderr.
@@ -39,8 +40,12 @@ Dibsly::Application.configure do
   :storage => :s3,
   :s3_credentials => {
     :bucket => 'stuffmapper-dev'
+    }
   }
-}
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+  config.action_mailer.default_url_options = { host: "http://localhost:7654" }
 end
+Rails.application.routes.default_url_options[:host] = "http://localhost:7654"
 
-Rails.application.routes.default_url_options[:host] = '???'
+ActionMailer::Base.delivery_method = :test 
+
