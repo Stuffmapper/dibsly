@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :my_stuff]
 
   # GET /users/1"111"
   # GET /users/1.json
@@ -20,25 +19,21 @@ class UsersController < ApplicationController
     end
   
   end
+  def user_geolocation
+    user_ip = request.location
+    
+    if user_ip && !user_ip.longitude == 0.0
+      user_location = { :location =>  user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s }
+    else
+      user_location = {:location => '47.6097,-122.3331'}
+    end
+    render json: user_location , status: :ok
+
+  end
 
   # POST /users
   # POST /users.json
-  def my_stuff
-    respond_to do |format|
-      @user.valid?
-      if @user.update(user_params)
-        format.json {
-            render json: '[]',
-            status: :ok
-        }
-      else
-        format.json {
-            render json: @user.errors,
-            status: :unprocessable_entity
-        }
-      end
-    end
-  end
+
 
 
 
@@ -67,9 +62,6 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
     # Never trust parameters from the scary internet, 
     # only allow the white list through.

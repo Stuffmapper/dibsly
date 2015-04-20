@@ -35,6 +35,16 @@ nav{
     max-width: 350px;
     overflow-y: auto;
 }
+.stuff-image{
+	max-width: 100%;
+}
+.stuff-view{
+	margin-top:5px;
+	min-height: 145px;
+}
+.stuff-image-container{
+	min-height:104px;
+}
 
 @media (max-width: 600px) {
 	#stuffmapper-menu{

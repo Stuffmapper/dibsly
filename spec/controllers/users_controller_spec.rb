@@ -39,4 +39,21 @@ RSpec.describe UsersController, :type => :controller do
 
 
   end
+
+  describe "Get user_geolocation "do
+
+
+    it "should return a 200 response" do
+      
+      xhr :get, :user_geolocation
+      expect(response.status).to eq(200)
+    end
+
+    it "should return something" do 
+      xhr :get, :user_geolocation
+      expect((response.body)).to eq('something')
+    end
+
+  end
+  
 end

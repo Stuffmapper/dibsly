@@ -8,24 +8,29 @@
   <tabset>
 
      <tab heading="Get Stuff" disabled="tab.disabled" >
-        <div ng-repeat="item in stuff track by $index" class="col-md-3 clearfix" >
-        <img class="img-thumbnail stuff-image" src="{{item.image_url}}"></img> 
-        <a href="post/{{item.id}}">more details </a>
-        <dib post="item.id"></dib>           
+        <div ng-repeat="item in stuff track by $index" class="col-md-4 clearfix" >
+          <div class="stuff-view">
+            <div class= "stuff-image-container">
+              <img class="stuff-image" src={{item.image_url}} ></img>
+            </div>
+            <a href="post/{{item.id}}">more details </a>
+          </div>
+          <dib post="item.id"></dib>           
         </div>
      </tab>
 
-     <tab heading="My Stuff" disabled="tab.disabled" ng-click="getMyStuff()">
-      <div class="container-fluid col-md-12" id="my-stuff-container">
-        <div ng-repeat="stuff in mystuff track by $index" class="col-md-3 clearfix" >
-        <img class="img-thumbnail col-md-3 stuff-image" src="{{stuff.image_url}}"></img>
-        <div class="col-md-6">
-         <p>{{stuff.description}}</p>
-         </div>
-        <button class= "btn btn-default" >I don't want it</button>    
-              
+     <tab heading="My Stuff"  ng-click="getMyStuff()">
+  
+        <div ng-repeat="stuff in mystuff track by $index" class="col-md-4 clearfix" >
+          <div class="stuff-view">
+            <div class= "stuff-image-container">
+              <img class="stuff-image" src={{stuff.image_url}} ></img>
+              <div class="col-md-6">
+                <a href="post/{{stuff.id}}">more details </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
      </tab>
 
 

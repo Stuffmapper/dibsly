@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
 	
-	describe "Get geolocated", :vcr => vcr_options do
+	describe "Get geolocated posts", :vcr => vcr_options do
 		 
 
 		before do
@@ -188,5 +188,6 @@ RSpec.describe PostsController, :type => :controller do
 		end
 
 	end
+
 	
 end

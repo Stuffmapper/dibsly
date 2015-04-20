@@ -3,6 +3,7 @@ Dibsly::Application.routes.draw do
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
   get '/auth/check' => 'sessions#check'
 
+  get '/users/geolocated/' => 'users#user_geolocation'
   post 'users' => 'users#create'
   patch 'users/:id' => 'users#my_stuff'
   post 'users/:id', :to => 'users#show', :as => :user

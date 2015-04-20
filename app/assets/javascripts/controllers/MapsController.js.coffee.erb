@@ -2,16 +2,16 @@
 controllers = angular.module('controllers', )
 controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
   ($scope, $http, MapsService )->
-    $scope.mapCenter = '47.6097,-122.3331'
-    $http.get('/user/geolocated/')
-    .success((data)->
-      if $scope.mapCenter == 'undefined'
-        $scope.mapCenter = data.location )
-    .error(
-      if $scope.mapCenter == 'undefined'
-        $scope.mapCenter = '47.6097,-122.3331'
-      console.log('boo')
-      )
+    # $http.get('/users/geolocated')
+    # .success((data)->
+    #   if not $scope.mapCenter 
+    #     $scope.mapCenter = data.current_location
+    #     console.log("good", data.location ) )
+    # .error(
+    #   if not $scope.mapCenter 
+    #     $scope.mapCenter = '47.6097,-122.3331'
+    #     console.log("bad", data.location )
+    #   )
 
 
 
@@ -54,10 +54,11 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
       google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
       MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
-        $scope.mapCenter == position.coords.latitude + ',' +position.coords.longitude
+        
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           $scope.map.panTo(current_location)
+          $scope.mapCenter == position.coords.latitude + ',' +position.coords.longitude
           )
         )
       )
