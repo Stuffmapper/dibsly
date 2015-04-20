@@ -2,16 +2,8 @@
 controllers = angular.module('controllers', )
 controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
   ($scope, $http, MapsService )->
-    # $http.get('/users/geolocated')
-    # .success((data)->
-    #   if not $scope.mapCenter 
-    #     $scope.mapCenter = data.current_location
-    #     console.log("good", data.location ) )
-    # .error(
-    #   if not $scope.mapCenter 
-    #     $scope.mapCenter = '47.6097,-122.3331'
-    #     console.log("bad", data.location )
-    #   )
+    $scope.mapCenter = '47.6097,-122.3331'
+
 
 
 
@@ -58,7 +50,6 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           $scope.map.panTo(current_location)
-          $scope.mapCenter == position.coords.latitude + ',' +position.coords.longitude
           )
         )
       )
