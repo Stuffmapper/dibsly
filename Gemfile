@@ -85,6 +85,7 @@ end
 
 group :test do
   gem 'capybara', '~> 2.4.4'
+  gem 'capybara-email'
   gem 'shoulda-matchers','~> 2.4.0'
   gem 'vcr'
   gem 'simplecov', :require => false

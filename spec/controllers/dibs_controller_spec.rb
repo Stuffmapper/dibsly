@@ -43,7 +43,7 @@ RSpec.describe DibsController, type: :controller do
 				@post.create_new_dib(@user2)
 				assert @post.available_to_dib? == false
 				xhr :get, :create, :post_id => @post.id  
-		     	expect(response.body).to eq("{\"dib\":[\"post not available to div\"]}") 
+		     	expect(response.body).to eq("{\"dib\":[\"post not available to dib\"]}") 
 		     end
 
 		end

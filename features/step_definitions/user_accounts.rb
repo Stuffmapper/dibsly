@@ -12,8 +12,9 @@ end
 
 
 Given(/^that I am not logged in and don't have an account$/) do
-  
+  #do nothing  
 end
+
 
 Then(/^I should see a field for "(.*?)"$/) do |arg1|
   expect(page).to have_field(arg1)
@@ -48,10 +49,10 @@ Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
   
   sign_in User.find_by_username('fakeuser')
+
   expect(page.body).to have_text('You have been signed in')
 
   expect(page).to have_text('Sign Out')
-
 
 end
 
@@ -73,9 +74,6 @@ Given(/^that I already have an account$/) do
 
 end
 
-Given(/^press SignUp$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 Then(/^I should expect to see a user agreement$/) do
   click_link('user agreement')
@@ -84,4 +82,65 @@ end
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
   expect(page.body).to have_text(arg1)
+end
+
+Given(/^that I have an account and my username is Jack$/) do
+  @user = create(:user, :username => 'Jack')
+end
+
+Given(/^that I have the signin page open\.$/) do
+  visit('/')
+  click_link('Sign In')
+end
+
+Given(/^I fail to sign in with the password "(.*?)"$/) do |arg1|
+  fill_in 'username', with: 'Jack'
+  fill_in 'password', with: arg1
+  within('.modal-footer') do 
+    click_button 'Sign In'
+  end
+  sleep(1)
+  expect(page.body).to have_text("Wrong username or password")  
+end
+
+Then(/^I should see a forgot password\? link$/) do
+
+  expect(page).to have_selector(:link_or_button, 'Forgot Password?')
+end
+
+When(/^I follow the forgot password link and enter my email$/) do
+  click_button('Forgot Password?') 
+  fill_in 'email', with: @user.email
+
+  
+  click_button "Reset"
+  sleep(2)
+  
+end
+
+Then(/^I should receive an email with a link to reset my password$/) do
+  open_email(@user.email)
+  expect(ActionMailer::Base.deliveries.empty?).to be(false)
+  expect(current_email.body).to have_text(   'user/reset/' + User.find_by_email(@user.email).password_reset_token )
+
+end
+
+When(/^I follow the reset password link and set my new password to "(.*?)"$/) do |arg1|
+  current_email.click_link "http://"
+  expect(page).to have_content("Change Your Password") 
+  fill_in 'password', with: arg1
+  fill_in 'password_confirmation', with: arg1
+  click_button 'Change Password'
+  sleep(1)
+  expect(page).to have_text ('Password Changed')
+end
+
+
+Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
+    click_link 'Sign In'
+    fill_in 'username', with: @user.username
+    fill_in 'password', with: arg1
+    within('.modal-footer') do 
+       click_button 'Sign In'
+    end
 end
