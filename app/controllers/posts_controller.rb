@@ -12,6 +12,7 @@ class PostsController < ApplicationController
     else
       @map = '47.6097,-122.3331'
     end
+    
   end
 
   # POST /posts

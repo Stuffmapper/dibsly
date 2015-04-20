@@ -117,4 +117,24 @@ When(/^I try to post an item$/) do
 end
 
 
+### VIEW PHOTO
+When(/^click on an item's description on the map$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see a photo$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^click on an item on in my stuff$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see a photo of the stuff$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+
+
 

@@ -2,6 +2,19 @@
 controllers = angular.module('controllers', )
 controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
   ($scope, $http, MapsService )->
+    $scope.mapCenter = '47.6097,-122.3331'
+    $http.get('/user/geolocated/')
+    .success((data)->
+      if $scope.mapCenter == 'undefined'
+        $scope.mapCenter = data.location )
+    .error(
+      if $scope.mapCenter == 'undefined'
+        $scope.mapCenter = '47.6097,-122.3331'
+      console.log('boo')
+      )
+
+
+
     
 
     updateMarkers = ->
@@ -21,7 +34,18 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
         MapsService.markers = data.posts
         for post in $scope.markers
             latlng = new google.maps.LatLng(post.coords.latitude,post.coords.longitude)
-            marker = new google.maps.Marker(position: latlng, map:$scope.map,title:post.description)
+            marker =
+              new google.maps.Marker(position: latlng,
+              map:$scope.map,
+              title: post.description,
+              icon: "<%= asset_path('green-icon-small.png')%>")
+            infowindow = new google.maps.InfoWindow( content: '<div>' + post.description  + '</div>')
+            google.maps.event.addListener(
+              marker,
+              'click',
+              -> infowindow.open($scope.map, marker)
+              )
+
         )
 
     $scope.$on('mapInitialized', (evt, map) ->
@@ -30,6 +54,7 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
       google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
       MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
+        $scope.mapCenter == position.coords.latitude + ',' +position.coords.longitude
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           $scope.map.panTo(current_location)
