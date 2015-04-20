@@ -19,17 +19,7 @@ class UsersController < ApplicationController
     end
   
   end
-  def user_geolocation
-    user_ip = request.location
-    
-    if user_ip && !user_ip.longitude == 0.0
-      user_location = { :location =>  user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s }
-    else
-      user_location = {:location => '47.6097,-122.3331'}
-    end
-    render json: user_location , status: :ok
 
-  end
 
   # POST /users
   # POST /users.json

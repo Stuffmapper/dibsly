@@ -33,9 +33,7 @@ end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
   click_link "My Stuff" 
-  within('#my-stuff-container') do 
-   expect(page).to have_text(arg1)
-  end
+  expect(page).to have_text(arg1)
 end
 #
 #

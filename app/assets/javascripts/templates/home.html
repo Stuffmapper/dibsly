@@ -9,11 +9,17 @@
 
      <tab heading="Get Stuff" disabled="tab.disabled" >
         <div ng-repeat="item in stuff track by $index" class="col-md-4 clearfix" >
-          <div class="stuff-view">
+          <div class="stuff-view" title={{item.description}}>
             <div class= "stuff-image-container">
+            <div class="stuff-description">
+              {{item.description}}
+            </div>
               <img class="stuff-image" src={{item.image_url}} ></img>
             </div>
-            <a href="post/{{item.id}}">more details </a>
+
+            <div class="col-md-12">
+              <a href="post/{{item.id}}">details</a>
+            </div>
           </div>
           <dib post="item.id"></dib>           
         </div>
@@ -22,12 +28,16 @@
      <tab heading="My Stuff"  ng-click="getMyStuff()">
   
         <div ng-repeat="stuff in mystuff track by $index" class="col-md-4 clearfix" >
-          <div class="stuff-view">
+          <div class="stuff-view" title={{stuff.description}}>
             <div class= "stuff-image-container">
-              <img class="stuff-image" src={{stuff.image_url}} ></img>
-              <div class="col-md-6">
-                <a href="post/{{stuff.id}}">more details </a>
+              <div class="stuff-description" >
+              {{stuff.description}}
               </div>
+              <img class="stuff-image" src={{stuff.image_url}} ></img>
+            </div>
+
+            <div class="col-md-12">
+              <a href="post/{{stuff.id}}">details </a>
             </div>
           </div>
         </div>
