@@ -117,19 +117,28 @@ end
 
 ### VIEW PHOTO
 When(/^click on an item's description on the map$/) do
-  pending # express the regexp above with the code you wish you had
+ expect(page.body).to have_selector('#google-map-container')
+   within(first('.g-marker', :visible => false)) do
+     expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+  end 
+
+
 end
 
 Then(/^I should see a photo$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
 end
 
-When(/^click on an item on in my stuff$/) do
-  pending # express the regexp above with the code you wish you had
+When(/^click on an item on in stuff$/) do
+  
+  first(:link, 'Details').click 
+ #express the regexp above with the code you wish you had
 end
 
 Then(/^I should see a photo of the stuff$/) do
-  pending # express the regexp above with the code you wish you had
+ 
+  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+  
 end
 
 

@@ -15,6 +15,6 @@ Feature: View Photos of item
   @javascript 
   Scenario: Successfully view photo in my stuff
     When I visit the home page
-    And click on an item on in my stuff
+    And click on an item on in stuff
     Then I should see a photo of the stuff
 

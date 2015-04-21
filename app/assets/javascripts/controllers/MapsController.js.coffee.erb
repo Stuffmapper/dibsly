@@ -21,24 +21,9 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
              neLng: neBounds.lng() 
              swLng: swBounds.lng()
       ).success((data)->
-
         $scope.markers = data.posts
-        MapsService.markers = data.posts
-        for post in $scope.markers
-            latlng = new google.maps.LatLng(post.coords.latitude,post.coords.longitude)
-            marker =
-              new google.maps.Marker(position: latlng,
-              map:$scope.map,
-              title: post.description,
-              icon: "<%= asset_path('green-icon-small.png')%>")
-            infowindow = new google.maps.InfoWindow( content: '<div>' + post.description  + '</div>')
-            google.maps.event.addListener(
-              marker,
-              'click',
-              -> infowindow.open($scope.map, marker)
-              )
+        MapsService.markers = data.posts )
 
-        )
 
     $scope.$on('mapInitialized', (evt, map) ->
       updateMarkers()
