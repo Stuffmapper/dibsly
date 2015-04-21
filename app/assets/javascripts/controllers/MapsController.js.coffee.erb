@@ -7,10 +7,10 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
 
 
 
-    
+    $scope.markers = {}
 
     updateMarkers = ->
-      $scope.markers = []
+     
       neBounds = $scope.map.getBounds().getNorthEast()
       swBounds = $scope.map.getBounds().getSouthWest()
       $http(
@@ -21,8 +21,12 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
              neLng: neBounds.lng() 
              swLng: swBounds.lng()
       ).success((data)->
-        $scope.markers = data.posts
-        MapsService.markers = data.posts )
+        for marker in data.posts
+          if not $scope.markers[marker.id]
+            console.log(marker,$scope.markers)
+            $scope.markers[marker.id] = marker
+
+        MapsService.markers = $scope.markers )
 
 
     $scope.$on('mapInitialized', (evt, map) ->

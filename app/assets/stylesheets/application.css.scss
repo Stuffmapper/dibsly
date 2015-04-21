@@ -48,8 +48,8 @@ nav{
 }
 .stuff-description{
 	float:left;
-	margin-bottom:-80px;
-	max-height: 80px;
+	margin-bottom:-90px;
+	max-height: 90px;
 	padding:5px;
 	position:relative;
 	z-index: 4;
@@ -58,7 +58,13 @@ nav{
 	overflow:hidden;
 
 }
+@media (min-width: 1000px) {
+	.stuff-image-container{
+		max-height:104px;
+		float:left;
+	}
 
+}
 @media (max-width: 600px) {
 	#stuffmapper-menu{
 		top: initial;
