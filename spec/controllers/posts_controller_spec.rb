@@ -68,6 +68,18 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(parsed_response['posts'][0]['image_url'] ).to match(/http:\/\/s3-us-west-2.amazonaws.com\/stuffmapper-test\/posts\/image/)
 			   expect(response.status).to eq(200)
 			end
+
+			it "does not return a dibbed item  " do
+			   @post.latitude = '47'
+			   @post.longitude = '-122'
+			   @post.dibbed_until = Time.now + 10.minutes 
+			   @post.save!
+			   expect(@post.available_to_dib?).to eq(false)
+			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123			
+			   parsed_response = JSON.parse(response.body.as_json)
+			   expect(parsed_response['posts'][0]).to eq nil
+			   expect(response.status).to eq(200)   
+			end
 		end
 	end
 	describe "Post create post", :vcr => vcr_options do
@@ -185,6 +197,18 @@ RSpec.describe PostsController, :type => :controller do
 			xhr :get, :show, :id => @post.id 
 			expect(response.status).to eq(200)
 			expect(JSON.parse(response.body)['post']['id']).to eq(@post.id)
+		end
+		it "should an items dibbed status" do	
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+			expect(JSON.parse(response.body)['post']['dibbable']).to eq(true)
+		end
+		it "should an items dibbed status" do	
+			@post.dibbed_until = Time.now + 10.minutes
+			@post.save!
+			xhr :get, :show, :id => @post.id 
+			expect(response.status).to eq(200)
+			expect(JSON.parse(response.body)['post']['dibbable']).to eq(false)
 		end
 
 	end
