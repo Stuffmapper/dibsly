@@ -60,8 +60,12 @@ class PostsController < ApplicationController
   # POST /posts/claim/1.json
 
   def geolocated 
+
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
                  .where(:longitude => params[:swLng]..params[:neLng])
+    #TODO - change available_to_dib as part of the scope
+    @posts = @posts.select{ |post| post.available_to_dib? }
+    
     render json: @posts
   end
 

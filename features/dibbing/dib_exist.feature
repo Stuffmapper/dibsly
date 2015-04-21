@@ -7,7 +7,7 @@ Feature: Dib Exists
 
   @javascript	
   Scenario: Successfully dib item
-    When log in and I visit the map location where the shoes are. 
+    When I log in and visit the map location where the shoes are. 
     Then I should see the shoes in the menu
     When I hit dib
     Then I should not see the shoes in the menu when I visit the map.
@@ -16,15 +16,14 @@ Feature: Dib Exists
   @javascript 
   Scenario: Unsuccessfully dib item
     When Jill has dibbed Jack's shoes
-    When I log in and visit the map location where the shoes are. 
-    Then I should not see the shoes
+    When I log in and visit the map location where the shoes are.
+    Then I should not see the shoes in the menu 
     When I visit the shoes permalink page
     Then I should not be able to dib the item.
 
   @javascript 
   Scenario: Unsuccessfully dib item
-    Given I log out
-    When I log in and visit the map location where the shoes are. 
+    Given I'm logged out
     When I visit the shoes permalink page
-    Then I should not be able to dib the item.
+    Then I should not be able to dib the item by pressing dib.
 

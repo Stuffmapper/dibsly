@@ -12,6 +12,7 @@ class Post < ActiveRecord::Base
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed']
   
   default_scope { order('created_at DESC') }
+  
 
   validates_attachment_presence :image
   validates_presence_of :creator_id

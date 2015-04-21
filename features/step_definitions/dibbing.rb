@@ -9,7 +9,7 @@ Given(/^I'm a registered user and Jack has posted some shoes and Jill is another
 end
 
 
-When(/^log in and I visit the map location where the shoes are\.$/) do
+When(/^I log in and visit the map location where the shoes are\.$/) do
   visit('/')
   sign_in(@current_user)
   #bad practice but working this will have to change if we switch to different directive
@@ -21,9 +21,15 @@ When(/^log in and I visit the map location where the shoes are\.$/) do
   
 end
 
-Then(/^I should see the shoes in the menu$/) do
+Then(/^I should see the shoes in the menu$/)  do
   within('#stuffmapper-menu') do 
     expect(page).to have_text("shoes") 
+  end
+end
+
+Then(/^I should not see the shoes in the menu$/)  do
+  within('#stuffmapper-menu') do 
+    expect(page).to_not have_text("shoes") 
   end
 end
 
@@ -32,33 +38,44 @@ When(/^I hit dib$/) do
  end
 
 Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
-  pending # express the regexp above with the code you wish you had
+  visit('/')
+  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
+  var map = angular.element('map').scope().map;
+  map.panTo(myLatLng);
+  map.setZoom(16);")
+  sleep(1)
+  within('#stuffmapper-menu') do 
+    expect(page).to_not have_text("shoes") 
+  end 
 end
 
 Then(/^Jack should have been notified of my dib\.$/) do
-  pending # express the regexp above with the code you wish you had
+  
+  open_email(@user_jack.email)
+
+  expect(current_email.body).to have_text( "dibbed your stuff"   )
+
 end
 
 When(/^Jill has dibbed Jack's shoes$/) do
-  pending # express the regexp above with the code you wish you had
+  @shoes.create_new_dib(@user_jill ) 
 end
 
-When(/^I log in and visit the map location where the shoes are\.$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
-Then(/^I should not see the shoes$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 When(/^I visit the shoes permalink page$/) do
-  pending # express the regexp above with the code you wish you had
+  visit('/post/' + @shoes.id.to_s ) 
 end
 
 Then(/^I should not be able to dib the item\.$/) do
-  pending # express the regexp above with the code you wish you had
+  sleep(3)
+  expect(page).to_not have_text 'Dib'# express the regexp above with the code you wish you had
 end
 
-Given(/^I log out$/) do
-  pending # express the regexp above with the code you wish you had
+Given(/^I'm logged out$/) do
+   # express the regexp above with the code you wish you had
+end
+Then(/^I should not be able to dib the item by pressing dib\.$/) do
+  click_button('Dib')
+  expect(@shoes.available_to_dib?).to eq true # express the regexp above with the code you wish you had
 end
