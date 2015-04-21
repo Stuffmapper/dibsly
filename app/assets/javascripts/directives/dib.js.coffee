@@ -4,7 +4,7 @@ directives = angular.module('directives')
 directives.directive('dib', ->
     restrict:'E'
     scope: { post: '=' },
-    controller:['$scope','$http','UserService','$modal','AlertService', ($scope, $http,UserService,$modal,AlertService)->
+    controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
      $scope.giveMe = (post_id)->
         post_url = 'posts/' + post_id + '/dibs'
         UserService.check( -> )
@@ -14,6 +14,7 @@ directives.directive('dib', ->
 	        $http.post(
 	            post_url
 	            ).success((data)->
+                    delete MapsService.markers[post_id]
 	                AlertService.add('success', "Dibbed your stuff")
 	            ).error (data) ->
 	                for key, value of data
