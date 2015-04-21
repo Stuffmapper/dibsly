@@ -6,7 +6,7 @@ Feature: Add a description
   	Given that I already have an account 
 
   @javascript	
-  Scenario: Successfully view map
+  Scenario: Successfully add description
     When I log in and give stuff
     Then I should be able to put  "These are some awesome kicks" in the description field
     Then I should see my post in my stuff with the description "These are some awesome kicks"

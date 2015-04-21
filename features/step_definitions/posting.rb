@@ -33,9 +33,7 @@ end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
   click_link "My Stuff" 
-  within('#my-stuff-container') do 
-   expect(page).to have_text(arg1)
-  end
+  expect(page).to have_text(arg1)
 end
 #
 #
@@ -115,6 +113,35 @@ When(/^I try to post an item$/) do
   click_link('Give Stuff')
   click_button('Submit')
 end
+
+
+### VIEW PHOTO
+When(/^click on an item's description on the map$/) do
+ expect(page.body).to have_selector('#google-map-container')
+   within(first('.g-marker', :visible => false)) do
+     expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+  end 
+
+
+end
+
+Then(/^I should see a photo$/) do
+  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+end
+
+When(/^click on an item on in stuff$/) do
+  
+  first(:link, 'Details').click 
+ #express the regexp above with the code you wish you had
+end
+
+Then(/^I should see a photo of the stuff$/) do
+ 
+  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+  
+end
+
+
 
 
 

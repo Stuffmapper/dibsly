@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :my_stuff]
 
   # GET /users/1"111"
   # GET /users/1.json
@@ -21,24 +20,10 @@ class UsersController < ApplicationController
   
   end
 
+
   # POST /users
   # POST /users.json
-  def my_stuff
-    respond_to do |format|
-      @user.valid?
-      if @user.update(user_params)
-        format.json {
-            render json: '[]',
-            status: :ok
-        }
-      else
-        format.json {
-            render json: @user.errors,
-            status: :unprocessable_entity
-        }
-      end
-    end
-  end
+
 
 
 
@@ -67,9 +52,6 @@ class UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
     # Never trust parameters from the scary internet, 
     # only allow the white list through.

@@ -35,6 +35,29 @@ nav{
     max-width: 350px;
     overflow-y: auto;
 }
+.stuff-image{
+	max-width: 100%;
+}
+.stuff-view{
+	margin-top:5px;
+	min-height: 145px;
+}
+.stuff-image-container{
+	min-height:104px;
+	float:left;
+}
+.stuff-description{
+	float:left;
+	margin-bottom:-80px;
+	max-height: 80px;
+	padding:5px;
+	position:relative;
+	z-index: 4;
+	color:white;
+	background:rgba(0,0,0,.5);
+	overflow:hidden;
+
+}
 
 @media (max-width: 600px) {
 	#stuffmapper-menu{
@@ -58,6 +81,9 @@ nav{
  								background-color: rgb(229, 227, 223);
  								z-index: 1;
  								}
+.stuff-map-image{
+	max-width:150px;
+}
 /*** ALERTS ***/
 
 .alert{
@@ -73,6 +99,11 @@ nav{
 /*** optional ***/
 #option {
 	color: gray;
+}
+
+/*** SignUp ***/
+#signup {
+	float: left;
 }
 
 

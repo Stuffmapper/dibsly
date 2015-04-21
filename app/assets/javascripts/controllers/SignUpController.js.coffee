@@ -54,6 +54,11 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
         templateUrl:'resetPw.html',
         controller: 'SignUpCtrl'
 
+    $scope.notSignUp = ->
+      $modal.open
+        templateUrl:'signUp.html',
+        controller: 'SignUpCtrl'
+
     $scope.submitReset = ->
       console.log($scope.email)
       $http(
