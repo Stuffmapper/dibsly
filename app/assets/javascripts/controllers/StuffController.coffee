@@ -6,6 +6,10 @@ controllers = angular.module('controllers')
 
 controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http', 
  ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) -> 
+     $scope.UserService = UserService;
+     $scope.$watchCollection('UserService',->
+        $scope.currentUser = UserService.currentUser
+     )
      $scope.$watch( ->
             return MapsService.newMarker
         (newValue) ->
@@ -30,12 +34,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 ))
 
      $scope.stuff =  MapsService.markers
-     $scope.mystuff = []
+     $scope.mystuff = {}
      $scope.getMyStuff = ->
         $http(
             url: '/my-stuff'
           ).success((data)->
-            $scope.mystuff =  data.posts  )
+            for stuff in data.posts
+                if not $scope.mystuff[stuff.id]
+                    $scope.mystuff[stuff.id] = stuff
+                    $scope.mystuff =  data.posts  )
 
 
 

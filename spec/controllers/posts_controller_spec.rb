@@ -176,6 +176,16 @@ RSpec.describe PostsController, :type => :controller do
 				expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
 
 			end
+			it 'should return my stuff with a creator username' do 
+				
+				@post.description = "awesome kicks"
+				@post.save
+				sign_in(@user)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['creator'] ).to eq @user.username
+
+			end
 
 			it 'should return stuff I dibbed' do 
 				@user2 = create(:user)

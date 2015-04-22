@@ -8,8 +8,8 @@ Feature: Undibs
   @javascript	
   Scenario: Successfully unDib item
     When I log in and visit the map location where the shoes are.
-    Then I should not see the shoes in the menu 
+    Then I should not see the shoes in the get stuff menu 
     When I go to my stuff and undibs Jack's shoes
     When I visit the map location where the shoes are. 
-    Then I should see the shoes in the menu
+    Then I should see the shoes in the get stuff  menu
     And Jack should have been notified of my unDib.

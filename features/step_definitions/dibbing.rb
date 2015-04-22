@@ -29,6 +29,7 @@ end
 
 Then(/^I should not see the shoes in the menu$/)  do
   within('#stuffmapper-menu') do 
+ 
     expect(page).to_not have_text("shoes") 
   end
 end
@@ -95,14 +96,35 @@ end
 When(/^I go to my stuff and undibs Jack's shoes$/) do
   click_link('My Stuff')
   within('#mystuff-' + @shoes.id.to_s ) do
-    click_link('unDib')
+    click_button('unDib')
   end
 end
+Then(/^I should not see the shoes in the get stuff menu$/) do
+  click_link('Get Stuff')
+  within('#get-stuff') do 
+    expect(page).to_not have_text("shoes") 
+  end  
+end
+Then(/^I should see the shoes in the get stuff  menu$/) do
+  click_link('Get Stuff')
+  within('#get-stuff') do 
+    expect(page).to have_text("shoes") 
+  end  
+
+end
+
+
 
 When(/^I visit the map location where the shoes are\.$/) do
-  pending # express the regexp above with the code you wish you had
+    execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
+  var map = angular.element('map').scope().map;
+  map.panTo(myLatLng);
+  map.setZoom(16);")
+    sleep(1)
 end
 
 Then(/^Jack should have been notified of my unDib\.$/) do
-  pending # express the regexp above with the code you wish you had
+  open_email(@user_jack.email)
+  expect(current_email.body).to have_text(   'has undibbed your' )
+
 end

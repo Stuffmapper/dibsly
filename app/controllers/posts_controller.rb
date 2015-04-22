@@ -12,7 +12,6 @@ class PostsController < ApplicationController
     else
       @map = '47.6097,-122.3331'
     end
-    
   end
 
   # POST /posts
@@ -118,14 +117,11 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
    render json: @post
 
-    
   end
 
 
   private
 
-    # Never trust parameters from the scary internet, 
-    # only allow the white list through.
     def post_params
       params.permit(:image,:category, :latitude, :longitude, :description)
     end
