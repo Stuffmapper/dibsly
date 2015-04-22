@@ -3,7 +3,7 @@ directives = angular.module('directives')
 
 directives.directive('undib', ->
     restrict:'E'
-    scope: { post: '=' },
+    scope: { post: '=', mystuff: '=' },
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
 
      $scope.giveBack = (post_id)->
