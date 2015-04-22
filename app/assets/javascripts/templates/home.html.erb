@@ -9,7 +9,7 @@
 
      <tab heading="Get Stuff" disabled="tab.disabled" >
      <div id="get-stuff" >
-        <div ng-repeat="item in stuff track by $index" class="col-md-4 clearfix">
+        <div ng-repeat="item in stuff" class="col-md-4 clearfix">
           <div class="stuff-view" title={{item.description}}>
             <div class= "stuff-image-container">
             <div class="stuff-description">
@@ -35,7 +35,7 @@
      <tab heading="My Stuff"  ng-click="getMyStuff()">
       <div id="my-stuff" >
   
-        <div ng-repeat="stuff in mystuff track by $index" class="col-md-4 clearfix" id="mystuff-{{stuff.id}}" >
+        <div ng-repeat="stuff in mystuff track by $index" class="col-md-4 clearfix" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
           <div class="stuff-view" title={{stuff.description}}>
             <div class= "stuff-image-container">
               <div class="stuff-description" >
@@ -46,10 +46,11 @@
               <img class="stuff-image" src={{stuff.image_url}} ></img>
             </div>
             <div class="col-md-12">
-              <undib post="stuff.id" mystuff="mystuff" ng-hide="currentUser == stuff.creator"></undib>   
+              <undib post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib>   
             </div>
 
           </div>
+
         </div>
      </div>
      </tab>

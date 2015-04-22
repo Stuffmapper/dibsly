@@ -15,7 +15,7 @@ directives.directive('undib', ->
 	        $http.post(
 	            post_url
 	            ).success((data)->
-                    delete mystuff[post_id]; AlertService.add('success', "unDibbed your stuff")
+                    delete $scope.mystuff; AlertService.add('success', "unDibbed your stuff");
 	            ).error (data) ->
 	                for key, value of data
 	                    AlertService.add('danger', key + ' ' + value )
