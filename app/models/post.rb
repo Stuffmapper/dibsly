@@ -32,12 +32,21 @@ class Post < ActiveRecord::Base
     dib.valid_until = Time.now + Dib.timeSpan
     if dib.save
       self.dibbed_until = dib.valid_until
-      self.status == 'dibbed'
+      self.status = 'dibbed'
       self.dibber_id = dibber.id
       self.save
       send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
     end
     dib
+  end
+
+  def remove_current_dib
+      self.status = 'new'
+      dibber = User.find(self.dibber_id)
+      self.dibber_id = nil
+      self.dibbed_until = Time.now - 1.minute
+      self.save
+      send_message_to_creator( dibber, "#{dibber.username} has undibbed your stuff", "Stuff message" )
   end
 
   def available_to_dib? 

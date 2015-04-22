@@ -23,6 +23,9 @@ Dibsly::Application.routes.draw do
   resources :posts, only: [:create, :index] do 
     resources :dibs, only: [:create ] 
   end
+  post 'posts/:id/undib' => 'dibs#undib'
+
+
   resources :password_resets,  only: [:new, :create, :edit, :update]
   
   get 'posts/:id' => 'posts#show'

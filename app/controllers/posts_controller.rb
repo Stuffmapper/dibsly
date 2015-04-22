@@ -12,7 +12,6 @@ class PostsController < ApplicationController
     else
       @map = '47.6097,-122.3331'
     end
-    
   end
 
   # POST /posts
@@ -106,23 +105,23 @@ class PostsController < ApplicationController
   def my_stuff
     if (current_user)
       @posts = Post.where(:creator_id => current_user.id )
-      render json: @posts
+      @dibs = Post.where(:dibber_id => current_user.id )
+      @posts = @posts + @dibs
+      render json:  @posts, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
   end
+
   def show 
     @post = Post.find(params[:id])
    render json: @post
 
-    
   end
 
 
   private
 
-    # Never trust parameters from the scary internet, 
-    # only allow the white list through.
     def post_params
       params.permit(:image,:category, :latitude, :longitude, :description)
     end

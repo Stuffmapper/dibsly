@@ -1,13 +1,13 @@
 
 directives = angular.module('directives')
 
-directives.directive('dib', ->
+directives.directive('undib', ->
     restrict:'E'
-    scope: { post: '=' },
+    scope: { post: '=', mystuff: '=' },
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
 
-     $scope.giveMe = (post_id)->
-        post_url = 'posts/' + post_id + '/dibs'
+     $scope.giveBack = (post_id)->
+        post_url = 'posts/' + post_id + '/undib'
         UserService.check( -> )
    
         if UserService.currentUser
@@ -15,7 +15,7 @@ directives.directive('dib', ->
 	        $http.post(
 	            post_url
 	            ).success((data)->
-                    delete MapsService.markers[post_id]; AlertService.add('success', "Dibbed your stuff")
+                    delete mystuff[post_id]; AlertService.add('success', "unDibbed your stuff")
 	            ).error (data) ->
 	                for key, value of data
 	                    AlertService.add('danger', key + ' ' + value )
@@ -26,8 +26,7 @@ directives.directive('dib', ->
                 controller:'SignUpCtrl'
         ]
     replace:true,
-    template:  '<button class= "btn-xs btn-default" ng-click=giveMe(post)>Reserve</button>'   
-
+    template:  '<button class= "btn-xs btn-default" ng-click=giveBack(post)>unDib</button>'   
 )
 
 

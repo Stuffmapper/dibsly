@@ -135,8 +135,10 @@ RSpec.describe PostsController, :type => :controller do
 
 		before do
 			@user = create(:user)
-		    create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
+			@post = create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
+				#create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
 		end
+
 		context 'without login' do
 			it 'should return 401' do 
 				xhr :get, :my_stuff 
@@ -165,13 +167,34 @@ RSpec.describe PostsController, :type => :controller do
 			end
 
 			it 'should return my stuff with a description' do 
-				post = @user.posts.last
-				post.description = "awesome kicks"
-				post.save
+				
+				@post.description = "awesome kicks"
+				@post.save
 				sign_in(@user)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
+
+			end
+			it 'should return my stuff with a creator username' do 
+				
+				@post.description = "awesome kicks"
+				@post.save
+				sign_in(@user)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['creator'] ).to eq @user.username
+
+			end
+
+			it 'should return stuff I dibbed' do 
+				@user2 = create(:user)
+				@post.create_new_dib @user2
+
+				sign_in(@user2)
+				xhr :get, :my_stuff 
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['id'] ).to eq @post.id 
 
 			end
 		end

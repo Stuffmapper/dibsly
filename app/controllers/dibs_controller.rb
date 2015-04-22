@@ -18,5 +18,18 @@ def create
     end
   end
 
+def undib
+  post = Post.find(params[:id])
+
+  if current_user && current_user.id == post.dibber_id
+    post.remove_current_dib
+    post.reload
+    render json: '[]', status: :ok
+  else
+    render json: '[]', status: :unprocessable_entity
+  end
+  
+end
+
   private
 end
