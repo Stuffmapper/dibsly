@@ -14,8 +14,7 @@ directives.directive('dib', ->
 	        $http.post(
 	            post_url
 	            ).success((data)->
-                    delete MapsService.markers[post_id]
-	                AlertService.add('success', "Dibbed your stuff")
+                    delete MapsService.markers[post_id]; AlertService.add('success', "Dibbed your stuff")
 	            ).error (data) ->
 	                for key, value of data
 	                    AlertService.add('danger', key + ' ' + value )
