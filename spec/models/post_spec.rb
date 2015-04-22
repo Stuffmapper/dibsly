@@ -30,6 +30,33 @@ RSpec.describe Post, :type => :model do
   end
 
 end
+  describe "Model Dibbing", :vcr => vcr_options  do 
+    before do
+        @user = create(:user)
+        @user2 = create(:user, {username: 'user2', email: 'anotherfake@email.com'})
+        @post = create(:post, creator_id: @user.id, longitude: 0, latitude:0  )   
+    end
+
+    it "should be able to be dibbed" do 
+
+      @post.create_new_dib @user2
+      expect(@post.available_to_dib?).to eq false
+      expect(@post.dibber_id).to eq @user2.id
+
+    end
+
+    it "should be able to be unDibbed" do 
+      
+      @post.create_new_dib @user2
+      expect(@post.available_to_dib?).to eq false
+      @post.remove_current_dib
+      expect(@post.dibber_id).to eq nil
+      expect(@post.available_to_dib?).to eq true
+  
+    end
+
+
+end
 
 
 end

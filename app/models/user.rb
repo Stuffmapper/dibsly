@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   has_many :posts, :class_name => Post, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib, :foreign_key => :creator_id
   has_many :messages, :class_name => Message, :foreign_key => :sender_id
-  has_many :posts, through: :dibs 
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
   
   # attr_accessor allows you to use the password attribute locally, but will not persist it to the database

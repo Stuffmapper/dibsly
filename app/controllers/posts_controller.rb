@@ -106,7 +106,7 @@ class PostsController < ApplicationController
   def my_stuff
     if (current_user)
       @posts = Post.where(:creator_id => current_user.id )
-      @dibs = current_user.posts
+      @dibs = Post.where(:dibber_id => current_user.id )
       @posts = @posts + @dibs
       render json:  @posts, status: :ok
     else
