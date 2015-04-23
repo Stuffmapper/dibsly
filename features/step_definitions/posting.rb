@@ -162,7 +162,7 @@ Then(/^I should have an edit option$/) do
 end
 
 Then(/^I should be able to click edit and change the details$/) do
-  click_button 'edit'
+  click_button 'Edit'
   fill_in 'description'
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
 end
