@@ -163,8 +163,14 @@ end
 
 Then(/^I should be able to click edit and change the details$/) do
   click_button 'Edit'
-  fill_in 'description'
+  fill_in 'description', with: "I have changed the details"
+  click_button "Update"
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
+  steps %{
+    When I visit the shoes permalink page
+  }
+  expect(page.body).to have_text("I have changed the details") # express the regexp above with the code you wish you had
+
 end
 
 When(/^I edit my stuff$/) do
