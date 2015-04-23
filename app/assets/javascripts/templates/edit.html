@@ -3,14 +3,38 @@
  <hr>
   <h3>Edit Post</h3>
   <form id="give-stuff-form">
-     <div class="col-md-12">
+     <div class="row col-md-12">
       <img class="stuff-map-image" src={{stuff.image_url}} ></img>
+
      </div>
-     <div class="col-md-12">
+     <br>
+
+     <div class="row col-md-12">
         <button class= "center btn btn-default" >Change Location</button>
-        <button class= "center btn btn-default" >Unpublish</button>
-        <button class= "align-center btn btn-default" >Delete</button>
+        <button class= "center btn btn-default" ng-hide='stuff.published ' ng-click="publish(true)">Publish</button>
+
+        <button class= "center btn btn-default" ng-show='stuff.published' ng-click="publish(false)">Depublish</button>
+
       </div>
+      <div class="row col-md-12">
+        <ul>
+          <li><b>Poster: </b>
+            <span>{{stuff.creator}}</span>
+          </li>
+
+          <li><b>Published: </b>
+            <span>{{stuff.published}}</span>
+          </li>
+
+          <li><b>Available: </b>
+            <span>{{stuff.dibbable}}</span>
+          </li>
+
+
+        </ul>
+      </div>
+
+
 
 
     <div class="form-group">

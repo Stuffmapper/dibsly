@@ -144,7 +144,8 @@ Given(/^I already have an account and a post$/)  do
       @post = build(:post, 
                 creator_id: @current_user.id, 
                 latitude: "47.6097", 
-                longitude: '-122.3331') 
+                longitude: '-122.3331'
+                ) 
       @post.save 
    end  # express the regexp above with the code you wish you had
 end
@@ -157,7 +158,7 @@ end
 
 Then(/^I should have an edit option$/) do
   within('#my-stuff') do 
-    expect(page).to_not have_button("edit") 
+    expect(page).to have_button("Edit") 
   end   # express the regexp above with the code you wish you had
 end
 
@@ -176,19 +177,29 @@ Then(/^I should be able to click edit and change the details$/) do
 end
 
 When(/^I edit my stuff$/) do
-  pending # express the regexp above with the code you wish you had
+  steps %{
+    When I log in and go to my stuff 
+    Then I should have an edit option
+  }
+  click_button 'Edit'
 end
 
-Then(/^I should also be able to delete it$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 Then(/^I should also be able to depublish it$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_button("Depublish")  
+  click_button "Depublish"
 end
 
 Then(/^it should not be viewable$/) do
-  pending # express the regexp above with the code you wish you had
+  click_link ('Get Stuff')
+   execute_script("var myLatLng = new google.maps.LatLng(#{@post.latitude}, #{@post.longitude});
+    var map = angular.element('map').scope().map;
+    map.panTo(myLatLng);
+    map.setZoom(16);")
+  sleep(1)  
+  within('#stuffmapper-menu') do 
+    expect(page).to_not have_text(@post.description) 
+  end
 end
 
 

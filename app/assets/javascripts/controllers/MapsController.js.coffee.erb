@@ -5,34 +5,20 @@ controllers.controller("MapsCtrl", [ '$scope','$http','MapsService',
     $scope.mapCenter = '47.6097,-122.3331'
 
 
-
-
-    $scope.markers = {}
+    $scope.$watch( ->
+          return MapsService.markers
+      (newValue) ->
+       $scope.markers = newValue
+      )
 
     updateMarkers = ->
-     
-      neBounds = $scope.map.getBounds().getNorthEast()
-      swBounds = $scope.map.getBounds().getSouthWest()
-      $http(
-         url: '/posts/geolocated'
-         params: 
-             neLat: neBounds.lat()
-             swLat: swBounds.lat() 
-             neLng: neBounds.lng() 
-             swLng: swBounds.lng()
-      ).success((data)->
-        for marker in data.posts
-          if not $scope.markers[marker.id]
-            console.log(marker,$scope.markers)
-            $scope.markers[marker.id] = marker
-
-        MapsService.markers = $scope.markers )
+      MapsService.updateMarkers($scope.map)
 
 
     $scope.$on('mapInitialized', (evt, map) ->
       updateMarkers()
-      google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
-      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
+      google.maps.event.addListener($scope.map, 'dragend', updateMarkers() )
+      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers() )
       MapsService.map = $scope.map
       navigator.geolocation.getCurrentPosition((position)->
         

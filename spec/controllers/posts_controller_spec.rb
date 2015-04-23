@@ -38,9 +38,12 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
 			   expect(response.status).to eq(200)
 			end
-			
-			it "does not returns post out of scope " do
-
+			it "does not return published posts" do
+			   
+			   @post.latitude = '47'
+			   @post.longitude = '-122'
+			   @post.published = false
+			   @post.save!
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
@@ -48,6 +51,8 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(response.status).to eq(200)   
 
 			end
+			
+
 			it "does not returns post out of scope " do
 			  
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
@@ -165,7 +170,14 @@ RSpec.describe PostsController, :type => :controller do
 			it 'should update a description' do 
 				sign_in(@user)
 				xhr :post, :update, { id: @post.id ,title:'', image: @file, latitude:'47',longitude:'-122', description: 'Update this' } 
-				expect(Post.last.description).to eq('Update this') 
+				expect(Post.find(@post.id).description).to eq('Update this') 
+			end
+
+			it 'should publish or depublish' do 
+				expect(@post.published).to eq(true) 
+				sign_in(@user)
+				xhr :post, :update, { id: @post.id , published: false } 
+				expect(Post.find(@post.id).published).to eq(false) 
 			end
 
 

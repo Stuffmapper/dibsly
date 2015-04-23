@@ -14,8 +14,8 @@ class PostsController < ApplicationController
     end
   end
   def update
-    if (current_user)
-        @post = Post.find(params[:id])
+    @post = Post.find(params[:id])
+    if (current_user) and @post.creator_id == current_user.id
         cleaned_params = post_params.delete_if{
           |key, value| value == 'undefined'  
       }
@@ -76,6 +76,7 @@ class PostsController < ApplicationController
 
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
                  .where(:longitude => params[:swLng]..params[:neLng])
+                 .where(:published => true)
     #TODO - change available_to_dib as part of the scope
     @posts = @posts.select{ |post| post.available_to_dib? }
     
@@ -137,7 +138,7 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description)
+      params.permit(:image,:category, :latitude, :longitude, :description, :published )
     end
 
 

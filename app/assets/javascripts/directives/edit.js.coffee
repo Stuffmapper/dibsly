@@ -5,12 +5,19 @@ directives.directive('edit', ->
     restrict:'E'
     scope: { post: '=', stuff: '=', editing: '=' },
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
-     console.log("This is", $scope.stuff)
      $scope.close = ->
         $scope.editing = !$scope.editing
-
+     $scope.publish = (status) ->
+        if UserService.currentUser
+            console.log('hey! you', MapsService.markers ) 
+            $http.post( "/posts/" + $scope.stuff.id + "/update" ,
+                { published: status })
+                .success( $scope.stuff['published'] = status, 
+                    if status == false
+                        MapsService.removeMarker($scope.stuff.id)
+                    else
+                        MapsService.addOldMarker($scope.stuff ) )
      $scope.updateStuff = ->
-        console.log("update working")
         UserService.check(->)
         if UserService.currentUser
             formdata = new FormData();
@@ -24,7 +31,6 @@ directives.directive('edit', ->
                 headers: {'Content-Type': undefined}
                 transformRequest: angular.identity
                 }).success (data, status, headers, config) -> 
-                    console.log('it worked')
                     AlertService.add('success', "Your post has been updated")
                     $scope.files = []
                 .error (data) ->
