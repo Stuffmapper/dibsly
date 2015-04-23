@@ -19,11 +19,14 @@ Dibsly::Application.routes.draw do
   get 'search' => 'posts#search'
   get 'my-stuff' => 'posts#my_stuff'
   post 'feedbacks/create'
+  
+ 
 
   resources :posts, only: [:create, :index] do 
     resources :dibs, only: [:create ] 
   end
   post 'posts/:id/undib' => 'dibs#undib'
+  post 'posts/:id/update' => 'posts#update'
 
 
   resources :password_resets,  only: [:new, :create, :edit, :update]

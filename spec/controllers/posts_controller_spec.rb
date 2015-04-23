@@ -95,6 +95,7 @@ RSpec.describe PostsController, :type => :controller do
 			end
 		end
 
+
 		context "with login", :vcr => vcr_options do 
 			before do
 			shoes = File.read("spec/factories/shoes.png")
@@ -125,6 +126,46 @@ RSpec.describe PostsController, :type => :controller do
 				sign_in(@user)
 				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122', description: 'shoes' } 
 				expect(Post.last.description).to eq('shoes') 
+			end
+
+
+		end
+	end
+	describe "Post update post", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+			@post = create(:post, 
+				creator_id: @user.id,
+				longitude: '-122',
+				latitude: '-49' )
+
+		end
+
+		context "without login " do 
+
+			it 'should 401' do 
+				xhr :post, :update, :id => @post.id 
+		     	expect(response.status).to eq(401) 
+			end
+		end
+
+		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do 
+			before do
+			shoes = File.read("spec/factories/shoes.png")
+			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+			end
+
+			
+			it 'should 200 with complete data' do 
+				sign_in(@user)
+				xhr :post, :update,{id: @post.id , title:'', image: @file, latitude:'47',longitude:'-122' } 
+				expect(response.status).to eq(200) 
+			end
+
+			it 'should update a description' do 
+				sign_in(@user)
+				xhr :post, :update, { id: @post.id ,title:'', image: @file, latitude:'47',longitude:'-122', description: 'Update this' } 
+				expect(Post.last.description).to eq('Update this') 
 			end
 
 

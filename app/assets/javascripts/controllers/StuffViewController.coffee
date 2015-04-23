@@ -7,6 +7,8 @@ controllers = angular.module('controllers')
 controllers.controller('StuffViewCtrl', [ '$scope', '$http','$routeParams','$resource', 'UserService', 
  ($scope,$http,$routeParams,$resource,UserService) ->
  	$scope.UserService = UserService
+ 	$scope.editing = false
+
  	$scope.$watchCollection('UserService',->
     	$scope.currentUser = UserService.currentUser
     	)

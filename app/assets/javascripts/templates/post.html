@@ -29,12 +29,14 @@
 
         </ul>
 	    </div> 
-          <dib post=post.id ng-show=post.dibbable  ></dib>
 
- 
-          <edit post="post" ng-show="currentUser == post.creator" ></edit>
-          <undib post=post.id ng-show=post.dibbable  ></udib>   
-	 </div>
+      <div class="col-md-12 "> 
+        <undib post="post.id" mystuff="stuff" ng-hide="currentUser == post.creator"></undib> 
+        <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
+    
+        <edit post="post.id" stuff="post" editing=editing ng-show=editing  ></edit>
+      </div>
+    </div> 
            
 
 

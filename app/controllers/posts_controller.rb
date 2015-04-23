@@ -13,6 +13,20 @@ class PostsController < ApplicationController
       @map = '47.6097,-122.3331'
     end
   end
+  def update
+    if (current_user)
+        @post = Post.find(params[:id])
+        cleaned_params = post_params.delete_if{
+          |key, value| value == 'undefined'  
+      }
+      @post.update_attributes cleaned_params
+      @post.save!
+      render json: '[]', status: :ok
+    else
+      render json: {error: 'not authorized '}, status: :unauthorized
+    end
+  end
+
 
   # POST /posts
   # POST /posts.json
