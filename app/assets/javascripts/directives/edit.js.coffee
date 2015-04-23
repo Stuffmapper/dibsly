@@ -3,12 +3,16 @@ directives = angular.module('directives')
 
 directives.directive('edit', ->
     restrict:'E'
-    scope: { post: '=', stuff: '=' },
+    scope: { post: '=', stuff: '=', editing: '=' },
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
+     console.log("This is", $scope.stuff)
+     $scope.close = ->
+        $scope.editing = !$scope.editing
 
      $scope.giveMe = (post_id)->
         post_url = 'posts/' + post_id + '/dibs'
         UserService.check( -> )
+
    
         if UserService.currentUser
 

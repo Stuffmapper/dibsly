@@ -35,12 +35,12 @@
      <tab heading="My Stuff"  ng-click="getMyStuff()">
       <div id="my-stuff" >
   
-        <div ng-repeat="stuff in mystuff track by $index" class="clearfix" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
-          <div class="stuff-view" title={{stuff.description}}>
+        <div ng-repeat="stuff in mystuff track by $index" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
+          <div class="stuff-view col-md-4"  title={{stuff.description}}  ng-hide=editing  >
     
            
 
-              <div class= "stuff-image-container col-md-4">
+              <div class= "stuff-image-container" >
                 <div class="stuff-description" >
                   <a href="post/{{stuff.id}}" class='btn-default btn-xs align-right'>Details</a>
                   <p>{{stuff.description}}</p>
@@ -52,11 +52,15 @@
            
 
             
-               <undib  post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib> 
-               <edit post="stuff.id" stuff="stuff" ng-show="currentUser == stuff.creator" ></edit>
+               <undib post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib> 
+               <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
+               
+
+
             
 
           </div>
+           <edit post="stuff.id" stuff="stuff" editing=editing ng-show=editing  ></edit> 
          
 
         </div>
