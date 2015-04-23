@@ -31,7 +31,7 @@
 	    </div> 
 
       <div class="col-md-12 "> 
-        <undib post="post.id" mystuff="stuff" ng-hide="currentUser == post.creator"></undib> 
+        <undib post="post.id" mystuff="stuff" ng-hide="currentUser == post.creator || post.dibbable == false "></undib> 
         <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
     
         <edit post="post.id" stuff="post" editing=editing ng-show=editing  ></edit>
