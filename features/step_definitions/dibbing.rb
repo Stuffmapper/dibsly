@@ -128,3 +128,22 @@ Then(/^Jack should have been notified of my unDib\.$/) do
   expect(current_email.body).to have_text(   'has undibbed your' )
 
 end
+
+### EMAIL CONFIRMATION
+
+Given(/^I've received an email\.$/) do
+  open_email(@current_user.email)
+  expect(current_email.body).to have_text( @current_user.first_name )
+end
+
+Then(/^is should explain information about dibs$/) do
+  expect(current_email.body).to have_text("thirty minutes to initiate contact with the lister" )
+end
+
+Then(/^if I follow the link in the email$/) do
+  current_email.click_link "http://"
+end
+
+Then(/^I should be in the in\-app chat$/) do
+  expect(page.body).to have_link('send')
+end

@@ -25,6 +25,11 @@ class Post < ActiveRecord::Base
     dibber.send_message( User.find(self.creator_id), body,subject) 
   end
 
+  def send_message_to_dibber (dibber)
+    Notifier.dibber_notification(dibber, self ).deliver_now
+  end
+
+
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build
     dib.ip = request_ip
@@ -37,6 +42,7 @@ class Post < ActiveRecord::Base
       self.dibber_id = dibber.id
       self.save
       send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
+      send_message_to_dibber (dibber)
     end
     dib
   end
