@@ -2,14 +2,20 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('MessagesCtrl', [ '$scope','$http','AlertService', 
- ($scope, $http, AlertService ) -> 
+controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','$http','$modal', 
+ ($scope, AlertService, UserService,$http, $modal ) -> 
+
     $http(
          url: '/messages'
       ).success((data)->
-        $scope.inbox =  data.messages )
+        $scope.inbox =  data.messages
+      ).error -> 
+        AlertService.add('danger', "Please login to continue" )
     $scope.messages = []
     $scope.reply_message = {}
+    self = this
+
+
     $scope.getMessages = (conversationID) ->
         $http.get( '/messages/' + conversationID ).success((data)-> $scope.messages[conversationID] =  data.messages)
     $scope.postReply = (conversationID) ->

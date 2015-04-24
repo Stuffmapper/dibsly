@@ -23,14 +23,20 @@ RSpec.describe DibsController, type: :controller do
 				xhr :get, :create, :post_id => @post.id  
 		     	expect(response.status).to eq(200) 
 			end
-			it 'should create a message 200 with params' do 
+			it 'should send a message to the lister' do 
 				sign_in(@user2)
 				xhr :get, :create, :post_id => @post.id  
 		     	expect(response.status).to eq(200) 
 		     	conversation =  @user.mailbox.inbox.last
       			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to eq("#{@user2.username}'s dibbed your stuff!") }
+      			receipts.each {|receipt| expect(receipt.message.body).to have_text("dibbed your stuff!") }
 			end
+			it 'should send  a message to dibber' do 
+				sign_in(@user2)
+				expect(Notifier).to receive(:dibber_notification).and_call_original 
+				xhr :get, :create, :post_id => @post.id  
+		    end
+
 			it 'should not allow you to dib your own stuff' do 
 				sign_in(@user)
 				xhr :get, :create, :post_id => @post.id  
@@ -38,7 +44,7 @@ RSpec.describe DibsController, type: :controller do
 		     	expect(response.body).to eq("{\"dib\":[\"You can't dib your own stuff\"]}") 
 			end
 
-			it 'should not allow you to dib dibed stuff' do 
+			it 'should not allow you to dib dibbed stuff' do 
 				sign_in(@user2)
 				@post.create_new_dib(@user2)
 				assert @post.available_to_dib? == false
