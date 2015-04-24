@@ -1,22 +1,42 @@
 
 <div id="show-post">
   <div class="modal-header">
-  <alerts></alerts>
+    <alerts></alerts>
   </div>
 
   <div class="modal-body" >
 
     <div class="col-md-12 " >
-    	<img class="img-thumbnail stuff-image" src="{{post.image_url}}"></img> 
+      <div class="image-details-wrapper">
+        
+        <img class="stuff-image" src="{{post.image_url}}"></img> 
+
+      </div>
+
 	    <div class="col-md-12 "> 
+        <ul>
+          <li><b>Poster: </b>
+            <span>{{post.creator}}</span>
+          </li>
 
-	    <p>{{post.description}}</p>
-	    <p>This is a permalink that we can use for facebook or other sources. What other features should be here? ratings etc 
-	    </p>
+    	    <li><b>Description: </b>
+            <span>{{post.description}}</span>
+          </li>
+          <li><b>Available: </b>
+            <span>{{post.dibbable}}</span>
+          </li>
 
+
+        </ul>
 	    </div> 
-          <dib post=post.id ng-show=post.dibbable ></dib>
-	 </div>
+
+      <div class="col-md-12 "> 
+        <undib post="post.id" mystuff="stuff" ng-hide="currentUser == post.creator || post.dibbable == false "></undib> 
+        <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
+    
+        <edit post="post.id" stuff="post" editing=editing ng-show=editing  ></edit>
+      </div>
+    </div> 
            
 
 

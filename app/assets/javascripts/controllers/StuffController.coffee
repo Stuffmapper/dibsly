@@ -10,6 +10,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
      $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
+     $scope.editing = false
      $scope.$watch( ->
             return MapsService.newMarker
         (newValue) ->

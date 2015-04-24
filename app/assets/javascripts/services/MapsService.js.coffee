@@ -2,6 +2,7 @@ factories = angular.module('factories')
 
 factories.factory('MapsService', [ '$http',
  ($http )->
+ 	markers: {}
 
  	addStuffMarker: (marker)-> 
  		if this.newMarker 
@@ -9,18 +10,14 @@ factories.factory('MapsService', [ '$http',
  		this.newMarker = marker
  		this.newMarker.setMap(this.map)
 
- 	markers:
- 		[]
+ 	updateMarker: (stuff)-> 
+ 		self = this
+ 		if self.markers[stuff.id] 
+ 			delete self.markers[stuff.id] 
+ 		else
+ 			self.markers[stuff.id] = stuff
 
- 	rstuffMap: 
- 		{}
-
- 	addMarkers:
- 		(newMarkers)->
- 
- 			this.markers = newMarkers
-
-
+ 	
 
  	gMap:
  		(options)->

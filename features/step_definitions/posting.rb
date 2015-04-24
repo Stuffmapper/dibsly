@@ -77,17 +77,13 @@ end
 #
 ##LOGIN REQUIRED
 ##
+
 Given(/^that I am not logged in and can see some there is an item I want to dib$/) do
-  
-  VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
-      user1 = create(:user)
-      @post = build(:post, 
-                creator_id: user1.id, 
-                latitude: "47.6097", 
-                longitude: '-122.3331') 
-      @post.save
-     
-   end # express the regexp above with the code you wish you had
+  steps %{
+    Given I already have an account and a post
+
+  }
+
 end
 
 When(/^I try to dib an item$/) do
@@ -139,6 +135,71 @@ Then(/^I should see a photo of the stuff$/) do
  
   expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
   
+end
+
+## Active management
+Given(/^I already have an account and a post$/)  do
+    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+      @current_user = create(:user)
+      @post = build(:post, 
+                creator_id: @current_user.id, 
+                latitude: "47.6097", 
+                longitude: '-122.3331'
+                ) 
+      @post.save 
+   end  # express the regexp above with the code you wish you had
+end
+
+When(/^I log in and go to my stuff$/) do
+  visit('/')
+  sign_in @current_user
+  click_link('My Stuff') 
+end
+
+Then(/^I should have an edit option$/) do
+  within('#my-stuff') do 
+    expect(page).to have_button("Edit") 
+  end   # express the regexp above with the code you wish you had
+end
+
+Then(/^I should be able to click edit and change the details$/) do
+  click_button 'Edit'
+  fill_in 'description', with: "I have changed the details"
+  click_button "Update"
+  sleep(2)
+  expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
+  @shoes = @post 
+  steps %{
+    When I visit the shoes permalink page
+  }
+  expect(page.body).to have_text("I have changed the details") # express the regexp above with the code you wish you had
+
+end
+
+When(/^I edit my stuff$/) do
+  steps %{
+    When I log in and go to my stuff 
+    Then I should have an edit option
+  }
+  click_button 'Edit'
+end
+
+
+Then(/^I should also be able to depublish it$/) do
+  expect(page).to have_button("Depublish")  
+  click_button "Depublish"
+end
+
+Then(/^it should not be viewable$/) do
+  click_link ('Get Stuff')
+   execute_script("var myLatLng = new google.maps.LatLng(#{@post.latitude}, #{@post.longitude});
+    var map = angular.element('map').scope().map;
+    map.panTo(myLatLng);
+    map.setZoom(16);")
+  sleep(1)  
+  within('#stuffmapper-menu') do 
+    expect(page).to_not have_text(@post.description) 
+  end
 end
 
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413233307) do
+ActiveRecord::Schema.define(version: 20150423173739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,10 +100,10 @@ ActiveRecord::Schema.define(version: 20150413233307) do
     t.float    "longitude"
     t.boolean  "on_the_curb"
     t.string   "phone_number"
-    t.string   "status",             null: false
-    t.string   "ip",                 null: false
+    t.string   "status",                            null: false
+    t.string   "ip",                                null: false
     t.datetime "dibbed_until"
-    t.integer  "creator_id",         null: false
+    t.integer  "creator_id",                        null: false
     t.integer  "dibber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -112,30 +112,32 @@ ActiveRecord::Schema.define(version: 20150413233307) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "category"
+    t.boolean  "published",          default: true
   end
 
   add_index "posts", ["latitude", "longitude", "title", "status", "dibbed_until", "created_at"], name: "posts_idx", using: :btree
   add_index "posts", ["status", "dibbed_until", "created_at"], name: "posts_two_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                null: false
-    t.string   "password_salt",                        null: false
-    t.string   "password_hash",                        null: false
+    t.string   "email",                                    null: false
+    t.string   "password_salt",                            null: false
+    t.string   "password_hash",                            null: false
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "grid_mode"
     t.integer  "zoom"
     t.string   "phone_number"
-    t.string   "status",                               null: false
-    t.string   "ip",                                   null: false
+    t.string   "status",                                   null: false
+    t.string   "ip",                                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "username"
-    t.boolean  "anonymous",            default: false
+    t.boolean  "anonymous",                default: false
     t.string   "password_reset_token"
+    t.boolean  "privacy_policy_agreement", default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

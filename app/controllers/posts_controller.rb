@@ -13,6 +13,20 @@ class PostsController < ApplicationController
       @map = '47.6097,-122.3331'
     end
   end
+  def update
+    @post = Post.find(params[:id])
+    if (current_user) and @post.creator_id == current_user.id
+        cleaned_params = post_params.delete_if{
+          |key, value| value == 'undefined'  
+      }
+      @post.update_attributes cleaned_params
+      @post.save!
+      render json: '[]', status: :ok
+    else
+      render json: {error: 'not authorized '}, status: :unauthorized
+    end
+  end
+
 
   # POST /posts
   # POST /posts.json
@@ -62,6 +76,7 @@ class PostsController < ApplicationController
 
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
                  .where(:longitude => params[:swLng]..params[:neLng])
+                 .where(:published => true)
     #TODO - change available_to_dib as part of the scope
     @posts = @posts.select{ |post| post.available_to_dib? }
     
@@ -123,7 +138,7 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description)
+      params.permit(:image,:category, :latitude, :longitude, :description, :published )
     end
 
 
