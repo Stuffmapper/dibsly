@@ -141,9 +141,12 @@ Then(/^is should explain information about dibs$/) do
 end
 
 Then(/^if I follow the link in the email$/) do
+  visit('/')
+  sign_in(@current_user)
   current_email.click_link "http://"
 end
 
 Then(/^I should be in the in\-app chat$/) do
-  expect(page.body).to have_link('send')
+  sleep(3)
+  expect(page.body).to have_text('Dibber Chat')
 end
