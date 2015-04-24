@@ -21,6 +21,22 @@ factories.factory('UserService',['$http',
                     callback(null,data)
 
                 .error (err)->
+                    callback(err)
+        fbLogin: 
+            (callback) -> 
+                self = this
+                $http.post('/auth/:provider/')
+                .success (data) ->
+                    if(data && data.user)
+                        self.currentUser=data.user
+                        console.log(self)
+                    else
+                        console.log(data)
+                        self.currentUser=false;
+                
+                    callback(null,data)
+
+                .error (err)->
                     callback(err)           
         
         logout: 

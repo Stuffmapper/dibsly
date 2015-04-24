@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
 
     user = User.authenticate(params[:username], params[:password]) || user = User.from_omniauth(env["omniauth.auth"])
-
+    byebug
       if user
         session[:user_id] = user.id
         session[:latitude] = user.latitude
