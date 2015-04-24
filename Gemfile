@@ -39,6 +39,8 @@ gem 'active_model_serializers'
 gem 'sass', '3.2.19' 
 gem 'angular-rails-templates'
 
+# for FB
+gem 'omniauth-facebook'
 
 #for bower
 gem 'bower-rails'

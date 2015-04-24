@@ -1,4 +1,11 @@
 Dibsly::Application.routes.draw do
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+
+  post 'sessions/facebook_create'
+  get '/auth/check' => 'sessions#check'
+
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
   get '/auth/check' => 'sessions#check'

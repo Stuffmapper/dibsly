@@ -138,6 +138,10 @@ ActiveRecord::Schema.define(version: 20150423173739) do
     t.boolean  "anonymous",                default: false
     t.string   "password_reset_token"
     t.boolean  "privacy_policy_agreement", default: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
