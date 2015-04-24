@@ -4,7 +4,7 @@ RSpec.describe SessionsController, :type => :controller do
 
   describe "Post create" do
     before do
-      user = create(:user, :username => 'Superbad' )
+      @user = create(:user, :username => 'Superbad' )
       xhr :post, :create, format: :json, username: username, password: password
     end    
 
@@ -17,6 +17,34 @@ RSpec.describe SessionsController, :type => :controller do
         expect(JSON.parse(response.body)['user']).to eq('Superbad')
       end
     end
+    context "with username in wrong case correct name " do
+      let (:username) {'superbad'}
+      let (:password) {'123456'}
+
+      it 'should 422' do
+        expect(response.status).to eq(422)
+      end
+    end
+
+    context "with email instead of username" do
+      let (:username) { @user.email }
+      let (:password) {'123456'}
+
+      it 'should 200' do
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['user']).to eq('Superbad')
+      end
+    end
+    context "with upcaseemail instead of username" do
+      let (:username) { @user.email.upcase }
+      let (:password) {'123456'}
+
+      it 'should 200' do
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['user']).to eq('Superbad')
+      end
+    end
+
 
     context "with incorrect name " do
       let (:username) {'Superbland'}

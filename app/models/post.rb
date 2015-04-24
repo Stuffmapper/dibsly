@@ -12,6 +12,7 @@ class Post < ActiveRecord::Base
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed']
   
   default_scope { order('created_at DESC') }
+
   
 
   validates_attachment_presence :image
@@ -74,5 +75,6 @@ class Post < ActiveRecord::Base
 
     self.image_url = self.image.url(:medium)
   end
+
 
 end
