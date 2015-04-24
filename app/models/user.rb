@@ -26,7 +26,10 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(username, password)
-    user = find_by_username(username) || find_by_email(username.downcase)
+
+    if username 
+      user = find_by_username(username) || find_by_email(username.downcase)
+    end
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else

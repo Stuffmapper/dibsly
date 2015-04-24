@@ -25,7 +25,7 @@ factories.factory('UserService',['$http',
         fbLogin: 
             (callback) -> 
                 self = this
-                $http.post('/auth/:provider/')
+                $http.get('/auth/facebook/')
                 .success (data) ->
                     if(data && data.user)
                         self.currentUser=data.user
