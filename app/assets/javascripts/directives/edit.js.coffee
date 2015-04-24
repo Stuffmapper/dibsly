@@ -12,11 +12,10 @@ directives.directive('edit', ->
             console.log('hey! you', MapsService.markers ) 
             $http.post( "/posts/" + $scope.stuff.id + "/update" ,
                 { published: status })
-                .success( $scope.stuff['published'] = status, 
-                    if status == false
-                        MapsService.removeMarker($scope.stuff.id)
-                    else
-                        MapsService.addOldMarker($scope.stuff ) )
+                .success( 
+                    $scope.stuff['published'] = status 
+                    MapsService.updateMarker($scope.stuff) )
+                    
      $scope.updateStuff = ->
         UserService.check(->)
         if UserService.currentUser
