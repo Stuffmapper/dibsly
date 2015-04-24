@@ -143,4 +143,20 @@ Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
     within('.modal-footer') do 
        click_button 'Sign In'
     end
+    sleep(1)
+    expect(page).to have_text("You have been logged in")
 end
+
+When(/^I try to login, I should be able to use my email in place of username$/) do
+    visit('/')
+    click_link 'Sign In'
+    fill_in 'username', with: @current_user.email
+    fill_in 'password', with: @current_user.password
+    within('.modal-footer') do 
+       click_button 'Sign In'
+    end
+    sleep(1)
+    expect(page).to have_text("You have been logged in")
+
+end
+

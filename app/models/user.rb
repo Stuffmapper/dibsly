@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable
+  before_save :downcase_email
 
   def save(*args)
     super
@@ -25,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate(username, password)
-    user = find_by_username(username)
+    user = find_by_username(username) || find_by_email(username.downcase)
     if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else
@@ -49,7 +50,11 @@ class User < ActiveRecord::Base
   end
 
 
-  # to make sure we don't expose it
+  def downcase_email
+
+    self.email = email.downcase
+  end
+
   def ip
     ''
   end
