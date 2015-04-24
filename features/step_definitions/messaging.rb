@@ -24,7 +24,7 @@ end
 
 Then(/^"(.*?)" should be able to respond "(.*?)" and log out$/) do |user, message |
   fill_in 'message_response', with: message
-  click_button 'Reply'
+  click_button 'Send'
   sleep(1)
   within('.converation-messages') do 
     expect(page).to have_text(message)
