@@ -47,6 +47,7 @@ class User < ActiveRecord::Base
         oauth_user.oauth_token = auth.credentials.token
         oauth_user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         oauth_user.save!
+        return oauth_user
       end
     else
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
@@ -62,6 +63,7 @@ class User < ActiveRecord::Base
         user.status = STATUS_NEW
         user.ip = "not_provided"
         user.save!
+        return user 
       end
     end
   end
