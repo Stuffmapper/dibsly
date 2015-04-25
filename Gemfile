@@ -42,6 +42,10 @@ gem 'angular-rails-templates'
 # for FB
 gem 'omniauth-facebook'
 
+#for google
+gem 'omniauth-google-oauth2'
+
+
 #for bower
 gem 'bower-rails'
 

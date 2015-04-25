@@ -7,16 +7,17 @@ class User < ActiveRecord::Base
   # attr_accessor allows you to use the password attribute locally, but will not persist it to the database
   attr_accessor :password
   before_save :encrypt_password
+  before_save :downcase_email
   
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_uniqueness_of :username
+  #TODO change the database to make username unique on that level
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable
-  before_save :downcase_email
 
   def save(*args)
     super
