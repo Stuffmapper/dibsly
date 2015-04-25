@@ -14,9 +14,9 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
       $window.location.href = fbauth   
 
 
-    $scope.showUserAgreement = ->
+    $scope.showPolicy = (policy)->
         $modal.open
-            templateUrl:'userAgreement.html',
+            templateUrl: policy + '.html',
             controller:'SignUpCtrl'
 
     $scope.signup = ->
