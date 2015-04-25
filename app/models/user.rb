@@ -43,7 +43,6 @@ class User < ActiveRecord::Base
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
         oauth_user.provider = auth.provider
         oauth_user.uid = auth.uid
-        oauth_user.password = auth.credentials.token
         oauth_user.oauth_token = auth.credentials.token
         oauth_user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         oauth_user.save!
