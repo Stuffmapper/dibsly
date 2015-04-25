@@ -74,11 +74,11 @@ Given(/^that I already have an account$/) do
 
 end
 
-
-Then(/^I should expect to see a user agreement$/) do
-  click_link('user agreement')
-   expect(page.body).to have_text("This is a user agreement")
+Then(/^I should expect to see a "(.*?)"$/) do |policy|
+  click_link(policy)
+   expect(page.body).to have_text("This is a " + policy )  
 end
+
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
   expect(page.body).to have_text(arg1)
