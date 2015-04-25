@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409050227) do
+ActiveRecord::Schema.define(version: 20150413233307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "dibs", force: :cascade do |t|
-    t.string   "ip",          null: false
-    t.datetime "valid_until", null: false
-    t.string   "status",      null: false
-    t.integer  "creator_id",  null: false
-    t.integer  "post_id",     null: false
+    t.string   "ip",          limit: 255, null: false
+    t.datetime "valid_until",             null: false
+    t.string   "status",      limit: 255, null: false
+    t.integer  "creator_id",              null: false
+    t.integer  "post_id",                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -80,64 +80,72 @@ ActiveRecord::Schema.define(version: 20150409050227) do
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.string   "ip",            null: false
-    t.string   "status",        null: false
-    t.integer  "sender_id",     null: false
-    t.string   "sender_name",   null: false
-    t.integer  "receiver_id",   null: false
-    t.string   "receiver_name", null: false
-    t.text     "content",       null: false
+    t.string   "ip",            limit: 255, null: false
+    t.string   "status",        limit: 255, null: false
+    t.integer  "sender_id",                 null: false
+    t.string   "sender_name",   limit: 255, null: false
+    t.integer  "receiver_id",               null: false
+    t.string   "receiver_name", limit: 255, null: false
+    t.text     "content",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",              limit: 255
     t.text     "description"
-    t.string   "image_url"
-    t.string   "address"
+    t.string   "image_url",          limit: 255
+    t.string   "address",            limit: 255
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "on_the_curb"
-    t.string   "phone_number"
-    t.string   "status",             null: false
-    t.string   "ip",                 null: false
+    t.string   "phone_number",       limit: 255
+    t.string   "status",             limit: 255, null: false
+    t.string   "ip",                 limit: 255, null: false
     t.datetime "dibbed_until"
-    t.integer  "creator_id",         null: false
+    t.integer  "creator_id",                     null: false
     t.integer  "dibber_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
+    t.string   "image_file_name",    limit: 255
+    t.string   "image_content_type", limit: 255
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.string   "category"
+    t.string   "contact_email",      limit: 255
+    t.string   "category",           limit: 255
   end
 
   add_index "posts", ["latitude", "longitude", "title", "status", "dibbed_until", "created_at"], name: "posts_idx", using: :btree
   add_index "posts", ["status", "dibbed_until", "created_at"], name: "posts_two_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                         null: false
-    t.string   "password_salt",                 null: false
-    t.string   "password_hash",                 null: false
-    t.string   "address"
+    t.string   "email",                limit: 255,                 null: false
+    t.string   "password_salt",        limit: 255,                 null: false
+    t.string   "password_hash",        limit: 255,                 null: false
+    t.string   "address",              limit: 255
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "grid_mode"
     t.integer  "zoom"
-    t.string   "phone_number"
-    t.string   "status",                        null: false
-    t.string   "ip",                            null: false
+    t.string   "phone_number",         limit: 255
+    t.string   "status",               limit: 255,                 null: false
+    t.string   "ip",                   limit: 255,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "username"
-    t.boolean  "anonymous",     default: false
+    t.string   "uid",                  limit: 255
+    t.string   "provider",             limit: 255
+    t.string   "oauth_token",          limit: 255
+    t.datetime "oauth_expires_at"
+    t.string   "invite_code",          limit: 255
+    t.string   "first_name",           limit: 255
+    t.string   "last_name",            limit: 255
+    t.string   "username",             limit: 255
+    t.boolean  "anonymous",                        default: false
+    t.string   "password_reset_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
