@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
 
-    user = User.authenticate(params[:username], params[:password]) || user = User.from_omniauth(env['79eb3898f556146e5645f666cbb27f6b'])
+    user = User.authenticate(params[:username], params[:password]) 
     
       if user
         session[:user_id] = user.id
@@ -14,6 +14,16 @@ class SessionsController < ApplicationController
         render json: '[]', status: :unprocessable_entity
       end
   end
+
+  def create_with_omniauth
+    user = User.from_omniauth(env["omniauth.auth"])
+    if user
+      session[:user_id] = user.id
+      redirect_to '/'
+    end
+  end
+
+
 
   def destroy
     session[:user_id] = nil

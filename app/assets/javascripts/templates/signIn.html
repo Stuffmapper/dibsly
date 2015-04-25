@@ -10,7 +10,6 @@
  <form >
 
   <div class="form-group">
-    <a href="/auth/facebook" class ="FB.login" id="sign_in">Login with Facebook</a>
  
     <label for="username">Username *</label>
     <input type="text" class="form-control" id="username" placeholder="Username" ng-model="username">
@@ -27,6 +26,7 @@
     <label id="signup"><a href="#" ng-click="notSignUp()">Sign-up?</a></label>
     <button class="btn btn-primary" ng-click="signin()">Sign In</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <a href='#' class="btn btn-primary" ng-click="fbLogin()">Facebook Signin</a>
     <button class="btn btn-primary" ng-click="resetPW()">Forgot Password?</button>
 </div>
 </form>

@@ -2,13 +2,16 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http', '$timeout','UserService','AlertService',
-  ($scope, $modal, $modalInstance, $http, $timeout, UserService, AlertService ) -> 
+controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http','$window', '$timeout','UserService','AlertService',
+  ($scope, $modal, $modalInstance, $http, $window,$timeout, UserService, AlertService ) -> 
 
   
 
     $scope.cancel = ->  
       $modalInstance.dismiss('cancel')
+    $scope.fbLogin = ->
+      fbauth  = "http://" + $window.location.host + '/auth/facebook/'
+      $window.location.href = fbauth   
 
 
     $scope.showUserAgreement = ->
@@ -48,6 +51,17 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
                 else  
                   alert(data.error)   
           )
+    $scope.fbsignin = ->
+        UserService.login(
+          (err,data) ->
+              if(err)
+                  AlertService.add('danger', "Wrong username or password")
+              else if(data.user)
+                AlertService.add('success','You have been signed in.')
+                $modalInstance.dismiss('cancel')
+              else  
+                alert(data.error)   
+        )
     $scope.resetPW = ->
       $modalInstance.dismiss('cancel')
       $modal.open

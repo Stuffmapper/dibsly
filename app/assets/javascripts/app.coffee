@@ -32,6 +32,10 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl:'home.html',
           controller: 'StuffCtrl'
         })
+        .when('/_=_', {
+          templateUrl:'home.html',
+          controller: 'StuffCtrl'
+        })
         .when('/user/:modalId',{
           templateUrl:'home.html',
           controller:'MainRouteCtrl'
