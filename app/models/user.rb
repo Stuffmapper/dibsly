@@ -38,15 +38,15 @@ class User < ActiveRecord::Base
   end
 
   def self.from_omniauth(auth)
-    user = User.find_by_email(auth.info.email)
-    if user
+    oauth_user = User.find_by_email(auth.info.email)
+    if oauth_user
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
-        user.provider = auth.provider
-        user.uid = auth.uid
-        user.password = auth.credentials.token
-        user.oauth_token = auth.credentials.token
-        user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-        user.save!
+        oauth_user.provider = auth.provider
+        oauth_user.uid = auth.uid
+        oauth_user.password = auth.credentials.token
+        oauth_user.oauth_token = auth.credentials.token
+        oauth_user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+        oauth_user.save!
       end
     else
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
