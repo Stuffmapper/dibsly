@@ -1,4 +1,5 @@
 Dibsly::Application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   post 'sessions/create'
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
   get '/auth/check' => 'sessions#check'
