@@ -26,7 +26,7 @@ directives.directive('dib', ->
                 controller:'SignUpCtrl'
         ]
     replace:true,
-    template:  '<button class= "btn-xs btn-default" ng-click=giveMe(post)>Reserve</button>'   
+    template:  '<button class= "btn-xs btn-default" ng-click=giveMe(post)>Dib</button>'   
 
 )
 
