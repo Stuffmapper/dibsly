@@ -21,35 +21,7 @@ class UsersController < ApplicationController
   end
 
 
-  # POST /users
-  # POST /users.json
-
-
-
-
-  # POST /users/presets.json
-  def presets
-    if !session[:latitude]
-      session[:latitude] = 47.6612588;
-    end
-    if !session[:longitude]
-      session[:longitude] = -122.3078193;
-    end
-    if !session[:zoom]
-      session[:zoom] = 14;
-    end
-    if !session[:grid_mode]
-      session[:grid_mode] = true;
-    end
-
-    respond_to do |format|
-      format.json {render json: '{"latitude":'+session[:latitude].to_s+',
-        "longitude":'+session[:longitude].to_s+',
-        "zoom":'+session[:zoom].to_s+',
-        "grid_mode":'+session[:grid_mode].to_s+'}', status: :ok}
-    end
-  end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
 
