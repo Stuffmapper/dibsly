@@ -36,9 +36,7 @@ class Ability
       if user.role? :superadmin
         can :manage, :all             # allow superadmins to do anything
       elsif user.role? :manager
-        can :manage, [User, Post]  # allow managers to do anything to products and users
-      elsif user.role? :sales
-        can :update, Post, :hidden => false  # allow sales to only update visible products
+        can :manage, [User, Post]  # allow managers to do anything to posts and users
       end
     end
   end
