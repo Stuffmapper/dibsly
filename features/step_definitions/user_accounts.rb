@@ -160,3 +160,51 @@ When(/^I try to login, I should be able to use my email in place of username$/) 
 
 end
 
+##EMAIL VERIFICATION
+
+Then(/^I should receive a welcome email$/) do
+  @current_user = User.last
+  open_email(@current_user.email) 
+  expect(current_email.body).to have_text("Welcome to Stuffmapper!" )
+
+end
+
+When(/^I follow the link in the welcome email$/) do
+  current_email.click_link "http://"
+  expect(page).to have_content("Change Your Password") 
+end
+
+Then(/^I should be able to post an item and dib Jacks shoes$/) do
+  visit('/')
+
+  steps %{
+    When I log in and give stuff
+    Then I should be able to put  "These are some awesome kicks" in the description field
+
+  }
+  click_link('Sign Out')
+  steps %{
+    When I log in and visit the map location where the shoes are.
+    When I hit dib
+  }
+  expect(page).to have_text('Dibbed your stuff')
+ 
+ end
+
+
+
+When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) do
+  @current_user = User.last
+  sign_in @current_user
+  click_link "Give Stuff"
+  expect(page).to have_text('Please verify your email to give stuff')
+  steps %{
+    When I log in and visit the map location where the shoes are.
+    When I hit dib
+  }
+  expect(page).to have_text('Please verify your email to dib')
+  
+end
+
+
+
