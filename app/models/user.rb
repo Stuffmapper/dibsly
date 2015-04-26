@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
 
   def send_verification_email
     self.verify_email_token =  SecureRandom.urlsafe_base64(48) 
-
+    Notifier.email_verification(self)
   end
 
 

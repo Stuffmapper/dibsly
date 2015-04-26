@@ -16,4 +16,8 @@ class Notifier < ActionMailer::Base
 		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
 					subject: "Your latest dib!" )
 	end
+	
+	def email_verification(user)
+
+	end
 end

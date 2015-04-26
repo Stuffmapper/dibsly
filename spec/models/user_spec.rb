@@ -49,12 +49,13 @@ RSpec.describe User, :type => :model do
       let(:user) { build(:user ) }
       it "sends email" do 
         user = build(:user)
-        allow( user ).to receive(:send_verification_email) 
+        allow( user ).to receive(:send_verification_email).and_call_original
+        expect(Notifier).to receive(:email_verification)
         user.save
         expect( user ).to have_received(:send_verification_email) 
     
       end
-      it "updates verification token woth urlsafe_base64" do 
+      it "updates verification token with urlsafe_base64" do 
         expect( user.verify_email_token ).to eq nil
         expect(SecureRandom).to receive(:urlsafe_base64).and_call_original
         user.save 
