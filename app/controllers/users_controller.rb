@@ -20,6 +20,11 @@ class UsersController < ApplicationController
   
   end
 
+  def confirm_email
+  
+  end
+
+
 
   
   private

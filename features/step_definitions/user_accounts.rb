@@ -163,6 +163,7 @@ end
 ##EMAIL VERIFICATION
 
 Then(/^I should receive a welcome email$/) do
+  sleep(1)
   @current_user = User.last
   open_email(@current_user.email) 
   expect(current_email.body).to have_text("Welcome to Stuffmapper!" )
