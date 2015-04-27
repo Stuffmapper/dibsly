@@ -14,7 +14,7 @@ RSpec.describe User, :type => :model do
 
 
     describe "#generate_password_reset_token!" do 
-      let(:user) { create(:user, verified_email: true) }
+      let(:user) { create(:user) }
       it "changes the password_reset_token attribute" do 
         expect{ user.generate_password_reset_token!}.to change{ user.password_reset_token }  
       end
@@ -33,7 +33,7 @@ RSpec.describe User, :type => :model do
     end
 
     describe "allows user to post if email verified" do 
-      let(:user) { build(:user ) }
+      let(:user) { build(:user, verified_email: false  ) }
 
       it "defaults to false" do 
         expect( user.allowed_to_post_and_dib? ).to eq false 
@@ -46,9 +46,8 @@ RSpec.describe User, :type => :model do
       end
     end
     describe "sends a verification email if email not marked verified before" do 
-      let(:user) { build(:user ) }
+      let(:user) { build(:user, verified_email: false ) }
       it "sends email" do 
-        user = build(:user)
         allow( user ).to receive(:send_verification_email).and_call_original
         expect(Notifier).to receive(:email_verification).and_call_original
         user.save

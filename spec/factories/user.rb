@@ -12,6 +12,7 @@ FactoryGirl.define do
     end
  
     status "new"
+    verified_email 'true'
     ip ""
   end
 end

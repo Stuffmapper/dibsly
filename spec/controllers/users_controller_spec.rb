@@ -45,7 +45,7 @@ RSpec.describe UsersController, :type => :controller do
 
     context "with valid token" do
       before do
-        @current_user = create(:user)
+        @current_user = create(:user,  verified_email: false )
         expect(@current_user.verified_email).to eq false
         expect(User).to receive(:find_by_verify_email_token).and_call_original
         xhr :get, :confirm_email, confirmation: @current_user.verify_email_token
@@ -71,7 +71,7 @@ RSpec.describe UsersController, :type => :controller do
 
     context "with invalid token" do
       before do
-        @current_user = create(:user)
+        @current_user = create(:user,  verified_email: false )
         expect(@current_user.verified_email).to eq false
         expect(User).to receive(:find_by_verify_email_token).and_call_original
         xhr :get, :confirm_email, confirmation: 'thiseisafake7788'
