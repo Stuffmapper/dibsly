@@ -32,44 +32,8 @@
      </div>
      </tab>
 
-     <tab heading="My Stuff"  ng-click="getMyStuff()">
-      <div id="my-stuff" >
-  
-        <div ng-repeat="stuff in mystuff track by $index" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
-          <div class="stuff-view col-md-4"  title={{stuff.description}}  ng-hide=editing  >
-    
-           
 
-              <div class= "stuff-image-container" >
-                <div class="stuff-description" >
-                  <a href="post/{{stuff.id}}" class='btn-default btn-xs align-right'>Details</a>
-                  <p>{{stuff.description}}</p>
-                </div>
-
-                <img class="stuff-image" src={{stuff.image_url}} ></img>
-              </div>
-
-           
-
-            
-               <undib post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib> 
-               <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
-               
-
-
-            
-
-          </div>
-           <edit post="stuff.id" stuff="stuff" editing=editing ng-show=editing  ></edit> 
-         
-
-        </div>
-     </div>
-     </tab>
-
-
-
-    <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
+     <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
         <p> Take a picture of the stuff that you want to give </p>
         <form id="give-stuff-form">
 
@@ -109,6 +73,42 @@
 
      
     </tab>
+
+     <tab heading="My Stuff"  ng-click="getMyStuff()">
+      <div id="my-stuff" >
+  
+        <div ng-repeat="stuff in mystuff track by $index" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
+          <div class="stuff-view col-md-4"  title={{stuff.description}}  ng-hide=editing  >
+    
+           
+
+              <div class= "stuff-image-container" >
+                <div class="stuff-description" >
+                  <a href="post/{{stuff.id}}" class='btn-default btn-xs align-right'>Details</a>
+                  <p>{{stuff.description}}</p>
+                </div>
+
+                <img class="stuff-image" src={{stuff.image_url}} ></img>
+              </div>
+
+           
+
+            
+               <undib post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib> 
+               <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
+               
+
+
+            
+
+          </div>
+           <edit post="stuff.id" stuff="stuff" editing=editing ng-show=editing  ></edit> 
+         
+
+        </div>
+     </div>
+     </tab>
+
   
 
   </tabset>
