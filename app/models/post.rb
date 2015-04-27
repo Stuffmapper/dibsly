@@ -14,7 +14,7 @@ class Post < ActiveRecord::Base
   default_scope { order('created_at DESC') }
 
   
-
+  validate :creator_must_be_allowed_to_post_and_dib
   validates_attachment_presence :image
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
@@ -59,7 +59,12 @@ class Post < ActiveRecord::Base
   def available_to_dib? 
     self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
   end
-
+  def creator_must_be_allowed_to_post_and_dib
+   user = User.find(self.creator_id)
+   if not user.allowed_to_post_and_dib?
+      errors.add(:creator, "must be allowed to post and dib")
+    end
+  end
 
 
   def coords

@@ -172,22 +172,27 @@ end
 
 When(/^I follow the link in the welcome email$/) do
   current_email.click_link "http://"
-  expect(page).to have_content("Change Your Password") 
+  expect(page).to have_content("You've verified your email!") 
 end
 
 Then(/^I should be able to post an item and dib Jacks shoes$/) do
-  visit('/')
-
+  click_link('Sign Out')
+  
   steps %{
     When I log in and give stuff
     Then I should be able to put  "These are some awesome kicks" in the description field
 
   }
-  click_link('Sign Out')
-  steps %{
-    When I log in and visit the map location where the shoes are.
-    When I hit dib
-  }
+  @shoes = Post.first
+  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
+    var map = angular.element('map').scope().map;
+    map.panTo(myLatLng);
+    map.setZoom(24);")
+
+  click_link 'Get Stuff'
+
+  page.all(:button, "Dib")[0].click
+  sleep(1)
   expect(page).to have_text('Dibbed your stuff')
  
  end

@@ -40,6 +40,10 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl:'home.html',
           controller:'MainRouteCtrl'
         })
+        .when('/user/email/:userKey',{
+          templateUrl:'home.html',
+          controller:'EmailVerifyCtrl'
+        })
         .when('/user/:modalId/:user',{
           templateUrl:'home.html',
           controller:'MainRouteCtrl'

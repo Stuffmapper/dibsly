@@ -10,7 +10,7 @@
      <tab heading="Get Stuff" disabled="tab.disabled" >
      <div id="get-stuff" >
         <div ng-repeat="item in stuff" class="col-md-4 clearfix">
-          <div class="stuff-view" title={{item.description}}>
+          <div class="stuff-view" title={{item.description}} ng-attr-id={{item.id + '-stuff'}}>
             <div class= "stuff-image-container">
             <div class="stuff-description">
               <a href="post/{{item.id}}" class='btn-default btn-xs align-right'>Details</a>

@@ -27,7 +27,7 @@ class UsersController < ApplicationController
      :verify_email_token => nil 
       render json: '[]', status: :ok 
     else 
-      render json: '{ message: "User not Found "}', status: :unprocessable_entity
+      render json: { message: "User not Found "}, status: :unprocessable_entity
     end
   end
 
