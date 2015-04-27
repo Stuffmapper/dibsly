@@ -16,11 +16,101 @@
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap-sprockets";
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap";
 
+$darkblue: #445d75; /* navbar */
+$black: #5e5e5e; /* stuff header background */
+$purple-button: #784b87; /* give stuff button */
+$turquoise: #a7e3ee; /* camera button */
+$turqblue: #6b8598; /* camera outline */
+$bluedot: #037fc2; /* blue dot */
+$green: #4fd67b; /* letter */
+$white: white; /* letter */
+
+
+
+/**** Navbar ****/
+
 nav{
 	display:relative;
 	z-index: 3;
 
 }
+
+#main-navbar{
+	background: $darkblue;
+	height:40px;
+}
+
+#main-navbar-right{
+	float:right;
+	list-style:none;
+	li{
+		display:inline-block;
+		float:right;
+		a{
+			style:none;
+			color: $white;
+			font-size:1.3em;
+		}
+	}
+	.collapse-nav-item{
+		display:none;
+	}
+	#main-nav-toggle{
+		color:$white;
+		font-size:1.3em;
+		margin:5px;
+		display:none;
+		}
+	#inbox{
+		width:28px;
+		height:28px;
+		margin:5px 80px 0 0;
+		padding:5px 4px 4px 4px;
+		border-radius:100%;
+
+		color: $green;
+			.glyphicon{
+				background:$purple-button;
+			}
+		}		
+}
+
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+	#main-navbar-right{
+		#main-nav-toggle{
+			display:inline-block;
+		}
+		.full-nav-item{
+			display:none;
+
+		}
+		.collapse-nav-item{
+			width:100%;
+			padding:5px 15px 5px 15px;
+			margin-top:5px;
+			margin-bottom:-5px;
+			border-top: $black solid 2px;
+			display:inline-block;
+			clear:both;
+			background: $darkblue;
+			height:40px;
+			a{
+				style:none;
+				color: $white;
+				font-size:1.3em;
+			}
+		}
+	}
+
+
+}
+
+	
+
+
+
 /**** STUFFMAPPER ****/
 
 #stuffmapper-menu{
@@ -87,7 +177,7 @@ nav{
  								margin-left: 0px;
  								margin-right: 0px;
  								margin-bottom: 0px;
- 								margin-top: 50px;
+ 								margin-top: 35px;
  								top: 0px; 
  								left: 0px;
  								overflow: hidden;
