@@ -47,7 +47,9 @@ class User < ActiveRecord::Base
         oauth_user.uid = auth.uid
         oauth_user.oauth_token = auth.credentials.token
         oauth_user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+        oauth_user.verified_email = true
         oauth_user.save!
+
         return oauth_user
       end
     else
@@ -62,6 +64,7 @@ class User < ActiveRecord::Base
         user.oauth_token = auth.credentials.token
         user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         user.status = STATUS_NEW
+        user.verified_email = true
         user.ip = "not_provided"
         user.save!
         return user 

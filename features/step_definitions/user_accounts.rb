@@ -200,10 +200,29 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
 
 
 When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) do
-  @current_user = User.last
-  sign_in @current_user
-  click_link "Give Stuff"
+  visit '/'
+  click_link('Sign Out')
+  @current_user = User.last 
+  steps %{
+    When I log in and give stuff
+  }
+  allow( Post ).to receive( :has_attached_file ).and_return false
+  VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do 
+      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: "okkk" ) 
+   end
+   allow(Post).to receive( :new ).and_return( @post )
+   allow(Post).to receive( :save ).and_call_original
+
+    within('#give-stuff-form') do 
+      expect(page).to have_field 'description'
+      fill_in 'description', with: "okkk"
+      click_button 'Submit'
+    end 
+  sleep(1)
+  
   expect(page).to have_text('Please verify your email to give stuff')
+  click_link('Sign Out')
+  @shoes = Post.first
   steps %{
     When I log in and visit the map location where the shoes are.
     When I hit dib

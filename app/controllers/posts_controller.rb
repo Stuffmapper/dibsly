@@ -27,9 +27,6 @@ class PostsController < ApplicationController
     end
   end
 
-
-  # POST /posts
-  # POST /posts.json
   def create
     if (current_user)
       cleaned_params = post_params.delete_if{
@@ -41,7 +38,7 @@ class PostsController < ApplicationController
           :status => 'new', 
           :creator_id => @user.id ))
 
-      if @post.save
+      if @post.valid?
         @post.save
         render json: '[]', status: :ok
       else

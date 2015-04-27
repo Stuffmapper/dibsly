@@ -10,6 +10,7 @@ class Dib < ActiveRecord::Base
   
   validates_presence_of :creator_id
   validates_presence_of :post_id
+  validate :creator_must_be_allowed_to_post_and_dib
   validates :status, inclusion: {in: STATUSES}
   validate :cannot_dib_own_post 
   before_validation(on: :create) do
@@ -27,6 +28,13 @@ class Dib < ActiveRecord::Base
   def available_to_dib?
     if !Post.find(self.post_id).available_to_dib?
       errors.add(:dib, "post not available to dib")
+    end
+  end
+
+  def creator_must_be_allowed_to_post_and_dib
+   user = User.find(self.creator_id)
+   if not user.allowed_to_post_and_dib?
+      errors.add(:creator, "Please verify your email to dib")
     end
   end
 

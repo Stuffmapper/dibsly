@@ -62,7 +62,7 @@ class Post < ActiveRecord::Base
   def creator_must_be_allowed_to_post_and_dib
    user = User.find(self.creator_id)
    if not user.allowed_to_post_and_dib?
-      errors.add(:creator, "must be allowed to post and dib")
+      errors.add(:creator, "Please verify your email to give stuff")
     end
   end
 
