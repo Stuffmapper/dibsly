@@ -21,7 +21,14 @@ class UsersController < ApplicationController
   end
 
   def confirm_email
-  
+    user = User.find_by_verify_email_token params[:confirmation] 
+    if user
+      user.update_attributes :verified_email => true,
+     :verify_email_token => nil 
+      render json: '[]', status: :ok 
+    else 
+      render json: '{ message: "User not Found "}', status: :unprocessable_entity
+    end
   end
 
 

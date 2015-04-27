@@ -50,7 +50,7 @@ RSpec.describe User, :type => :model do
       it "sends email" do 
         user = build(:user)
         allow( user ).to receive(:send_verification_email).and_call_original
-        expect(Notifier).to receive(:email_verification)
+        expect(Notifier).to receive(:email_verification).and_call_original
         user.save
         expect( user ).to have_received(:send_verification_email) 
     
