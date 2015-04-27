@@ -1,7 +1,11 @@
 
 <div id="sign-in-form">
 <div class="modal-header">
-<h3 class="modal-title">Sign In</h3>
+<h3 id="signin" class="modal-title">Sign In</h3>
+<div class="signin">
+    <a href='#' class="btn btn-primary" ng-click="oaLogin('facebook')">Facebook Signin</a>
+    <a href='#' class="btn btn-primary" ng-click="oaLogin('google_oauth2')">Google Signin</a>
+</div>
 <alerts></alerts>
 </div>
 <div class="modal-body">
@@ -26,8 +30,6 @@
     <label id="signup"><a href="#" ng-click="notSignUp()">Sign-up?</a></label>
     <button class="btn btn-primary" ng-click="signin()">Sign In</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        <a href='#' class="btn btn-primary" ng-click="oaLogin('facebook')">Facebook Signin</a>
-    <a href='#' class="btn btn-primary" ng-click="oaLogin('google_oauth2')">Google Signin</a>
     <button class="btn btn-primary" ng-click="resetPW()">Forgot Password?</button>
 </div>
 </form>
