@@ -83,7 +83,7 @@ RSpec.describe UsersController, :type => :controller do
       end
 
       it 'should set the users verified email status' do
-        expect(response.body).to eq( "{ message: \"User not Found \"}")
+        expect(response.body).to eq( "{\"message\":\"User not Found \"}")
       end
 
       it 'should reset the token' do
