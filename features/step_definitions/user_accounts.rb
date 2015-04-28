@@ -216,7 +216,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
     within('#give-stuff-form') do 
       expect(page).to have_field 'description'
       fill_in 'description', with: "okkk"
-      click_button 'Submit'
+      click_button 'Give this stuff!'
     end 
   sleep(1)
   

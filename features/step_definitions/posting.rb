@@ -24,7 +24,7 @@ Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
 		within('#give-stuff-form') do 
 	 		expect(page).to have_field 'description'
 	 		fill_in 'description', with: arg1
-	 		click_button 'Submit'
+	 		click_button 'Give this stuff!'
 	  end  
     sleep(6)
     expect(@current_user.posts.last).to eq @post
@@ -107,7 +107,7 @@ end
 When(/^I try to post an item$/) do
   visit('/')
   click_link('Give Stuff')
-  click_button('Submit')
+  click_button('Give this stuff!')
 end
 
 
