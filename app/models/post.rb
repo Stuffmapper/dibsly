@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
-  after_validation :update_image
+  after_create :update_image
 
   def send_message_to_creator (dibber, body, subject)
     dibber.send_message( User.find(self.creator_id), body,subject) 
@@ -84,7 +84,8 @@ class Post < ActiveRecord::Base
 
   def update_image
 
-    self.image_url = self.image.url(:medium)
+    self.update_attribute(:image_url, self.image.url(:medium))
+
   end
 
 

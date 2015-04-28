@@ -1,12 +1,9 @@
 
 <div class="container overlap" ng-controller="StuffCtrl" >
 
-	<div class="col-md-4 col-md-offset-8 modal-body" id="stuffmapper-menu"> 
+	<div class="col-md-4 col-md-offset-8" id="stuffmapper-menu"> 
   <alerts></alerts>
-	
-
   <tabset>
-
      <tab heading="Get Stuff" disabled="tab.disabled" >
      <div id="get-stuff" >
         <div ng-repeat="item in stuff" class="col-md-4 clearfix">
@@ -34,14 +31,18 @@
 
 
      <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
+        <div ng-hide="loading">
         <p> Take a picture of the stuff that you want to give </p>
         <form id="give-stuff-form">
 
          <div class="form-group">
-           <input type="file" id="give-stuff-file" file-upload />
-           <ul>
-              <li ng-repeat="file in files">{{file.name}}</li>
-            </ul>
+          <div id="give-stuff-file-container" class='btn'>
+          <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+           <input type="file" id="give-stuff-file" file-upload   >
+
+          </div>
+          
+            
          </div>
 
         <div class="form-group">
@@ -60,15 +61,19 @@
         </div>
 
         <div class="checkbox">
-          <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me </label>
+          <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me. </label>
         </div>
 
       <div class="form-group">
-          <button class="btn btn-primary" ng-click="submitPost()">Submit</button>
+          <button class="btn" id="give-stuff-submit" ng-click="submitPost()">Give this stuff!</button>
       </div>
 
    
     </form>
+    </div>
+    <div ng-show="loading">
+    <p> Your photo is loading </p>
+    </div>
 
 
      
@@ -118,7 +123,7 @@
 
 </div>
 
-<div class="container-fluid" id="map-container" ng-controller="MapsCtrl as map" class="ng-scope" >
+<div class="container-fluid" id="map-container" ng-controller="StuffCtrl as map" class="ng-scope" >
    
 
 

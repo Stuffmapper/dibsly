@@ -30,9 +30,7 @@ $white: white; /* letter */
 /**** Navbar ****/
 
 nav{
-	display:relative;
 	z-index: 3;
-
 }
 
 #main-navbar{
@@ -46,7 +44,10 @@ nav{
 	li{
 		display:inline-block;
 		float:right;
+		margin-right:10px;
 		a{
+			display: block;
+			margin-top:8px;
 			style:none;
 			color: $white;
 			font-size:1.3em;
@@ -89,14 +90,14 @@ nav{
 		.collapse-nav-item{
 			width:100%;
 			padding:5px 15px 5px 15px;
-			margin-top:5px;
-			margin-bottom:-5px;
 			border-top: $black solid 2px;
 			display:inline-block;
 			clear:both;
 			background: $darkblue;
 			height:40px;
 			a{
+				margin-top:auto;
+				display:block;
 				style:none;
 				color: $white;
 				font-size:1.3em;
@@ -118,13 +119,37 @@ nav{
 	border-radius: 5px;
     position:absolute;
     z-index: 2;
-    background: white;
-    bottom: 50px;
-    right: 5px;
+    background: $white;
+    bottom: 0;
     top: 55px;
-    max-width: 350px;
+    font-size: 1.2em;
+    right:0;
+    min-width: 400px;
+    padding:0;
     overflow-y: auto;
+    .tab-content{
+      padding:18px;
+      background: $white;
+      width: 100%;
+    }
+    .nav-tabs{
+      background: $black;
+      	a{
+        color: $white;
+        font-size: 1.5rem;
+        }
+      li{
+      	width:32%;
+      }
+    }
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.hover > a {
+    	color: $black;
+    }
+
 }
+
+
 .stuff-image{
 	max-width: 100%;
 }
@@ -153,6 +178,44 @@ nav{
 .edit-stuff{
 	clear:both;
 }
+
+/*** GIVE STUFF ***/
+
+#give-stuff-file-container{
+	float:left;
+	margin:15px 0;
+	border-radius:10px;
+	height:75px;
+	padding-top:13px;
+	width: 100px;
+	overflow:hidden;
+	background:$turquoise;
+	border: solid 3px $turqblue;
+	position:relative;
+	#give-stuff-file{
+		position:relative;
+		height:110px;
+		width:110px;
+		padding: 20px;
+		margin-top:-55px;
+		margin-left:-10px;
+		opacity: .01;
+		z-index: 5;
+	}
+	.glyphicon{
+		font-size:40px;
+		color:$turqblue;
+	}
+
+}
+#give-stuff-submit{
+	background-color:$purple-button;
+	color: $white;
+	font-size: 1.5rem;
+	width: 95%;
+	margin: 20px 2.5%;
+}
+
 @media (min-width: 1000px) {
 	.stuff-image-container{
 		max-height:104px;
@@ -160,20 +223,28 @@ nav{
 	}
 
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 	#stuffmapper-menu{
 		top: initial;
-		max-width: 100%;
-		left: 5px;
-		bottom: 5px;
-		max-height:300px;
+		min-width: 100%;
+		left: 0px;
+		bottom: -20px;
+		height:400px;
+	}
+	#google-map-container{
+		height:40%
+	}
+}
+@media (min-width: 768px) {
+
+	#google-map-container{
+		height:100%
 	}
 }
 
 /**** MAPS ****/
-#google-map-container { height: 100%; 
+#google-map-container { 
  								width: 100%;
- 								height: 100%;
  								margin-left: 0px;
  								margin-right: 0px;
  								margin-bottom: 0px;
