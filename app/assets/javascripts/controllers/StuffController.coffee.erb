@@ -33,12 +33,16 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
      $scope.$on('mapInitialized', (evt, map) ->
       self = this
       updateMarkers()
+      # if $scope.postMarker
+      #   $scope.postMarker.setMap($scope.map)
       google.maps.event.addListener(map, 'dragend', updateMarkers )
       google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
       navigator.geolocation.getCurrentPosition((position)->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           map.panTo(current_location)
+          if $scope.postMarker
+            $scope.startMapper()
           )
         )
       )
