@@ -11,20 +11,10 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         $scope.currentUser = UserService.currentUser
      )
      $scope.editing = false
-     $scope.$watch( ->
-            return MapsService.newMarker
-        (newValue) ->
-         $scope.newMarker = newValue
-         $scope.post.latitude = $scope.newMarker.getPosition().lat()
-         $scope.post.longitude = $scope.newMarker.getPosition().lng()
-
-        )
      $scope.mapCenter = '47.6097,-122.3331'
 
-     $scope.markers = MapsService.markers
+     $scope.markers = {}
     
-
-
      updateMarkers = ->
       neBounds = $scope.map.getBounds().getNorthEast()
       swBounds = $scope.map.getBounds().getSouthWest()
@@ -37,21 +27,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
           swLng: swBounds.lng()
         ).success((data)->
           for marker in data.posts
-            if not MapsService.markers[marker.id]
-              MapsService.markers[marker.id] = marker 
-             )
-
+            if not $scope.markers[marker.id]
+              $scope.markers[marker.id] = marker )
 
      $scope.$on('mapInitialized', (evt, map) ->
       self = this
-
       updateMarkers()
-      MapsService.map = map
-
       google.maps.event.addListener(map, 'dragend', updateMarkers )
       google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
       navigator.geolocation.getCurrentPosition((position)->
-        
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           map.panTo(current_location)
@@ -59,14 +43,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         )
       )
 
-     $scope.$watch( ->
-            return MapsService.markers
-        (newValue) ->
-         $scope.stuff = newValue
-
-        )
      $scope.post = {}
-
      $scope.files = []
      $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->  
@@ -74,18 +51,22 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                     console.log($scope.files)
                 ))
 
-     $scope.stuff =  MapsService.markers
-     $scope.mystuff = {}
+     
      $scope.loading = false
+     $scope.mystuff = {}
+     
 
+
+     $scope.mystuff = {}
      $scope.getMyStuff = ->
-        $http(
-            url: '/my-stuff'
-          ).success((data)->
-            for stuff in data.posts
-                if not $scope.mystuff[stuff.id]
-                    $scope.mystuff[stuff.id] = stuff
-                    $scope.mystuff =  data.posts  )
+        $http.get( '/my-stuff')
+        .success(
+            (data)->
+                console.log( data  )
+                $scope.mystuff = data['posts'] )
+
+
+
 
 
 
@@ -121,7 +102,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
 
      $scope.startMapper = ->
-         center = MapsService.map.getCenter()
+         center = $scope.map.getCenter()
          if $scope.postMarker 
             $scope.postMarker.setMap(null)
 
@@ -131,8 +112,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
             $scope.post.longitude = $scope.postMarker.getPosition().lng()
          google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
          google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
-         $scope.postMarker.setMap(MapsService.map)
-         MapsService.map.setZoom(16)
+         $scope.postMarker.setMap($scope.map)
+         $scope.map.setZoom(16)
          $scope.post.latitude = $scope.postMarker.getPosition().lat()
          $scope.post.longitude = $scope.postMarker.getPosition().lng()
 

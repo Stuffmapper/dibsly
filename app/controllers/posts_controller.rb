@@ -116,9 +116,11 @@ class PostsController < ApplicationController
   # GET /posts/my_stuff
   def my_stuff
     if (current_user)
-      @posts = Post.where(:creator_id => current_user.id )
-      @dibs = Post.where(:dibber_id => current_user.id )
-      @posts = @posts + @dibs
+      @posts = Post.where("creator_id = ? 
+                   OR dibber_id = ?", 
+                 current_user.id.to_s,
+                 current_user.id.to_s )
+      #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
       render json:  @posts, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
