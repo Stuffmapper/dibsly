@@ -9,7 +9,7 @@
        <div id="get-stuff" >
           <div ng-repeat="item in markers" class="col-md-4 clearfix">
             <div class="stuff-view" title={{item.description}} ng-attr-id={{item.id + '-stuff'}}>
-              <div class= "stuff-image-container">
+              <div class= "stuff-image-container clearfix">
 
               <div class="stuff-description">
                 <a href="post/{{item.id}}" class='btn-default btn-xs align-right'>Details</a>
@@ -37,16 +37,19 @@
           <form id="give-stuff-form">
 
             <div class="form-group">
-              <div id="give-stuff-file-container" class='btn'>
 
-              <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+              <div id="give-stuff-file-container" class='btn '>
 
-               <input type="file" id="give-stuff-file" file-upload   >
+                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+
+                 <input type="file" id="give-stuff-file" file-upload   />
+
 
               </div> 
             </div>
 
-            <div class="form-group">
+
+            <div class="form-group col-md-12 row">
 
               <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
                 <option>Stuff</option>
@@ -57,7 +60,7 @@
            
             </div>
 
-            <div class="form-group"> 
+            <div class="form-group col-md-12 row"> 
               <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
             </div>
 
@@ -96,7 +99,7 @@
                  <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
                  <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
             </div>
-             <edit post="post.id" stuff="stuff" editing=editing ng-show=editing  ></edit> 
+             <edit post="post.id" stuff="post" editing=editing ng-show=editing  ></edit> 
            
 
           </div>

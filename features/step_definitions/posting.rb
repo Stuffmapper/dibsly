@@ -166,7 +166,6 @@ Then(/^I should be able to click edit and change the details$/) do
   click_button 'Edit'
   fill_in 'description', with: "I have changed the details"
   click_button "Update"
-  sleep(2)
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
   @shoes = @post 
   steps %{
@@ -197,7 +196,7 @@ Then(/^it should not be viewable$/) do
     map.panTo(myLatLng);
     map.setZoom(16);")
   sleep(1)  
-  within('#stuffmapper-menu') do 
+  within('#get-stuff') do 
     expect(page).to_not have_text(@post.description) 
   end
 end
