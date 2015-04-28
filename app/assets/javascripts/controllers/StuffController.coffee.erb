@@ -35,7 +35,6 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       updateMarkers()
       google.maps.event.addListener(map, 'dragend', updateMarkers )
       google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
-      $scope.postMarker.setMap(map) 
       navigator.geolocation.getCurrentPosition((position)->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
@@ -103,18 +102,20 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
 
      $scope.startMapper = ->
-        if $scope.postMarker 
+         center = $scope.map.getCenter()
+         if $scope.postMarker 
             $scope.postMarker.setMap(null)
-        updatePost = ->
+
+         $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:MapsService.map,title:'Your Stuff',icon: '<%= asset_path('icon.png')%>')
+         updatePost = ->
             $scope.post.latitude = $scope.postMarker.getPosition().lat()
             $scope.post.longitude = $scope.postMarker.getPosition().lng()
-        $scope.postMarker = new google.maps.Marker(position: $scope.map.getCenter(),draggable:true, map: $scope.map,title:'Your Stuff',icon: '<%= asset_path('icon.png')%>')
-        google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
-        google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
-        $scope.map.setZoom(16)
-        $scope.postMarker.setMap($scope.map) 
-        $scope.post.latitude = $scope.postMarker.getPosition().lat()
-        $scope.post.longitude = $scope.postMarker.getPosition().lng()
+         google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
+         google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
+         $scope.postMarker.setMap($scope.map)
+         $scope.map.setZoom(16)
+         $scope.post.latitude = $scope.postMarker.getPosition().lat()
+         $scope.post.longitude = $scope.postMarker.getPosition().lng()
 
 
                                     
