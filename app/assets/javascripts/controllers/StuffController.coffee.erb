@@ -14,6 +14,16 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
      $scope.mapCenter = '47.6097,-122.3331'
 
      $scope.markers = {}
+     self = this 
+
+     getLocation = ->
+      navigator.geolocation.getCurrentPosition((position)->
+        self.current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude) 
+        )
+
+     getLocation()
+
+  
     
      updateMarkers = ->
       neBounds = $scope.map.getBounds().getNorthEast()
@@ -104,13 +114,14 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 templateUrl:'signIn.html',
                 controller:'SignUpCtrl'
 
+     resetMarker = ->
+      if $scope.postMarker 
+        $scope.postMarker.setMap(null)
 
 
      $scope.startMapper = ->
-         center = $scope.map.getCenter()
-         if $scope.postMarker 
-            $scope.postMarker.setMap(null)
-
+         center = self.current_location
+         resetMarker()
          $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:MapsService.map,title:'Your Stuff',icon: '<%= asset_path('icon.png')%>')
          updatePost = ->
             $scope.post.latitude = $scope.postMarker.getPosition().lat()
