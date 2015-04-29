@@ -8,6 +8,7 @@ controllers.controller('StuffViewCtrl', [ '$scope', '$http','$routeParams','$res
  ($scope,$http,$routeParams,$resource,UserService) ->
  	$scope.UserService = UserService
  	$scope.editing = false
+ 	$scope.fullMap = false
 
  	$scope.$watchCollection('UserService',->
     	$scope.currentUser = UserService.currentUser

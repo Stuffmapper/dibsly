@@ -114,6 +114,25 @@ nav{
 
 /**** STUFFMAPPER ****/
 
+
+#show-stuffmapper-menu{
+	position:absolute;
+	margin-top:-10px;
+	bottom: 5px;
+	right: 5px;
+	z-index: 2;
+}
+#hide-stuffmapper-menu{
+	position:absolute;
+	margin-top:-10px;
+	left: -1px;
+	font-size:.7em;
+	width:25px;
+	padding:0;
+	top: 55px;
+	z-index: 2;
+}
+
 #stuffmapper-menu{
 
 	border-radius: 5px;
@@ -231,19 +250,14 @@ nav{
 		bottom: -20px;
 		height:400px;
 	}
-	#google-map-container{
-		height:40%
-	}
 }
 @media (min-width: 768px) {
 
-	#google-map-container{
-		height:100%
-	}
+
 }
 
 /**** MAPS ****/
-#google-map-container { 
+#google-map-container { 		height:100%;
  								width: 100%;
  								margin-left: 0px;
  								margin-right: 0px;

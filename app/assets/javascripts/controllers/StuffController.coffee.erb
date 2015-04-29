@@ -93,6 +93,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                     $scope.files = []
                     $scope.loading = false
                     updateMarkers()
+                    $scope.postMarker.setMap(null)
                 .error (data) ->
                     for key, value of data
                         AlertService.add('danger', key + ' ' + value )

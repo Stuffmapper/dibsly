@@ -22,6 +22,7 @@ When(/^I log in and visit the map location where the shoes are\.$/) do
 end
 
 Then(/^I should see the shoes in the menu$/)  do
+  click_link 'Get Stuff'
   within('#stuffmapper-menu') do 
     expect(page).to have_text("shoes") 
   end
@@ -35,6 +36,7 @@ Then(/^I should not see the shoes in the menu$/)  do
 end
 
 When(/^I hit dib$/) do
+  click_link 'Get Stuff'
   click_button('Dib')
  end
 
