@@ -13,7 +13,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
     $scope.mapCenter = '47.6097,-122.3331'
 
     $scope.markers = {}
-    self = this 
+    self = this
     
     updateMarkers = ->
       neBounds = $scope.map.getBounds().getNorthEast()
@@ -41,8 +41,6 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
           map.panTo(current_location)
-          if $scope.postMarker
-            $scope.startMapper()
           )
         )
       )
@@ -58,6 +56,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
      
     $scope.loading = false
     $scope.mystuff = {}
+    $scope.togglemap = (height)->
+       angular.element("map").height(height)
+       $scope.fullMap = !$scope.fullMap 
+       google.maps.event.trigger(map, 'resize')
+
      
 
 
@@ -104,6 +107,13 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 templateUrl:'signIn.html',
                 controller:'SignUpCtrl'
     $scope.startMapper = ->
+      if $scope.postMarker 
+          $scope.postMarker.setMap($scope.map)
+      else
+        updatePostMarker((-> $scope.postMarker.setMap($scope.map)), 6000)
+
+    updatePostMarker = (callback, timeout)->
+      #callback sets marker, timeout
       resetMarker = ->
         if $scope.postMarker 
           $scope.postMarker.setMap(null)
@@ -115,12 +125,12 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
           $scope.post.longitude = $scope.postMarker.getPosition().lng()
         google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
         google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
-        $scope.postMarker.setMap($scope.map)
         $scope.map.setZoom(12)
         $scope.map.panTo(center)
         $scope.post.latitude = $scope.postMarker.getPosition().lat()
         $scope.post.longitude = $scope.postMarker.getPosition().lng()
-
+        $scope.postMarker.setMap(null)
+        callback()
       centerSuccess = (position)->
         center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude) 
         updateMarker(center)
@@ -130,17 +140,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         updateMarker(center)
       geoOptions = {
         enableHighAccuracy: true,
-        maximumAge:1000,
-        timeout: 6000 }
+        maximumAge:300000,
+        timeout: timeout }
       navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions) 
-
-         # centerError = ->
-         #   console.log("geolocation not supported or error")
-         #   center = $scope.map.getCenter() 
-         #   updateMarker(center)
-
-         # navigator.geolocation.getPosition(centerSuccess,centerError,geoOptions) 
-
+ 
+    updatePostMarker(null, 25000)
 
 
 ])

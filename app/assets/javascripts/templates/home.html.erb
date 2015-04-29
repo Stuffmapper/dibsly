@@ -1,11 +1,11 @@
 
 <div class="container overlap"  >
-    <button class="btn" ng-click="fullMap = !fullMap" ng-show='fullMap' id="show-stuffmapper-menu">Show Menu</button>
+    <button class="btn" ng-click="togglemap('40%')" ng-show='fullMap' id="show-stuffmapper-menu">Show Menu</button>
 
 
   	<div class="col-md-4 col-md-offset-8" id="stuffmapper-menu" ng-hide="fullMap">
 
-        <button  id="hide-stuffmapper-menu" ng-hide="fullMap" ng-click="fullMap = !fullMap">>></button>
+        <button  id="hide-stuffmapper-menu" ng-hide="fullMap" ng-click="togglemap('100%')" >>></button>
 
     <alerts></alerts>
 
@@ -138,7 +138,7 @@
    
 
 
-<map id="google-map-container" center={{mapCenter}} zoom="12"> 
+<map id="google-map-container" center={{mapCenter}} zoom="12" > 
   <div class='g-marker' ng-repeat="post in markers">
     <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"  title: "{{post.description}}" icon=<%= asset_path('green-icon-small.png')%> id="marker-{{post.id}}" on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
     <info-window id='info-{{post.id}}' visible-on-marker="marker-{{post.id}}">
