@@ -308,11 +308,42 @@ nav{
 
 /*** Login ***/
 .signin {
-	margin-left: 300px;
+	width: 45%;
+	margin-left: 50%;
+	overflow: hidden;
+}
+
+#google {
+	margin-right: 3%;
+	float: right;
+	width: 44%;
+	overflow: hidden;
+}
+
+#facebook {
+	float: right;
+	width: 53%;
+	overflow: hidden;
+}
+
+form {
+	overflow: hidden;
 }
 
 #signin {
 	float: left;
+}
+
+#signin-bottom, #cancel {
+	width: 15%;
+	margin-right: 0.5%;
+	overflow: hidden;
+}
+
+#forgot {
+	width: 30%;
+	margin-right: 0.5%;
+	overflow: hidden;
 }
 
 
