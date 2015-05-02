@@ -14,12 +14,12 @@ class Post < ActiveRecord::Base
   default_scope { order('created_at DESC') }
 
   
-
+  validate :creator_must_be_allowed_to_post_and_dib
   validates_attachment_presence :image
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
-  after_validation :update_image
+  after_create :update_image
 
   def send_message_to_creator (dibber, body, subject)
     dibber.send_message( User.find(self.creator_id), body,subject) 
@@ -59,7 +59,12 @@ class Post < ActiveRecord::Base
   def available_to_dib? 
     self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
   end
-
+  def creator_must_be_allowed_to_post_and_dib
+   user = User.find(self.creator_id)
+   if not user.allowed_to_post_and_dib?
+      errors.add(:creator, "Please verify your email to give stuff")
+    end
+  end
 
 
   def coords
@@ -79,7 +84,8 @@ class Post < ActiveRecord::Base
 
   def update_image
 
-    self.image_url = self.image.url(:medium)
+    self.update_attribute(:image_url, self.image.url(:medium))
+
   end
 
 

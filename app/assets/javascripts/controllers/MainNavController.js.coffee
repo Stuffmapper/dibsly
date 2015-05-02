@@ -7,7 +7,8 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParam
         $scope.$watchCollection('UserService',->
             $scope.currentUser = UserService.currentUser
         )
-        console.log($routeParams.modal)
+        
+        $scope.toggle = false
 
     
 

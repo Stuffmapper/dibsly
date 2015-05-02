@@ -16,4 +16,11 @@ class Notifier < ActionMailer::Base
 		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
 					subject: "Your latest dib!" )
 	end
+
+	def email_verification(user)
+		@user = user
+		@email_verification_url = root_url + 'user/email/' + user.verify_email_token
+		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
+					subject: "Welcome to Stuffmapper! Please verify your email" )
+	end
 end

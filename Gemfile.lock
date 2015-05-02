@@ -284,6 +284,9 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (2.0.1)
       omniauth-oauth2 (~> 1.2)
+    omniauth-google-oauth2 (0.2.6)
+      omniauth (> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth2 (1.2.0)
       faraday (>= 0.8, < 0.10)
       multi_json (~> 1.3)
@@ -501,6 +504,7 @@ DEPENDENCIES
   metric_fu
   newrelic_rpm
   omniauth-facebook
+  omniauth-google-oauth2
   paperclip (~> 4.2.1)
   pg
   phantomjs

@@ -1,128 +1,144 @@
 
-<div class="container overlap" ng-controller="StuffCtrl" >
+<div class="container overlap"  >
+    <button class="btn" ng-click="togglemap('40%')" ng-show='fullMap' id="show-stuffmapper-menu">Show Menu</button>
 
-	<div class="col-md-4 col-md-offset-8 modal-body" id="stuffmapper-menu"> 
-  <alerts></alerts>
-	
 
-  <tabset>
+  	<div class="col-md-4 col-md-offset-8" id="stuffmapper-menu" ng-hide="fullMap">
 
-     <tab heading="Get Stuff" disabled="tab.disabled" >
-     <div id="get-stuff" >
-        <div ng-repeat="item in stuff" class="col-md-4 clearfix">
-          <div class="stuff-view" title={{item.description}}>
-            <div class= "stuff-image-container">
-            <div class="stuff-description">
-              <a href="post/{{item.id}}" class='btn-default btn-xs align-right'>Details</a>
-                 
-              <p>{{item.description}}</p>
+        <button  id="hide-stuffmapper-menu" ng-hide="fullMap" ng-click="togglemap('100%')" >>></button>
 
-               
-            </div>
-              
-              <img class="stuff-image" src={{item.image_url}} ></img>
-            </div>
+    <alerts></alerts>
 
-            <div class="col-md-12">
-              <dib post="item.id"></dib>   
-            </div>
-          </div>
-                 
-        </div>
-     </div>
-     </tab>
 
-     <tab heading="My Stuff"  ng-click="getMyStuff()">
-      <div id="my-stuff" >
+    <div class="stuff-tab-container">
+
+      <tabset >
   
-        <div ng-repeat="stuff in mystuff track by $index" id="mystuff-{{stuff.id}}" ng-hide="stuff == undefined" >
-          <div class="stuff-view col-md-4"  title={{stuff.description}}  ng-hide=editing  >
-    
-           
 
-              <div class= "stuff-image-container" >
-                <div class="stuff-description" >
-                  <a href="post/{{stuff.id}}" class='btn-default btn-xs align-right'>Details</a>
-                  <p>{{stuff.description}}</p>
+
+      <tab heading="Get Stuff"  >
+         <div id="get-stuff" >
+            <div ng-repeat="item in markers" class="col-md-4 clearfix">
+              <div class="stuff-view" title={{item.description}} ng-attr-id={{item.id + '-stuff'}}>
+                <div class= "stuff-image-container clearfix">
+
+                <div class="stuff-description">
+                  <a href="post/{{item.id}}" class='btn-default btn-xs align-right'>Details</a>
+                     
+                  <p>{{item.description}}</p>
+                </div>
+                  
+                  <img class="stuff-image" ng-src={{item.image_url}} ></img>
+
                 </div>
 
-                <img class="stuff-image" src={{stuff.image_url}} ></img>
+                <div class="col-md-12">
+                  <dib post="item.id"></dib>   
+                </div>
+              </div>
+                     
+            </div>
+         </div>
+      </tab>
+
+
+       <tab heading="Give Stuff" active='true' ng-click="startMapper()">
+            <div ng-hide="loading">
+              <p ng-hide='files[0]'> Take a picture of the stuff that you want to give </p>
+              <p ng-show='files[0]'> Now enter some details, check the location on the map and press the "Give this Stuff!" button </p>
+              <form id="give-stuff-form">
+              <div class="col-md-12">
+                <div class="form-group col-md-6">
+
+                  <div id="give-stuff-file-container" class='btn' ng-click="startMapper()">
+
+                    <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+
+                     <input type="file" id="give-stuff-file" file-upload   />
+
+
+                  </div> 
+                </div>
+
+                <div class="col-md-6" id="upload-file-names" >
+                  <p ng-repeat="file in files">{{file.name}}</p>
+                </div>
+
               </div>
 
-           
 
-            
-               <undib post="stuff.id" mystuff="stuff" ng-hide="currentUser == stuff.creator"></undib> 
-               <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
+              <div class="form-group col-md-12 row">
+
+                <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
+                  <option>Stuff</option>
+                  <option>Other Stuff</option>
+                  <option>More Stuff</option>
+                  <option>Best Stuff</option>
+                </select>
+             
+              </div>
+
+              <div class="form-group col-md-12 row"> 
+                <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
+              </div>
+
+              <div class="checkbox col-md-12 row">
+                <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me. </label>
+              </div>
+
+              <div class="form-group col-md-12 row">
+                  <button class="btn" id="give-stuff-submit" ng-click="submitPost()">Give this stuff!</button>
+              </div>
+            </form>
+          </div>
+
+          <div ng-show="loading">
+            <p> Your photo is loading </p>
+          </div>
+        </tab>
+
+       <tab heading="My Stuff"  ng-click="getMyStuff()" >
+          <div id="my-stuff" >
+      
+            <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined" >
+              <div class="stuff-view col-md-4"  title={{stuff.description}}  ng-hide=editing  >
+                  <div class= "stuff-image-container" >
+                    <div class="stuff-description" >
+                      <a href="post/{{post.id}}" class='btn-default btn-xs align-right'>Details</a>
+                      <p>{{post.description}}</p>
+                    </div>
+
+                    <img class="stuff-image" ng-src={{post.image_url}} ></img>
+                  </div>
+
                
 
+                
+                   <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
+                   <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
+              </div>
+               <edit post="post.id" stuff="post" markers="markers" editing=editing ng-show=editing  ></edit> 
+             
 
-            
-
-          </div>
-           <edit post="stuff.id" stuff="stuff" editing=editing ng-show=editing  ></edit> 
-         
-
-        </div>
-     </div>
-     </tab>
-
-
-
-    <tab heading="Give Stuff" disabled="tab.disabled" ng-click="startMapper()">
-        <p> Take a picture of the stuff that you want to give </p>
-        <form id="give-stuff-form">
-
-         <div class="form-group">
-           <input type="file" id="give-stuff-file" file-upload />
-           <ul>
-              <li ng-repeat="file in files">{{file.name}}</li>
-            </ul>
+            </div>
          </div>
+       </tab>
 
-        <div class="form-group">
+    
 
-          <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
-            <option>Stuff</option>
-            <option>Other Stuff</option>
-            <option>More Stuff</option>
-            <option>Best Stuff</option>
-          </select>
-         
-         </div>
-
-        <div class="form-group"> 
-          <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
-        </div>
-
-        <div class="checkbox">
-          <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me </label>
-        </div>
-
-      <div class="form-group">
-          <button class="btn btn-primary" ng-click="submitPost()">Submit</button>
-      </div>
-
-   
-    </form>
-
-
-     
-    </tab>
-  
-
-  </tabset>
+    </tabset>
+  </div>
  
 
 	</div>
 
 </div>
 
-<div class="container-fluid" id="map-container" ng-controller="MapsCtrl as map" class="ng-scope" >
+<div class="container-fluid" id="map-container"  >
    
 
 
-<map id="google-map-container"  center={{mapCenter}} zoom="12"> 
+<map id="google-map-container" center={{mapCenter}} zoom="12" > 
   <div class='g-marker' ng-repeat="post in markers">
     <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"  title: "{{post.description}}" icon=<%= asset_path('green-icon-small.png')%> id="marker-{{post.id}}" on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
     <info-window id='info-{{post.id}}' visible-on-marker="marker-{{post.id}}">

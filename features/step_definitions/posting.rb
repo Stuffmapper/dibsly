@@ -24,7 +24,7 @@ Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
 		within('#give-stuff-form') do 
 	 		expect(page).to have_field 'description'
 	 		fill_in 'description', with: arg1
-	 		click_button 'Submit'
+	 		click_button 'Give this stuff!'
 	  end  
     sleep(6)
     expect(@current_user.posts.last).to eq @post
@@ -107,7 +107,7 @@ end
 When(/^I try to post an item$/) do
   visit('/')
   click_link('Give Stuff')
-  click_button('Submit')
+  click_button('Give this stuff!')
 end
 
 
@@ -115,6 +115,7 @@ end
 When(/^click on an item's description on the map$/) do
  expect(page.body).to have_selector('#google-map-container')
    within(first('.g-marker', :visible => false)) do
+      #this is a hack - still not sure how to test google marker photos
      expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
   end 
 
@@ -126,7 +127,7 @@ Then(/^I should see a photo$/) do
 end
 
 When(/^click on an item on in stuff$/) do
-  
+  click_link 'Get Stuff'  
   first(:link, 'Details').click 
  #express the regexp above with the code you wish you had
 end
@@ -166,7 +167,6 @@ Then(/^I should be able to click edit and change the details$/) do
   click_button 'Edit'
   fill_in 'description', with: "I have changed the details"
   click_button "Update"
-  sleep(2)
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
   @shoes = @post 
   steps %{
@@ -197,7 +197,7 @@ Then(/^it should not be viewable$/) do
     map.panTo(myLatLng);
     map.setZoom(16);")
   sleep(1)  
-  within('#stuffmapper-menu') do 
+  within('#get-stuff') do 
     expect(page).to_not have_text(@post.description) 
   end
 end

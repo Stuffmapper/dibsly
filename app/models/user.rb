@@ -7,16 +7,18 @@ class User < ActiveRecord::Base
   # attr_accessor allows you to use the password attribute locally, but will not persist it to the database
   attr_accessor :password
   before_save :encrypt_password
-  
+  before_save :downcase_email
+  before_save :confirm_email
+
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_uniqueness_of :username
+  #TODO change the database to make username unique on that level
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable
-  before_save :downcase_email
 
   def save(*args)
     super
@@ -43,10 +45,11 @@ class User < ActiveRecord::Base
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
         oauth_user.provider = auth.provider
         oauth_user.uid = auth.uid
-        oauth_user.password = auth.credentials.token
         oauth_user.oauth_token = auth.credentials.token
         oauth_user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+        oauth_user.verified_email = true
         oauth_user.save!
+
         return oauth_user
       end
     else
@@ -56,11 +59,12 @@ class User < ActiveRecord::Base
         user.first_name = auth.info.first_name
         user.last_name = auth.info.last_name
         user.email = auth.info.email
-        user.username = auth.info.name
+        user.username = auth.info.email.split('@').first+((Integer(auth.uid)%1000000).to_s)
         user.password = auth.credentials.token
         user.oauth_token = auth.credentials.token
         user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         user.status = STATUS_NEW
+        user.verified_email = true
         user.ip = "not_provided"
         user.save!
         return user 
@@ -83,11 +87,25 @@ class User < ActiveRecord::Base
     update_attribute(:password_reset_token, SecureRandom.urlsafe_base64(48) )
   end
 
+  def confirm_email
+     send_verification_email unless self.verified_email
+  end
+
+  def send_verification_email
+    self.verify_email_token =  SecureRandom.urlsafe_base64(48) 
+    Notifier.email_verification(self).deliver_now
+  end
+
 
   def downcase_email
 
     self.email = email.downcase
   end
+  
+  def allowed_to_post_and_dib?
+    self.verified_email
+  end
+
 
   def ip
     ''

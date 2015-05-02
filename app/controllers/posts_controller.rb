@@ -27,9 +27,6 @@ class PostsController < ApplicationController
     end
   end
 
-
-  # POST /posts
-  # POST /posts.json
   def create
     if (current_user)
       cleaned_params = post_params.delete_if{
@@ -41,7 +38,7 @@ class PostsController < ApplicationController
           :status => 'new', 
           :creator_id => @user.id ))
 
-      if @post.save
+      if @post.valid?
         @post.save
         render json: '[]', status: :ok
       else
@@ -119,9 +116,11 @@ class PostsController < ApplicationController
   # GET /posts/my_stuff
   def my_stuff
     if (current_user)
-      @posts = Post.where(:creator_id => current_user.id )
-      @dibs = Post.where(:dibber_id => current_user.id )
-      @posts = @posts + @dibs
+      @posts = Post.where("creator_id = ? 
+                   OR dibber_id = ?", 
+                 current_user.id.to_s,
+                 current_user.id.to_s )
+      #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
       render json:  @posts, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized

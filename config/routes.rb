@@ -11,7 +11,8 @@ Dibsly::Application.routes.draw do
   get '/auth/check' => 'sessions#check'
 
   post 'users' => 'users#create'
-  patch 'users/:id' => 'users#my_stuff'
+  post 'users/email/:confirmation' => 'users#confirm_email'
+
   post 'users/:id', :to => 'users#show', :as => :user
   post 'presets' => 'users#presets'
 

@@ -1,6 +1,6 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :latitude, :longitude,:image_url,
-   :coords, :image_url,:description, :dibbable, 
+  attributes :id, :latitude, :longitude,
+  :coords, :image_url,:description, :dibbable, 
    :creator, :on_the_curb, :category, :published
 
   def coords

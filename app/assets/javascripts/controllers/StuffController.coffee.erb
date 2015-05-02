@@ -1,0 +1,152 @@
+
+controllers = angular.module('controllers')
+
+
+
+controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http', 
+ ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) -> 
+    $scope.UserService = UserService;
+    $scope.$watchCollection('UserService',->
+        $scope.currentUser = UserService.currentUser
+     )
+    $scope.editing = false
+    $scope.mapCenter = '47.6097,-122.3331'
+
+    $scope.markers = {}
+    self = this
+    
+    updateMarkers = ->
+      neBounds = $scope.map.getBounds().getNorthEast()
+      swBounds = $scope.map.getBounds().getSouthWest()
+      $http(
+        url: '/posts/geolocated'
+        params: 
+          neLat: neBounds.lat()
+          swLat: swBounds.lat() 
+          neLng: neBounds.lng()
+          swLng: swBounds.lng()
+        ).success((data)->
+          for marker in data.posts
+            if not $scope.markers[marker.id]
+              $scope.markers[marker.id] = marker )
+
+    $scope.$on('mapInitialized', (evt, map) ->
+      self = this
+      updateMarkers()
+      # if $scope.postMarker
+      #   $scope.postMarker.setMap($scope.map)
+      google.maps.event.addListener(map, 'dragend', updateMarkers )
+      google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
+      navigator.geolocation.getCurrentPosition((position)->
+        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        $scope.$apply(->
+          map.panTo(current_location)
+          )
+        )
+      )
+
+    $scope.post = {}
+    $scope.files = []
+    $scope.$on("fileSelected",
+                (event, args) -> $scope.$apply( ->  
+                    $scope.files.push(args.file)
+                    console.log($scope.files)
+                ))
+
+     
+    $scope.loading = false
+    $scope.mystuff = {}
+    $scope.togglemap = (height)->
+       angular.element("map").height(height)
+       $scope.fullMap = !$scope.fullMap 
+       google.maps.event.trigger(map, 'resize')
+
+     
+
+
+    $scope.mystuff = {}
+    $scope.getMyStuff = ->
+        $http.get( '/my-stuff')
+        .success(
+            (data)->
+                console.log( data  )
+                $scope.mystuff = data['posts'] )
+
+
+
+
+
+
+    $scope.submitPost = ->
+        $scope.loading = true
+        UserService.check(->)
+        if UserService.currentUser
+            formdata = new FormData();
+            formdata.append('latitude', $scope.post.latitude)
+            formdata.append('longitude', $scope.post.longitude)
+            formdata.append('category', $scope.post.category)
+            formdata.append('description', $scope.post.description)
+            formdata.append('image', $scope.files[0]);
+            $http.post( "/posts", formdata, {
+                headers: {'Content-Type': undefined}
+                transformRequest: angular.identity
+                }).success (data, status, headers, config) -> 
+                    console.log('it worked')
+                    AlertService.add('success', "You've Posted Your Stuff")
+                    $scope.files = []
+                    $scope.loading = false
+                    updateMarkers()
+                    $scope.postMarker.setMap(null)
+                .error (data) ->
+                    for key, value of data
+                        AlertService.add('danger', key + ' ' + value )
+                    $scope.loading = false
+        else
+            AlertService.add('danger', 'Please sign in to continue' )
+            $modal.open
+                templateUrl:'signIn.html',
+                controller:'SignUpCtrl'
+    $scope.startMapper = ->
+      if $scope.postMarker 
+          $scope.postMarker.setMap($scope.map)
+      else
+        updatePostMarker((-> $scope.postMarker.setMap($scope.map)), 6000)
+
+    updatePostMarker = (callback, timeout)->
+      #callback sets marker, timeout
+      resetMarker = ->
+        if $scope.postMarker 
+          $scope.postMarker.setMap(null)
+      updateMarker = (center)->
+        resetMarker()
+        $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('icon.png')%>')
+        updatePost = ->
+          $scope.post.latitude = $scope.postMarker.getPosition().lat()
+          $scope.post.longitude = $scope.postMarker.getPosition().lng()
+        google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
+        google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
+        $scope.map.setZoom(12)
+        $scope.map.panTo(center)
+        $scope.post.latitude = $scope.postMarker.getPosition().lat()
+        $scope.post.longitude = $scope.postMarker.getPosition().lng()
+        $scope.postMarker.setMap(null)
+        callback()
+      centerSuccess = (position)->
+        center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude) 
+        updateMarker(center)
+      centerError = ->
+        console.log("geolocation not supported or error")
+        center = $scope.map.getCenter()
+        updateMarker(center)
+      geoOptions = {
+        enableHighAccuracy: true,
+        maximumAge:300000,
+        timeout: timeout }
+      navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions) 
+ 
+    updatePostMarker(null, 25000)
+
+
+])
+      
+

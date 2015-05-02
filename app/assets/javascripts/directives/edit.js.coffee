@@ -3,18 +3,20 @@ directives = angular.module('directives')
 
 directives.directive('edit', ->
     restrict:'E'
-    scope: { post: '=', stuff: '=', editing: '=' },
+    scope: { post: '=', stuff: '=', editing: '=', markers: '=' },
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
      $scope.close = ->
         $scope.editing = !$scope.editing
      $scope.publish = (status) ->
         if UserService.currentUser
-            console.log('hey! you', MapsService.markers ) 
             $http.post( "/posts/" + $scope.stuff.id + "/update" ,
                 { published: status })
                 .success( 
                     $scope.stuff['published'] = status 
-                    MapsService.updateMarker($scope.stuff) )
+                    if not status
+                        delete $scope.markers[$scope.stuff.id] 
+                    else
+                        $scope.markers[$scope.stuff.id] = $scope.stuff )
                     
      $scope.updateStuff = ->
         UserService.check(->)

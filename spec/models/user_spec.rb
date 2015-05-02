@@ -32,4 +32,36 @@ RSpec.describe User, :type => :model do
       end
     end
 
+    describe "allows user to post if email verified" do 
+      let(:user) { build(:user, verified_email: false  ) }
+
+      it "defaults to false" do 
+        expect( user.allowed_to_post_and_dib? ).to eq false 
+      end
+
+      it "it depends on email verification" do 
+        user.verified_email = true
+        user.save
+        expect( user.allowed_to_post_and_dib? ).to eq true
+      end
+    end
+    describe "sends a verification email if email not marked verified before" do 
+      let(:user) { build(:user, verified_email: false ) }
+      it "sends email" do 
+        allow( user ).to receive(:send_verification_email).and_call_original
+        expect(Notifier).to receive(:email_verification).and_call_original
+        user.save
+        expect( user ).to have_received(:send_verification_email) 
+    
+      end
+      it "updates verification token with urlsafe_base64" do 
+        expect( user.verify_email_token ).to eq nil
+        expect(SecureRandom).to receive(:urlsafe_base64).and_call_original
+        user.save 
+        expect( user.verify_email_token ).to_not eq nil
+      end
+
+    end
+
+
 end

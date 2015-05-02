@@ -1,0 +1,6 @@
+<p> Hi <%= @user.first_name %>, </p>
+
+<p>   Welcome to Stuffmapper! Please follow the link below to verify your email and get started dibbing and posting!  </p>
+
+<p><%= link_to @email_verification_url,
+	@email_verification_url %>. </p>

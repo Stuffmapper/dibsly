@@ -66,6 +66,7 @@ RSpec.describe PostsController, :type => :controller do
 			   @post.latitude = '47'
 			   @post.longitude = '-122'
 			   @post.save!
+			   
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
@@ -100,8 +101,26 @@ RSpec.describe PostsController, :type => :controller do
 			end
 		end
 
+		context "with login and unverified email", :vcr => vcr_options do 
+			before do
+			@user.update_attribute(:verified_email, false)
+			shoes = File.read("spec/factories/shoes.png")
+			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+			end
 
-		context "with login", :vcr => vcr_options do 
+
+			it 'should 422 ' do 
+				sign_in(@user)
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' } 
+				expect(response.status).to eq(422) 
+			end
+
+
+		end
+	
+
+
+		context "with login and verified email", :vcr => vcr_options do 
 			before do
 			shoes = File.read("spec/factories/shoes.png")
 			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')

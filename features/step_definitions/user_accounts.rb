@@ -74,11 +74,11 @@ Given(/^that I already have an account$/) do
 
 end
 
-
-Then(/^I should expect to see a user agreement$/) do
-  click_link('user agreement')
-   expect(page.body).to have_text("This is a user agreement")
+Then(/^I should expect to see a "(.*?)"$/) do |policy|
+  click_link(policy)
+   expect(page.body).to have_text("This is a " + policy )  
 end
+
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
   expect(page.body).to have_text(arg1)
@@ -159,4 +159,77 @@ When(/^I try to login, I should be able to use my email in place of username$/) 
     expect(page).to have_text("You have been signed in")
 
 end
+
+##EMAIL VERIFICATION
+
+Then(/^I should receive a welcome email$/) do
+  sleep(1)
+  @current_user = User.last
+  open_email(@current_user.email) 
+  expect(current_email.body).to have_text("Welcome to Stuffmapper!" )
+
+end
+
+When(/^I follow the link in the welcome email$/) do
+  current_email.click_link "http://"
+  expect(page).to have_content("You've verified your email!") 
+end
+
+Then(/^I should be able to post an item and dib Jacks shoes$/) do
+  click_link('Sign Out')
+  
+  steps %{
+    When I log in and give stuff
+    Then I should be able to put  "These are some awesome kicks" in the description field
+
+  }
+  @shoes = Post.first
+  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
+    var map = angular.element('map').scope().map;
+    map.panTo(myLatLng);
+    map.setZoom(24);")
+
+  click_link 'Get Stuff'
+
+  page.all(:button, "Dib")[0].click
+  sleep(1)
+  expect(page).to have_text('Dibbed your stuff')
+ 
+ end
+
+
+
+When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) do
+  visit '/'
+  click_link('Sign Out')
+  @current_user = User.last 
+  steps %{
+    When I log in and give stuff
+  }
+  allow( Post ).to receive( :has_attached_file ).and_return false
+  VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do 
+      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: "okkk" ) 
+   end
+   allow(Post).to receive( :new ).and_return( @post )
+   allow(Post).to receive( :save ).and_call_original
+
+    within('#give-stuff-form') do 
+      expect(page).to have_field 'description'
+      fill_in 'description', with: "okkk"
+      click_button 'Give this stuff!'
+    end 
+  sleep(1)
+  
+  expect(page).to have_text('Please verify your email to give stuff')
+  click_link('Sign Out')
+  @shoes = Post.first
+  steps %{
+    When I log in and visit the map location where the shoes are.
+    When I hit dib
+  }
+  expect(page).to have_text('Please verify your email to dib')
+  
+end
+
+
 

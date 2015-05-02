@@ -9,14 +9,14 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
 
     $scope.cancel = ->  
       $modalInstance.dismiss('cancel')
-    $scope.fbLogin = ->
-      fbauth  = "http://" + $window.location.host + '/auth/facebook/'
+    $scope.oaLogin = (provider)->
+      fbauth  = "http://" + $window.location.host + '/auth/' + provider
       $window.location.href = fbauth   
 
 
-    $scope.showUserAgreement = ->
+    $scope.showPolicy = (policy)->
         $modal.open
-            templateUrl:'userAgreement.html',
+            templateUrl: policy + '.html',
             controller:'SignUpCtrl'
 
     $scope.signup = ->
