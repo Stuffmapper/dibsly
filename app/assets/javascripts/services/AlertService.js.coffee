@@ -5,14 +5,16 @@ factories = angular.module('factories')
 factories.factory('AlertService',[ '$timeout'
 	($timeout)->
 
-	    alerts = []
+	    alerts = {}
 
-	    clear:-> alerts=[];
+	    clear:-> alerts={};
 
 	    add:(type,text)->
-	    	alerts=[]
-	    	$timeout( (-> alerts=[]),2300)
-	    	alerts.push({type:type,text:text})
+	    	key = Math.floor(Math.random() * 1000)
+	    	alert = {type:type,text:text}
+	    	alerts[key] = alert 
+	    	$timeout( (-> delete alerts[key] ),2300)
+
 	    	
 	    
 	    remove:(idx)-> alerts.splice(idx,1)

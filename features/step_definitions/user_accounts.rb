@@ -7,7 +7,9 @@ end
 Given(/^that I am using the same email for my google and facebook$/) do
  	@facebook_email = 'fake@email.com'
  	@google_email = 'fake@email.com'
- 	@email = 'fake@email.com'   # express the regexp above with the code you wish you had
+ 	@email = 'fake@email.com'   
+  #see test.rb in environment to make sure 
+  #that omniauth google and fb emails are configured to match
 end
 
 
@@ -57,7 +59,22 @@ Then(/^I should be able to sign in with my username and password$/) do
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
-  pending # express the regexp above with the code you wish you had
+   expect(User.count).to eq 1
+
+   click_link 'Sign Out'
+   expect(page).to_not have_text 'Sign Out'
+   click_link 'Sign In'
+   click_link 'Facebook'
+   expect(User.count).to eq 1
+   expect(page).to have_text 'Sign Out'
+
+   click_link 'Sign Out'
+   expect(page).to_not have_text 'Sign Out'
+   click_link 'Sign In'
+   click_link 'Google'
+   expect(User.count).to eq 1
+   expect(page).to have_text 'Sign Out'
+
 end
 
 Given(/^that I already have an account$/) do
@@ -218,7 +235,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
       fill_in 'description', with: "okkk"
       click_button 'Give this stuff!'
     end 
-  sleep(1)
+  sleep(2)
   
   expect(page).to have_text('Please verify your email to give stuff')
   click_link('Sign Out')
@@ -227,9 +244,23 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
     When I log in and visit the map location where the shoes are.
     When I hit dib
   }
+  sleep(2)
   expect(page).to have_text('Please verify your email to dib')
   
 end
+#"/user/signup"
 
+#GOOGLE LOGIN
 
+When(/^I visit the signup page and click Google login$/) do
+  expect( User.count).to eq 0
+  visit "/user/signup"
+  click_link "Google"
+
+end
+
+Then(/^I should have an account created and my email should be marked verified\.$/) do
+   expect(User.count).to eq 1
+   expect(User.last.verified_email).to eq true
+ end
 

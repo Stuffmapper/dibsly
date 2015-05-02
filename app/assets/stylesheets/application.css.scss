@@ -25,7 +25,15 @@ $bluedot: #037fc2; /* blue dot */
 $green: #4fd67b; /* letter */
 $white: white; /* letter */
 
+/*** Helper ***/
+.close-x{
+	border-radius:100%;
+	border-bottom: $black 3px solid;
+	border-right: $black 1px solid;
+	border-left: $black 2px solid;
+	border-top: $black 2px solid;
 
+}
 
 /**** Navbar ****/
 
