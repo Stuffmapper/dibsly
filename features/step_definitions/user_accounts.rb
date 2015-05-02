@@ -230,6 +230,19 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   expect(page).to have_text('Please verify your email to dib')
   
 end
+#"/user/signup"
 
+#GOOGLE LOGIN
 
+When(/^I visit the signup page and click Google login$/) do
+  expect( User.count).to eq 0
+  visit "/user/signup"
+  click_link "Google"
+
+end
+
+Then(/^I should have an account created and my email should be marked verified\.$/) do
+   expect(User.count).to eq 1
+   expect(User.last.verified_email).to eq true
+ end
 
