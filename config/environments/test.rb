@@ -62,3 +62,14 @@ OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
 
 })
 
+OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+  :provider => 'facebook',
+  :uid => '123545',
+  :info => {:first_name => "Fake",
+            :last_name => "Name",
+            :email => 'fake@email.com'},
+  :credentials => {:token => "123456",
+   :expires_at => Time.now + 2.days }
+
+})
+
