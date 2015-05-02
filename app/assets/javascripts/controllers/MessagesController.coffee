@@ -2,8 +2,8 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','$http','$modal', 
- ($scope, AlertService, UserService,$http, $modal ) -> 
+controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','$http','$modal','$modalInstance', 
+ ($scope, AlertService, UserService,$http, $modal,$modalInstance ) -> 
 
     $http(
          url: '/messages'
@@ -25,6 +25,8 @@ controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','
                 $scope.messages[conversationID] =  data.messages
             ).error ->
                 AlertService.add('danger', $scope.reply_message[conversationID].body )
+    $scope.cancel = ->  
+      $modalInstance.dismiss('cancel')
 
 
 
