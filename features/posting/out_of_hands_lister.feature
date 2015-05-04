@@ -6,7 +6,7 @@ Feature: List an item on the curb
   	Given that I already have an account 
 
   @javascript	
-  Scenario: Successfully view description
+  Scenario: Successfully set post status
   	When I login and give stuff and select on the curb
   	Then the post should set the post's status to out of my hands
   	And I should be able to change the out of my hands status after it's posted

@@ -227,7 +227,7 @@ end
 
 Then(/^I should be able to change the out of my hands status after it's posted$/) do
    #TODO - Mock out paperclip properly - this is  not a good test
-    VCR.use_cassette('aws_again', :match_requests_on => [:method] ) do 
+    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
       @post = build(:post, 
         creator_id: @current_user.id,
         latitude: "47.6097",
