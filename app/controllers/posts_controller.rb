@@ -37,7 +37,6 @@ class PostsController < ApplicationController
           :ip => request.remote_ip, 
           :status => 'new', 
           :creator_id => @user.id ))
-
       if @post.valid?
         @post.save
         render json: '[]', status: :ok
@@ -137,7 +136,7 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description, :published )
+      params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb )
     end
 
 

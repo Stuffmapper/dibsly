@@ -14,6 +14,7 @@ require 'capybara/cucumber'
 require 'cucumber/rails'
 require 'rack_session_access/capybara'
 require 'capybara/email'
+require "paperclip/matchers"
 require 'vcr'
 
 
@@ -47,7 +48,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 #
 World(FactoryGirl::Syntax::Methods)
 World(Capybara::Email::DSL)
-
+World(Paperclip::Shoulda::Matchers)
 
 
 ActionController::Base.allow_rescue = false
