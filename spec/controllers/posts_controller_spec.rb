@@ -152,6 +152,18 @@ RSpec.describe PostsController, :type => :controller do
 				expect(Post.last.description).to eq('shoes') 
 			end
 
+			it 'should update a description' do 
+				sign_in(@user)
+				xhr :post, 
+					:create, {title:'',
+						image: @file,
+						latitude:'47',
+						longitude:'-122',
+						description: 'shoes',
+						on_the_curb: 'true' } 
+				expect(Post.last.on_the_curb).to eq(true) 
+			end
+
 
 		end
 	end

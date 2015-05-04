@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require 'vcr_setup'
 require 'capybara/email/rspec'
+require "paperclip/matchers"
 
 
 WebMock.disable_net_connect!(allow_localhost: true)
@@ -35,8 +36,7 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.include FactoryGirl::Syntax::Methods
   config.include AuthenticationHelpers::Controller , type: :controller
-
-
+  config.include Paperclip::Shoulda::Matchers
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.

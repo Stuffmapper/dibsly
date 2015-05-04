@@ -202,6 +202,50 @@ Then(/^it should not be viewable$/) do
   end
 end
 
+##POSTING OUT OF MY HANDS 
+
+When(/^I login and give stuff and select on the curb$/) do
+  visit '/'
+  sign_in @current_user
+
+
+end
+
+Then(/^the post should set the post's status to out of my hands$/) do
+  check "on_the_curb"
+
+ #TODO - Mock out paperclip properly - this is  not a good test
+ #This is making a real request to aws everytime- (this is bad)
+
+  click_link "Get Stuff"
+  click_link "Give Stuff"
+
+  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
+  click_button "Give this stuff!"
+
+end
+
+Then(/^I should be able to change the out of my hands status after it's posted$/) do
+   #TODO - Mock out paperclip properly - this is  not a good test
+    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+      @post = build(:post, 
+        creator_id: @current_user.id,
+        latitude: "47.6097",
+        longitude: '-122.3331',
+        on_the_curb: true) 
+      @post.save!
+   end
+   expect(@post.on_the_curb).to eq true
+    visit('/post/' + @post.id.to_s )
+    click_button 'Edit'
+    uncheck 'on_the_curb'
+    click_button "Update"
+    sleep(1)
+    @post.reload
+    expect(@post.on_the_curb).to eq false
+
+end
+
 
 
 
