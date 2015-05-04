@@ -257,13 +257,13 @@ http_interactions:
       X-Amz-Acl:
       - public-read
       User-Agent:
-      - aws-sdk-ruby/1.63.0 ruby/2.2.0 x86_64-darwin14
+      - aws-sdk-ruby/1.64.0 ruby/2.2.0 x86_64-darwin14
       Expect:
       - 100-continue
       Date:
-      - Tue, 07 Apr 2015 23:04:50 GMT
+      - Mon, 04 May 2015 18:30:35 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:844/rLP13rAitjgJcu4eLTrtXcA=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:v6A0pSm53de8J9o5F4RJ60nIu8w=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - mCk7UOTzREJHuNaf+S5yoam3AI9Jmb6ntTokCrYIP+iUvaVfJmklkKygjSge50OwRAIp0SGyxyM=
+      - PtsqyI8QRMKne/Y6w1ZJa1BYLLOJ4btoK//mRVDcVsrBi87yesApeTzuqOY8C/hDDr+PoRSBxeo=
       X-Amz-Request-Id:
-      - 23AB8E6D0DB10F21
+      - 9E027AF4FCA5276A
       Date:
-      - Tue, 07 Apr 2015 23:04:51 GMT
+      - Mon, 04 May 2015 18:30:37 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,7 +287,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 07 Apr 2015 23:04:50 GMT
+  recorded_at: Mon, 04 May 2015 18:30:36 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/001/medium/shoes.png
@@ -302,8 +302,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EBxAEMW5/
-        /G0AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAseIxJN
+        vTEAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -535,9 +535,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMDdUMTY6MDQ6NDktMDc6
-        MDBLPFPEAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTA3VDE2OjA0OjQ5
-        LTA3OjAwOmHreAAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6MzA6MzUtMDc6
+        MDCVCcQgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjMwOjM1
+        LTA3OjAw5FR8nAAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -548,13 +548,13 @@ http_interactions:
       X-Amz-Acl:
       - public-read
       User-Agent:
-      - aws-sdk-ruby/1.63.0 ruby/2.2.0 x86_64-darwin14
+      - aws-sdk-ruby/1.64.0 ruby/2.2.0 x86_64-darwin14
       Expect:
       - 100-continue
       Date:
-      - Tue, 07 Apr 2015 23:04:50 GMT
+      - Mon, 04 May 2015 18:30:36 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:HHJJmvjwell3JTCarCRYhIfqYBo=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:yA9FT6d+3mwfZrVmdU/BZPAnXTU=
       Accept:
       - "*/*"
   response:
@@ -563,13 +563,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - 3iwQoIeYdOuWP50/pG2XKV1o0ynOOFh6ZJ+oxkFvCZ+8ueMHn65y4EkXmJPvuI9jsu/PRWgaJpU=
+      - "+3aeAXA0UEa5eHuHWCabMATYBQyzaGZK1ZwyJrARMB+cYcQ6tvcrwDQLnRNusc+kLpYgG4jC+Rw="
       X-Amz-Request-Id:
-      - C43A136BB85CE1C5
+      - 09EEA8753D1E0193
       Date:
-      - Tue, 07 Apr 2015 23:04:51 GMT
+      - Mon, 04 May 2015 18:30:38 GMT
       Etag:
-      - '"1aa10076cc3de7a8dda1e6e45d20cb40"'
+      - '"497024f4a0b0c4341790f53dfa6af06b"'
       Content-Length:
       - '0'
       Server:
@@ -578,5 +578,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 07 Apr 2015 23:04:50 GMT
+  recorded_at: Mon, 04 May 2015 18:30:37 GMT
 recorded_with: VCR 2.9.3

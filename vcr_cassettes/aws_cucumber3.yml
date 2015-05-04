@@ -261,9 +261,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:49 GMT
+      - Mon, 04 May 2015 18:44:29 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:c77xhq+t2cexcBushwGGdI/aUu0=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:Uu4dfx8/r5qE+uYTm5QFO0ydwto=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - HkRJilKGrT5emwdd9sc8kxCwQzJ6wvABsVQcO2UZ10glLbdf3iK4TMxPjjv4iT2y
+      - Fk2DUmvBwLrcP1ahqcnYGR72/D/0MmWm50SUBK7d1LRaoAmDASCJeLiGVa/ddL4HkxhjU/ARzBk=
       X-Amz-Request-Id:
-      - 8F7AB09FC20A1262
+      - 8B4CF8C608087351
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:33 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,7 +287,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:50 GMT
+  recorded_at: Mon, 04 May 2015 18:44:32 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/001/medium/shoes.png
@@ -302,8 +302,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPMDdC
-        ehYAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssHElb
+        xH0AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -535,9 +535,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NDgtMDc6
-        MDDqybZcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjQ4
-        LTA3OjAwm5QO4AAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MjgtMDc6
+        MDAYpBCHAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjI4
+        LTA3OjAwafmoOwAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -552,9 +552,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:50 GMT
+      - Mon, 04 May 2015 18:44:32 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:tNuKYXFKc5y08/NA3CXWlMDddKc=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:xpMQY+SntdIQoPvfib+xqd70Z/g=
       Accept:
       - "*/*"
   response:
@@ -563,13 +563,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - zdDQqX7UlFExAofmFIWzyDq2CR2VANXM/1fb/PMRS7VCl+FGlmKnuw5QlAV25sfu
+      - QwgJSFwo2z4t9Wq/UmvPFTHJl4KhtKViVXRq+zLT+encNkYeDIamkoOp0tVrLGZCT75nuhUYZlc=
       X-Amz-Request-Id:
-      - 5011F8A01678E929
+      - F856A18F8E7378AD
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:34 GMT
       Etag:
-      - '"54c17f3ca9d90772b79d8ef7b3723699"'
+      - '"abc836a1513c824ae536d92df30fda89"'
       Content-Length:
       - '0'
       Server:
@@ -578,7 +578,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:50 GMT
+  recorded_at: Mon, 04 May 2015 18:44:34 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/002/original/shoes.png
@@ -840,9 +840,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:50 GMT
+      - Mon, 04 May 2015 18:44:34 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:IBg6GBN+1vwgWtKZbUSZW56upFQ=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:CFQ9a5xvmLWYgzHcPQgbhHDniWc=
       Accept:
       - "*/*"
   response:
@@ -851,11 +851,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - XZZpLgJAd64Vo6ymieyES3KAwam/B1duAKkh5zKP+8aFXgxJGHpOD4bfuSG4ASXR
+      - QtqmViTE8Ej528dGzDkQSac5IUbx81YiXd9k9ajexlocIjiwPcwtTxkdavSGkSnKJYJhZ9MJ1r4=
       X-Amz-Request-Id:
-      - E3A0F75E9A68E9AD
+      - 1813DCC491B7F116
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:35 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -866,7 +866,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:50 GMT
+  recorded_at: Mon, 04 May 2015 18:44:34 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/002/medium/shoes.png
@@ -881,8 +881,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPMtlM
-        GzoAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssIog6
+        2dYAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -1114,9 +1114,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTAtMDc6
-        MDAVjPilAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUw
-        LTA3OjAwZNFAGQAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzQtMDc6
+        MDATrnptAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM0
+        LTA3OjAwYvPC0QAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -1131,9 +1131,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:50 GMT
+      - Mon, 04 May 2015 18:44:34 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:m75BkuXpnxmmWtUVoo6L6Hvbk7w=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:Zs8/12+VvCnlr6MWHLVPCM6E7Dw=
       Accept:
       - "*/*"
   response:
@@ -1142,13 +1142,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - syLESkAZzHjq3PQcpwXVnJfLmHT9gxOf7ODe/7g00AZ/QnU10SFhIt0F5/RUL9Ug
+      - iUIPNUHeQsMw7pQlVr32OF6XrOnLC35EHDt1/dwXrq/mjTcu7RNDck02Ap5x47ylBPwk74rpLPw=
       X-Amz-Request-Id:
-      - D537C230D541CBA3
+      - 78B99E232FA0E0F3
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:35 GMT
       Etag:
-      - '"a1c22f02bff00c0af0a2a80b3c94f53f"'
+      - '"5f5b0ec208d823f161fac8128b8dc3c5"'
       Content-Length:
       - '0'
       Server:
@@ -1157,7 +1157,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:50 GMT
+  recorded_at: Mon, 04 May 2015 18:44:34 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/003/original/shoes.png
@@ -1419,9 +1419,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:35 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:8EYPXGRM8FJLqbqCaNJDpamN7DE=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:5icNSyKkPRMPOwCquzl2/Ca5uxU=
       Accept:
       - "*/*"
   response:
@@ -1430,11 +1430,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - Fp0xXCadkA5QiaTCszp5zv3lcqI5V/3/WXlYo40DkfCSSUxC67ck/iWdLo8TD7HS
+      - e6l3l7muhmW8KHuw2BEr8EOInV+JoZXFd0wFPtafVNwPrkEI8vTrIBnrIdjJjkfIXXUdlQiDbw0=
       X-Amz-Request-Id:
-      - 24FCE218EDC5505A
+      - 5A562C0610559A64
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:36 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -1445,7 +1445,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:51 GMT
+  recorded_at: Mon, 04 May 2015 18:44:35 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/003/medium/shoes.png
@@ -1460,8 +1460,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPMtlM
-        GzoAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssIog6
+        2dYAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -1693,9 +1693,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTAtMDc6
-        MDAVjPilAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUw
-        LTA3OjAwZNFAGQAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzQtMDc6
+        MDATrnptAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM0
+        LTA3OjAwYvPC0QAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -1710,9 +1710,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:35 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:h1nmEstLbgE4OK2usT0hkEGkMCg=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:5CL7gy8seMv1vP3b7NgMiuBg+xg=
       Accept:
       - "*/*"
   response:
@@ -1721,13 +1721,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - "+5JRTCGCuwgaYKiksaT+fv5QvGsi7cY9YTbQLsSPTH+lzyj4g8chiGJxSux+fPxO"
+      - r0jTHusA18fcUXrpd8QhcPZAY66ZeGkQIK3o08mfuKAO11IaLTpHpmypWBdXitJpDdX8OZppT0o=
       X-Amz-Request-Id:
-      - 5F200F09F0F933FE
+      - DF358DF257B7886E
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:36 GMT
       Etag:
-      - '"a1c22f02bff00c0af0a2a80b3c94f53f"'
+      - '"5f5b0ec208d823f161fac8128b8dc3c5"'
       Content-Length:
       - '0'
       Server:
@@ -1736,7 +1736,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:51 GMT
+  recorded_at: Mon, 04 May 2015 18:44:35 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/004/original/shoes.png
@@ -1998,9 +1998,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:35 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:k3YJCK7mUAwL2xYZ22GjwBtasIM=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:RluKqUbBgQy2qaUOEWuT6NuAZ3Q=
       Accept:
       - "*/*"
   response:
@@ -2009,11 +2009,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - ipNrQ6BT29G5bi5AUtFEp6UQkhhNiPh3U17Kj+1ozfg1o2EaVqiVudJrgTPKz6rD
+      - JVVMm10jS/ZePqvU3Wa/ADxqjLDLJBuYOGmLk3sAO9oGr4R9n8dmcdV/V50XKN5shpGKxkO534Q=
       X-Amz-Request-Id:
-      - 67D61BDD2884FBE8
+      - 70899142B7361974
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:36 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -2024,7 +2024,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:51 GMT
+  recorded_at: Mon, 04 May 2015 18:44:36 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/004/medium/shoes.png
@@ -2039,8 +2039,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPM65L
-        K6wAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssI/89
+        6UAAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -2272,9 +2272,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTEtMDc6
-        MDCz+/MRAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUx
-        LTA3OjAwwqZLrQAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzUtMDc6
+        MDC12XHZAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM1
+        LTA3OjAwxITJZQAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -2289,9 +2289,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:51 GMT
+      - Mon, 04 May 2015 18:44:36 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:t6R0xohBhAqDok4g9sZCXLxrV3k=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:/5wpG1kwLqYjjnmFyaN50VbNLzU=
       Accept:
       - "*/*"
   response:
@@ -2300,13 +2300,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - RbSUM0ZyDa1KptzecArAuQpraFyFkJcs8o73xNzVscMY8T6JBLqWkEN/mLQY1K3G
+      - tODQo1NUdJuzUN8kWw5iMA83JGI98jqA5gy2Hf4n2MT7s0YE5XkU/mW0NFN1HvrI7+HfVWGvAK4=
       X-Amz-Request-Id:
-      - 3D37B88642BE6BD3
+      - 456DA20C51F80D4B
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:37 GMT
       Etag:
-      - '"4a601b5f19a3c5621c0247e0f75e58f3"'
+      - '"385fe4f5bfab6c0af610a5904677bca7"'
       Content-Length:
       - '0'
       Server:
@@ -2315,7 +2315,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:52 GMT
+  recorded_at: Mon, 04 May 2015 18:44:36 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/005/original/shoes.png
@@ -2577,9 +2577,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:36 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:++sxjH68cIfev5VZAoyyrjHZNKU=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:FNDoG26qJ/pRy6vSkknrZWDSr10=
       Accept:
       - "*/*"
   response:
@@ -2588,11 +2588,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - q0nFuaMRsDCytC+jhl18//MLq483fr8NwgAmkwAdy7so1Hg56n+KNfYtD00E0Y0h
+      - WgfA5TeP9slQWp1X8OWh1ceRi3jeH/GggWjY5xlgWD36r6gplgiVcFkgqwRLeceqWnzoHySjVA4=
       X-Amz-Request-Id:
-      - B6DC6DF409DB5054
+      - 86EACFE713A20C96
       Date:
-      - Thu, 16 Apr 2015 23:15:53 GMT
+      - Mon, 04 May 2015 18:44:37 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -2603,7 +2603,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:52 GMT
+  recorded_at: Mon, 04 May 2015 18:44:37 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/005/medium/shoes.png
@@ -2618,8 +2618,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPNDAv
-        vg8AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssJGFZ
+        fOMAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -2851,9 +2851,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTItMDc6
-        MDCCE+mMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUy
-        LTA3OjAw805RMAAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzYtMDc6
+        MDCEMWtEAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM2
+        LTA3OjAw9WzT+AAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -2868,9 +2868,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:37 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:tTGjyf5UIrC2/+V7qabRFuFZtAE=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:O2xNGY4IxEebyOHhZo2fa2Le5pg=
       Accept:
       - "*/*"
   response:
@@ -2879,13 +2879,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - fpEYjbLROEBWCe3kj6y9f0JKDYKmsTb53T7NdDsSvcqYkpnlU8mOEuDBNrf1Ak6u
+      - rPjrf6LyVWU/J/FbbXwTtqrJ+vc7JfCBE7O+MWxqsmCcrWp9ceELJUBxzGaXkfzWHfgOY7VCQJE=
       X-Amz-Request-Id:
-      - 597882BEC5445814
+      - B13CFBA9BE11EC8C
       Date:
-      - Thu, 16 Apr 2015 23:15:53 GMT
+      - Mon, 04 May 2015 18:44:38 GMT
       Etag:
-      - '"b29cb512dd8444ac4427150e92f52cc7"'
+      - '"a406a51fca29a5b7623696c03f69371a"'
       Content-Length:
       - '0'
       Server:
@@ -2894,7 +2894,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:52 GMT
+  recorded_at: Mon, 04 May 2015 18:44:37 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/006/original/shoes.png
@@ -3156,9 +3156,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:52 GMT
+      - Mon, 04 May 2015 18:44:37 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:a+pw/lIeTqdWcUnlnhKUjjczQvk=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:8h4KH9gYF74ofugT/kBt9I++btM=
       Accept:
       - "*/*"
   response:
@@ -3167,11 +3167,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - eg3OWqEO517CrjEZjIJJz8ecTcDpx79BwyDy7uEya/LTRguFB92+YaaB05yv1ysA
+      - iUt5sZKfvxEaM13OSSoxTsdGyzII0NJXmhYzODeNUPPtQtZ0I+Z/pfMMTLEf9JyyHf6IFkYlqvk=
       X-Amz-Request-Id:
-      - DCD783F3BF0AF19B
+      - 1800F690FE83FE73
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:38 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -3182,7 +3182,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:53 GMT
+  recorded_at: Mon, 04 May 2015 18:44:37 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/006/medium/shoes.png
@@ -3197,8 +3197,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPNDAv
-        vg8AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssJRZe
+        THUAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -3430,9 +3430,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTItMDc6
-        MDCCE+mMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUy
-        LTA3OjAw805RMAAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzctMDc6
+        MDAiRmDwAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM3
+        LTA3OjAwUxvYTAAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -3447,9 +3447,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:53 GMT
+      - Mon, 04 May 2015 18:44:37 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:zX2zzE3hzSriX1A4dD+BWtIiLg8=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:gWlj0SL/b4ln46umSfdia9dGEs0=
       Accept:
       - "*/*"
   response:
@@ -3458,13 +3458,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - 6YPF7np9abs3Yu8u8EcTrsW/O66aD56WesrswaGw4BrsND7fithyM48s9Tq25kYw
+      - X5csWpYx/G2EWhcLEIRTN31p0VbRKyKDbUcBSOGnvsE1xAAERWF47Di0TKSawQC/DGR6etZooQc=
       X-Amz-Request-Id:
-      - EF8CFA5E4E2F16D9
+      - 0B27E1B836A2E7FF
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:38 GMT
       Etag:
-      - '"b29cb512dd8444ac4427150e92f52cc7"'
+      - '"cbdbb52a0033c4610746aadf80b100cc"'
       Content-Length:
       - '0'
       Server:
@@ -3473,7 +3473,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:53 GMT
+  recorded_at: Mon, 04 May 2015 18:44:38 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/007/original/shoes.png
@@ -3735,9 +3735,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:53 GMT
+      - Mon, 04 May 2015 18:44:38 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:omyFYFndT+WjdQUKCkBXiT8iJNA=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:nGghgDEflSf0C7cwOWgQSQMe0l8=
       Accept:
       - "*/*"
   response:
@@ -3746,11 +3746,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - 87A4iWLIrRauwn7z5JtO+5pQcJUr9eNwz1VezSzfJtW63rwBfKli5nEuZkNVOReG
+      - piEPH/dZqkju+Sp3ISLl2NYkrQI20ZL7UyRGpAgZZVE6tfjZ+aP4YWOjW0ftR09c0qodmbV14Mk=
       X-Amz-Request-Id:
-      - 5F17988E001A0525
+      - 38E1AD36FA9F5B56
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:39 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -3761,7 +3761,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:53 GMT
+  recorded_at: Mon, 04 May 2015 18:44:38 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/007/medium/shoes.png
@@ -3776,8 +3776,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPNUco
-        jpkAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssJo9X
+        Hc8AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -4009,9 +4009,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTMtMDc6
-        MDAkZOI4AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjUz
-        LTA3OjAwVTlahAAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzgtMDc6
+        MDDUDhAZAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM4
+        LTA3OjAwpVOopQAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -4026,9 +4026,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:53 GMT
+      - Mon, 04 May 2015 18:44:38 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:HQAV+CtUpGuVc2lWEnyGd7Yj0yU=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:H16cL9uTXbUDX7y7er1Y6g5nB4Q=
       Accept:
       - "*/*"
   response:
@@ -4037,13 +4037,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - aKBBXCPBAxXUbAvQHjds5XgYwY+XefmAen7q/z3GG6wZmFv+ABY1ROaKZ5iRzjAI
+      - dYrzSPEpfCwdMCXjj4Z+zkknQxVptIEJ0oFyyY10BvyIVnc9gEhnU/hSiH02YhDJtA/9jdJ/Q9k=
       X-Amz-Request-Id:
-      - 5CDBF3D3F0537533
+      - E079E4F50218EC6C
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:39 GMT
       Etag:
-      - '"632461f25ad7a925215c924ae65fa75d"'
+      - '"d3e6b171a4e73687a2645a253d319b05"'
       Content-Length:
       - '0'
       Server:
@@ -4052,7 +4052,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:54 GMT
+  recorded_at: Mon, 04 May 2015 18:44:39 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/008/original/shoes.png
@@ -4314,9 +4314,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:39 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:waKVQAmNo5JqOxGPvxxoUdppoRQ=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:aRtMnj7EoqieyZaVb/Tjb03Ro6o=
       Accept:
       - "*/*"
   response:
@@ -4325,11 +4325,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - "+fqgn2MEkQ7xEOUf6UCSw5qdPqpSVmdm/tJjsGuUEXeftTKqSCp3s2wpZF426xlP"
+      - COQt7DsZYIb2vPWbSrBX+6/SuiXZOm85nYeszR6vWuE9eMU28XZANNn35+lkJFU7XQurWInHTwI=
       X-Amz-Request-Id:
-      - 646B1B402F5EB5D4
+      - 53517822E73B46B3
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:40 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -4340,7 +4340,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:54 GMT
+  recorded_at: Mon, 04 May 2015 18:44:39 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/008/medium/shoes.png
@@ -4355,8 +4355,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPNt4h
-        3yMAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssJ/hQ
+        LVkAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -4588,9 +4588,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTQtMDc6
-        MDDhw9y2AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjU0
-        LTA3OjAwkJ5kCgAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6MzktMDc6
+        MDByeRutAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjM5
+        LTA3OjAwAySjEQAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -4605,9 +4605,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:39 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:++ihjDW+QgKM+6zMPQ4TdYqN+3A=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:v3siJpxepVfmeK3W/qyYkN47rc4=
       Accept:
       - "*/*"
   response:
@@ -4616,13 +4616,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - yqhIPyKwp3GbWTqAdDIKxDbumh7ikIJ/F3WtcI2Wi5u547PxCu+xuGR1t52WvXpA
+      - FGWRrOTpBjsrqLZ5qqRhRB075rUguPfmtPh2ij7rHXWoq5sY9E9qiEw9h4oQ5ZoNZp5x+lAnXzI=
       X-Amz-Request-Id:
-      - 601C500429C71DEB
+      - 2E50241CB96915C8
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:40 GMT
       Etag:
-      - '"ee89df04cf26e5c5feace56813168866"'
+      - '"e39c5bbeb7d4d745f3ed17b9115b3f11"'
       Content-Length:
       - '0'
       Server:
@@ -4631,7 +4631,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:54 GMT
+  recorded_at: Mon, 04 May 2015 18:44:40 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/009/original/shoes.png
@@ -4893,9 +4893,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:54 GMT
+      - Mon, 04 May 2015 18:44:40 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:48xv7X8CFjrH86BNil2lvt75lXg=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:DLPK4nIKiX+qhX3I9zYCg/F8pPU=
       Accept:
       - "*/*"
   response:
@@ -4904,11 +4904,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - XCb7IAJL9KaKlM4Hcfzt8MXWgV+WHL1pciSrBcB67eRjiozQu8Xo2HA4hwgWlqp4
+      - Zo+WVc1wfpTyId6hiM0o9qRAT6AhgPRR2dtE3sx44VaacujMNMjQdxbmkbvH5gBX2hDTrzrwDN8=
       X-Amz-Request-Id:
-      - 7A8EB96E7AC0478B
+      - 0DFE90D84768C01A
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:41 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -4919,7 +4919,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:55 GMT
+  recorded_at: Mon, 04 May 2015 18:44:40 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/009/medium/shoes.png
@@ -4934,8 +4934,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPNt4h
-        3yMAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssKGjv
+        MMgAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -5167,9 +5167,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTQtMDc6
-        MDDhw9y2AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjU0
-        LTA3OjAwkJ5kCgAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6NDAtMDc6
+        MDDtJFdnAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjQw
+        LTA3OjAwnHnv2wAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -5184,9 +5184,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:40 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:psVZfOKpn43ZkDaUUMNTR5wwym8=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:zPpsG36jAi0niEoftkYAOpr3ZvY=
       Accept:
       - "*/*"
   response:
@@ -5195,13 +5195,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - YcRB+bqP8Dngmvpkze7rhiK3c5qZzieMkHO0toTLWhrmBeyweSB6vqKKMcqePGD4
+      - WV3Zm8HAS/5/tgBuO952OF6SWmsPbZFeaF3C05Sk6NvEc9Pv5MFhLToVlvlyyiZoRVmgvmZCqi8=
       X-Amz-Request-Id:
-      - B153A1BF73C62C33
+      - 5D43745D89EAFB55
       Date:
-      - Thu, 16 Apr 2015 23:15:56 GMT
+      - Mon, 04 May 2015 18:44:41 GMT
       Etag:
-      - '"ee89df04cf26e5c5feace56813168866"'
+      - '"383fbb3a03c56a3d1073fd88ee90d51a"'
       Content-Length:
       - '0'
       Server:
@@ -5210,7 +5210,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:55 GMT
+  recorded_at: Mon, 04 May 2015 18:44:41 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/010/original/shoes.png
@@ -5472,9 +5472,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:41 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:AaeV29xutkxg9q321LevUWyP3j0=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:ks0j7XSt6gt3Bdw1nQOJO4CyAYo=
       Accept:
       - "*/*"
   response:
@@ -5483,11 +5483,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - yOqbVunTGNAqTwsBLsTjBzfDPPQzy4v37QSCuKQg/92De2vIeqnuo9GhdMjjWNQY
+      - axzuuCqdjzWfOhQzjxzi4vMOrm6OXMhgULgHRcVNGJkAyawjiDr//9+aB2xgkD/AINjaMNBo+Lk=
       X-Amz-Request-Id:
-      - 1DC5CB2C5D803F9D
+      - BCA0AA1229D23CC5
       Date:
-      - Thu, 16 Apr 2015 23:15:56 GMT
+      - Mon, 04 May 2015 18:44:42 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -5498,7 +5498,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:55 GMT
+  recorded_at: Mon, 04 May 2015 18:44:41 GMT
 - request:
     method: put
     uri: https://stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/010/medium/shoes.png
@@ -5513,8 +5513,8 @@ http_interactions:
         GBw9psBDttNCs88HMTtsbGwADBA3XWYmZnZ1dXUqc4UaTFgKIShqamrIyMj3
         9/f6+voxU1xVkKEyiJ58fHympqZISEg7YmwbLDEwMDAUCwba2toAJzBZWVkA
         BA4AHSLo6OgYJCcVHR8fHx8ALTeVoKNxe318hojX5+zF1Ni4xcnV5erQ3+TT
-        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98EEBAPN6km
-        77UAACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
+        4ueOmJugrK+ruLsO1iwuAAAAAWJLR0QAiAUdSAAAAAd0SU1FB98FBAssKR/o
+        AF4AACi8SURBVHja7V0HWyLZ0pYooQBBQrNAYwYFQRkVDIiwDPeqfGQa+P9/
         5Ks6nU4TmxnD3H22nmd3DCB93q7wVjind3b+lX/lX/lX/hixWKw2u8PhcNp2
         LZbvvphvFJfT7fGCJj5/wLFn37W4vvu6vl6CIVz/fjgSjcUEQYjF8bu/CJJE
         PLn73df2tbKbRCCiKTGdFkUxLUYPAA6Pjo+PT07PEA/7d1/eF0rGD5AV0mIK
@@ -5746,9 +5746,9 @@ http_interactions:
         67VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJSvz+mvWnKucnQTj47/2ju
         8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD/wSDWC8V656j5Wu323Md
         gXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8K//Kv/JPlv8HyjNpx1Dt
-        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDQtMTZUMTY6MTU6NTUtMDc6
-        MDBHtNcCAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA0LTE2VDE2OjE1OjU1
-        LTA3OjAwNulvvgAAAABJRU5ErkJggg==
+        IeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDUtMDRUMTE6NDQ6NDEtMDc6
+        MDBLU1zTAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTA1LTA0VDExOjQ0OjQx
+        LTA3OjAwOg7kbwAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -5763,9 +5763,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Thu, 16 Apr 2015 23:15:55 GMT
+      - Mon, 04 May 2015 18:44:41 GMT
       Authorization:
-      - AWS AKIAJGMZDKJSR7OJR7ZQ:cM4ZV7qyDOFKwgiIe9xVbSdvHBQ=
+      - AWS AKIAJGMZDKJSR7OJR7ZQ:57UedIaUj4k2uawy7OAhO8hypXc=
       Accept:
       - "*/*"
   response:
@@ -5774,13 +5774,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - qO24DQBWUPCz+i6JqS5/KrRXZ5SIDqCGABo6BsW/42wnDRoV5zrn3b8yyO0FL1BS
+      - lCEAcdktJ4PJGqCzbhK40hNc8FcnPT68ILsAhEpxL22zaniG4QfNr0vY/OHVH06D/1ehaCJBTEs=
       X-Amz-Request-Id:
-      - A7804A7AA6D24F9B
+      - 944EDA9924614188
       Date:
-      - Thu, 16 Apr 2015 23:15:56 GMT
+      - Mon, 04 May 2015 18:44:42 GMT
       Etag:
-      - '"6bdcbd940cd250a29198af8a51113f30"'
+      - '"72fdeccb317593bad159366d7d58c444"'
       Content-Length:
       - '0'
       Server:
@@ -5789,5 +5789,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Thu, 16 Apr 2015 23:15:55 GMT
+  recorded_at: Mon, 04 May 2015 18:44:41 GMT
 recorded_with: VCR 2.9.3

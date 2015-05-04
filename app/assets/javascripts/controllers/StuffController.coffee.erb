@@ -82,10 +82,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         UserService.check(->)
         if UserService.currentUser
             formdata = new FormData();
-            formdata.append('latitude', $scope.post.latitude)
-            formdata.append('longitude', $scope.post.longitude)
+            formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
+            formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
             formdata.append('category', $scope.post.category)
             formdata.append('description', $scope.post.description)
+            formdata.append('on_the_curb', $scope.post.on_the_curb)
             formdata.append('image', $scope.files[0]);
             $http.post( "/posts", formdata, {
                 headers: {'Content-Type': undefined}
@@ -107,13 +108,16 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 templateUrl:'signIn.html',
                 controller:'SignUpCtrl'
     $scope.startMapper = ->
+      callback = -> $scope.postMarker.setMap($scope.map)
       if $scope.postMarker 
           $scope.postMarker.setMap($scope.map)
       else
-        updatePostMarker((-> $scope.postMarker.setMap($scope.map)), 6000)
+        updatePostMarker( callback, 6000)
 
     updatePostMarker = (callback, timeout)->
-      #callback sets marker, timeout
+
+      self = this
+      self.callback = callback
       resetMarker = ->
         if $scope.postMarker 
           $scope.postMarker.setMap(null)

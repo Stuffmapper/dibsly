@@ -26,6 +26,7 @@ directives.directive('edit', ->
             formdata.append('longitude', $scope.stuff.longitude)
             formdata.append('category', $scope.stuff.category)
             formdata.append('description', $scope.stuff.description)
+            formdata.append('on_the_curb', $scope.stuff.on_the_curb)
             if $scope.files
                 formdata.append('image', $scope.files[0]);
             $http.post( "/posts/" + $scope.stuff.id + "/update" , formdata, {
