@@ -320,5 +320,52 @@ RSpec.describe PostsController, :type => :controller do
 
 	end
 
+	describe "Get show", :vcr => { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }do
+		
+		before do
+			@user = create(:user)
+			4.times do |x| 
+		    	create(:post, 
+		    		creator_id: @user.id,
+		    		latitude: '49',
+		    		longitude: '-122', 
+		    		on_the_curb: true
+		    		)
+		    end
+		    6.times do |x| 
+		    	create(:post, 
+		    		creator_id: @user.id,
+		    		latitude: '49',
+		    		longitude: '-122',
+		    		on_the_curb: false
+		    		)
+		    end
+		end
+
+		it "should return a 200 response" do
+			xhr :get, :search 
+			expect(response.status).to eq(200)
+		end
+
+		it "should return all local posts" do
+			xhr :get, :search, :latitude => '49', :longitude => '-122'
+			parsed_response = JSON.parse(response.body)
+			expect(parsed_response['posts'].length ).to eq(10)
+		end
+		it "should return only on_the_curb  posts when specified
+			" do
+			xhr :get, :search, :latitude => '49', :longitude => '-122', :on_the_curb => true
+			parsed_response = JSON.parse(response.body)
+			expect(parsed_response['posts'].length ).to eq(4)
+		end
+		it "should not return on_the_curb  posts when specified
+			" do
+			xhr :get, :search, :latitude => '49', :longitude => '-122', :on_the_curb => false
+			parsed_response = JSON.parse(response.body)
+			expect(parsed_response['posts'].length ).to eq(6)
+		end
+
+	end
+
 	
 end
