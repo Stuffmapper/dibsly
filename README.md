@@ -141,7 +141,7 @@ To get angular and rails working on the site, the instructions on [angular-rails
 
 
 
-The local code for the angular features can be found in `app/assets/javascripts` and are written in coffees script. 
+The local code for the angular features can be found in `app/assets/javascripts` and are written in coffee script. 
 
 
 
