@@ -11,6 +11,12 @@ class Post < ActiveRecord::Base
   attr_readonly :creator_id
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed']
   
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :geocode 
+  
+  geocoded_by :address
+
+
   default_scope { order('created_at DESC') }
 
   

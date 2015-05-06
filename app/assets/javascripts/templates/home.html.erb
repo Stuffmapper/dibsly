@@ -18,6 +18,12 @@
 
       <tab heading="Get Stuff"  >
          <div id="get-stuff" >
+            <div class="row col-md-12 row">
+               <button class="btn" ng-click="onTheCurb()" ng-hide="curb_only"> Only on the Curb</button> 
+               <button class="btn" ng-click="onTheCurb()" ng-show="curb_only"> Only not on the Curb</button> 
+  
+            </div>
+
             <div ng-repeat="item in markers" class="col-md-4 clearfix">
               <div class="stuff-view" title={{item.description}} ng-attr-id={{item.id + '-stuff'}}>
                 <div class= "stuff-image-container clearfix">

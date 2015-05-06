@@ -9,5 +9,16 @@ module FormSubmissionHelpers
     end
   end
 end
+
+module MapCenterHelpers
+  def center_map_to_post post
+   	execute_script("var postLatLng = new google.maps.LatLng(#{post.latitude}, #{post.longitude});
+    	var map = angular.element('map').scope().map;
+    	map.panTo(postLatLng);")
+	end
+end
+
+
 World(FormSubmissionHelpers)
+World(MapCenterHelpers)
 
