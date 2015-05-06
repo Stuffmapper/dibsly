@@ -19,13 +19,13 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
    
 
     $scope.onTheCurb = ->
-      $scope.curb_only = !$scope.curb_only
       for key,marker of $scope.backup
         console.log(marker) 
         if marker.on_the_curb ==  $scope.curb_only
           delete $scope.markers[key]
         else
-          $scope.markers[key] = marker 
+          $scope.markers[key] = marker
+      $scope.curb_only = !$scope.curb_only 
 
 
     

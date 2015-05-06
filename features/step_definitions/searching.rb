@@ -31,19 +31,23 @@ Then(/^I should see all the items$/) do
   center_map_to_post Post.last
   expect(page.body).to have_selector('.stuff-view', :count => 9 )# express the regexp above with the code you wish you had
 end
-
-When(/^I search for only on the curb items$/) do
-  pending # express the regexp above with the code you wish you had
+When(/^I filter for only on the curb items$/) do
+  click_link 'Get Stuff'
+  click_button 'Only on the Curb'
 end
+
+When(/^filter for only not on the curb items$/) do
+  center_map_to_post Post.last
+  click_link 'Get Stuff'
+  click_button 'Only on the Curb'
+  click_button 'Only not on the Curb'
+end
+
 
 Then(/^I should only see the on the curb items$/) do
-  pending # express the regexp above with the code you wish you had
-end
-
-When(/^search for only not on the curb items$/) do
-  pending # express the regexp above with the code you wish you had
+   expect(page.body).to have_selector('.stuff-view', :count => 6 )# express the regexp above with the code you wish you had
 end
 
 Then(/^I should only see the not on the curb items$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(page.body).to have_selector('.stuff-view', :count => 3 )
 end
