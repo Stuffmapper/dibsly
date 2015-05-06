@@ -9,12 +9,12 @@ Feature: Out of My Hands Looker
   Scenario: Successfully view on the curb items
     When I visit the home page
     Then I should see all the items 
-    When I search for only on the curb items
+    When I filter for only on the curb items
     Then I should only see the on the curb items
 
   @javascript 
   Scenario: Successfully view not on the curb items
     When I visit the home page
-    And search for only not on the curb items
+    And filter for only not on the curb items
     Then I should only see the not on the curb items
 

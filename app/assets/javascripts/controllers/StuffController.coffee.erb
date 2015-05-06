@@ -13,7 +13,21 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
     $scope.mapCenter = '47.6097,-122.3331'
 
     $scope.markers = {}
-    self = this
+    $scope.curb_only = false
+    $scope.backup = {}
+
+   
+
+    $scope.onTheCurb = ->
+      $scope.curb_only = !$scope.curb_only
+      for key,marker of $scope.backup
+        console.log(marker) 
+        if marker.on_the_curb ==  $scope.curb_only
+          delete $scope.markers[key]
+        else
+          $scope.markers[key] = marker 
+
+
     
     updateMarkers = ->
       neBounds = $scope.map.getBounds().getNorthEast()
@@ -28,7 +42,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         ).success((data)->
           for marker in data.posts
             if not $scope.markers[marker.id]
-              $scope.markers[marker.id] = marker )
+              $scope.markers[marker.id] = marker 
+              $scope.backup[marker.id] = marker )
 
     $scope.$on('mapInitialized', (evt, map) ->
       self = this

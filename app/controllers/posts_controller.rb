@@ -88,6 +88,7 @@ class PostsController < ApplicationController
     if params[:on_the_curb] != nil
       @posts =  @posts.where(:on_the_curb => params[:on_the_curb])
     end
+    @posts = @posts.select{ |post| post.available_to_dib? }
     render json: @posts
   end
 
