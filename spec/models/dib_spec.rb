@@ -21,6 +21,7 @@ RSpec.describe Dib, :type => :model do
        expect(Dib.last.conversation.class ).to eq Mailboxer::Conversation
     end
 
+
   end
 
 end

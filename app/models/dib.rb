@@ -61,7 +61,7 @@ class Dib < ActiveRecord::Base
 
   def notify_poster 
     poster = self.post.creator
-    self.send_message( [ poster, self.user ],
+    self.send_message( poster,
      "#{poster.username}'s dibbed your stuff! #{poster.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
   end
 

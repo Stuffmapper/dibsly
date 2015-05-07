@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   
-  belongs_to :user, :class_name => User
+  belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib, :foreign_key => :post_id
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
@@ -32,7 +32,7 @@ class Post < ActiveRecord::Base
   after_create :update_image
 
   def send_message_to_creator (dibber, body, subject)
-    dibber.send_message( User.find(self.creator_id), body,subject) 
+    dibber.send_message( self.user , body,subject) 
   end
 
 
