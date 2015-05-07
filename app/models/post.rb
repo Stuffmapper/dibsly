@@ -6,6 +6,10 @@ class Post < ActiveRecord::Base
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
+    
+  #for the comments  
+  has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
+
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   attr_readonly :creator_id
@@ -31,25 +35,17 @@ class Post < ActiveRecord::Base
     dibber.send_message( User.find(self.creator_id), body,subject) 
   end
 
-  def send_message_to_dibber (dibber)
-    Notifier.dibber_notification(dibber, self ).deliver_now
+
+  def set_dibbed_until dib
+    self.update_attributes( :status => 'dibbed',
+                            :dibber_id => dib.creator_id,
+                            :dibbed_until => dib.valid_until )
   end
 
-
   def create_new_dib (dibber, request_ip='')
-    dib = self.dibs.build
-    dib.ip = request_ip
-    dib.status = 'new'
-    dib.creator_id = dibber.id 
-    dib.valid_until = Time.now + Dib.timeSpan
-    if dib.save
-      self.dibbed_until = dib.valid_until
-      self.status = 'dibbed'
-      self.dibber_id = dibber.id
-      self.save
-      send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
-      send_message_to_dibber (dibber)
-    end
+    dib = self.dibs.build( :ip => request_ip)
+    dibber.dibs << dib
+    set_dibbed_until dib if dib.save 
     dib
   end
 

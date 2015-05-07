@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:BenRuns/mailboxer.git
-  revision: 9b78aa8af331e83d6ca03fbb5d2311f268d0e2af
+  revision: 52d78db9bd6a995e0365a9d8ac1b371deb57c590
   specs:
     mailboxer (0.12.5)
       carrierwave (>= 0.5.8)
@@ -312,7 +312,7 @@ GEM
     pry-byebug (3.1.0)
       byebug (~> 4.0)
       pry (~> 0.10)
-    rack (1.6.0)
+    rack (1.6.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack_session_access (0.1.1)
