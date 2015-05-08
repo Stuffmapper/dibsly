@@ -32,13 +32,13 @@ class Post < ActiveRecord::Base
   after_create :update_image
 
   after_create do 
+    self.update_attribute(:dibbed_until, Time.now - 1.minute)
     create_conversation
   end
 
 
   def set_dibbed_until dib
-    self.update_attributes( :status => 'dibbed',
-                            :dibber_id => dib.creator_id,
+    self.update_attributes( :dibber_id => dib.creator_id,
                             :dibbed_until => dib.valid_until )
   end
 
@@ -72,7 +72,7 @@ class Post < ActiveRecord::Base
   end
 
   def available_to_dib? 
-    self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
+    self.status == 'dibbed' ? false : self.dibbed_until <= Time.now
   end
   def creator_must_be_allowed_to_post_and_dib
    user = User.find(self.creator_id)
