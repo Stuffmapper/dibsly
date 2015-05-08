@@ -29,9 +29,9 @@ class Post < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
-  after_create :update_image
 
   after_create do 
+    update_image
     self.update_attribute(:dibbed_until, Time.now - 1.minute)
     create_conversation
   end
@@ -72,8 +72,13 @@ class Post < ActiveRecord::Base
   end
 
   def available_to_dib? 
-    self.status == 'dibbed' ? false : self.dibbed_until <= Time.now
+    %w(dibbed claimed deleted).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
+
+  def make_dib_permanent
+    self.update_attribute(:status, 'dibbed')
+  end
+
   def creator_must_be_allowed_to_post_and_dib
    user = User.find(self.creator_id)
    if not user.allowed_to_post_and_dib?
