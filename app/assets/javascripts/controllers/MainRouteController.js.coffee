@@ -1,4 +1,4 @@
-controllers = angular.module('controllers', )
+controllers = angular.module('controllers' )
 controllers.controller('MainRouteCtrl',['$scope','$modal','$routeParams','$resource','UserService',
 
     ($scope,$modal,$routeParams,$resource,UserService)->

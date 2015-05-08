@@ -21,6 +21,9 @@ RSpec.describe Post, :type => :model do
    it 'should be dibbable' do
     @post.create_new_dib(@user2)
 
+    end
+    it 'should create a conversation' do
+      expect(@post.conversation).to_not eq nil
 
     end
   it 'should be available' do

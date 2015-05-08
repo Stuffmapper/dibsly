@@ -1,6 +1,10 @@
 class Dib < ActiveRecord::Base
-  belongs_to :user, :class_name => User
+  acts_as_messageable
+  belongs_to :user, :class_name => User, :foreign_key => :creator_id
   belongs_to :post, :class_name => Post
+  
+  #for the inital conversation
+  has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
   
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
 
@@ -8,6 +12,19 @@ class Dib < ActiveRecord::Base
   @@timeSpan = 43200
   cattr_reader :timeSpan
   
+  after_initialize do 
+    self.status = 'new'
+    self.valid_until = Time.now + Dib.timeSpan
+  end
+
+  after_create do
+    create_conversation
+    initiate_conversation
+  end
+  # after_save do
+  #   initiate_conversation
+  # end
+
   validates_presence_of :creator_id
   validates_presence_of :post_id
   validate :creator_must_be_allowed_to_post_and_dib
@@ -16,13 +33,41 @@ class Dib < ActiveRecord::Base
   before_validation(on: :create) do
     available_to_dib?
   end
+ 
 
+  def mailboxer_email(object)
+    "dibber_chat@stuffmapper.com"
+  end
+
+  def initiate_conversation
+    send_message_to_dibber 
+    notify_poster 
+  end
 
 
   def cannot_dib_own_post
     if self.creator_id == self.post.creator_id
       errors.add(:dib, "You can't dib your own stuff")
     end
+  end
+
+  def create_conversation
+    self.conversation = Mailboxer::ConversationBuilder.new({
+          :subject    => "Your Latest Dib!",
+          :created_at => Time.now,
+          :updated_at => Time.now
+        }).build
+  end
+
+  def send_message_to_dibber 
+    Notifier.dibber_notification(self).deliver_now
+  end
+
+  def notify_poster 
+    poster = self.post.creator
+    dibber = self.user
+    self.start_existing_conversation(self.conversation,[poster],"#{dibber.username}'s dibbed your stuff! #{dibber.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
+    self.conversation.add_participant(dibber)
   end
 
   def available_to_dib?
@@ -43,3 +88,10 @@ class Dib < ActiveRecord::Base
     ''
   end
 end
+    # if dib.save
+    #   #this goes to dib
+    #   send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
+    #   #this goes to dib
+    #   send_message_to_dibber (dibber)
+    # end
+
