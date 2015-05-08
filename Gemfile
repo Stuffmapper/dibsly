@@ -20,7 +20,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'mailboxer', :git => 'git@github.com:BenRuns/mailboxer.git'
+gem 'mailboxer', :github => 'BenRuns/mailboxer'
 
 #http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -72,6 +72,7 @@ end
 
 
 group :development, :test do
+  gem 'timecop', '~> 0.7.3'
   gem "rspec-rails"
   gem 'jasmine'
   gem 'factory_girl_rails'

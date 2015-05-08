@@ -1,6 +1,6 @@
 GIT
-  remote: git@github.com:BenRuns/mailboxer.git
-  revision: 7232625ac723bc532a8b3d8f513e27b55d1dbf93
+  remote: git://github.com/BenRuns/mailboxer.git
+  revision: 8640383b784caa1fd9914119b9574c95f8216d15
   specs:
     mailboxer (0.12.5)
       carrierwave (>= 0.5.8)
@@ -440,6 +440,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    timecop (0.7.3)
     timers (4.0.1)
       hitimes
     tzinfo (1.2.2)
@@ -522,6 +523,7 @@ DEPENDENCIES
   simplecov
   spring
   teaspoon
+  timecop (~> 0.7.3)
   uglifier (>= 1.3.0)
   vcr
   webmock
