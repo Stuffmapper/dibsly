@@ -1,4 +1,5 @@
 class Dib < ActiveRecord::Base
+  acts_as_messageable
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   belongs_to :post, :class_name => Post
   
@@ -14,11 +15,15 @@ class Dib < ActiveRecord::Base
   after_initialize do 
     self.status = 'new'
     self.valid_until = Time.now + Dib.timeSpan
-    create_conversation
   end
+
   after_create do
+    create_conversation
     initiate_conversation
   end
+  # after_save do
+  #   initiate_conversation
+  # end
 
   validates_presence_of :creator_id
   validates_presence_of :post_id
@@ -28,7 +33,7 @@ class Dib < ActiveRecord::Base
   before_validation(on: :create) do
     available_to_dib?
   end
-  acts_as_messageable
+ 
 
   def mailboxer_email(object)
     "dibber_chat@stuffmapper.com"
@@ -47,12 +52,11 @@ class Dib < ActiveRecord::Base
   end
 
   def create_conversation
-    convo = Mailboxer::ConversationBuilder.new({
+    self.conversation = Mailboxer::ConversationBuilder.new({
           :subject    => "Your Latest Dib!",
           :created_at => Time.now,
           :updated_at => Time.now
         }).build
-    self.conversation = convo
   end
 
   def send_message_to_dibber 
@@ -61,8 +65,9 @@ class Dib < ActiveRecord::Base
 
   def notify_poster 
     poster = self.post.creator
-    self.send_message( poster,
-     "#{poster.username}'s dibbed your stuff! #{poster.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
+    dibber = self.user
+    self.start_existing_conversation(self.conversation,[poster],"#{dibber.username}'s dibbed your stuff! #{dibber.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
+    self.conversation.add_participant(dibber)
   end
 
   def available_to_dib?

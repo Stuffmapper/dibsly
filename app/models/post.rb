@@ -30,7 +30,8 @@ class Post < ActiveRecord::Base
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
   after_create :update_image
-  after_initialize do 
+
+  after_create do 
     create_conversation
   end
 
@@ -42,12 +43,16 @@ class Post < ActiveRecord::Base
   end
 
   def create_conversation
-    convo = Mailboxer::ConversationBuilder.new({
+     self.conversation  = Mailboxer::ConversationBuilder.new({
           :subject    => "Your Latest Dib!",
           :created_at => Time.now,
           :updated_at => Time.now
         }).build
-    self.conversation = convo
+      self.save
+  end
+
+  def send_message_to_creator (dibber, body, subject)
+    dibber.send_message( User.find(self.creator_id), body,subject) 
   end
 
   def create_new_dib (dibber, request_ip='')

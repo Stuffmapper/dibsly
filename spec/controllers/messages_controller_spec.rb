@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe MessagesController, :type => :controller do
+	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
+
 	
 	before do
 		@user = create(:user)
 		@user2 = create(:user)
 	end
 
-	describe "Get index" do
+	describe "Get index", :vcr => vcr_options do
 		it "shouldn't return messages when not logged in" do 
 
 			xhr :get, :index 
@@ -29,6 +31,36 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("This is aSubject") 
 		end
+		
+		it "should still work after a post has been created" do 
+			@post = create(:post, creator_id: @user.id, latitude: 1,longitude:2  )
+
+			@user2.send_message(@user,"Body","This is aSubject")
+   
+			sign_in(@user)
+			 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
+		    expect(response_first_subject).to eq("This is aSubject") 
+		end
+
+		it "should still work after a post has been created and dibbed" do 
+			@post = create(:post, creator_id: @user.id, latitude: 1,longitude:2 )
+			@post.create_new_dib @user2
+			@user2.send_message(@user,"Body","This is aSubject")
+
+			expect(Mailboxer::Conversation.count).to eq 3
+
+   
+			sign_in(@user)
+			 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
+		    expect(response_first_subject).to eq("This is aSubject") 
+		end
+
 
 	end
 	describe "Get show conversation" do

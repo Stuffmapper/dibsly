@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:BenRuns/mailboxer.git
-  revision: 52d78db9bd6a995e0365a9d8ac1b371deb57c590
+  revision: 7232625ac723bc532a8b3d8f513e27b55d1dbf93
   specs:
     mailboxer (0.12.5)
       carrierwave (>= 0.5.8)
@@ -431,7 +431,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.2.4)
+    sprockets-rails (2.3.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
