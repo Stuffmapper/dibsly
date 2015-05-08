@@ -8,8 +8,8 @@ class Dib < ActiveRecord::Base
   
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
 
-  # 43200 seconds = 12 hours
-  @@timeSpan = 43200
+  # 1800 seconds = 30 minutes
+  @@timeSpan = 1800
   cattr_reader :timeSpan
   
   after_initialize do 
@@ -88,10 +88,5 @@ class Dib < ActiveRecord::Base
     ''
   end
 end
-    # if dib.save
-    #   #this goes to dib
-    #   send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
-    #   #this goes to dib
-    #   send_message_to_dibber (dibber)
-    # end
+
 

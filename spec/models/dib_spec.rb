@@ -21,6 +21,16 @@ RSpec.describe Dib, :type => :model do
        expect(Dib.last.conversation.class ).to eq Mailboxer::Conversation
     end
 
+    it "should be not be in effect thirty minutes from now" do 
+       @post.create_new_dib(@user2)
+       expect(@post.available_to_dib? ).to eq false
+       Timecop.travel(1802)
+       sleep(1)
+       expect(@post.available_to_dib? ).to eq true
+       Timecop.return
+    end
+
+
 
   end
 
