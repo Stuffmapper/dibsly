@@ -1,16 +1,26 @@
 class Post < ActiveRecord::Base
   
-  belongs_to :user, :class_name => User
+  belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib, :foreign_key => :post_id
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
+    
+  #for the comments  
+  has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
+
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   attr_readonly :creator_id
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed']
   
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :geocode 
+  
+  geocoded_by :address
+
+
   default_scope { order('created_at DESC') }
 
   
@@ -19,31 +29,36 @@ class Post < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
-  after_create :update_image
+
+  after_create do 
+    update_image
+    self.update_attribute(:dibbed_until, Time.now - 1.minute)
+    create_conversation
+  end
+
+
+  def set_dibbed_until dib
+    self.update_attributes( :dibber_id => dib.creator_id,
+                            :dibbed_until => dib.valid_until )
+  end
+
+  def create_conversation
+     self.conversation  = Mailboxer::ConversationBuilder.new({
+          :subject    => "Your Latest Dib!",
+          :created_at => Time.now,
+          :updated_at => Time.now
+        }).build
+      self.save
+  end
 
   def send_message_to_creator (dibber, body, subject)
     dibber.send_message( User.find(self.creator_id), body,subject) 
   end
 
-  def send_message_to_dibber (dibber)
-    Notifier.dibber_notification(dibber, self ).deliver_now
-  end
-
-
   def create_new_dib (dibber, request_ip='')
-    dib = self.dibs.build
-    dib.ip = request_ip
-    dib.status = 'new'
-    dib.creator_id = dibber.id 
-    dib.valid_until = Time.now + Dib.timeSpan
-    if dib.save
-      self.dibbed_until = dib.valid_until
-      self.status = 'dibbed'
-      self.dibber_id = dibber.id
-      self.save
-      send_message_to_creator(dibber, (dibber.username + "'s dibbed your stuff!" ), " Respond to this message to get in contact")
-      send_message_to_dibber (dibber)
-    end
+    dib = self.dibs.build( :ip => request_ip)
+    dibber.dibs << dib
+    set_dibbed_until dib if dib.save 
     dib
   end
 
@@ -57,8 +72,14 @@ class Post < ActiveRecord::Base
   end
 
   def available_to_dib? 
-    self.status == 'new' && self.dibbed_until == nil || self.dibbed_until <= Time.now
+    %w(dibbed claimed deleted).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
+
+  def make_dib_permanent
+    self.update_attribute(:status, 'dibbed')
+    self.reload
+  end
+
   def creator_must_be_allowed_to_post_and_dib
    user = User.find(self.creator_id)
    if not user.allowed_to_post_and_dib?

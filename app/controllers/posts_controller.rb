@@ -13,6 +13,7 @@ class PostsController < ApplicationController
       @map = '47.6097,-122.3331'
     end
   end
+  
   def update
     @post = Post.find(params[:id])
     if (current_user) and @post.creator_id == current_user.id
@@ -79,37 +80,16 @@ class PostsController < ApplicationController
     render json: @posts
   end
 
-  # POST /posts/grid_mode.json
-  def grid_mode
-    session[:grid_mode] = params[:grid_mode]
-    if (current_user)
-      current_user.grid_mode = session[:grid_mode]
-      current_user.save
-    end
-    respond_to do |format|
-        format.json {render json: '[]', status: :ok}
-    end
-  end
+
 
   # GET /posts/search
   def search
-    @posts = Post.where("title ILIKE ? 
-                 AND status = ? 
-                 AND (dibbed_until IS NULL 
-                   OR (dibbed_until IS NOT NULL 
-                     AND dibbed_until <= NOW()))", 
-                 "%#{params[:term]}%",
-                 'new').page(params[:page]).per(6)
-    @term = params[:term]
-    if (current_user)
-      @post = Post.new(
-          :on_the_curb => 1,
-          :phone_number => current_user.phone_number)
-      @message = Message.new()
-    else
-      @user = User.new
+    @posts = Post.near([ params[:latitude],params[:longitude]], 10)
+    if params[:on_the_curb] != nil
+      @posts =  @posts.where(:on_the_curb => params[:on_the_curb])
     end
-    render action: 'index'
+    @posts = @posts.select{ |post| post.available_to_dib? }
+    render json: @posts
   end
 
   # GET /posts/my_stuff

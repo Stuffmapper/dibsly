@@ -9,11 +9,11 @@ class Notifier < ActionMailer::Base
 	end
 	
 
-	def dibber_notification(user, dibbed_post)
-		@dibbed_post = dibbed_post
-		@user = user
-		@in_app_chat = root_url + 'user/inbox'
-		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
+	def dibber_notification(dib)
+		@dibbed_post = dib.post
+		@user = dib.user
+		@in_app_chat = root_url + 'user/chat/' + dib.conversation.id.to_s
+		mail(to: "#{@user.first_name}  #{@user.last_name} <#{@user.email}>",
 					subject: "Your latest dib!" )
 	end
 

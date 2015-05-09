@@ -21,6 +21,9 @@ RSpec.describe Post, :type => :model do
    it 'should be dibbable' do
     @post.create_new_dib(@user2)
 
+    end
+    it 'should create a conversation' do
+      expect(@post.conversation).to_not eq nil
 
     end
   it 'should be available' do
@@ -54,6 +57,17 @@ end
       expect(@post.available_to_dib?).to eq true
   
     end
+    
+    it "should be able to set dibbed status" do 
+       @post.create_new_dib(@user2)
+       expect(@post.available_to_dib? ).to eq false
+       @post.make_dib_permanent
+       Timecop.travel(1802)
+       sleep(1)
+       expect(@post.available_to_dib? ).to eq false
+       Timecop.return
+    end
+
 
 
 end

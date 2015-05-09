@@ -1,4 +1,4 @@
-controllers = angular.module('controllers', )
+controllers = angular.module('controllers' )
 controllers.controller('MainRouteCtrl',['$scope','$modal','$routeParams','$resource','UserService',
 
     ($scope,$modal,$routeParams,$resource,UserService)->
@@ -19,6 +19,10 @@ controllers.controller('MainRouteCtrl',['$scope','$modal','$routeParams','$resou
             $modal.open
                 templateUrl:'inbox.html',
                 controller: 'MessagesCtrl'
+        if $routeParams.modalId == 'chat'
+            $modal.open
+                templateUrl:'inbox.html',
+                controller: 'ChatCtrl'
 
 
 
