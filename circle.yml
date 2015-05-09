@@ -2,4 +2,4 @@ deployment:
   staging:
     branch: development
     heroku:
-      appname: foo-bar-123
+      appname: stuffmapper-dev
