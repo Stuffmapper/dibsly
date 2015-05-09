@@ -19,6 +19,10 @@ controllers.controller('MainRouteCtrl',['$scope','$modal','$routeParams','$resou
             $modal.open
                 templateUrl:'inbox.html',
                 controller: 'MessagesCtrl'
+        if $routeParams.modalId == 'chat'
+            $modal.open
+                templateUrl:'inbox.html',
+                controller: 'ChatCtrl'
 
 
 

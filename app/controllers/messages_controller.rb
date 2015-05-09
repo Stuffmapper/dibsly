@@ -7,18 +7,30 @@ class MessagesController < ApplicationController
   end
 
   def show
+    #TODO paginate this
     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
     get_messages_from_conversation(conversation)
 
     render json: @messages, each_serializer: MessageSerializer, status: :ok
   end
 
+  def dib_or_post_chat
+    @conversation = Mailboxer::Conversation.where(:id => params[:id])
+    render json: @conversation, status: :ok
+  end
+
   def reply
      conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
-     current_user.reply_to_conversation(conversation, message_params[:body])
+     #TODO make this more elegant
+     if conversation.conversable_type == 'Dib'
+        #dib status needs to be updated so messages go through dib model
+        dib = conversation.conversable
+        dib.contact_other_party(current_user, message_params[:body] )
+     else
+        current_user.reply_to_conversation(conversation, message_params[:body])
+     end
      get_messages_from_conversation(conversation)
-     render json: @messages, status: :ok
-     
+     render json: @messages, status: :ok    
   end
 
   # POST /messages

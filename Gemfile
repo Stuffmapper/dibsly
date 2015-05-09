@@ -77,6 +77,7 @@ group :development, :test do
   gem 'jasmine'
   gem 'factory_girl_rails'
   gem 'teaspoon'
+  gem 'teaspoon-jasmine'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'cucumber-rails', require: false
   gem 'rack_session_access'

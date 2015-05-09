@@ -30,6 +30,29 @@ RSpec.describe Dib, :type => :model do
        Timecop.return
     end
 
+    it "should set the post status to dibbed when the dibber sends a message " do 
+       @dib = @post.create_new_dib(@user2)
+       expect(@post.status ).to eq 'new'
+       @dib.contact_other_party(@user2, 'this is the body')
+       Timecop.travel(1802)
+       sleep(1)
+       @post.reload
+       expect(@post.available_to_dib? ).to eq false
+       expect(@post.status ).to eq 'dibbed'
+       Timecop.return
+    end
+    it "should not set the post status to dibbed when the poster sends a message " do 
+       @dib = @post.create_new_dib(@user2)
+       expect(@post.status ).to eq 'new'
+       @dib.contact_other_party(@user, 'this is the body')
+       Timecop.travel(1802)
+       sleep(1)
+       @post.reload
+       expect(@post.available_to_dib? ).to eq true
+       expect(@post.status ).to eq 'new'
+       Timecop.return
+    end
+
 
 
   end

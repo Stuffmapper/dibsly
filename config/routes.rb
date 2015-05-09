@@ -17,6 +17,7 @@ Dibsly::Application.routes.draw do
   post 'presets' => 'users#presets'
 
   post 'messages/:id', :to => 'messages#reply'
+  get  'chat/:id', :to => 'messages#dib_or_post_chat'
   resources :messages, only: [:show, :create, :index]
 
   get 'posts' => 'posts#index'

@@ -57,6 +57,17 @@ end
       expect(@post.available_to_dib?).to eq true
   
     end
+    
+    it "should be able to set dibbed status" do 
+       @post.create_new_dib(@user2)
+       expect(@post.available_to_dib? ).to eq false
+       @post.make_dib_permanent
+       Timecop.travel(1802)
+       sleep(1)
+       expect(@post.available_to_dib? ).to eq false
+       Timecop.return
+    end
+
 
 
 end

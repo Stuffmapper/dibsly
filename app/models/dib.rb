@@ -1,7 +1,7 @@
 class Dib < ActiveRecord::Base
   acts_as_messageable
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
-  belongs_to :post, :class_name => Post
+  belongs_to :post, :class_name => Post, :foreign_key => :post_id
   
   #for the inital conversation
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
@@ -42,6 +42,13 @@ class Dib < ActiveRecord::Base
   def initiate_conversation
     send_message_to_dibber 
     notify_poster 
+  end
+
+  def contact_other_party user, body
+    if user == self.user and self.valid_until >= Time.now and self.post.status =='new' 
+      self.post.make_dib_permanent
+    end 
+    user.reply_to_conversation(self.conversation, body)
   end
 
 
