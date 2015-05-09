@@ -152,3 +152,23 @@ Then(/^I should be in the in\-app chat$/) do
   sleep(3)
   expect(page.body).to have_text('Dibber Chat')
 end
+
+#priority status
+
+When(/^I respond, the post should not be available thirty minutes from now$/) do 
+  click_button "Show Messages"
+  fill_in 'message_response', with: "Hey, when can I get that item?"
+  click_button 'Send'
+  sleep 1
+  Timecop.travel(1805)
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq false
+
+end
+
+When(/^I don't respond, the post should be available thirty minutes from now$/) do 
+  Timecop.travel(1805)
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq true
+end
+

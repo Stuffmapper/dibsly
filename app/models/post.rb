@@ -77,6 +77,7 @@ class Post < ActiveRecord::Base
 
   def make_dib_permanent
     self.update_attribute(:status, 'dibbed')
+    self.reload
   end
 
   def creator_must_be_allowed_to_post_and_dib
