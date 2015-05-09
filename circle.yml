@@ -3,6 +3,8 @@ deployment:
     branch: development
     commands:
       - Rails_ENV=production rake assets:precompile
+      - git config user.name "circleci"
+      - git config user.email "ben@benpatterson.io"
       - git add .
       - git commit -m "precompiled"
       - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master
