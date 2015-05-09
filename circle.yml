@@ -6,5 +6,5 @@ deployment:
       - git add .
       - git commit -m "precompiled"
       - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app stuffmapper-dev
+      - heroku run rake db:migrate --app stuffmapper-dev:
           timeout: 400 # if your deploys take a long time
