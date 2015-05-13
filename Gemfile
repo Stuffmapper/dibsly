@@ -51,12 +51,6 @@ gem 'geocoder'
 # test rails admin
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 
-# cancan with rails admin
-gem "cancan"
-
-# devise with rails admin
-gem "devise"
-
 gem 'spring', group: :development
 
 group :doc do
