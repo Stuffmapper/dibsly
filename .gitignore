@@ -15,8 +15,7 @@
 /log/*.log
 /tmp
 
-
-public
+coverage
 
 
 
