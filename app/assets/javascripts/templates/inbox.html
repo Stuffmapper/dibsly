@@ -4,33 +4,51 @@
    <div class="btn close-x pull-right clearfix" ng-click="cancel()">×</div> 
    <br>
 </div>
-<div class="modal-body">
-   <alerts></alerts>
-  
-  <div ng-repeat="conversation in inbox track by $index" class="clearfix" >
-    <p> {{conversation.subject}}</p>
-    <button class= "btn btn-default" ng-click="getMessages(conversation.id)" >Show Messages</button>    
-    <div class="converation-messages">
-      <div ng-repeat="message in messages[conversation.id]" class="clearfix" >
-        <p>{{message.sender}}: {{message.body}} </p>
-      </div>
-    </div>
 
-    <form >
+<div class="modal-body">
+  <accordion close-others='true'>
+  
+    <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >
+
+      <accordion-heading  >
+        <div class='col-md-12' ng-click="getMessages(conversation.id)">
+          <div class='inbox-conversation-subject'>
+            <div class='col-md-3 pull-left'>
+               <img ng-src={{conversation.conversable.image_url}} class='img-responsive'></img> 
+            </div>
+
+            <div class="col-md-6 pull-left">
+              <p> {{conversation.conversable.description }}</p>
+            </div >
+
+            <div class="col-md-3 pull_right">
+              <ul>
+                <li>published</li>
+                <li>dibbed</li>
+                <li>gone</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </accordion-heading> 
+
+
+      <div class="converation-messages">
+        <div ng-repeat="message in messages[conversation.id]" class="clearfix" >
+          <p>{{message.sender}}: {{message.body}} </p>
+        </div>
+      </div>
+     
+
       <div class="form-group">
         <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
       </div>
-
-    
-     <button class= "btn btn-default" ng-click="postReply(conversation.id)" >Send</button>
-    </form>
-  </div>
+      <button class= "btn btn-default" ng-click="postReply(conversation.id)" >Send</button>
+    </accordion-group>
+  </accordion>
 </div>
 
 
 
 
-
-</div>
-</form>
-</div>

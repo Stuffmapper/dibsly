@@ -31,7 +31,17 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("This is aSubject") 
 		end
-		
+		it "should return a conversation id" do 
+			@user2.send_message(@user,"Body","This is aSubject")
+   
+			sign_in(@user)
+			 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_conversation_id = JSON.parse(response.body)['messages'][0]['id']
+		    expect(response_conversation_id).to_not eq(nil) 
+		    expect(response_conversation_id).to eq(Mailboxer::Conversation.last.id) 
+		end
 		it "should still work after a post has been created" do 
 			@post = create(:post, creator_id: @user.id, latitude: 1,longitude:2  )
 
