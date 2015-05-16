@@ -163,6 +163,7 @@ When(/^I respond, the post should not be available thirty minutes from now$/) do
   Timecop.travel(1805)
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq false
+  Timecop.return
 
 end
 
@@ -170,5 +171,6 @@ When(/^I don't respond, the post should be available thirty minutes from now$/) 
   Timecop.travel(1805)
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq true
+  Timecop.return
 end
 

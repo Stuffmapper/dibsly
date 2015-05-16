@@ -2,8 +2,6 @@
 controllers = angular.module('controllers')
 
 
-
-
 controllers.controller('EmailVerifyCtrl', [ '$http','$routeParams','$resource','AlertService', 
  ($http,$routeParams,$resource, AlertService ) -> 
    $http.post( '/users/email/' + $routeParams.userKey )
