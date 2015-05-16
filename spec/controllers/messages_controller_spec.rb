@@ -60,6 +60,15 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("This is aSubject") 
 		end
+		it "should include dib conversation" do
+			@post = create(:post, creator_id: @user.id, latitude: '-122', longitude: '49' )
+			@post.create_new_dib  @user2
+			sign_in(@user2) 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
+		    expect(response_first_subject).to eq("Your Latest Dib!") 
+		end
 
 
 	end
@@ -94,6 +103,8 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_sender = JSON.parse(response.body)['messages'][0]['sender']
 		    expect(response_first_sender).to eq(@user2.username)
 		end
+
+
 	end
 
 	describe "Post reply to conversation" do

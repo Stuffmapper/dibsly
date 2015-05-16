@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   before_filter :verify_logged_in
 
   def index
-    @messages = current_user.mailbox.inbox
+    @messages = current_user.mailbox.conversations
     render json: @messages, status: :ok
   end
 
