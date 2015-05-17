@@ -125,6 +125,18 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_sender = JSON.parse(response.body)['messages'][0]['sender']
 		    expect(response_first_sender).to eq(@user2.username)
 		end
+		it "should return mark user messages as read" do 
+			pending
+		end
+
+		it "should return message created_at data" do 
+			pending
+		end
+
+		it "should return message is read? data" do 
+			pending
+		end
+
 
 
 	end

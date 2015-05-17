@@ -374,6 +374,12 @@ form {
     .panel-body{
         background:$grey;
     }
+    .conversation-reply{
+    	padding-left:0;
+    	input, button{
+    	  border: 1px solid $black;
+    	}
+    }
 
 	.panel-heading{
 		position:relative;

@@ -43,10 +43,13 @@
       
       <hr>
 
-      <div class="form-group col-md-10">
-        <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
+      <div class="conversation-reply">
+        <div class="col-md-10 conversation-reply">
+          <input type="text" class="form-control  pull-left" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
+        </div>
+
+        <button class= "btn btn-default col-md-2" ng-click="postReply(conversation.id)" >send</button>
       </div>
-      <button class= "btn btn-default col-md-2" ng-click="postReply(conversation.id)" >send</button>
     </accordion-group>
   </accordion>
 </div>
