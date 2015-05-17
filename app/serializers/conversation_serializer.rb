@@ -1,5 +1,5 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :subject, :created_at, :conversable, :id
+  attributes :subject, :created_at, :conversable
 
   def conversable
 	object.conversable.nil? ? "Conversation" : object.conversable.details
