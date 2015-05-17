@@ -5,7 +5,7 @@
    <br>
 </div>
 
-<div class="modal-body">
+<div class="modal-body inbox-modal">
   <accordion close-others='true'>
   
     <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >
@@ -14,11 +14,12 @@
         <div class='col-md-12' ng-click="getMessages(conversation.id)">
           <div class='inbox-conversation-subject'>
             <div class='col-md-3 pull-left'>
-               <img ng-src={{conversation.conversable.image_url}} class='img-responsive'></img> 
+               <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img> 
             </div>
 
             <div class="col-md-6 pull-left">
-              <p> {{conversation.conversable.description }}</p>
+              <div class="col-md-12 conversation-description" > {{conversation.conversable.description }}</div>
+              <div class="col-md-12 conversation-posted-at">{{conversation.conversable.created }}</div>
             </div >
 
             <div class="col-md-3 pull_right">
@@ -39,12 +40,13 @@
           <p>{{message.sender}}: {{message.body}} </p>
         </div>
       </div>
-     
+      
+      <hr>
 
-      <div class="form-group">
+      <div class="form-group col-md-10">
         <input type="text" class="form-control" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
       </div>
-      <button class= "btn btn-default" ng-click="postReply(conversation.id)" >Send</button>
+      <button class= "btn btn-default col-md-2" ng-click="postReply(conversation.id)" >send</button>
     </accordion-group>
   </accordion>
 </div>
