@@ -1,5 +1,5 @@
 class ReceiptSerializer < ActiveModel::Serializer
-  attributes :body, :subject, :sender, :sender_type
+  attributes :body, :subject, :sender, :sender_type, :is_read
 
   def sender_type
 	object.message.sender_type 

@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
         current_user.reply_to_conversation(conversation, message_params[:body])
      end
      get_messages_from_conversation(conversation)
-     render json: @messages.sort, each_serializer: ReceiptSerializer, status: :ok    
+     render json: @messages, each_serializer: ReceiptSerializer, status: :ok    
   end
 
   # POST /messages
@@ -46,7 +46,7 @@ class MessagesController < ApplicationController
 
       get_messages_from_conversation(conversation)
 
-      render json: @messages.sort, each_serializer: ReceiptSerializer, status: :ok
+      render json: @messages, each_serializer: ReceiptSerializer, status: :ok
     else
       render json: '[]',  status: :unprocessable_entity
     end
@@ -68,6 +68,6 @@ class MessagesController < ApplicationController
     end
 
     def get_messages_from_conversation conversation
-      @messages = conversation.receipts_for current_user
+      @messages = (conversation.receipts_for current_user).sort
     end
 end
