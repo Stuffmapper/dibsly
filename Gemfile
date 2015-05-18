@@ -55,7 +55,7 @@ gem "foreman"
 gem 'geocoder'
 
 # test rails admin
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rails_admin'
 
 gem 'spring', group: :development
 
