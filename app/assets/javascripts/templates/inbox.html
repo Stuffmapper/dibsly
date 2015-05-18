@@ -41,7 +41,7 @@
           <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-hide='currentUser == message.sender'>
 
             <div class="green-bar pull-left" 
-             ng-class=" !message.is_read ? '' : 'green' " >
+             ng-class=" message.is_read ? '' : 'green' " >
                <div class='person-circle'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
                </div> 
@@ -60,7 +60,7 @@
           <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-show='currentUser == message.sender'>   
 
             <div class="green-bar pull-right" 
-            ng-class=" message.is_read ? '' : 'green' " >
+            ng-class="message.is_read ? '' : 'green' " >
               <div class='person-circle person-circle-right'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
               </div> 
