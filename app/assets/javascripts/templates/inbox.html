@@ -11,18 +11,18 @@
     <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >
 
       <accordion-heading  >
-        <div class='col-md-12' ng-click="getMessages(conversation.id)">
+        <div class='col-md-12 col-lg-12 col-xs-12 ' ng-click="getMessages(conversation.id)">
           <div class='inbox-conversation-subject'>
-            <div class='col-md-3 pull-left'>
+            <div class='col-md-3 col-lg-3 col-xs-3  pull-left'>
                <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img> 
             </div>
 
-            <div class="col-md-6 pull-left">
-              <div class="col-md-12 conversation-description" > {{conversation.conversable.description }}</div>
-              <div class="col-md-12 conversation-posted-at">{{conversation.conversable.created }}</div>
+            <div class="col-md-6 col-lg-6 col-xs-6 pull-left">
+              <div class="col-md-12 col-lg-12 col-xs-12 conversation-description" > {{conversation.conversable.description }}</div>
+              <div class="col-md-12 col-lg-12 col-xs-12 conversation-posted-at">Posted {{conversation.conversable.created | timeAgo }}</div>
             </div >
 
-            <div class="col-md-3 pull_right">
+            <div class="col-md-3 col-lg-3 col-xs-3  pull_right">
               <ul>
                 <li>published</li>
                 <li>dibbed</li>
@@ -36,19 +36,51 @@
 
 
       <div class="converation-messages">
-        <div ng-repeat="message in messages[conversation.id]" class="clearfix" >
-          <p>{{message.sender}}: {{message.body}} </p>
+        <div ng-repeat="message in messages[conversation.id]" class="col-md-12 col-lg-12 col-xs-12 individual-message" >
+
+          <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-hide='currentUser == message.sender'>
+
+            <div class="green-bar pull-left" 
+             ng-class=" !message.is_read ? '' : 'green' " >
+               <div class='person-circle'>
+                <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
+               </div> 
+            </div> 
+      
+          </div>
+
+          <div class="col-md-10 col-lg-10 col-xs-10">
+            <ul class='individual-message-center'>
+              <li class='light-text'>       {{message.sender}} says...     </li>
+              <li><strong>{{message.body}}</strong> </li>
+              <li class='light-text'> Sent {{message.created_at | timeAgo }}</li>
+            </ul>
+          </div>
+
+          <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-show='currentUser == message.sender'>   
+
+            <div class="green-bar pull-right" 
+            ng-class=" message.is_read ? '' : 'green' " >
+              <div class='person-circle person-circle-right'>
+                <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
+              </div> 
+            </div> 
+
+
+          </div>
+
         </div>
+
       </div>
       
       <hr>
 
       <div class="conversation-reply">
-        <div class="col-md-10 conversation-reply">
+        <div class="col-md-10 col-lg-10 col-xs-10 conversation-reply">
           <input type="text" class="form-control  pull-left" id="message_response" placeholder="reply" ng-model="reply_message[conversation.id].body">
         </div>
 
-        <button class= "btn btn-default col-md-2" ng-click="postReply(conversation.id)" >send</button>
+        <button class= "btn btn-default col-md-2 col-lg-2 col-xs-2" ng-click="postReply(conversation.id)" >send</button>
       </div>
     </accordion-group>
   </accordion>

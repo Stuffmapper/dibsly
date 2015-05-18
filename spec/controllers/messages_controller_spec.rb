@@ -158,7 +158,6 @@ RSpec.describe MessagesController, :type => :controller do
              
 			xhr :get, :show, :id => @conversation.id  
 		    expect(response.status).to eq(200) 
-		    byebug
 		    is_read = JSON.parse(response.body)['messages'][-1]['is_read']
 		    expect( is_read ).to eq false
 		
