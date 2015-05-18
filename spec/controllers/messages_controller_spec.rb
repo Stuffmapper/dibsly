@@ -125,16 +125,43 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_sender = JSON.parse(response.body)['messages'][0]['sender']
 		    expect(response_first_sender).to eq(@user2.username)
 		end
-		it "should return mark user messages as read" do 
-			pending
+		it "should mark user messages as read" do 
+			(@conversation.receipts_for @user).each do |receipt| 
+				expect( receipt.is_read ).to eq false 
+			end	
+			sign_in(@user)
+			xhr :get, :show, :id => @conversation.id  
+
+			@conversation.reload
+			@user.reload
+
+			(@conversation.receipts_for @user).each do |receipt| 
+		
+				expect( receipt.is_read ).to eq true
+
+			end
 		end
 
 		it "should return message created_at data" do 
-			pending
+
+			sign_in(@user)
+			xhr :get, :show, :id => @conversation.id  
+		    expect(response.status).to eq(200) 
+		    created_at = JSON.parse(response.body)['messages'][0]['created_at']
+		    expect(Time.parse(created_at) < Time.now ).to eq true
 		end
 
 		it "should return message is read? data" do 
-			pending
+			sign_in(@user)
+			xhr :post, :reply , :id => @conversation.id , :message => {:body => "I'm replying to the last post" }
+		    expect(response.status).to eq(200) 
+             
+			xhr :get, :show, :id => @conversation.id  
+		    expect(response.status).to eq(200) 
+		    byebug
+		    is_read = JSON.parse(response.body)['messages'][-1]['is_read']
+		    expect( is_read ).to eq false
+		
 		end
 
 
@@ -185,6 +212,7 @@ RSpec.describe MessagesController, :type => :controller do
 
 		it "should return messages for conversation to be returned" do 
 			sign_in(@user)
+
 			xhr :post, :create,:message => {:receiver_username => @user2.username ,:subject=> "something", :body => "Now about that stuff" }
 			expect(response.status).to eq(200) 
 		    response_first_body = JSON.parse(response.body)['messages'][0]['body']

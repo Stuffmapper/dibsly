@@ -10,6 +10,9 @@ class MessagesController < ApplicationController
     #TODO paginate this
     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
     get_messages_from_conversation(conversation)
+    @messages.each  do |receipt| 
+      receipt.mark_as_read  
+    end
 
     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
   end
