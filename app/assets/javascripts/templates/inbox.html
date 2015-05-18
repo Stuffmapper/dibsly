@@ -1,11 +1,9 @@
-
-<div class="modal-header">
-   <h3 class="modal-title pull-left">Dibber Chat</h3>
-   <div class="btn close-x pull-right clearfix" ng-click="cancel()">×</div> 
-   <br>
-</div>
+  <div class='col-md-12 col-lg-12 col-xs-12 '>
+    <div class="close-x pull-right clearfix" ng-click="cancel()">×</div> 
+  </div>
 
 <div class="modal-body inbox-modal">
+
   <accordion close-others='true'>
   
     <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >

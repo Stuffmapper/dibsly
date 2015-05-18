@@ -28,12 +28,13 @@ $grey: lightgrey; /* letter */
 
 /*** Helper ***/
 .close-x{
-	border-radius:100%;
-	border-bottom: $black 3px solid;
-	border-right: $black 1px solid;
-	border-left: $black 2px solid;
-	border-top: $black 2px solid;
-
+	position: relative;
+	display:block;
+	z-index: 500;
+	margin-right: -15px;
+	margin-top: -20px;
+	font-size: 2.5em;
+	color: $black;
 }
 
 /**** Navbar ****/
