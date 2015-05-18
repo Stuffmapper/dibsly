@@ -367,8 +367,35 @@ form {
 	height:600px;
 }
 
+
 /*** inbox ***/
 .inbox-modal{
+	.post-status-list{
+		list-style:none;
+		li{
+			padding:4px;
+			font-size: .85em;
+			text-align: right;
+			span{
+				margin: 2px;
+			}
+		.glyphicon{
+			border-radius:100%;
+			border:2px solid $black;
+			color: $white;
+			background-color: $white;
+			margin-right: -10px;
+			}
+		.posted{
+			color: $green;
+		}
+		.dibbed{
+			color: orange;
+			}
+
+		}
+		
+	}
 
 
     .panel-body{
@@ -379,6 +406,14 @@ form {
     	input, button{
     	  border: 1px solid $black;
     	}
+    }
+    .conversation-description,
+    .conversation-posted-at{
+    	padding:3px;
+
+    }
+    .conversation-posted-at{
+    	font-size: .85em;
     }
 
 	.panel-heading{
@@ -418,13 +453,13 @@ form {
 		clear:both;
 	}
 	.person-circle-right{
-		margin-left: -18px;
+		margin-left: -13px;
 	}
 
 	.individual-message-center{
 		list-style:none;
 		li{
-		  padding:8px;
+		  padding:3px;
 		}
 		.light-text{
 			font-size: .88em;
@@ -439,6 +474,10 @@ form {
 		}
 		.green{
 			background-color: $green;
+
+		}
+		.darkblue{
+			background-color: $darkblue;
 
 		}
 	}

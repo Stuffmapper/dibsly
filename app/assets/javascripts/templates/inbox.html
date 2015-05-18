@@ -13,20 +13,30 @@
       <accordion-heading  >
         <div class='col-md-12 col-lg-12 col-xs-12 ' ng-click="getMessages(conversation.id)">
           <div class='inbox-conversation-subject'>
-            <div class='col-md-3 col-lg-3 col-xs-3  pull-left'>
+            <div class='col-md-4 col-lg-4 col-xs-4  pull-left'>
                <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img> 
             </div>
 
-            <div class="col-md-6 col-lg-6 col-xs-6 pull-left">
-              <div class="col-md-12 col-lg-12 col-xs-12 conversation-description" > {{conversation.conversable.description }}</div>
+            <div class="col-md-4 col-lg-4 col-xs-4 pull-left">
+              <div class="col-md-12 col-lg-12 col-xs-12 conversation-description" ><h4> {{conversation.conversable.description }}</h4></div>
               <div class="col-md-12 col-lg-12 col-xs-12 conversation-posted-at">Posted {{conversation.conversable.created | timeAgo }}</div>
             </div >
 
-            <div class="col-md-3 col-lg-3 col-xs-3  pull_right">
-              <ul>
-                <li>published</li>
-                <li>dibbed</li>
-                <li>gone</li>
+            <div class="col-md-4 col-lg-4 col-xs-4  pull_right">
+              <ul class='post-status-list'>
+                <li>
+                  <span>posted</span>
+                  <span class="glyphicon glyphicon-ok-sign pull-right" ng-class="conversation.conversable.posted ? 'posted' : '' " aria-hidden="true"></span>
+                </li>
+
+                <li>
+                  <span>dibbed </span>
+                  <span class="glyphicon glyphicon-ok-sign pull-right" ng-class="conversation.conversable.dibbed ? 'dibbed' : '' " aria-hidden="true"></span>
+                </li>
+                <li>
+                  <span>gone</span>
+                  <span class="glyphicon glyphicon-ok-sign pull-right gone" aria-hidden="true"></span>
+                </li>
               </ul>
             </div>
 
@@ -41,7 +51,7 @@
           <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-hide='currentUser == message.sender'>
 
             <div class="green-bar pull-left" 
-             ng-class=" message.is_read ? '' : 'green' " >
+             ng-class=" message.is_read ? 'darkblue' : 'green' " >
                <div class='person-circle'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
                </div> 
@@ -60,7 +70,7 @@
           <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-show='currentUser == message.sender'>   
 
             <div class="green-bar pull-right" 
-            ng-class="message.is_read ? '' : 'green' " >
+            ng-class="message.is_read ? 'darkblue' : 'green' " >
               <div class='person-circle person-circle-right'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
               </div> 
