@@ -70,8 +70,9 @@ class Dib < ActiveRecord::Base
   end
 
   def create_conversation
+    subject = !self.post.description.empty? ? " for " + self.post.description : ''  
     self.conversation = Mailboxer::ConversationBuilder.new({
-          :subject    => "Your Latest Dib!",
+          :subject    => "Stuffmapper dib" + subject ,
           :created_at => Time.now,
           :updated_at => Time.now
         }).build

@@ -78,7 +78,7 @@ RSpec.describe MessagesController, :type => :controller do
 			xhr :get, :index 
 		    expect(response.status).to eq(200) 
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
-		    expect(response_first_subject).to eq("Your Latest Dib!") 
+		    expect(response_first_subject).to eq("Stuffmapper dib for shoes") 
 		end
 
 		it "should include information about the post" do
