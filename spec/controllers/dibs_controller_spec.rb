@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DibsController, type: :controller do
-	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
+	vcr_options = { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }
 
 	describe "dib post", :vcr => vcr_options do
 		 
@@ -75,7 +75,7 @@ RSpec.describe DibsController, type: :controller do
 				xhr :patch, :undib, :id => @post.id  
 		     	expect(response.status).to eq(200) 
 			end
-			it 'should undib e 200 with params' do 
+			it 'should undib  200 with params' do 
 				expect(@post.dibber_id).to eq(@user2.id)
 				sign_in(@user2)
 				xhr :patch, :undib, :id => @post.id 
@@ -85,20 +85,22 @@ RSpec.describe DibsController, type: :controller do
 		     	
 
 			end
-			# it 'should not allow you to dib your own stuff' do 
-			# 	sign_in(@user)
-			# 	xhr :get, :create, :post_id => @post.id  
-		 #     	expect(response.status).to eq(422) 
-		 #     	expect(response.body).to eq("{\"dib\":[\"You can't dib your own stuff\"]}") 
-			# end
 
-			# it 'should not allow you to undib other peoples dibed stuff' do 
-			# 	sign_in(@user2)
-			# 	@post.create_new_dib(@user2)
-			# 	assert @post.available_to_dib? == false
-			# 	xhr :get, :create, :post_id => @post.id  
-		 #     	expect(response.body).to eq("{\"dib\":[\"post not available to dib\"]}") 
-		 #     end
+			it 'should respond on the dib\'s conversation' do
+				sign_in(@user2)
+				xhr :patch, :undib, :id => @post.id 
+		     	expect(response.status).to eq(200)
+
+		     	@post2 = create(:post, creator_id: @user.id, longitude: 0, latitude:0  )
+		     	@post2.create_new_dib @user2
+
+		     	@post.reload
+		     	@user2.reload
+
+		     	conversation =  @post.dibs[0].conversation.receipts_for @user2
+		     	expect(conversation[0].message.body).to eq ( @user2.username + ' has undibbed your stuff')
+
+			end
 
 		end
 	end

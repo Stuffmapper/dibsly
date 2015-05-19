@@ -55,6 +55,13 @@ class Dib < ActiveRecord::Base
     user.reply_to_conversation(self.conversation, body)
   end
 
+  def notify_undib
+    dibber = self.user
+    body =  "#{dibber.username} has undibbed your stuff"
+    self.reply_to_conversation(self.conversation, body)
+  end
+
+
 
   def cannot_dib_own_post
     if self.creator_id == self.post.creator_id
@@ -63,8 +70,9 @@ class Dib < ActiveRecord::Base
   end
 
   def create_conversation
+    subject = !self.post.description.empty? ? " for " + self.post.description : ''  
     self.conversation = Mailboxer::ConversationBuilder.new({
-          :subject    => "Your Latest Dib!",
+          :subject    => "Stuffmapper dib" + subject ,
           :created_at => Time.now,
           :updated_at => Time.now
         }).build
