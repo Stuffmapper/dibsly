@@ -31,7 +31,17 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("This is aSubject") 
 		end
-		
+		it "should return a conversation id" do 
+			@user2.send_message(@user,"Body","This is aSubject")
+   
+			sign_in(@user)
+			 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_conversation_id = JSON.parse(response.body)['messages'][0]['id']
+		    expect(response_conversation_id).to_not eq(nil) 
+		    expect(response_conversation_id).to eq(Mailboxer::Conversation.last.id) 
+		end
 		it "should still work after a post has been created" do 
 			@post = create(:post, creator_id: @user.id, latitude: 1,longitude:2  )
 
@@ -60,6 +70,7 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("This is aSubject") 
 		end
+
 		it "should include dib conversation" do
 			@post = create(:post, creator_id: @user.id, latitude: '-122', longitude: '49' )
 			@post.create_new_dib  @user2
@@ -69,6 +80,17 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
 		    expect(response_first_subject).to eq("Your Latest Dib!") 
 		end
+
+		it "should include information about the post" do
+			@post = create(:post, creator_id: @user.id, description: "pretty decent shoes", latitude: '-122', longitude: '49' )
+			@post.create_new_dib  @user2
+			sign_in(@user2) 
+			xhr :get, :index 
+		    expect(response.status).to eq(200) 
+		    response_first_subject = JSON.parse(response.body)['messages'][0]['conversable']['description']
+		    expect(response_first_subject).to eq("pretty decent shoes") 
+		end
+
 
 
 	end
@@ -103,6 +125,44 @@ RSpec.describe MessagesController, :type => :controller do
 		    response_first_sender = JSON.parse(response.body)['messages'][0]['sender']
 		    expect(response_first_sender).to eq(@user2.username)
 		end
+		it "should mark user messages as read" do 
+			(@conversation.receipts_for @user).each do |receipt| 
+				expect( receipt.is_read ).to eq false 
+			end	
+			sign_in(@user)
+			xhr :get, :show, :id => @conversation.id  
+
+			@conversation.reload
+			@user.reload
+
+			(@conversation.receipts_for @user).each do |receipt| 
+		
+				expect( receipt.is_read ).to eq true
+
+			end
+		end
+
+		it "should return message created_at data" do 
+
+			sign_in(@user)
+			xhr :get, :show, :id => @conversation.id  
+		    expect(response.status).to eq(200) 
+		    created_at = JSON.parse(response.body)['messages'][0]['created_at']
+		    expect(Time.parse(created_at) < Time.now ).to eq true
+		end
+
+		it "should return message is read? data" do 
+			sign_in(@user)
+			xhr :post, :reply , :id => @conversation.id , :message => {:body => "I'm replying to the last post" }
+		    expect(response.status).to eq(200) 
+             
+			xhr :get, :show, :id => @conversation.id  
+		    expect(response.status).to eq(200) 
+		    is_read = JSON.parse(response.body)['messages'][-1]['is_read']
+		    expect( is_read ).to eq false
+		
+		end
+
 
 
 	end
@@ -151,6 +211,7 @@ RSpec.describe MessagesController, :type => :controller do
 
 		it "should return messages for conversation to be returned" do 
 			sign_in(@user)
+
 			xhr :post, :create,:message => {:receiver_username => @user2.username ,:subject=> "something", :body => "Now about that stuff" }
 			expect(response.status).to eq(200) 
 		    response_first_body = JSON.parse(response.body)['messages'][0]['body']

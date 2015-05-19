@@ -14,6 +14,7 @@ controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','
     $scope.messages = []
     $scope.reply_message = {}
     self = this
+    $scope.currentUser = UserService.currentUser
 
 
     $scope.getMessages = (conversationID) ->

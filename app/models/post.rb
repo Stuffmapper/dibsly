@@ -36,6 +36,15 @@ class Post < ActiveRecord::Base
     create_conversation
   end
 
+  def details
+     #keep the name the same as dib model (it's used by the conversable model)
+   { :image_url => self.image_url,
+    :posted => self.published,
+    :created => self.created_at,
+    :dibbed => self.status == 'dibbed',
+    :description => self.description }
+  end
+
 
   def set_dibbed_until dib
     self.update_attributes( :dibber_id => dib.creator_id,

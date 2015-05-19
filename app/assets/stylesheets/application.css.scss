@@ -24,15 +24,17 @@ $turqblue: #6b8598; /* camera outline */
 $bluedot: #037fc2; /* blue dot */
 $green: #4fd67b; /* letter */
 $white: white; /* letter */
+$grey: lightgrey; /* letter */
 
 /*** Helper ***/
 .close-x{
-	border-radius:100%;
-	border-bottom: $black 3px solid;
-	border-right: $black 1px solid;
-	border-left: $black 2px solid;
-	border-top: $black 2px solid;
-
+	position: relative;
+	display:block;	
+	z-index: 500;
+	margin-right: -15px;
+	margin-top: -20px;
+	font-size: 2.5em;
+	color: $black;
 }
 
 /**** Navbar ****/
@@ -367,6 +369,130 @@ form {
 }
 
 
+/*** inbox ***/
+.inbox-modal{
+	.post-status-list{
+		list-style:none;
+
+		li{
+			padding:4px;
+			font-size: .85em;
+			text-align: right;
+			span{
+				margin: 2px;
+			}
+			.glyphicon{
+				border-radius:100%;
+				border:2px solid $black;
+				color: $white;
+				background-color: $white;
+				margin-right: -10px;
+				}
+			.posted{
+				color: $green;
+			}
+			.dibbed{
+				color: orange;
+				}
+
+			}
+
+		
+	}
+	.converation-messages{
+		overflow-y: scroll;
+
+	
+
+	}
+
+
+    .panel-body{
+        background:$grey;
+    }
+    .conversation-reply{
+    	padding-left:0;
+    	input, button{
+    	  border: 1px solid $black;
+    	}
+    }
+    .conversation-description,
+    .conversation-posted-at{
+    	padding:3px;
+
+    }
+    .conversation-posted-at{
+    	font-size: .85em;
+    }
+
+	.panel-heading{
+		position:relative;
+		z-index:7;
+		overflow:auto;
+		background-color: $white;
+		-webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+		-moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+		box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+	}
+	.conversation-image, 
+	.conversation-description,
+	.conversation-posted-at{
+		margin-left: -30px;
+	}
+	.individual-message{
+		height:100%;
+		border-radius:5px;
+		padding: 4px;
+		margin-bottom: 15px;
+		position:relative;
+		background-color: $white;
+		-webkit-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+		-moz-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+		box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+	}
+
+	.person-circle{
+		background-color:$white;
+		width:28px;
+		height:28px;
+		margin-left: 5px;
+		padding:4px 4px 4px 6px;
+		border-radius:100%;
+		border: 1px solid $black;
+		clear:both;
+	}
+	.person-circle-right{
+		margin-left: -13px;
+	}
+
+	.individual-message-center{
+		list-style:none;
+		li{
+		  padding:3px;
+		}
+		.light-text{
+			font-size: .88em;
+		} 
+	}
+	.sender-details{
+		postion:relative;
+		height:100%;
+		.green-bar{
+			height:100px;
+		    width: 20px;
+		}
+		.green{
+			background-color: $green;
+
+		}
+		.darkblue{
+			background-color: $darkblue;
+
+		}
+	}
+
+
+}
 
 
 
