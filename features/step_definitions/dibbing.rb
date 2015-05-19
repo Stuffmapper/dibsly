@@ -149,8 +149,13 @@ Then(/^if I follow the link in the email$/) do
 end
 
 Then(/^I should be in the in\-app chat$/) do
-  sleep(3)
-  expect(page.body).to have_text('Dibber Chat')
+  find('.get-messages').click
+
+
+  sleep(5)
+
+
+  expect(page.body).to have_text('stuffmapper.com says')
 end
 
 #priority status

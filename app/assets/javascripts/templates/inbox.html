@@ -9,7 +9,7 @@
     <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >
 
       <accordion-heading  >
-        <div class='col-md-12 col-lg-12 col-xs-12 ' ng-click="getMessages(conversation.id)">
+        <div class='col-md-12 col-lg-12 col-xs-12 get-messages' ng-click="getMessages(conversation.id)">
           <div class='inbox-conversation-subject'>
             <div class='col-md-4 col-lg-4 col-xs-4  pull-left'>
                <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img> 
