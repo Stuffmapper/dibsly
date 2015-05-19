@@ -1,18 +1,13 @@
 class SessionsController < ApplicationController
   def create
-
-    user = User.authenticate(params[:username], params[:password]) 
-    
-      if user
-        session[:user_id] = user.id
-        session[:latitude] = user.latitude
-        session[:longitude] = user.longitude
-        session[:zoom] = user.zoom
-        session[:grid_mode] = user.grid_mode
-        render json: {user:user.username}, status: :ok
-      else
-        render json: '[]', status: :unprocessable_entity
-      end
+    username = params[:username]
+    user = User.find_by_username(username) || User.find_by_email(username.downcase)
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      render json: {user:user.username}, status: :ok
+    else
+      render json: '[]', status: :unprocessable_entity
+    end
   end
 
   def create_with_omniauth

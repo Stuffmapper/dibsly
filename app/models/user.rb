@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_secure_password
   has_many :posts, :class_name => Post, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib, :foreign_key => :creator_id
   has_many :messages, :class_name => Message, :foreign_key => :sender_id
@@ -12,6 +13,12 @@ class User < ActiveRecord::Base
   validates_presence_of :last_name
   validates_uniqueness_of :username
   #TODO change the database to make username unique on that level
+
+  validates :password, :presence => true,
+                       :confirmation => true,
+                       :length => {:within => 6..40},
+                       :on => :create
+
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
 
@@ -27,17 +34,6 @@ class User < ActiveRecord::Base
     false
   end
 
-  def self.authenticate(username, password)
-
-    if username 
-      user = find_by_username(username) || find_by_email(username.downcase)
-    end
-    if user && user.status == STATUS_NEW && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-      user
-    else
-      nil
-    end
-  end
 
   def self.from_omniauth(auth)
     oauth_user = User.find_by_email(auth.info.email)
@@ -72,12 +68,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  def encrypt_password
-    if password.present?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
-    end
-  end
 
   def mailboxer_email(object)
     self.email

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507162512) do
+ActiveRecord::Schema.define(version: 20150519230346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,7 @@ ActiveRecord::Schema.define(version: 20150507162512) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                                    null: false
-    t.string   "password_salt",                            null: false
-    t.string   "password_hash",                            null: false
+    t.string   "password_digest",                          null: false
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
@@ -146,12 +145,10 @@ ActiveRecord::Schema.define(version: 20150507162512) do
     t.datetime "oauth_expires_at"
     t.boolean  "verified_email",           default: false
     t.string   "verify_email_token"
-
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["password_reset_token"], name: "index_users_on_password_reset_token", using: :btree
-
   add_index "users", ["verify_email_token"], name: "index_users_on_verify_email_token", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"

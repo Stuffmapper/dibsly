@@ -73,11 +73,11 @@ RSpec.describe PasswordResetsController, type: :controller do
 
 				it "updates the user's password" do 
 
-					digest = user.password_hash
+					digest = user.password_digest
 					xhr :post, :update, id: user.password_reset_token ,
 					user: {password: 'Sofake123', password_confirmation: 'Sofake123' }
 					user.reload 
-					expect(user.password_hash).to_not eq(digest)
+					expect(user.password_digest ).to_not eq(digest)
 					 
 					
 				end
