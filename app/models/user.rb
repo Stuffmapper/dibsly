@@ -5,8 +5,6 @@ class User < ActiveRecord::Base
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
   
   # attr_accessor allows you to use the password attribute locally, but will not persist it to the database
-  attr_accessor :password
-  before_save :encrypt_password
   before_save :downcase_email
   before_save :confirm_email
 
@@ -16,6 +14,8 @@ class User < ActiveRecord::Base
   #TODO change the database to make username unique on that level
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
+
+
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
   acts_as_messageable

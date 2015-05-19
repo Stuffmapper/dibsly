@@ -504,7 +504,7 @@ DEPENDENCIES
   active_model_serializers
   angular-rails-templates
   aws-sdk (< 2.0)
-  bcrypt-ruby
+  bcrypt-ruby (~> 3.1.5)
   bower-rails
   capybara (~> 2.4.4)
   capybara-angular

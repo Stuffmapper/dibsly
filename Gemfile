@@ -26,7 +26,7 @@ gem 'mailboxer', :github => 'BenRuns/mailboxer'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-gem 'bcrypt-ruby', :require=>'bcrypt'
+gem 'bcrypt-ruby', '~> 3.1.5'
 gem 'recaptcha', '~> 0.3.6'
 gem 'paperclip', '~> 4.2.1'
 gem 'aws-sdk', '< 2.0'
