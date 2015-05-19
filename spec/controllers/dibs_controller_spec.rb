@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DibsController, type: :controller do
-	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
+	vcr_options = { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }
 
 	describe "dib post", :vcr => vcr_options do
 		 
@@ -90,10 +90,15 @@ RSpec.describe DibsController, type: :controller do
 				sign_in(@user2)
 				xhr :patch, :undib, :id => @post.id 
 		     	expect(response.status).to eq(200)
+
+		     	@post2 = create(:post, creator_id: @user.id, longitude: 0, latitude:0  )
+		     	@post2.create_new_dib @user2
+
 		     	@post.reload
 		     	@user2.reload
-		     	conversation =  @user2.dibs[0].conversation.receipts_for @user2
-		     	expect(conversation[0].message.body).to eq('#{@user2.username} has undibbed your stuff')
+
+		     	conversation =  @post.dibs[0].conversation.receipts_for @user2
+		     	expect(conversation[0].message.body).to eq ( @user2.username + ' has undibbed your stuff')
 
 			end
 

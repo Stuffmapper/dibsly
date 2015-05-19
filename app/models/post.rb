@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
-  has_many :dibs, :class_name => Dib, :foreign_key => :post_id
+  has_many :dibs, :class_name => Dib
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
@@ -77,7 +77,7 @@ class Post < ActiveRecord::Base
       self.dibber_id = nil
       self.dibbed_until = Time.now - 1.minute
       self.save
-      send_message_to_creator( dibber, "#{dibber.username} has undibbed your stuff", "Stuff message" )
+      self.dibs[0].notify_undib
   end
 
   def available_to_dib? 

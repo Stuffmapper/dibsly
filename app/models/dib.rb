@@ -55,6 +55,13 @@ class Dib < ActiveRecord::Base
     user.reply_to_conversation(self.conversation, body)
   end
 
+  def notify_undib
+    dibber = self.user
+    body =  "#{dibber.username} has undibbed your stuff"
+    self.reply_to_conversation(self.conversation, body)
+  end
+
+
 
   def cannot_dib_own_post
     if self.creator_id == self.post.creator_id
