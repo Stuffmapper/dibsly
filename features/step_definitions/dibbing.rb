@@ -149,16 +149,23 @@ Then(/^if I follow the link in the email$/) do
 end
 
 Then(/^I should be in the in\-app chat$/) do
-  sleep(3)
-  expect(page.body).to have_text('Dibber Chat')
+  find('.get-messages').click
+
+
+  sleep(5)
+
+
+  expect(page.body).to have_text('stuffmapper.com says')
 end
 
 #priority status
 
 When(/^I respond, the post should not be available thirty minutes from now$/) do 
-  click_button "Show Messages"
+  find('.get-messages').click
+  find('.accordion-toggle').click
+  sleep 2
   fill_in 'message_response', with: "Hey, when can I get that item?"
-  click_button 'Send'
+  click_button 'send'
   sleep 1
   Timecop.travel(1805)
   @shoes.reload

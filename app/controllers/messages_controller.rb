@@ -10,8 +10,11 @@ class MessagesController < ApplicationController
     #TODO paginate this
     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
     get_messages_from_conversation(conversation)
+    @messages.each  do |receipt| 
+      receipt.mark_as_read  
+    end
 
-    render json: @messages, each_serializer: MessageSerializer, status: :ok
+    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
   end
 
   def dib_or_post_chat
@@ -30,7 +33,7 @@ class MessagesController < ApplicationController
         current_user.reply_to_conversation(conversation, message_params[:body])
      end
      get_messages_from_conversation(conversation)
-     render json: @messages, status: :ok    
+     render json: @messages, each_serializer: ReceiptSerializer, status: :ok    
   end
 
   # POST /messages
@@ -46,7 +49,7 @@ class MessagesController < ApplicationController
 
       get_messages_from_conversation(conversation)
 
-      render json: @messages.sort , status: :ok
+      render json: @messages, each_serializer: ReceiptSerializer, status: :ok
     else
       render json: '[]',  status: :unprocessable_entity
     end
@@ -68,8 +71,6 @@ class MessagesController < ApplicationController
     end
 
     def get_messages_from_conversation conversation
-      receipts = conversation.receipts_for current_user
-
-      @messages = receipts.sort.collect{ |receipt| receipt.message }
+      @messages = (conversation.receipts_for current_user).sort
     end
 end

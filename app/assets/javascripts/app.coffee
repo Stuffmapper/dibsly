@@ -8,8 +8,8 @@ stfmpr = angular.module('stfmpr',[
         'ngMap',
         'ui.bootstrap',
         'angular-flash.service',
-        'angular-flash.flash-alert-directive'
-        
+        'angular-flash.flash-alert-directive',
+        'yaru22.angular-timeago' 
 		
 ])
 

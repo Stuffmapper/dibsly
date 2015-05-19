@@ -19,6 +19,7 @@
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/dist/lodash.min.js
+//= require angular-timeago/src/timeAgo.js
 //= require ngmap/build/scripts/ng-map.min.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require_tree .

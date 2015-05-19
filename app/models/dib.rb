@@ -33,6 +33,10 @@ class Dib < ActiveRecord::Base
   before_validation(on: :create) do
     available_to_dib?
   end
+
+  def details
+    self.post.details
+  end
  
 
   def mailboxer_email(object)
