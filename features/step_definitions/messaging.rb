@@ -18,13 +18,14 @@ end
 
 Then(/^"(.*?)" should be visible in the inbox$/) do |arg1|
   click_button "inbox"
-  click_button "Show Messages"
+  find('.get-messages').click
+  sleep 2
   expect(page).to have_text(arg1)
 end
 
 Then(/^"(.*?)" should be able to respond "(.*?)" and log out$/) do |user, message |
   fill_in 'message_response', with: message
-  click_button 'Send'
+  click_button 'send'
   sleep(1)
   within('.converation-messages') do 
     expect(page).to have_text(message)
