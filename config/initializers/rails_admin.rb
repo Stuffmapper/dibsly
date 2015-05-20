@@ -16,11 +16,9 @@ RailsAdmin.config do |config|
 
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
-  config.authorize_with do
-    authenticate_or_request_with_http_basic('Login required') do |username, password|
-      username ==  Rails.application.secrets.user &&
-      password == Rails.application.secrets.password
-    end
+  config.authorize_with do |controller|
+    redirect_to '/user/signin' unless current_user
+    redirect_to main_app.root_path unless current_user.try(:admin?)
   end
 
   config.actions do
