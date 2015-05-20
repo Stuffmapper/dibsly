@@ -24,6 +24,14 @@ RSpec.describe UsersController, :type => :controller do
       end
 
     end
+     context "With a blank password" do
+      let (:user_var) { {first_name: 'John', last_name: 'Smith',  email: 'fake@name.com', password: '      ', password_confirmation: '      ', username: 'Superbad'} }
+
+      it 'should 422' do
+        expect(response.status).to eq(422)
+      end
+
+    end
 
     context "When the data is incomplete" do
       let (:user_var) { {first_name: '', last_name: 'Smith', email: 'fake@name.com', password: '123456', password_confirmation: '123456', username: 'Superbad'} }
