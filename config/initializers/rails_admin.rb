@@ -17,8 +17,13 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   config.authorize_with do |controller|
-    redirect_to '/user/signin' unless current_user
-    redirect_to main_app.root_path unless current_user.try(:admin?)
+    
+    if current_user
+      redirect_to main_app.root_path unless current_user.try(:admin?)
+    else
+      redirect_to '/user/signin'
+    end
+
   end
 
   config.actions do
