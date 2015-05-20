@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   has_many :messages, :class_name => Message, :foreign_key => :sender_id
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
   
-  # attr_accessor allows you to use the password attribute locally, but will not persist it to the database
   before_save :downcase_email
   before_save :confirm_email
 
