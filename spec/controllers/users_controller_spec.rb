@@ -16,6 +16,14 @@ RSpec.describe UsersController, :type => :controller do
       end
 
     end
+   context "With a too short password" do
+      let (:user_var) { {first_name: 'John', last_name: 'Smith',  email: 'fake@name.com', password: '12', password_confirmation: '12', username: 'Superbad'} }
+
+      it 'should 422' do
+        expect(response.status).to eq(422)
+      end
+
+    end
 
     context "When the data is incomplete" do
       let (:user_var) { {first_name: '', last_name: 'Smith', email: 'fake@name.com', password: '123456', password_confirmation: '123456', username: 'Superbad'} }
@@ -25,7 +33,7 @@ RSpec.describe UsersController, :type => :controller do
       end
 
     end
-    context "When the a user with the same email has been created" do
+    context "When a user with the same email has already been created" do
       let (:user_var) { {first_name: 'John', last_name: 'Smith', email: 'fake@name.com', password: '123456', password_confirmation: '123456', username: 'Superbad'} }
 
       it 'should ' do
