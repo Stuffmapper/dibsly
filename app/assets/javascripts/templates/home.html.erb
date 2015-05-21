@@ -24,28 +24,22 @@
   
             </div>
 
-            <div ng-repeat="item in markers" class="col-lg-6 col-md-6 col-xs-6 clearfix">
-              <div class="stuff-view" title={{item.description}} ng-attr-id={{item.id + '-stuff'}}>
+            <div ng-repeat="item in markers" >
+              <div class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
                 <div class= "stuff-image-container clearfix">
-
-                <div class="stuff-description">
-                     
-                  <p>{{item.description}}</p>
-                </div>
-                  
+                  <div class="stuff-description">     
+                     <p>{{item.description}}</p>
+                  </div>
                   <img class="stuff-image img-responsive" ng-src={{item.image_url}} ></img>
-
                 </div>
-
                 <div class="col-md-12">
                   <dib post="item.id"></dib>  
-                  <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>details</button>
-
-                   <details post="post.id" stuff="post" markers="markers" viewing=viewing ng-show=viewing  ></details>  
-                </div>
-              </div>
-                     
+                  <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>details</button>   
+                </div> 
+              </div>   
+                <details post="item.id" stuff="item" markers="markers" viewing=viewing ng-show=viewing  ></details>   
             </div>
+
          </div>
       </tab>
 
@@ -111,10 +105,6 @@
             <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined" >
               <div class="stuff-view col-lg-6 col-md-6 col-xs-6"  title={{stuff.description}}  ng-hide=editing  >
                   <div class= "stuff-image-container" >
-                    <div class="stuff-description" >
-                      <a href="post/{{post.id}}" class='btn-default btn-xs align-right'>Details</a>
-                      <p>{{post.description}}</p>
-                    </div>
 
                     <img class="stuff-image img-responsive" ng-src={{post.image_url}} ></img>
                   </div>
