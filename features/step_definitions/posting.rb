@@ -33,6 +33,8 @@ end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
   click_link "My Stuff" 
+  sleep(2)
+  first(:button, 'Details').click 
   expect(page).to have_text(arg1)
 end
 #
@@ -88,9 +90,9 @@ end
 
 When(/^I try to dib an item$/) do
   visit('/post/' + @post.id.to_s )
-  within('#show-post') do 
-    click_button('Dib')
-  end
+  
+  click_button('Dib')
+
 end
 
 Then(/^I should see a message asking me to sign in$/) do
@@ -128,7 +130,7 @@ end
 
 When(/^click on an item on in stuff$/) do
   click_link 'Get Stuff'  
-  first(:link, 'Details').click 
+  first(:button, 'Details').click 
  #express the regexp above with the code you wish you had
 end
 
@@ -222,6 +224,7 @@ Then(/^the post should set the post's status to out of my hands$/) do
 
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
   click_button "Give this stuff!"
+  sleep(4)
 
 end
 
@@ -233,11 +236,12 @@ Then(/^I should be able to change the out of my hands status after it's posted$/
         latitude: "47.6097",
         longitude: '-122.3331',
         on_the_curb: true) 
-      @post.save!
+      @post.save
    end
+   @post.reload
    expect(@post.on_the_curb).to eq true
     visit('/post/' + @post.id.to_s )
-    click_button 'Edit'
+    first(:button, 'Edit').click 
     uncheck 'on_the_curb'
     click_button "Update"
     sleep(1)

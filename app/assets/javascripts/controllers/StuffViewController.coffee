@@ -18,7 +18,7 @@ controllers.controller('StuffViewCtrl', [ '$scope', '$http','$routeParams','$res
         url: '/posts/' + $routeParams.postId
       ).success((data)->
         console.log(data.post)
-        $scope.post =  data.post  )
+        $scope.stuff =  data.post  )
 
 ])
       

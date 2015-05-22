@@ -1,18 +1,17 @@
 
-<div class="row col-md-12 edit-stuff">
+<div class="row col-md-12">
  <hr>
-  <h3>Details</h3>
    <a href='#' ng-click='close()'>Back to results</a>
-  <form id="give-stuff-form">
-     <div class="row col-md-12">
+
+     <div class="row col-md-12  individual-post">
       <img class="img-responsive" src={{stuff.image_url}} ></img>
 
      </div>
      <br>
 
 
-      <div class="row col-md-12">
-        <ul>
+      <div class="row col-md-12" >
+        <ul id='show-post'>
           <li><b>Poster: </b>
             <span>{{stuff.creator}}</span>
           </li>
@@ -31,6 +30,11 @@
 
 
         </ul>
+                   
+                   <dib post="stuff.id" ng-show="stuff.dibbable"></dib>  
+                   <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
+           
+               <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit> 
          <hr>
       </div>
 

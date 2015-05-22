@@ -358,14 +358,11 @@ form {
 
 /*** POST ***/
 #show-post{
-	position:relative;
-	z-index:6;
-	background:white;
-	margin: 20px;
-	width:500px;
-	height:600px;
+	list-style:none;
 }
-
+.individual-post{
+	padding:5px;
+}
 
 /*** inbox ***/
 .inbox-modal{

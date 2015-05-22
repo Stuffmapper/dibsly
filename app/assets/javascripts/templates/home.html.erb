@@ -27,14 +27,11 @@
             <div ng-repeat="item in markers" >
               <div class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
                 <div class= "stuff-image-container clearfix">
-                  <div class="stuff-description">     
-                     <p>{{item.description}}</p>
-                  </div>
                   <img class="stuff-image img-responsive" ng-src={{item.image_url}} ></img>
                 </div>
                 <div class="col-md-12">
                   <dib post="item.id"></dib>  
-                  <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>details</button>   
+                  <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button>   
                 </div> 
               </div>   
                 <details post="item.id" stuff="item" markers="markers" viewing=viewing ng-show=viewing  ></details>   
@@ -114,7 +111,9 @@
                 
                    <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
                    <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
+                   <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button> 
               </div>
+               <details post="post.id" stuff="post" markers="markers" viewing=viewing ng-show=viewing  ></details>  
                <edit post="post.id" stuff="post" markers="markers" editing=editing ng-show=editing  ></edit> 
              
 

@@ -23,6 +23,8 @@ end
 
 Then(/^I should see the shoes in the menu$/)  do
   click_link 'Get Stuff'
+  click_button 'Details'
+  sleep(1)
   within('#stuffmapper-menu') do 
     expect(page).to have_text("shoes") 
   end
@@ -110,6 +112,7 @@ end
 Then(/^I should see the shoes in the get stuff  menu$/) do
   click_link('Get Stuff')
   within('#get-stuff') do 
+    click_button "Details"
     expect(page).to have_text("shoes") 
   end  
 

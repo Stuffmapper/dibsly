@@ -31,9 +31,9 @@ class Post < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
 
   after_create do 
+    create_conversation
     update_image
     self.update_attribute(:dibbed_until, Time.now - 1.minute)
-    create_conversation
   end
 
   def details
