@@ -354,6 +354,17 @@ form {
 
 
 /*** POST ***/
+.post-details{
+	position: absolute;
+	z-index: 700;
+	background: $white;
+	form{
+		height: 400px;
+		overflow-y: scroll;
+		}
+	}
+
+
 #show-post{
 	list-style:none;
 }
