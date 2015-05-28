@@ -138,7 +138,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
           $scope.postMarker.setMap(null)
       updateMarker = (center)->
         resetMarker()
-        $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('icon.png')%>')
+        $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('red-pin.png')%>')
         updatePost = ->
           $scope.post.latitude = $scope.postMarker.getPosition().lat()
           $scope.post.longitude = $scope.postMarker.getPosition().lng()
