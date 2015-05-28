@@ -137,7 +137,7 @@
 
 <map id="google-map-container" center={{mapCenter}} zoom="12" > 
   <div class='g-marker' ng-repeat="post in markers">
-    <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"  title: "{{post.description}}" icon=<%= asset_path('green-icon-small.png')%> id="marker-{{post.id}}" on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
+    <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"  title: "{{post.description}}" icon=<%= asset_path('blue-circle.png')%> id="marker-{{post.id}}" on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
     <info-window id='info-{{post.id}}' visible-on-marker="marker-{{post.id}}">
       <div ng-non-bindable="">
         <div id="siteNotice"></div>

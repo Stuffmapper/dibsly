@@ -358,6 +358,9 @@ form {
 	position: absolute;
 	z-index: 700;
 	background: $white;
+	height: 100%;
+	margin-left: -17px;
+	padding-left: 30px;
 	form{
 		height: 400px;
 		overflow-y: scroll;
