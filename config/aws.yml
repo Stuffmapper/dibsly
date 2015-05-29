@@ -1,13 +1,13 @@
 development:
-  access_key_id: AKIAJGMZDKJSR7OJR7ZQ
-  secret_access_key: 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
-  bucket: stuffmapper-dev2
+  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
+  secret_access_key: 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
+  bucket: new-stuffmapper-dev2
 test:
-  access_key_id: AKIAJGMZDKJSR7OJR7ZQ
-  secret_access_key: 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
-  bucket: stuffmapper-test
+  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
+  secret_access_key: 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
+  bucket: new-stuffmapper-test
 
 production:
-  access_key_id: AKIAJGMZDKJSR7OJR7ZQ
-  secret_access_key: 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
-  bucket: stuffmapper
+  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
+  secret_access_key: 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
+  bucket: new-stuffmapper

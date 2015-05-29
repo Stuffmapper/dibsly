@@ -71,7 +71,7 @@ RSpec.describe PostsController, :type => :controller do
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
 			   expect(parsed_response['posts'][0]['id'] ).to eq @post.id
-			   expect(parsed_response['posts'][0]['image_url'] ).to match(/http:\/\/s3-us-west-2.amazonaws.com\/stuffmapper-test\/posts\/image/)
+			   expect(parsed_response['posts'][0]['image_url'] ).to match(/http:\/\/s3-us-west-2.amazonaws.com\/new-stuffmapper-test\/posts\/image/)
 			   expect(response.status).to eq(200)
 			end
 
