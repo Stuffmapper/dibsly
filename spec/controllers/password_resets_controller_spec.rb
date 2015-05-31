@@ -4,6 +4,7 @@ RSpec.describe PasswordResetsController, type: :controller do
 
 
 	describe "POST create" do 
+
 		context "with a valid user and email" do 
 			let(:user) { create(:user)}
 
@@ -30,6 +31,14 @@ RSpec.describe PasswordResetsController, type: :controller do
 		context "with no user found" do 
 			it "renders the new page " do 
 				xhr :post, :create, email: 'junk'
+				expect(JSON.parse(response.body)["message"]).to match(/User not found/)
+			end
+
+		end
+
+		context "without an email entered" do 
+			it "renders the new page " do 
+				xhr :post, :create
 				expect(JSON.parse(response.body)["message"]).to match(/User not found/)
 			end
 

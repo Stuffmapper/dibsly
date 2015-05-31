@@ -1,6 +1,6 @@
 class PasswordResetsController < ApplicationController
 	def create
-		user = User.find_by(email: params[:email].downcase )
+		user = !params[:email].nil? ? User.find_by(email: params[:email].downcase ) : nil
 		
 		if user 
 			user.generate_password_reset_token!
