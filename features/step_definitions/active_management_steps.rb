@@ -13,6 +13,8 @@ Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Ji
 end
 
 When(/^I manage dibs for shoes in My Stuff$/) do
+  visit '/'
+  sign_in @current_user
   click_link('My Stuff')
   expect(page).to have_text 'My Posts'
 end

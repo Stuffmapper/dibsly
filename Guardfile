@@ -23,7 +23,7 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard "cucumber" do
+guard 'cucumber', :command_prefix => 'zeus', :bundler => false do
   watch(%r{^features/.+\.feature$})
   watch(%r{^features/support/.+$})          { "features" }
 
@@ -32,13 +32,6 @@ guard "cucumber" do
   end
 end
 
-guard :teaspoon do
-  # Implementation files
-  watch(%r{^app/assets/javascripts/(.+).js}) { |m| "#{m[1]}_spec" }
-
-  # Specs / Helpers
-  watch(%r{^spec/javascripts/(.*)})
-end
 
 # Note: The cmd option is now required due to the increasing number of ways
 #       rspec may be run, below are examples of the most common uses.
@@ -49,7 +42,8 @@ end
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rspec, cmd: "bundle exec rspec" do
+
+guard :rspec, zeus: true, bundler: false do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 

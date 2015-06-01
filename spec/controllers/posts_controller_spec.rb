@@ -278,7 +278,7 @@ RSpec.describe PostsController, :type => :controller do
 				sign_in(@user2)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
-				expect(parsed_response['posts'][0]['id'] ).to eq @post.id 
+				expect(parsed_response['dibs'][0]['id'] ).to eq @post.id 
 
 			end
 		end

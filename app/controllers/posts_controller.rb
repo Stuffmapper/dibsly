@@ -99,6 +99,9 @@ class PostsController < ApplicationController
                    OR dibber_id = ?", 
                  current_user.id.to_s,
                  current_user.id.to_s )
+      @dibs = current_user.dibs
+   
+
       #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
       render json:  @posts, status: :ok
     else

@@ -43,7 +43,11 @@
 
 
          <tab heading="Give Stuff" active='true' ng-click="startMapper()">
-              <div ng-hide="loading">
+              <div ng-hide='currentUser' >
+                Please login to give stuff
+              </div>
+
+              <div ng-hide="loading || !currentUser" >
                 <p ng-hide='files[0]'> Take a picture of the stuff that you want to give </p>
                 <p ng-show='files[0]'> Now enter some details, check the location on the map and press the "Give this Stuff!" button </p>
                 <form id="give-stuff-form">
@@ -103,9 +107,16 @@
 
          <tab heading="My Stuff"  ng-click="getMyStuff()" >
             <div id="my-stuff" >
+              <div ng-hide='currentUser' >
+                Please login to view your stuff
+              </div>
+
+              <hr>
+              <h4> My Posts </h4>
         
-              <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined" >
+              <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser" >
                 <div class="stuff-view col-lg-6 col-md-6 col-xs-6"  title={{stuff.description}}  ng-hide=editing  >
+
                     <div class= "stuff-image-container" >
 
                       <img class="stuff-image img-responsive" ng-src={{post.image_url}} ></img>
@@ -123,6 +134,9 @@
                
 
               </div>
+              
+              <hr>
+              <h4> My Dibs </h4>
            </div>
          </tab>
 
