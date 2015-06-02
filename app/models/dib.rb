@@ -43,6 +43,10 @@ class Dib < ActiveRecord::Base
     "dibber_chat@stuffmapper.com"
   end
 
+  def conversation_url
+    Rails.application.routes.default_url_options[:host] + '/user/chat/' + self.conversation.id.to_s
+  end
+
   def initiate_conversation
     send_message_to_dibber 
     notify_poster 

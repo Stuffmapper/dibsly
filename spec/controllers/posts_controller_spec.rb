@@ -278,7 +278,9 @@ RSpec.describe PostsController, :type => :controller do
 				sign_in(@user)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
-				expect(parsed_response['posts'][0]['dibs'] ).to eq @post.dibs.last
+				first_dib = parsed_response['posts'][0]['dibs'][0]
+				expect( first_dib['dibber'] ).to eq @user2.username
+				expect( first_dib['conversation_url'] ).to match /^http:\/\/localhost:7654\/user\/chat\/.+$/
 
 			end
 		end
