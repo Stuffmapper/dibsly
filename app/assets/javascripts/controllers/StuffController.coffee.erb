@@ -9,12 +9,20 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
-    $scope.editing = false
+    $scope.viewing = false
+    $scope.currentPost = { editing: false, viewing: false} 
     $scope.mapCenter = '47.6097,-122.3331'
 
     $scope.markers = {}
     $scope.curb_only = false
     $scope.backup = {}
+    $scope.edit = (post)->
+      $scope.currentPost = post
+      $scope.currentPost.editing =true
+
+    $scope.viewDetails = (post)->
+      $scope.currentPost = post
+      $scope.currentPost.viewing = true
 
    
 

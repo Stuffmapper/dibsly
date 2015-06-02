@@ -110,31 +110,43 @@
               <div ng-hide='currentUser' >
                 Please login to view your stuff
               </div>
+                <details post="currentPost.id" stuff="currentPost" markers="markers" viewing="currentPost.viewing" ng-show="currentPost.viewing"  ></details>  
+
+                <edit post="currentPost.id" stuff="currentPost" markers="markers" editing='currentPost.editing' ng-show='currentPost.editing'  ></edit> 
 
               <hr>
               <h4> My Posts </h4>
-        
+
               <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser" >
-                <div class="stuff-view col-lg-6 col-md-6 col-xs-6"  title={{stuff.description}}  ng-hide=editing  >
+               <div class ='col-lg-12 col-md-12 col-xs-12'>
+                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"  title={{stuff.description}}  ng-hide=editing  >
 
-                    <div class= "stuff-image-container" >
+                      <div class= "stuff-image-container" >
 
-                      <img class="stuff-image img-responsive" ng-src={{post.image_url}} ></img>
-                    </div>
+                        <img class="stuff-image img-responsive" ng-src={{post.image_url}} ></img>
+                      </div>
 
-                 
+                  </div>
 
-                  
-                     <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
-                     <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == post.creator">Edit</button>
-                     <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button> 
-                </div>
-                 <details post="post.id" stuff="post" markers="markers" viewing=viewing ng-show=viewing  ></details>  
-                 <edit post="post.id" stuff="post" markers="markers" editing=editing ng-show=editing  ></edit> 
+                  <div class='col-lg-9 col-md-9 col-xs-9'>
+                       <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
+                       <button class= "btn-xs btn-default" ng-click='edit(post)' ng-show="currentUser == post.creator">Edit</button>
+
+                       <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
+                    <ul>
+                      <li>status = radio buttons mark as gone</li>
+                      <li>dibber =</li>
+                    </ul> 
+
+                  </div>
+                  <hr>
+
+                
+               </div >
                
 
               </div>
-              
+
               <hr>
               <h4> My Dibs </h4>
            </div>

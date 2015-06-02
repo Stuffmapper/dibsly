@@ -361,12 +361,16 @@ form {
 .post-details{
 	position: absolute;
 	z-index: 700;
+	top: 42px;
+	bottom:0;
+	width: 100%;
 	background: $white;
 	height: 100%;
+	overflow-y: scroll;
 	margin-left: -17px;
 	padding-left: 30px;
 	form{
-		height: 400px;
+		min-height: 400px;
 		overflow-y: scroll;
 		}
 	}
