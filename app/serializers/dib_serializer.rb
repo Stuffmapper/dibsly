@@ -1,9 +1,15 @@
 class DibSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :status, :dibber, :current_dibber
 
-  # def dibbable
-  # 	object.available_to_dib?
-  # end
+  def dibber
+    object.user.username
+  end
+
+
+  def current_dibber
+    object.post.dibber_id  == object.user.id
+  end
+
 
 
   # def creator

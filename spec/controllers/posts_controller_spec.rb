@@ -271,14 +271,14 @@ RSpec.describe PostsController, :type => :controller do
 
 			end
 
-			it 'should return stuff I dibbed' do 
+			it 'should return info about dibs' do 
 				@user2 = create(:user)
 				@post.create_new_dib @user2
 
-				sign_in(@user2)
+				sign_in(@user)
 				xhr :get, :my_stuff 
 				parsed_response = JSON.parse(response.body.as_json)
-				expect(parsed_response['dibs'][0]['id'] ).to eq @post.id 
+				expect(parsed_response['posts'][0]['dibs'] ).to eq @post.dibs.last
 
 			end
 		end

@@ -103,7 +103,7 @@ class PostsController < ApplicationController
    
 
       #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
-      render json:  @posts, status: :ok
+      render json:  @posts, each_serializer: MyPostSerializer, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
