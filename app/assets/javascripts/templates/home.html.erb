@@ -135,7 +135,20 @@
                        <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
                     <ul>
                       <li>status = radio buttons mark as gone</li>
-                      <li>dibber =</li>
+                      <li>
+                        <ul>
+                          <h5>Dibs</h5>
+                          <li ng-repeat="dib in post.dibs "  >
+
+                            <p>Dibber: {{dib.dibber}}</p>
+                            <a ng-href={{dib.conversation_url}}> Dib Conversation </a>
+                            <a ng-href={{dib.conversation_url}}> Remove Dib </a>
+                            <p> select why </p>
+                          </li>
+
+                        </ul>
+
+                      </li>
                     </ul> 
 
                   </div>

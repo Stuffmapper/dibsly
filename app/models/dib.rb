@@ -44,7 +44,7 @@ class Dib < ActiveRecord::Base
   end
 
   def conversation_url
-    Rails.application.routes.default_url_options[:host] + '/user/chat/' + self.conversation.id.to_s
+    Rails.application.routes.default_url_options[:host] + 'user/chat/' + self.conversation.id.to_s
   end
 
   def initiate_conversation
