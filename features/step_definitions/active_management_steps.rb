@@ -20,7 +20,7 @@ When(/^I manage dibs for shoes in My Stuff$/) do
 end
 
 Then(/^I should see "(.*?)" as the current dibber$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  expect(page).to have_text("Dibbed by: " + arg1)
 end
 
 When(/^I remove current dibber and select "(.*?)"$/) do |arg1|

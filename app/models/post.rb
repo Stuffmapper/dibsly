@@ -51,6 +51,7 @@ class Post < ActiveRecord::Base
                             :dibbed_until => dib.valid_until )
   end
 
+
   def create_conversation
      self.conversation  = Mailboxer::ConversationBuilder.new({
           :subject    => "Your Latest Dib!",
