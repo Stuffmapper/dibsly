@@ -1,11 +1,8 @@
 class PostSerializer < ActiveModel::Serializer
   attributes :id, :latitude, :longitude,
   :coords, :image_url,:description, :dibbable, 
-   :creator, :on_the_curb, :category, :published, :current_dibber
-  def current_dibber
-    object.dibber_id ? User.find(object.dibber_id) : ''
-  end
-
+   :creator, :on_the_curb, :category, :published
+   
   def creator
     object.user.username
   end

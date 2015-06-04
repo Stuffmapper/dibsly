@@ -3,8 +3,13 @@ class MyPostSerializer < ActiveModel::Serializer
   #used for current user posts
   attributes :id, :latitude, :longitude,
   :coords, :image_url,:description, :dibbable, 
-   :creator, :on_the_curb, :category, :published
+   :creator, :on_the_curb, :category, :published, :current_dibber
   has_many :dibs
+
+  def current_dibber
+    object.dibber_id ? User.find(object.dibber_id).username : ''
+  end
+
 
   def coords
     {'latitude'=> self.latitude, 'longitude'=> self.longitude }
