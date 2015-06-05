@@ -171,7 +171,11 @@ The local code for the angular features can be found in `app/assets/javascripts`
  
  As of writing this readme, the tests for the javascript/angular code is not running. It is important that they get running at some point and I encourage anyone to write more tests and get them running. 
  
- 
+ #notes on dib
+  remove a current dib
+  add a status field to dib to report information
+  reset dib status
+
  
 
 

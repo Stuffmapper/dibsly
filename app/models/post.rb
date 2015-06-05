@@ -74,7 +74,6 @@ class Post < ActiveRecord::Base
 
   def remove_current_dib
       self.status = 'new'
-      dibber = User.find(self.dibber_id)
       self.dibber_id = nil
       self.dibbed_until = Time.now - 1.minute
       self.save

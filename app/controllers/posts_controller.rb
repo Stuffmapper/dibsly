@@ -114,6 +114,9 @@ class PostsController < ApplicationController
    render json: @post
 
   end
+  def remove_dib
+    
+  end
 
 
   private

@@ -134,7 +134,22 @@
 
                        <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
                     <ul>
-                      <li>status = radio buttons mark as gone</li>
+                      <li ng-show='post.current_dibber'>
+                        <p>Dibbed by: {{ post.current_dibber}}<p>
+                    
+                        
+                          <label for='undibReason'> Remove Current Dib </label>
+                           <select class="form-control" id="undibReason" placeholder="Select Reason" ng-model="undibReason" >
+                            <option>missed pickup</option>
+                            <option>dibber no longer wants item</option>
+                            <option>dibber has flaked on previous pickup</option>
+                             <option>other</option>
+                          </select>
+                          <button class= "btn-xs btn-default">Remove</button>          
+                      </li>
+
+
+                      </li>
                       <li>
                         <ul>
                           <h5>Dibs</h5>

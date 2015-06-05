@@ -5,7 +5,7 @@ Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Ji
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
     @user_jill = create(:user, :username => "Jill") 
-    @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes' ) 
+    @shoes = build(:post, creator_id: @current_user.id, latitude: "47", longitude: '-122', description: 'shoes' ) 
     @shoes.save!
   end
   @shoes.create_new_dib( @user_jack) 

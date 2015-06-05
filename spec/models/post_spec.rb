@@ -20,6 +20,7 @@ RSpec.describe Post, :type => :model do
     end
    it 'should be dibbable' do
     @post.create_new_dib(@user2)
+    expect(@post.dibber_id).to eq @user2.id
 
     end
     it 'should create a conversation' do
