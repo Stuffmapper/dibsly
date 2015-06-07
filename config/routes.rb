@@ -37,8 +37,9 @@ Dibsly::Application.routes.draw do
     resources :dibs, only: [:create ] 
   end
   post 'posts/:id/undib' => 'dibs#undib'
-  post 'posts/:id/removedib' => 'posts#remove_dib'
   post 'posts/:id/update' => 'posts#update'
+
+  post 'dibs/:id/removedib' => 'dibs#remove_dib'
 
 
   resources :password_resets,  only: [:new, :create, :edit, :update]

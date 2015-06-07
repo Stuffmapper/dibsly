@@ -2,6 +2,7 @@ class Dib < ActiveRecord::Base
   acts_as_messageable
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   belongs_to :post, :class_name => Post, :foreign_key => :post_id
+  has_one :report 
   
   #for the inital conversation
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable

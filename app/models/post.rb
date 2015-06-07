@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib
+  has_many :reports, through: :dibs
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,

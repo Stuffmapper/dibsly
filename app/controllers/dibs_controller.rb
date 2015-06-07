@@ -30,6 +30,18 @@ def undib
   end
   
 end
+  #part
+def remove_dib
+  if (current_user)
+    #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
+      render json: {message: 'ok'} , status: :ok
+  else
+      render json: {message: 'User not logged in' }, status: :unauthorized
+  end
+    
+end
+
+
 
   private
 end

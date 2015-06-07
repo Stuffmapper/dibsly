@@ -214,55 +214,7 @@ RSpec.describe PostsController, :type => :controller do
 
 		end
 	end
-	describe "Post removedib", :vcr => vcr_options do
-		before do
-			@user = create(:user)
-			@user2 = create(:user)
-			@post = create(:post, 
-				creator_id: @user.id,
-				longitude: '-122',
-				latitude: '-49' )
-			@post.create_new_dib @user2
 
-		end
-
-		context "without login " do 
-
-			it 'should 401' do 
-				xhr :post, :remove_dib, :id => @post.id 
-		     	expect(response.status).to eq(401) 
-			end
-		end
-
-		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do 
-			before do
-			shoes = File.read("spec/factories/shoes.png")
-			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
-			end
-
-			
-			it 'should 200 with complete data' do 
-				sign_in(@user)
-				xhr :post, :update,{id: @post.id , title:'', image: @file, latitude:'47',longitude:'-122' } 
-				expect(response.status).to eq(200) 
-			end
-
-			it 'should update a description' do 
-				sign_in(@user)
-				xhr :post, :update, { id: @post.id ,title:'', image: @file, latitude:'47',longitude:'-122', description: 'Update this' } 
-				expect(Post.find(@post.id).description).to eq('Update this') 
-			end
-
-			it 'should publish or depublish' do 
-				expect(@post.published).to eq(true) 
-				sign_in(@user)
-				xhr :post, :update, { id: @post.id , published: false } 
-				expect(Post.find(@post.id).published).to eq(false) 
-			end
-
-
-		end
-	end
 	describe "Get mystuff", :vcr => vcr_options do
 		 
 

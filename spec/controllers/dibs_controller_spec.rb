@@ -104,5 +104,27 @@ RSpec.describe DibsController, type: :controller do
 
 		end
 	end
+	describe "Post removedib", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+			@user2 = create(:user)
+			@post = create(:post, 
+				creator_id: @user.id,
+				longitude: '-122',
+				latitude: '-49' )
+			@dib = @post.create_new_dib @user2
+
+		end
+
+		context "without login " do 
+
+			it 'should 401' do 
+				xhr :post, :remove_dib, :id => @dib.id 
+		     	expect(response.status).to eq(401) 
+			end
+		end
+
+
+	end
 
 end

@@ -15,4 +15,6 @@ FactoryGirl.define do
     verified_email 'true'
     ip ""
   end
+    
+
 end
