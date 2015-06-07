@@ -1,8 +1,10 @@
 class Report < ActiveRecord::Base
 	belongs_to :dib
-	    	#has a rating
-    	#0 - 10     01234    5    78910
-    	#       negative  neutral positive
-    	#description
+    def sentiment
+    	things = { 0..4 => "negative",
+        5 => "neutral",
+       6..10 => "positive"}.select{ |key| key === self.rating }.values.first
+    end
+
 
 end

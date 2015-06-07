@@ -11,9 +11,9 @@ RSpec.describe DibsController, type: :controller do
         	@post = create(:post, creator_id: @user.id, longitude: 0, latitude:0  ) 	
 		end
 		context 'without login' do
-			it 'should return 422' do 
+			it 'should return 401' do 
 				xhr :post, :create, :post_id => @post.id  
-		     	expect(response.status).to eq(422) 
+		     	expect(response.status).to eq(401) 
 			end
 		end	
 		context 'with login' do
@@ -63,9 +63,9 @@ RSpec.describe DibsController, type: :controller do
 			@post.create_new_dib @user2
 		end
 		context 'without login' do
-			it 'should return 422' do 
+			it 'should return 401' do 
 				xhr :patch, :undib, :id => @post.id  
-		     	expect(response.status).to eq(422) 
+		     	expect(response.status).to eq(401) 
 			end
 		end	
 		context 'with login' do
@@ -106,14 +106,7 @@ RSpec.describe DibsController, type: :controller do
 	end
 	describe "Post removedib", :vcr => vcr_options do
 		before do
-			@user = create(:user)
-			@user2 = create(:user)
-			@post = create(:post, 
-				creator_id: @user.id,
-				longitude: '-122',
-				latitude: '-49' )
-			@dib = @post.create_new_dib @user2
-
+			two_users_post_dib
 		end
 
 		context "without login " do 
@@ -121,6 +114,47 @@ RSpec.describe DibsController, type: :controller do
 			it 'should 401' do 
 				xhr :post, :remove_dib, :id => @dib.id 
 		     	expect(response.status).to eq(401) 
+			end
+		end
+		context "with login " do 
+			before do 
+				sign_in(@user)
+			end 
+
+			it 'should 200' do 
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'user confused about description'}
+		     	expect(response.status).to eq(200) 
+			end
+			it 'should remove a dibber from post' do 
+				expect(@post.dibber_id ).to eq(@user2.id ) 
+				sign_in(@user)
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'item picked up'}
+				@post.reload
+		     	expect(@post.dibber_id ).to eq(nil) 
+			end
+			it 'should create a report ' do 
+				expect(Report.count ).to eq 0
+				expect(@post.dibber_id ).to eq(@user2.id ) 
+				sign_in(@user)
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'other'}
+				@post.reload
+				expect(Report.count ).to eq 1 
+		     	expect(@post.dibber_id ).to eq(nil) 
+		     	expect(@dib.report.sentiment).to eq 'positive'
+			end
+			it 'should not work with a different user create a report ' do 
+				expect(Report.count ).to eq 0
+				expect(@post.dibber_id ).to eq(@user2.id ) 
+				@user3 = create(:user)
+				sign_in(@user3)
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'other'}
+				@post.reload
+				expect(Report.count ).to eq 0
+		     	expect(@post.dibber_id ).to eq(@user2.id) 
 			end
 		end
 

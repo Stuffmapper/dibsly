@@ -65,6 +65,11 @@ class Dib < ActiveRecord::Base
     body =  "#{dibber.username} has undibbed your stuff"
     self.reply_to_conversation(self.conversation, body)
   end
+  def remove_as_dibber
+    if self.post.dibber_id == self.user.id
+      self.post.update_attribute(:dibber_id, nil)
+    end
+  end
 
 
 
