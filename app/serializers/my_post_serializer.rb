@@ -7,7 +7,7 @@ class MyPostSerializer < ActiveModel::Serializer
   has_many :dibs
 
   def current_dibber
-    object.dibber_id ? User.find(object.dibber_id).username : ''
+    object.current_dibber
   end
 
 

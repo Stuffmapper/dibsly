@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605154111) do
+ActiveRecord::Schema.define(version: 20150607184517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20150605154111) do
     t.datetime "image_updated_at"
     t.string   "category"
     t.boolean  "published",          default: true
+    t.integer  "current_dib_id"
   end
 
   add_index "posts", ["latitude", "longitude", "title", "status", "dibbed_until", "created_at"], name: "posts_idx", using: :btree

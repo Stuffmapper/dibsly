@@ -95,11 +95,11 @@ class PostsController < ApplicationController
   # GET /posts/my_stuff
   def my_stuff
     if (current_user)
-      @posts = Post.where("creator_id = ? 
-                   OR dibber_id = ?", 
-                 current_user.id.to_s,
-                 current_user.id.to_s )
-      @dibs = current_user.dibs
+      @posts = Post.where(:user =>  
+                 current_user)
+      dibs = current_user.dib_posts
+      
+      @posts += dibs
    
 
       #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))

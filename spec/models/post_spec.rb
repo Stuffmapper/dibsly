@@ -20,7 +20,7 @@ RSpec.describe Post, :type => :model do
     end
    it 'should be dibbable' do
     @post.create_new_dib(@user2)
-    expect(@post.dibber_id).to eq @user2.id
+    expect(@post.current_dibber).to eq @user2
 
     end
     it 'should create a conversation' do
@@ -45,7 +45,7 @@ end
 
       @post.create_new_dib @user2
       expect(@post.available_to_dib?).to eq false
-      expect(@post.dibber_id).to eq @user2.id
+      expect(@post.current_dibber).to eq @user2
 
     end
 
@@ -54,7 +54,7 @@ end
       @post.create_new_dib @user2
       expect(@post.available_to_dib?).to eq false
       @post.remove_current_dib
-      expect(@post.dibber_id).to eq nil
+      expect(@post.current_dibber).to eq nil
       expect(@post.available_to_dib?).to eq true
   
     end

@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib
   has_many :reports, through: :dibs
+  belongs_to :current_dib, :class_name => Dib, :foreign_key => :current_dib_id
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
@@ -46,10 +47,13 @@ class Post < ActiveRecord::Base
     :description => self.description }
   end
 
+  def current_dibber
+    self.current_dib.user unless !self.current_dib 
+  end
+
 
   def set_dibbed_until dib
-    self.update_attributes( :dibber_id => dib.creator_id,
-                            :dibbed_until => dib.valid_until )
+    self.update_attributes( :dibbed_until => dib.valid_until )
   end
 
 
@@ -70,15 +74,16 @@ class Post < ActiveRecord::Base
     dib = self.dibs.build( :ip => request_ip)
     dibber.dibs << dib
     set_dibbed_until dib if dib.save 
+    self.update_attribute(:current_dib, dib)
     dib
   end
 
   def remove_current_dib
       self.status = 'new'
-      self.dibber_id = nil
       self.dibbed_until = Time.now - 1.minute
       self.save
-      self.dibs[0].notify_undib
+      self.current_dib.notify_undib
+      self.update_attribute(:current_dib, nil)
   end
 
   def available_to_dib? 

@@ -76,7 +76,7 @@ RSpec.describe DibsController, type: :controller do
 		     	expect(response.status).to eq(200) 
 			end
 			it 'should undib  200 with params' do 
-				expect(@post.dibber_id).to eq(@user2.id)
+				expect(@post.current_dibber).to eq(@user2)
 				sign_in(@user2)
 				xhr :patch, :undib, :id => @post.id 
 		     	expect(response.status).to eq(200)
@@ -127,34 +127,46 @@ RSpec.describe DibsController, type: :controller do
 		     	expect(response.status).to eq(200) 
 			end
 			it 'should remove a dibber from post' do 
-				expect(@post.dibber_id ).to eq(@user2.id ) 
+				expect(@post.current_dibber ).to eq(@user2 ) 
 				sign_in(@user)
 				xhr :post, :remove_dib, :id => @dib.id, :report => 
 				{ :rating => '6', :description => 'item picked up'}
 				@post.reload
-		     	expect(@post.dibber_id ).to eq(nil) 
+		     	expect(@post.current_dibber ).to eq(nil) 
 			end
 			it 'should create a report ' do 
 				expect(Report.count ).to eq 0
-				expect(@post.dibber_id ).to eq(@user2.id ) 
+				expect(@post.current_dibber ).to eq(@user2) 
 				sign_in(@user)
 				xhr :post, :remove_dib, :id => @dib.id, :report => 
 				{ :rating => '6', :description => 'other'}
 				@post.reload
 				expect(Report.count ).to eq 1 
-		     	expect(@post.dibber_id ).to eq(nil) 
+				@post.reload
+		     	expect(@post.current_dibber ).to eq(nil) 
 		     	expect(@dib.report.sentiment).to eq 'positive'
 			end
-			it 'should not work with a different user create a report ' do 
+			it 'should not work with an unrelated user create a report ' do 
 				expect(Report.count ).to eq 0
-				expect(@post.dibber_id ).to eq(@user2.id ) 
+				expect(@post.current_dibber ).to eq(@user2 ) 
 				@user3 = create(:user)
 				sign_in(@user3)
 				xhr :post, :remove_dib, :id => @dib.id, :report => 
 				{ :rating => '6', :description => 'other'}
 				@post.reload
 				expect(Report.count ).to eq 0
-		     	expect(@post.dibber_id ).to eq(@user2.id) 
+		     	expect(@post.current_dibber ).to eq(@user2) 
+			end
+
+			it 'should not work with a the dibber to create a report ' do 
+				expect(Report.count ).to eq 0
+				expect(@post.current_dibber ).to eq(@user2 ) 
+				sign_in(@user2)
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'other'}
+				@post.reload
+				expect(Report.count ).to eq 0
+		     	expect(@post.current_dibber ).to eq(@user2) 
 			end
 		end
 

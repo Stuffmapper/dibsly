@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :dibs, :class_name => Dib, :foreign_key => :creator_id
   has_many :messages, :class_name => Message, :foreign_key => :sender_id
   has_many :reports, through: :dibs
+  has_many :dib_posts, through: :dibs, :source => :post
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
   
   before_save :downcase_email

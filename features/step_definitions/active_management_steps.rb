@@ -25,11 +25,21 @@ Then(/^I should see "(.*?)" as the current dibber$/) do |arg1|
 end
 
 When(/^I remove current dibber and select "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  select arg1, from: 'undibReason'
+  click_button 'Remove'
 end
 
 Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
-  pending # express the regexp above with the code you wish you had
+  expect(Dib.count).to eq 1 
+  click_link 'Sign Out'
+  sign_in @user_jill
+  center_map_to_post @shoes
+  click_link 'Get Stuff' 
+  expect(page).to have_text 'shoes'
+  click_button 'Dib'
+  expect(Dib.count).to eq 2 
+  expect(user_jill.dibs.first.post).to eq @shoes
+
 end
 
 When(/^I mark as gone and select "(.*?)"$/) do |arg1|

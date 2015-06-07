@@ -6,7 +6,7 @@ class DibSerializer < ActiveModel::Serializer
   end
 
   def current_dibber
-    object.post.dibber_id  == object.user.id
+    object.post.current_dibber == object.user
   end
 
   def conversation_url
