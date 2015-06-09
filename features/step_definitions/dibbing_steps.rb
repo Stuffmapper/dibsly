@@ -12,11 +12,9 @@ end
 When(/^I log in and visit the map location where the shoes are\.$/) do
   visit('/')
   sign_in(@current_user)
+
   #bad practice but working this will have to change if we switch to different directive
-  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
-    var map = angular.element('map').scope().map;
-    map.panTo(myLatLng);
-    map.setZoom(16);")
+  center_map_to_post @shoes
   sleep(1)
   
 end

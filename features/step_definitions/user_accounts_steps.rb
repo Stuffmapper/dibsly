@@ -49,10 +49,9 @@ end
 
 Then(/^I should be able to sign in with my username and password$/) do
   expect(page).to_not have_text('Sign Out')
-  
-  sign_in User.find_by_username('fakeuser')
-
-  expect(page.body).to have_text('You have been signed in')
+  user = User.find_by_username('fakeuser')
+  sign_in user
+  #expect(page).to have_text('You have been signed in.')
 
   expect(page).to have_text('Sign Out')
 
@@ -63,14 +62,14 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 
    click_link 'Sign Out'
    expect(page).to_not have_text 'Sign Out'
-   click_link 'Sign In'
+   first(link, 'Sign In').click
    click_link 'Facebook'
    expect(User.count).to eq 1
    expect(page).to have_text 'Sign Out'
 
    click_link 'Sign Out'
    expect(page).to_not have_text 'Sign Out'
-   click_link 'Sign In'
+   first(link, 'Sign In').click
    click_link 'Google'
    expect(User.count).to eq 1
    expect(page).to have_text 'Sign Out'
@@ -107,7 +106,7 @@ end
 
 Given(/^that I have the signin page open\.$/) do
   visit('/')
-  click_link('Sign In')
+  first(link, 'Sign In').click
 end
 
 Given(/^I fail to sign in with the password "(.*?)"$/) do |arg1|
@@ -154,7 +153,7 @@ end
 
 
 Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
-    click_link 'Sign In'
+    first(link, 'Sign In').click
     fill_in 'username', with: @user.username
     fill_in 'password', with: arg1
     within('.modal-footer') do 
@@ -166,7 +165,7 @@ end
 
 When(/^I try to login, I should be able to use my email in place of username$/) do
     visit('/')
-    click_link 'Sign In'
+    first(link,'Sign In').click
     fill_in 'username', with: @current_user.email
     fill_in 'password', with: @current_user.password
     within('.modal-footer') do 

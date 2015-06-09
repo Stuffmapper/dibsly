@@ -96,7 +96,11 @@ When(/^I try to dib an item$/) do
 end
 
 Then(/^I should see a message asking me to sign in$/) do
-  expect(page).to have_text('Please Sign In') 
+  byebug
+
+  within(first('alert')) do 
+    expect(page).to have_text('Please Sign In') 
+  end
 end
 
 Then(/^I should see the sign in window$/) do
