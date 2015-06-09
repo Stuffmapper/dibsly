@@ -105,6 +105,5 @@ group :test do
   gem 'launchy'
   gem 'capybara-angular'
   gem 'webmock'
-  gem 'zeus'
 end
 
