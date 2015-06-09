@@ -81,7 +81,7 @@ RSpec.describe DibsController, type: :controller do
 				xhr :patch, :undib, :id => @post.id 
 		     	expect(response.status).to eq(200)
 		     	@post.reload
-		     	expect(@post.dibber_id).to eq(nil)
+		     	expect(@post.current_dibber).to eq(nil)
 		     	
 
 			end

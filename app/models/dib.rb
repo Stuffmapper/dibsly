@@ -67,7 +67,7 @@ class Dib < ActiveRecord::Base
   end
   def remove_as_dibber
     if self.post.current_dibber == self.user
-      self.post.update_attribute(:current_dib, nil)
+      self.post.update_attributes({:current_dib => nil, :dibbed_until => Time.now - 1.minute })
     end
   end
 

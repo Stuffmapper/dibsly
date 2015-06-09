@@ -1,7 +1,7 @@
 
 module FormSubmissionHelpers
   def sign_in user
-    click_link 'Sign In'
+    first(:link,'Sign In').click 
     fill_in 'username', with: user.username
     fill_in 'password', with: '123456'
     within('.modal-footer') do 
@@ -14,7 +14,8 @@ module MapCenterHelpers
   def center_map_to_post post
    	execute_script("var postLatLng = new google.maps.LatLng(#{post.latitude}, #{post.longitude});
     	var map = angular.element('map').scope().map;
-    	map.panTo(postLatLng);")
+    	map.panTo(postLatLng);
+      google.maps.event.trigger(map, 'dragend');")
 	end
 end
 

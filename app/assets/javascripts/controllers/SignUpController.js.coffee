@@ -48,6 +48,7 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
                 else if(data.user)
                   AlertService.add('success','You have been signed in.')
                   $modalInstance.dismiss('cancel')
+                  $window.location.href = "http://" + $window.location.host
                 else  
                   alert(data.error)   
           )

@@ -10,7 +10,7 @@ Scenario: Remove a dib
 	Then I should see "Jack" as the current dibber
 	When I remove current dibber and select "missed pickup"
 	Then Jill should be able to see the item on the map and dib the item.
-	And I should be able to see "Jill" as the current dibs.
+	And I should be able to see "Jill" as the current dibber.
 	
 @javascript
 Scenario: Mark as Gone

@@ -95,7 +95,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 console.log( data  )
                 $scope.mystuff = data['posts'] )
 
-
+    $scope.removeDibber = (id, description)->
+      report = {description: description}
+      $http.post( '/dibs/' + id + '/removedib',  {report: report} ).success( console.log("dib removed") )
 
 
 

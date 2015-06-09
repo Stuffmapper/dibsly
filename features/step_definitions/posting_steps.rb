@@ -96,10 +96,13 @@ When(/^I try to dib an item$/) do
 end
 
 Then(/^I should see a message asking me to sign in$/) do
-  expect(page).to have_text('Please sign in to continue') 
+  expect(page).to have_text('Please Sign In') 
 end
 
 Then(/^I should see the sign in window$/) do
+  within('#give-stuff') do 
+    click_link('Sign In')
+  end 
   expect(page).to have_selector('#sign-in-form')  
 end
 Given(/^that I am not logged in$/) do
@@ -109,7 +112,7 @@ end
 When(/^I try to post an item$/) do
   visit('/')
   click_link('Give Stuff')
-  click_button('Give this stuff!')
+
 end
 
 

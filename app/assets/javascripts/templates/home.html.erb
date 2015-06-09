@@ -43,8 +43,10 @@
 
 
          <tab heading="Give Stuff" active='true' ng-click="startMapper()">
+            <div id="give-stuff">
               <div ng-hide='currentUser' >
-                Please login to give stuff
+                Please <a class='btn' ng-href='/user/signin'>Sign In</a> to give stuff
+           
               </div>
 
               <div ng-hide="loading || !currentUser" >
@@ -103,12 +105,13 @@
             <div ng-show="loading" class="add-margin-top-50 col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4">
               <img class="img-responsive" ng-src=<%= asset_path('spinner.gif')%> ></img>
             </div>
-          </tab>
+          </div>  
+        </tab>
 
          <tab heading="My Stuff"  ng-click="getMyStuff()" >
             <div id="my-stuff" >
               <div ng-hide='currentUser' >
-                Please login to view your stuff
+                Please <a class='btn' ng-href='/user/signin'>Sign In</a> to view your stuff
               </div>
                 <details post="currentPost.id" stuff="currentPost" markers="markers" viewing="currentPost.viewing" ng-show="currentPost.viewing"  ></details>  
 
@@ -134,8 +137,8 @@
 
                        <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
                     <ul>
-                      <li ng-show='post.current_dibber'>
-                        <p>Dibbed by: {{ post.current_dibber}}<p>
+                      <li ng-show='!post.dibbable'>
+                        <p>Dibbed by: {{ post.currentDib.dibber}}<p>
                     
                         
                           <label for='undibReason'> Remove Current Dib </label>
@@ -145,7 +148,8 @@
                             <option>dibber has flaked on previous pickup</option>
                             <option>other</option>
                           </select>
-                          <button class= "btn-xs btn-default">Remove</button>          
+
+                          <button class= "btn-xs btn-default" ng-click="removeDibber(post.currentDib.id, undibReason)">Remove</button>          
                       </li>
 
 
