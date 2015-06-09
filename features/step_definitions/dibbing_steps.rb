@@ -12,6 +12,7 @@ end
 When(/^I log in and visit the map location where the shoes are\.$/) do
   visit('/')
   sign_in(@current_user)
+  sleep(1)
 
   #bad practice but working this will have to change if we switch to different directive
   center_map_to_post @shoes
