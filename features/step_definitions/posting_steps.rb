@@ -96,7 +96,6 @@ When(/^I try to dib an item$/) do
 end
 
 Then(/^I should see a message asking me to sign in$/) do
-  sleep(1)
 
   expect(page).to have_text('Please sign in') 
 
