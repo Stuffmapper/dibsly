@@ -54,13 +54,16 @@ Then(/^I should be able to see "(.*?)" as the current dibber\.$/) do |arg1|
 end
 
 When(/^I mark as gone and select "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+  select arg1, from: 'goneReason'
+  click_button 'Update'
 end
 
-Then(/^I should see the shoes in the old posts section$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 Then(/^It should not be on the map and Jill should not be able to dib it\.$/) do
-  pending # express the regexp above with the code you wish you had
+  center_map_to_post @shoes
+  click_link 'Get Stuff'
+  expect(page).to_not have_text 'Details'
+  @shoes.reload
+  expect(@shoes.status).to eq "gone"
+  visit @shoes.permalink
 end

@@ -120,7 +120,7 @@
               <hr>
               <h4> My Posts </h4>
 
-              <div ng-repeat="post in mystuff track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser" >
+              <div ng-repeat="post in mystuff.posts track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser" >
                <div class ='col-lg-12 col-md-12 col-xs-12'>
                   <div class="stuff-view col-lg-3 col-md-3 col-xs-3"  title={{stuff.description}}  ng-hide=editing  >
 
@@ -136,8 +136,8 @@
                        <button class= "btn-xs btn-default" ng-click='edit(post)' ng-show="currentUser == post.creator">Edit</button>
 
                        <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
-                    <ul>
-                      <li ng-show='!post.dibbable'>
+                    <ul ng-show='!post.dibbable'>
+                      <li >
                         <p>Dibbed by: {{ post.currentDib.dibber}}<p>
                     
                         
@@ -151,23 +151,17 @@
 
                           <button class= "btn-xs btn-default" ng-click="removeDibber(post.currentDib.id, undibReason)">Remove</button>          
                       </li>
-
-
-                      </li>
                       <li>
-                        <ul>
-                          <h5>Dibs</h5>
-                          <li ng-repeat="dib in post.dibs "  >
+                           <label for='goneReason'> Mark as Gone</label>
+                           <select class="form-control" id="goneReason" placeholder="Select Reason" ng-model="goneReason" >
+                            <option>dibber has picked up</option>
+                            <option>item is no longer available</option>
+                            <option>other</option>
+                          </select>
 
-                            <p>Dibber: {{dib.dibber}}</p>
-                            <a ng-href={{dib.conversation_url}}> Dib Conversation </a>
-                            <a ng-href={{dib.conversation_url}}> Remove Dib </a>
-                            <p> select why </p>
-                          </li>
-
-                        </ul>
-
+                          <button class= "btn-xs btn-default" ng-click="markGone(post.currentDib.id, goneReason)">Update</button>  
                       </li>
+
                     </ul> 
 
                   </div>
@@ -181,6 +175,32 @@
 
               <hr>
               <h4> My Dibs </h4>
+                <div ng-repeat="dib in mystuff.dibs track by $index" id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
+               <div class ='col-lg-12 col-md-12 col-xs-12'>
+                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"  title={{stuff.description}}  ng-hide=editing  >
+
+                      <div class= "stuff-image-container" >
+
+                        <img class="stuff-image img-responsive" ng-src={{dib.image_url}} ></img>
+                      </div>
+
+                  </div>
+
+                  <div class='col-lg-9 col-md-9 col-xs-9'>
+                       <undib post="dib.id" mystuff="dib" ng-hide="currentUser == dib.creator"></undib> 
+                       <button class= "btn-xs btn-default" ng-click='edit(post)' ng-show="currentUser == dib.creator">Edit</button>
+
+                       <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
+                    
+
+                  </div>
+                  <hr>
+
+                
+               </div >
+               
+
+              </div>
            </div>
          </tab>
 

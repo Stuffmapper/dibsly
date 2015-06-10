@@ -97,13 +97,20 @@ class PostsController < ApplicationController
     if (current_user)
       @posts = Post.where(:user =>  
                  current_user)
-      dibs = current_user.dib_posts
-      
-      @posts += dibs
-   
 
-      #@posts = Post.where(:creator_id => current_user.id ).or(Post.where(:dibber_id => current_user.id ))
+   
       render json:  @posts, each_serializer: MyPostSerializer, status: :ok
+    else
+      render json: {message: 'User not logged in' }, status: :unauthorized
+    end
+  end
+
+  def my_dibs
+    if (current_user)
+
+      @dibs = current_user.dib_posts
+
+      render json:  @dibs, each_serializer: MyPostSerializer, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
@@ -118,7 +125,7 @@ class PostsController < ApplicationController
   private
 
     def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb )
+      params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb, :status )
     end
 
 

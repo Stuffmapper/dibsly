@@ -93,12 +93,24 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         .success(
             (data)->
                 console.log( data  )
-                $scope.mystuff = data['posts'] )
+                $scope.mystuff.posts = data['posts'] )
+        $http.get( '/my-dibs')
+        .success(
+            (data)->
+                console.log( data  )
+                $scope.mystuff.dibs = data['posts'] )
 
     $scope.removeDibber = (id, description)->
       report = {description: description}
       $http.post( '/dibs/' + id + '/removedib',  {report: report} ).success( console.log("dib removed") )
 
+    $scope.markGone =(id)->
+      post = {status: 'gone'}
+      $http.post( "/posts/" + id + "/update", post )
+      .success ->
+        AlertService.add('success', "Marked as gone")
+      .error ->
+        AlertService.add('warning', "Something went wrong")
 
 
 

@@ -16,6 +16,5 @@ Scenario: Remove a dib
 Scenario: Mark as Gone
 	When I manage dibs for shoes in My Stuff
 	Then I should see "Jack" as the current dibber
-	When I mark as gone and select "completed pickup"
-	Then I should see the shoes in the old posts section
+	When I mark as gone and select "dibber has picked up"
 	And It should not be on the map and Jill should not be able to dib it.

@@ -15,7 +15,7 @@ class Post < ActiveRecord::Base
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   attr_readonly :creator_id
-  STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed']
+  STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed', STATUS_GONE = 'gone',]
   
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode 
@@ -45,6 +45,9 @@ class Post < ActiveRecord::Base
     :created => self.created_at,
     :dibbed => self.status == 'dibbed',
     :description => self.description }
+  end
+  def permalink
+    '/post/' + self.id.to_s 
   end
 
   def current_dibber
