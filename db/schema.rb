@@ -130,31 +130,30 @@ ActiveRecord::Schema.define(version: 20150607184517) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                    null: false
-    t.string   "password_digest",                          null: false
+    t.string   "email",                                null: false
+    t.string   "password_digest",                      null: false
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "grid_mode"
     t.integer  "zoom"
     t.string   "phone_number"
-    t.string   "status",                                   null: false
-    t.string   "ip",                                       null: false
+    t.string   "status",                               null: false
+    t.string   "ip",                                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "username"
-    t.boolean  "anonymous",                default: false
+    t.boolean  "anonymous",            default: false
     t.string   "password_reset_token"
-    t.boolean  "privacy_policy_agreement", default: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.boolean  "verified_email",           default: false
+    t.boolean  "verified_email",       default: false
     t.string   "verify_email_token"
-    t.boolean  "admin",                    default: false
+    t.boolean  "admin",                default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
