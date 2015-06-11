@@ -45,11 +45,10 @@ Given(/^I signup with a username password email and phone$/) do
     click_button "Sign Up"
   end  
   sleep(1)
-  click_link('Sign Out')
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
-  expect(page).to_not have_text('Sign Out')
+  click_link('Sign Out')
   user = User.find_by_username('fakeuser')
   sign_in user
   #expect(page).to have_text('You have been signed in.')
