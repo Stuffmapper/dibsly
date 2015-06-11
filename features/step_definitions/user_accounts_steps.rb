@@ -45,6 +45,7 @@ Given(/^I signup with a username password email and phone$/) do
     click_button "Sign Up"
   end  
   sleep(1)
+  click_link('Sign Out')
 end
 
 Then(/^I should be able to sign in with my username and password$/) do

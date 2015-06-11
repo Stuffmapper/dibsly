@@ -45,7 +45,7 @@
          <tab heading="Give Stuff" active='true' ng-click="startMapper()">
             <div id="give-stuff">
               <div ng-hide='currentUser' >
-                Please <a class='btn' ng-href='/user/signin'>sign in</a> to give stuff
+                Please <a class='btn' ng-click="showSignin()" >sign in</a> to give stuff
            
               </div>
 
@@ -111,7 +111,7 @@
          <tab heading="My Stuff"  ng-click="getMyStuff()" >
             <div id="my-stuff" >
               <div ng-hide='currentUser' >
-                Please <a class='btn' ng-href='/user/signin'>Sign In</a> to view your stuff
+                Please <a class='btn' ng-click="showSignin()" >sign in</a>to view your stuff
               </div>
                 <details post="currentPost.id" stuff="currentPost" markers="markers" viewing="currentPost.viewing" ng-show="currentPost.viewing"  ></details>  
 

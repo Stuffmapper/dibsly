@@ -10,9 +10,6 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParam
         
         $scope.toggle = false
 
-    
-
-
 
         $scope.showSignup = ->
             $modal.open

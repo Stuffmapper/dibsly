@@ -8,6 +8,7 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
   
 
     $scope.cancel = ->  
+      $window.location.href = "http://" + $window.location.host 
       $modalInstance.dismiss('cancel')
     $scope.oaLogin = (provider)->
       fbauth  = "http://" + $window.location.host + '/auth/' + provider
@@ -34,6 +35,7 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
       
       $http.post('/users', {user: user}  )
         .success -> 
+          $window.location.href = "http://" + $window.location.host 
           $modalInstance.dismiss('cancel')
         .error (data) ->
           for key, value of data
@@ -46,7 +48,9 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
                 if(err)
                     AlertService.add('danger', "Wrong username or password")
                 else if(data.user)
-                  $window.location.href != "http://" + $window.location.host
+                  if $window.location.origin != "http://" + $window.location.host 
+                    $window.location.href = "http://" + $window.location.host
+                    alert('hello ')
                   AlertService.add('success','You have been signed in')
                   $modalInstance.dismiss('cancel')
                 else  
