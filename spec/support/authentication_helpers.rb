@@ -24,6 +24,7 @@ module AuthenticationHelpers
   		@user2 = create(:user)
   		@user.posts << @post 
   		@dib = @post.create_new_dib @user2
+  		@post.update_attribute(:status, 'dibbed')
 	  end
 
 	end

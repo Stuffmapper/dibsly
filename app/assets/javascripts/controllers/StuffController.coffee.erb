@@ -100,9 +100,10 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 console.log( data  )
                 $scope.mystuff.dibs = data['posts'] )
 
-    $scope.removeDibber = (id, description)->
+    $scope.removeDibber = (id, description, postID )->
       report = {description: description}
-      $http.post( '/dibs/' + id + '/removedib',  {report: report} ).success( console.log("dib removed") )
+      $http.post( '/dibs/' + id + '/removedib',  {report: report} )
+      .success( $scope.markers[postID].dibbable = true )
 
     $scope.markGone =(id)->
       post = {status: 'gone'}

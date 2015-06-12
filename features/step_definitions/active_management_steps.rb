@@ -9,6 +9,7 @@ Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Ji
     @shoes.save!
   end
   @shoes.create_new_dib( @user_jack) 
+  @shoes.update_attribute(:status, 'new')
 
 end
 

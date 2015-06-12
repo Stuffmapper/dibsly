@@ -61,6 +61,7 @@ RSpec.describe DibsController, type: :controller do
         	@user2 = create(:user)
         	@post = create(:post, creator_id: @user.id, longitude: 0, latitude:0  ) 	
 			@post.create_new_dib @user2
+
 		end
 		context 'without login' do
 			it 'should return 401' do 
@@ -125,6 +126,13 @@ RSpec.describe DibsController, type: :controller do
 				xhr :post, :remove_dib, :id => @dib.id, :report => 
 				{ :rating => '6', :description => 'user confused about description'}
 		     	expect(response.status).to eq(200) 
+			end
+			it 'should make the post available to dib ' do 
+				xhr :post, :remove_dib, :id => @dib.id, :report => 
+				{ :rating => '6', :description => 'user confused about description'}
+		     	expect(response.status).to eq(200) 
+		     	@post.reload
+		     	expect(@post.available_to_dib?).to eq true
 			end
 			it 'should remove a dibber from post' do 
 				expect(@post.current_dibber ).to eq(@user2 ) 
