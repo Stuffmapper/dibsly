@@ -87,13 +87,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
      
 
 
-    $scope.mystuff = {}
+    $scope.mystuff = {posts:{}, dibs:{}}
     $scope.getMyStuff = ->
         $http.get( '/my-stuff')
         .success(
             (data)->
-                console.log( data  )
-                $scope.mystuff.posts = data['posts'] )
+                for marker in data.posts
+                  $scope.mystuff.posts[marker.id] = marker 
+
+          )
         $http.get( '/my-dibs')
         .success(
             (data)->
@@ -103,7 +105,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
     $scope.removeDibber = (id, description, postID )->
       report = {description: description}
       $http.post( '/dibs/' + id + '/removedib',  {report: report} )
-      .success( $scope.markers[postID].dibbable = true )
+      .success(  console.log( "number is !", postID)
+        $scope.mystuff.posts[postID]['dibbable'] = true )
 
     $scope.markGone =(id)->
       post = {status: 'gone'}

@@ -30,6 +30,11 @@ When(/^I remove current dibber and select "(.*?)"$/) do |arg1|
   click_button 'Remove'
 end
 
+Then(/^I should not be able to see "(.*?)" as the current dibber\.$/) do |arg1|
+  expect(page).to_not have_text("Dibbed by: " + arg1) 
+end
+
+
 Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
   expect(Dib.count).to eq 1 
   #expect(@shoes.available_to_dib?).to eq true
@@ -44,6 +49,8 @@ Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
   sleep(6)
   expect(Dib.count).to eq 2 
   expect(@user_jill.dibs.first.post).to eq @shoes
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq false
   click_link 'Sign Out'
 
 end

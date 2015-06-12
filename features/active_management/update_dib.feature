@@ -9,6 +9,7 @@ Scenario: Remove a dib
 	When I manage dibs for shoes in My Stuff
 	Then I should see "Jack" as the current dibber
 	When I remove current dibber and select "missed pickup"
+	Then I should not be able to see "Jack" as the current dibber.
 	Then Jill should be able to see the item on the map and dib the item.
 	And I should be able to see "Jill" as the current dibber.
 	
