@@ -44,7 +44,9 @@ class Post < ActiveRecord::Base
     :posted => self.published,
     :created => self.created_at,
     :dibbed => self.status == 'dibbed',
-    :description => self.description }
+    :description => self.description, 
+    :gone => self.status == 'gone'
+  }
   end
   def permalink
     '/post/' + self.id.to_s 

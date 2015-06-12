@@ -74,8 +74,8 @@ class PostsController < ApplicationController
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
                  .where(:longitude => params[:swLng]..params[:neLng])
                  .where(:published => true)
-    #TODO - change available_to_dib as part of the scope
-    @posts = @posts.select{ |post| post.available_to_dib? }
+                 .where(:status => 'new')
+                 .where("dibbed_until < ?", Time.now)
     
     render json: @posts
   end
