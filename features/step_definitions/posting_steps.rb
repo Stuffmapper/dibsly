@@ -2,7 +2,7 @@
 When(/^I log in and give stuff$/) do
   visit ('/')
 
-  sign_in @current_user 
+  sign_in @current_user
   click_link('Give Stuff')
   execute_script("$(document.elementFromPoint(100, 100)).click()")
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
@@ -12,29 +12,29 @@ When(/^I log in and give stuff$/) do
 Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
 	expect(@current_user.posts.count).to eq 0
   #because this is an upload -  needs a better solution
-  #this may be a mock train wreck I need to get paperclip mocking 
+  #this may be a mock train wreck I need to get paperclip mocking
   #to work and to remove the VCR calls
-   VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do 
-      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: arg1 ) 
+   VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do
+      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: arg1 )
       @post.save!
    end
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_return( true )
 
-		within('#give-stuff-form') do 
+		within('#give-stuff-form') do
 	 		expect(page).to have_field 'description'
 	 		fill_in 'description', with: arg1
 	 		click_button 'Give this stuff!'
-	  end  
+	  end
     sleep(6)
     expect(@current_user.posts.last).to eq @post
     expect(@current_user.posts.count).to eq 1
 end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
-  click_link "My Stuff" 
+  click_link "My Stuff"
   sleep(2)
-  first(:button, 'Details').click 
+  first(:button, 'Details').click
   expect(page).to have_text(arg1)
 end
 #
@@ -51,12 +51,12 @@ end
 #
 
 Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
-   jack = create(:user, username: "Jack" ) 
-   VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+   jack = create(:user, username: "Jack" )
+   VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
 
-     @post = build(:post, 
-           creator_id: jack.id, 
-           latitude: "47.6097", 
+     @post = build(:post,
+           creator_id: jack.id,
+           latitude: "47.6097",
            longitude: '-122.3331',
            description: arg1  )
       @post.save
@@ -90,24 +90,24 @@ end
 
 When(/^I try to dib an item$/) do
   visit('/post/' + @post.id.to_s )
-  
+
   click_button('Dib')
 
 end
 
 Then(/^I should see a message asking me to sign in$/) do
-  
-  expect(page).to have_text('Please sign in') 
+
+  expect(page).to have_text('Please sign in')
 
 end
 
 Then(/^I should see the sign in window$/) do
 
-  expect(page).to have_selector('#sign-in-form')  
+  expect(page).to have_selector('#sign-in-form')
 end
 
 Given(/^that I am not logged in$/) do
-  #do nothing 
+  #do nothing
 end
 
 When(/^I try to post an item$/) do
@@ -123,7 +123,7 @@ When(/^click on an item's description on the map$/) do
    within(first('.g-marker', :visible => false)) do
       #this is a hack - still not sure how to test google marker photos
      expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
-  end 
+  end
 
 
 end
@@ -133,48 +133,49 @@ Then(/^I should see a photo$/) do
 end
 
 When(/^click on an item on in stuff$/) do
-  click_link 'Get Stuff'  
-  first(:button, 'Details').click 
+  click_link 'Get Stuff'
+  first(:button, 'Details').click
  #express the regexp above with the code you wish you had
 end
 
 Then(/^I should see a photo of the stuff$/) do
- 
+
   expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
-  
+
 end
 
 ## Active management
 Given(/^I already have an account and a post$/)  do
-    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
+    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
       @current_user = create(:user)
-      @post = build(:post, 
-                creator_id: @current_user.id, 
-                latitude: "47.6097", 
+      @post = build(:post,
+                creator_id: @current_user.id,
+                latitude: "47.6097",
                 longitude: '-122.3331'
-                ) 
-      @post.save 
+                )
+      @post.save
    end  # express the regexp above with the code you wish you had
 end
 
 When(/^I log in and go to my stuff$/) do
   visit('/')
   sign_in @current_user
-  click_link('My Stuff') 
+  click_link('My Stuff')
 end
 
 Then(/^I should have an edit option$/) do
-  within('#my-stuff') do 
-    expect(page).to have_button("Edit") 
+  within('#my-stuff') do
+    expect(page).to have_button("Edit")
   end   # express the regexp above with the code you wish you had
 end
 
 Then(/^I should be able to click edit and change the details$/) do
   click_button 'Edit'
   fill_in 'description', with: "I have changed the details"
-  click_button "Update"
+
+  find(:button,"Update" ).click
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
-  @shoes = @post 
+  @shoes = @post
   steps %{
     When I visit the shoes permalink page
   }
@@ -184,7 +185,7 @@ end
 
 When(/^I edit my stuff$/) do
   steps %{
-    When I log in and go to my stuff 
+    When I log in and go to my stuff
     Then I should have an edit option
   }
   click_button 'Edit'
@@ -192,7 +193,7 @@ end
 
 
 Then(/^I should also be able to depublish it$/) do
-  expect(page).to have_button("Depublish")  
+  expect(page).to have_button("Depublish")
   click_button "Depublish"
 end
 
@@ -202,13 +203,13 @@ Then(/^it should not be viewable$/) do
     var map = angular.element('map').scope().map;
     map.panTo(myLatLng);
     map.setZoom(16);")
-  sleep(1)  
-  within('#get-stuff') do 
-    expect(page).to_not have_text(@post.description) 
+  sleep(1)
+  within('#get-stuff') do
+    expect(page).to_not have_text(@post.description)
   end
 end
 
-##POSTING OUT OF MY HANDS 
+##POSTING OUT OF MY HANDS
 
 When(/^I login and give stuff and select on the curb$/) do
   visit '/'
@@ -234,18 +235,18 @@ end
 
 Then(/^I should be able to change the out of my hands status after it's posted$/) do
    #TODO - Mock out paperclip properly - this is  not a good test
-    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do 
-      @post = build(:post, 
+    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+      @post = build(:post,
         creator_id: @current_user.id,
         latitude: "47.6097",
         longitude: '-122.3331',
-        on_the_curb: true) 
+        on_the_curb: true)
       @post.save
    end
    @post.reload
    expect(@post.on_the_curb).to eq true
     visit('/post/' + @post.id.to_s )
-    first(:button, 'Edit').click 
+    first(:button, 'Edit').click
     uncheck 'on_the_curb'
     click_button "Update"
     sleep(1)
@@ -253,8 +254,3 @@ Then(/^I should be able to change the out of my hands status after it's posted$/
     expect(@post.on_the_curb).to eq false
 
 end
-
-
-
-
-
