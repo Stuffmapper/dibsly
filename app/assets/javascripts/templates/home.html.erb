@@ -14,15 +14,15 @@
       <div class="stuff-tab-container" >
 
         <tabset >
-    
+
 
 
         <tab heading="Get Stuff"  >
            <div id="get-stuff" >
               <div class="row col-md-12 row">
-                 <button class="btn" ng-click="onTheCurb()" ng-hide="curb_only"> Only on the Curb</button> 
-                 <button class="btn" ng-click="onTheCurb()" ng-show="curb_only"> Only not on the Curb</button> 
-    
+                 <button class="btn" ng-click="onTheCurb()" ng-hide="curb_only"> Only on the Curb</button>
+                 <button class="btn" ng-click="onTheCurb()" ng-show="curb_only"> Only not on the Curb</button>
+
               </div>
 
               <div ng-repeat="item in markers" >
@@ -31,11 +31,11 @@
                     <img class="stuff-image img-responsive" ng-src={{item.image_url}} ></img>
                   </div>
                   <div class="col-md-12">
-                    <dib post="item.id"></dib>  
-                    <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button>   
-                  </div> 
-                </div>   
-                  <details post="item.id" stuff="item" markers="markers" viewing=viewing ng-show=viewing  ></details>   
+                    <dib post="item.id"></dib>
+                    <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button>
+                  </div>
+                </div>
+                  <details post="item.id" stuff="item" markers="markers" viewing=viewing ng-show=viewing  ></details>
               </div>
 
            </div>
@@ -46,7 +46,7 @@
             <div id="give-stuff">
               <div ng-hide='currentUser' >
                 Please <a class='btn' ng-click="showSignin()" >sign in</a> to give stuff
-           
+
               </div>
 
               <div ng-hide="loading || !currentUser" >
@@ -63,7 +63,7 @@
                        <input type="file" id="give-stuff-file" file-upload   />
 
 
-                    </div> 
+                    </div>
                   </div>
 
                   <div class="col-md-6" id="upload-file-names" >
@@ -85,10 +85,10 @@
                     <option>Building Materials</option>
                     <option>Misc</option>
                   </select>
-               
+
                 </div>
 
-                <div class="form-group col-md-12 row"> 
+                <div class="form-group col-md-12 row">
                   <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
                 </div>
 
@@ -105,128 +105,159 @@
             <div ng-show="loading" class="add-margin-top-50 col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4">
               <img class="img-responsive" ng-src=<%= asset_path('spinner.gif')%> ></img>
             </div>
-          </div>  
+          </div>
         </tab>
 
          <tab heading="My Stuff"  ng-click="getMyStuff()" >
             <div id="my-stuff" >
               <div ng-hide='currentUser' >
-                Please <a class='btn' ng-click="showSignin()" >sign in</a>to view your stuff
+                Please
+                <a class='btn'
+                ng-click="showSignin()" >sign in</a>to view your stuff
               </div>
-                <details post="currentPost.id" stuff="currentPost" markers="markers" viewing="currentPost.viewing" ng-show="currentPost.viewing"  ></details>  
+                <details post="currentPost.id"
+                stuff="currentPost" markers="markers"
+                 viewing="currentPost.viewing"
+                 ng-show="currentPost.viewing"  ></details>
 
-                <edit post="currentPost.id" stuff="currentPost" markers="markers" editing='currentPost.editing' ng-show='currentPost.editing'  ></edit> 
+                <edit post="currentPost.id" stuff="currentPost"
+                 markers="markers" editing='currentPost.editing'
+                 ng-show='currentPost.editing'></edit>
 
               <hr>
               <h4> My Posts </h4>
 
-              <div ng-repeat="post in mystuff.posts track by $index" id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser" >
+              <div ng-repeat="post in mystuff.posts track by $index"
+              id="mystuff-{{post.id}}"
+              ng-hide="post == undefined || !currentUser" >
                <div class ='col-lg-12 col-md-12 col-xs-12'>
-                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"  title={{stuff.description}}  ng-hide=editing  >
+                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
+                  title={{stuff.description}}  ng-hide=editing  >
 
                       <div class= "stuff-image-container" >
 
-                        <img class="stuff-image img-responsive" ng-src={{post.image_url}} ></img>
+                        <img class="stuff-image img-responsive"
+                        ng-src={{post.image_url}} ></img>
                       </div>
 
                   </div>
 
                   <div class='col-lg-9 col-md-9 col-xs-9'>
-                       <undib post="post.id" mystuff="post" ng-hide="currentUser == post.creator"></undib> 
-                       <button class= "btn-xs btn-default" ng-click='edit(post)' ng-show="currentUser == post.creator">Edit</button>
+                       <undib post="post.id" mystuff="post"
+                       ng-hide="currentUser == post.creator"></undib>
+                       <button class= "btn-xs btn-default"
+                       ng-click='edit(post)'
+                       ng-show="currentUser == post.creator">Edit</button>
 
-                       <button class= "btn-xs btn-default" ng-click='viewDetails(post)'>Details</button> 
+                       <button class= "btn-xs btn-default"
+                       ng-click='viewDetails(post)'>Details</button>
                     <ul ng-show='!post.dibbable'>
                       <li >
                         <p>Dibbed by: {{ post.currentDib.dibber}}<p>
-                    
-                        
+
+
                           <label for='undibReason'> Remove Current Dib </label>
-                           <select class="form-control" id="undibReason" placeholder="Select Reason" ng-model="undibReason" >
+                           <select class="form-control" id="undibReason"
+                           placeholder="Select Reason" ng-model="undibReason" >
                             <option>missed pickup</option>
                             <option>dibber no longer wants item</option>
                             <option>dibber has flaked on previous pickup</option>
                             <option>other</option>
                           </select>
 
-                          <button class= "btn-xs btn-default" ng-click="removeDibber(post.currentDib.id, undibReason, post.id)">Remove</button>          
+                          <button class= "btn-xs btn-default"
+                          ng-click="removeDibber(post.currentDib.id, undibReason, post.id)"
+                          >Remove</button>
                       </li>
                       <li>
                            <label for='goneReason'> Mark as Gone</label>
-                           <select class="form-control" id="goneReason" placeholder="Select Reason" ng-model="goneReason" >
+                           <select class="form-control"
+                           id="goneReason" placeholder="Select Reason"
+                           ng-model="goneReason" >
                             <option>dibber has picked up</option>
                             <option>item is no longer available</option>
                             <option>other</option>
                           </select>
 
-                          <button class= "btn-xs btn-default" ng-click="markGone(post.id, goneReason)">Update</button>  
+                          <button class= "btn-xs btn-default"
+                           ng-click="markGone(post.id, goneReason)">Update</button>
                       </li>
 
-                    </ul> 
+                    </ul>
 
                   </div>
                   <hr>
 
-                
+
                </div >
-               
+
 
               </div>
 
               <hr>
               <h4> My Dibs </h4>
-                <div ng-repeat="dib in mystuff.dibs track by $index" id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
+                <div ng-repeat="dib in mystuff.dibs track by $index"
+                 id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
                <div class ='col-lg-12 col-md-12 col-xs-12'>
-                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"  title={{dib.description}}  ng-hide=editing  >
+                  <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
+                  title={{dib.description}}  ng-hide=editing  >
 
                       <div class= "stuff-image-container" >
 
-                        <img class="stuff-image img-responsive" ng-src={{dib.image_url}} ></img>
+                        <img class="stuff-image img-responsive"
+                        ng-src={{dib.image_url}} ></img>
                       </div>
 
                   </div>
 
                   <div class='col-lg-9 col-md-9 col-xs-9'>
-                       <undib post="dib.id" mystuff="dib" ng-hide="currentUser == dib.creator"></undib> 
-                       <button class= "btn-xs btn-default" ng-click='edit(dib)' ng-show="currentUser == dib.creator">Edit</button>
+                       <undib post="dib.id" mystuff="dib"
+                       ng-hide="currentUser == dib.creator"></undib>
+                       <button class= "btn-xs btn-default"
+                       ng-click='edit(dib)'
+                       ng-show="currentUser == dib.creator">Edit</button>
 
-                       <button class= "btn-xs btn-default" ng-click='viewDetails(dib)'>Details</button> 
+                       <button class= "btn-xs btn-default"
+                       ng-click='viewDetails(dib)'>Details</button>
 
                   </div>
                   <hr>
 
-                
+
                </div >
-               
+
 
               </div>
            </div>
          </tab>
 
-      
+
 
       </tabset>
     </div>
-   
+
 
   	</div>
 
   </div>
 
   <div class="container-fluid" id="map-container"  >
-     
 
 
-  <map id="google-map-container" center={{mapCenter}} zoom="12" > 
+
+  <map id="google-map-container" center={{mapCenter}} zoom="12" >
     <div class='g-marker' ng-repeat="post in markers">
-      <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"  title: "{{post.description}}" icon=<%= asset_path('blue-circle.png')%> id="marker-{{post.id}}" on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
+      <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"
+        title: "{{post.description}}" icon=<%= asset_path('blue-circle.png')%>
+         id="marker-{{post.id}}"
+         on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
       <info-window id='info-{{post.id}}' visible-on-marker="marker-{{post.id}}">
         <div ng-non-bindable="">
           <div id="siteNotice"></div>
            <img class="stuff-map-image" src={{post.image_url}} ></img>
           <div id="bodyContent">
             <p>{{post.description}}</p>
-            <dib post="post.id"></dib>   
+            <dib post="post.id"></dib>
           </div>
         </div>
       </info-window>
@@ -237,4 +268,3 @@
 
   </div>
 </div>
-
