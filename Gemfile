@@ -36,7 +36,7 @@ gem 'newrelic_rpm'
 
 #for using angular
 gem 'active_model_serializers'
-gem 'sass', '3.2.19' 
+gem 'sass', '3.2.19'
 gem 'angular-rails-templates'
 
 # for FB
@@ -57,7 +57,12 @@ gem 'geocoder'
 # test rails admin
 gem 'rails_admin'
 
+gem 'delayed_paperclip'
+
+gem 'delayed_job_active_record'
+
 gem 'spring', group: :development
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -106,4 +111,3 @@ group :test do
   gem 'capybara-angular'
   gem 'webmock'
 end
-

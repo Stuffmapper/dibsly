@@ -8,10 +8,10 @@ class Post < ActiveRecord::Base
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
-
+  process_in_background :image
+  
   #for the comments
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
-
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed', STATUS_GONE = 'gone',]

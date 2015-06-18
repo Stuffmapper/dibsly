@@ -1,12 +1,13 @@
 Dibsly::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.middleware.use RackSessionAccess::Middleware
+  
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = true
- 
+
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
@@ -47,7 +48,7 @@ Dibsly::Application.configure do
 end
 Rails.application.routes.default_url_options[:host] = "http://localhost:7654/"
 
-ActionMailer::Base.delivery_method = :test 
+ActionMailer::Base.delivery_method = :test
 
 OmniAuth.config.test_mode = true
 
@@ -72,4 +73,3 @@ OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
    :expires_at => Time.now + 2.days }
 
 })
-
