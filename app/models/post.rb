@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  
+
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib
   has_many :reports, through: :dibs
@@ -8,31 +8,30 @@ class Post < ActiveRecord::Base
     :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
-    
-  #for the comments  
+
+  #for the comments
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
 
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
-  attr_readonly :creator_id
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed', STATUS_GONE = 'gone',]
-  
+
   reverse_geocoded_by :latitude, :longitude
-  after_validation :geocode 
-  
+  after_validation :geocode
+
   geocoded_by :address
 
 
   default_scope { order('created_at DESC') }
 
-  
+
   validate :creator_must_be_allowed_to_post_and_dib
   validates_attachment_presence :image
-  validates_presence_of :creator_id
+  validates_presence_of :user
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
 
-  after_create do 
+  after_create do
     create_conversation
     update_image
     self.update_attribute(:dibbed_until, Time.now - 1.minute)
@@ -44,16 +43,16 @@ class Post < ActiveRecord::Base
     :posted => self.published,
     :created => self.created_at,
     :dibbed => self.status == 'dibbed',
-    :description => self.description, 
+    :description => self.description,
     :gone => self.status == 'gone'
   }
   end
   def permalink
-    '/post/' + self.id.to_s 
+    '/post/' + self.id.to_s
   end
 
   def current_dibber
-    self.current_dib.user unless !self.current_dib 
+    self.current_dib.user unless !self.current_dib
   end
 
 
@@ -72,13 +71,13 @@ class Post < ActiveRecord::Base
   end
 
   def send_message_to_creator (dibber, body, subject)
-    dibber.send_message( User.find(self.creator_id), body,subject) 
+    dibber.send_message( User.find(self.creator_id), body,subject)
   end
 
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build( :ip => request_ip)
     dibber.dibs << dib
-    set_dibbed_until dib if dib.save 
+    set_dibbed_until dib if dib.save
     self.update_attribute(:current_dib, dib)
     dib
   end
@@ -91,7 +90,7 @@ class Post < ActiveRecord::Base
       self.update_attribute(:current_dib, nil)
   end
 
-  def available_to_dib? 
+  def available_to_dib?
     %w(dibbed claimed deleted).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
 
@@ -101,8 +100,7 @@ class Post < ActiveRecord::Base
   end
 
   def creator_must_be_allowed_to_post_and_dib
-   user = User.find(self.creator_id)
-   if not user.allowed_to_post_and_dib?
+   if not self.user.allowed_to_post_and_dib?
       errors.add(:creator, "Please verify your email to give stuff")
     end
   end
@@ -113,7 +111,7 @@ class Post < ActiveRecord::Base
   end
 
   def creator
-    return User.find(self.creator_id)
+    return self.user
   end
 
 

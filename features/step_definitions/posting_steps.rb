@@ -254,3 +254,23 @@ Then(/^I should be able to change the out of my hands status after it's posted$/
     expect(@post.on_the_curb).to eq false
 
 end
+
+
+Given(/^I'm a registered user with a verified email$/) do
+  @user = create(:user)
+end
+
+When(/^I try to give stuff after logging in$/) do
+  visit '/'
+  sign_in @user
+  click_link "Give Stuff"
+end
+
+Then(/^I should be able to change my photo before submitting$/) do
+  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
+  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/free_smiles.png"))
+  click_button "Give this stuff!"
+  sleep(3)
+  expect(Post.count).to eq 1
+
+end

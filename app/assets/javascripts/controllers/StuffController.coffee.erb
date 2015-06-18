@@ -3,14 +3,14 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http', 
- ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) -> 
+controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http',
+ ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) ->
     $scope.UserService = UserService;
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
     $scope.viewing = false
-    $scope.currentPost = { editing: false, viewing: false} 
+    $scope.currentPost = { editing: false, viewing: false}
     $scope.mapCenter = '47.6097,-122.3331'
 
     $scope.markers = {}
@@ -24,33 +24,33 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       $scope.currentPost = post
       $scope.currentPost.viewing = true
 
-   
+
 
     $scope.onTheCurb = ->
       for key,marker of $scope.backup
-        console.log(marker) 
+        console.log(marker)
         if marker.on_the_curb ==  $scope.curb_only
           delete $scope.markers[key]
         else
           $scope.markers[key] = marker
-      $scope.curb_only = !$scope.curb_only 
+      $scope.curb_only = !$scope.curb_only
 
 
-    
+
     updateMarkers = ->
       neBounds = $scope.map.getBounds().getNorthEast()
       swBounds = $scope.map.getBounds().getSouthWest()
       $http(
         url: '/posts/geolocated'
-        params: 
+        params:
           neLat: neBounds.lat()
-          swLat: swBounds.lat() 
+          swLat: swBounds.lat()
           neLng: neBounds.lng()
           swLng: swBounds.lng()
         ).success((data)->
           for marker in data.posts
             if not $scope.markers[marker.id]
-              $scope.markers[marker.id] = marker 
+              $scope.markers[marker.id] = marker
               $scope.backup[marker.id] = marker )
 
     $scope.$on('mapInitialized', (evt, map) ->
@@ -69,22 +69,21 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       )
 
     $scope.post = {}
-    $scope.files = []
     $scope.$on("fileSelected",
-                (event, args) -> $scope.$apply( ->  
-                    $scope.files.push(args.file)
-                    console.log($scope.files)
+                (event, args) -> $scope.$apply( ->
+                    $scope.file = args.file
+
                 ))
 
-     
+
     $scope.loading = false
     $scope.mystuff = {}
     $scope.togglemap = (height)->
        angular.element("map").height(height)
-       $scope.fullMap = !$scope.fullMap 
+       $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
 
-     
+
 
 
     $scope.mystuff = {posts:{}, dibs:{}}
@@ -93,7 +92,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         .success(
             (data)->
                 for marker in data.posts
-                  $scope.mystuff.posts[marker.id] = marker 
+                  $scope.mystuff.posts[marker.id] = marker
 
           )
         $http.get( '/my-dibs')
@@ -128,11 +127,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
             formdata.append('category', $scope.post.category)
             formdata.append('description', $scope.post.description)
             formdata.append('on_the_curb', $scope.post.on_the_curb)
-            formdata.append('image', $scope.files[0]);
+            formdata.append('image', $scope.file);
             $http.post( "/posts", formdata, {
                 headers: {'Content-Type': undefined}
                 transformRequest: angular.identity
-                }).success (data, status, headers, config) -> 
+                }).success (data, status, headers, config) ->
                     console.log('it worked')
                     AlertService.add('success', "You've Posted Your Stuff")
                     $scope.files = []
@@ -150,7 +149,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 controller:'SignUpCtrl'
     $scope.startMapper = ->
       callback = -> $scope.postMarker.setMap($scope.map)
-      if $scope.postMarker 
+      if $scope.postMarker
           $scope.postMarker.setMap($scope.map)
       else
         updatePostMarker( callback, 6000)
@@ -160,7 +159,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       self = this
       self.callback = callback
       resetMarker = ->
-        if $scope.postMarker 
+        if $scope.postMarker
           $scope.postMarker.setMap(null)
       updateMarker = (center)->
         resetMarker()
@@ -177,7 +176,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         $scope.postMarker.setMap(null)
         callback()
       centerSuccess = (position)->
-        center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude) 
+        center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         updateMarker(center)
       centerError = ->
         console.log("geolocation not supported or error")
@@ -187,11 +186,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         enableHighAccuracy: true,
         maximumAge:300000,
         timeout: timeout }
-      navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions) 
- 
+      navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions)
+
     updatePostMarker(null, 25000)
 
 
 ])
-      
-

@@ -1,8 +1,8 @@
 class PostSerializer < ActiveModel::Serializer
   attributes :id, :latitude, :longitude,
-  :coords, :image_url,:description, :dibbable, 
+  :coords, :image_url,:description, :dibbable,
    :creator, :on_the_curb, :category, :published
-   
+
   def creator
     object.user.username
   end
@@ -17,8 +17,3 @@ class PostSerializer < ActiveModel::Serializer
 
 
 end
-
-
-
-
-

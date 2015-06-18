@@ -36,7 +36,7 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.include FactoryGirl::Syntax::Methods
   config.include AuthenticationHelpers::Controller , type: :controller
-  config.include AuthenticationHelpers::FakeEnvironment 
+  config.include AuthenticationHelpers::FakeEnvironment
   config.include Paperclip::Shoulda::Matchers
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -58,33 +58,33 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
-   
+
      config.before(:suite) do
- 
+
           DatabaseCleaner.clean_with(:truncation)
      end
- 
+
      config.before(:each) do
- 
-          DatabaseCleaner.strategy = :transaction
+
+          DatabaseCleaner.strategy = :truncation 
      end
- 
+
      config.before(:each, :js => true) do
- 
+
           DatabaseCleaner.strategy = :truncation
      end
- 
+
      config.before(:each) do
- 
+
           DatabaseCleaner.start
- 
+
      end
- 
+
      config.after(:each) do
- 
+
           DatabaseCleaner.clean
      end
-    
+
     config.mock_with :rspec do |mocks|
       #mocks.verify_partial_doubles = true
       mocks.verify_doubled_constant_names = true

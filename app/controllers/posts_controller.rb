@@ -1,24 +1,24 @@
 class PostsController < ApplicationController
- 
+
 
   # GET /posts
   # GET /posts.json
 
   def index
     user_ip = request.location
-    
+
     if user_ip && !user_ip.longitude == 0.0
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
     else
       @map = '47.6097,-122.3331'
     end
   end
-  
+
   def update
     @post = Post.find(params[:id])
     if (current_user) and @post.creator_id == current_user.id
         cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined'  
+          |key, value| value == 'undefined'
       }
       @post.update_attributes cleaned_params
       @post.save!
@@ -31,13 +31,13 @@ class PostsController < ApplicationController
   def create
     if (current_user)
       cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined'  
+          |key, value| value == 'undefined'
       }
-      @user = User.find( current_user.id )
       @post = Post.new(cleaned_params.merge(
-          :ip => request.remote_ip, 
-          :status => 'new', 
-          :creator_id => @user.id ))
+          :ip => request.remote_ip,
+          :status => 'new',
+          :user => current_user,
+          :creator_id => current_user.id ))
       if @post.valid?
         @post.save
         render json: '[]', status: :ok
@@ -52,14 +52,14 @@ class PostsController < ApplicationController
   # POST /posts/dib/1
   # POST /posts/dib/1.json
   def dib
-    if current_user && dib_params[:id] 
+    if current_user && dib_params[:id]
 
       @post = Post.find(dib_params[:id])
-    
+
       if @post.available_to_dib?
          @post.create_new_dib(current_user)
          add_dib(@post, request, current_user)
-         render json: '[]', status: :ok 
+         render json: '[]', status: :ok
       end
     else
       render json: '[]', status: :unprocessable_entity
@@ -69,14 +69,14 @@ class PostsController < ApplicationController
   # POST /posts/claim/1
   # POST /posts/claim/1.json
 
-  def geolocated 
+  def geolocated
 
     @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
                  .where(:longitude => params[:swLng]..params[:neLng])
                  .where(:published => true)
                  .where(:status => 'new')
                  .where("dibbed_until < ?", Time.now)
-    
+
     render json: @posts
   end
 
@@ -95,10 +95,10 @@ class PostsController < ApplicationController
   # GET /posts/my_stuff
   def my_stuff
     if (current_user)
-      @posts = Post.where(:user =>  
+      @posts = Post.where(:user =>
                  current_user)
 
-   
+
       render json:  @posts, each_serializer: MyPostSerializer, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
@@ -116,7 +116,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def show 
+  def show
     @post = Post.find(params[:id])
    render json: @post
 

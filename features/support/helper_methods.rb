@@ -1,10 +1,11 @@
 
 module FormSubmissionHelpers
   def sign_in user
-    first(:link,'Sign In').click 
+    allow(ApplicationController).to receive(:current_user){ user }
+    first(:link,'Sign In').click
     fill_in 'username', with: user.username
     fill_in 'password', with: '123456'
-    within('.modal-footer') do 
+    within('.modal-footer') do
        click_button 'Sign In'
     end
   end
@@ -22,4 +23,3 @@ end
 
 World(FormSubmissionHelpers)
 World(MapCenterHelpers)
-
