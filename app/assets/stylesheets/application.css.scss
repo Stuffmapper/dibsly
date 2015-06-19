@@ -41,6 +41,12 @@ $grey: lightgrey; /* letter */
 	margin-top: 50px;
 }
 
+#sm-thumbnail{
+	margin-left: 20px;
+	height:100px;
+	width: 100px;
+}
+
 /**** Navbar ****/
 
 nav{
@@ -493,7 +499,6 @@ form {
 		}
 	}
 	.sender-details{
-		postion:relative;
 		height:100%;
 		.green-bar{
 			height:100px;

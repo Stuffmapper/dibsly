@@ -71,7 +71,18 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
     $scope.post = {}
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
-                    $scope.file = args.file
+                   $scope.file = args.file
+                   reader = new FileReader();
+                   reader.onload = (event2)->
+                     canvas = document.getElementById("sm-thumbnail")
+                     ctx = canvas.getContext('2d');
+                     img = new Image()
+                     img.onload = ->
+                       canvas.width = img.width
+                       canvas.height = img.height
+                       ctx.drawImage(img,0,0)
+                     img.src = event2.target.result
+                   reader.readAsDataURL(args.file)
 
                 ))
 
@@ -132,9 +143,12 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                 headers: {'Content-Type': undefined}
                 transformRequest: angular.identity
                 }).success (data, status, headers, config) ->
-                    console.log('it worked')
                     AlertService.add('success', "You've Posted Your Stuff")
-                    $scope.files = []
+                    canvas = document.getElementById("sm-thumbnail")
+                    context = canvas.getContext("2d");
+                    context.clearRect(0, 0, canvas.width, canvas.height)
+                    $scope.file = null
+                    $scope.post = {}
                     $scope.loading = false
                     updateMarkers()
                     $scope.postMarker.setMap(null)
