@@ -32,10 +32,13 @@
                   </div>
                   <div class="col-md-12">
                     <dib post="item.id"></dib>
-                    <button class= "btn-xs btn-default" ng-click='viewing = !viewing'>Details</button>
+                    <button class= "btn-xs btn-default"
+                    ng-click='markers[item.id][viewing] = !markers[item.id][viewing]'
+                    >Details</button>
                   </div>
                 </div>
-                  <details post="item.id" stuff="item" markers="markers" viewing=viewing ng-show=viewing  ></details>
+                  <details post="item.id" stuff="item" markers="markers"
+                   viewing=markers[item.id][viewing] ng-show=markers[item.id][viewing] ></details>
               </div>
 
            </div>
@@ -60,7 +63,7 @@
 
                       <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
 
-                       <input type="file" id="give-stuff-file" file-upload   />
+                       <input type="file" id="give-stuff-file" file-upload accept="image/*"  />
 
 
 
@@ -259,6 +262,10 @@
           <div id="bodyContent">
             <p>{{post.description}}</p>
             <dib post="post.id"></dib>
+            <button class= "btn-xs btn-default"
+            ng-click='markers[post.id][viewing] = !markers[post.id][viewing]'
+            >Details</button>
+
           </div>
         </div>
       </info-window>

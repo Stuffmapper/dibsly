@@ -6,7 +6,7 @@ directives.directive('fileUpload', ->
         el.bind('change', (event) ->
           files = event.target.files;
           if event.target.files.length > 1
-           files = event.target.files[0]
+           files = event.target.files
           scope.$emit("fileSelected", { file: file }) for file in files
          )
 )
