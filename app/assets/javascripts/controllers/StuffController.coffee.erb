@@ -50,9 +50,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         ).success((data)->
           for marker in data.posts
             if not $scope.markers[marker.id]
+              marker.viewing = false
               $scope.markers[marker.id] = marker
-              $scope.backup[marker.id] = marker
-              $scope.markers[marker.id][viewing] = false )
+              $scope.backup[marker.id] = marker )
 
     $scope.$on('mapInitialized', (evt, map) ->
       self = this
