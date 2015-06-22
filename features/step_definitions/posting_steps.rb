@@ -213,6 +213,7 @@ end
 
 When(/^I login and give stuff and select on the curb$/) do
   visit '/'
+  click_link 'Give Stuff'
   sign_in @current_user
 
 

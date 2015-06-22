@@ -28,7 +28,8 @@
               <div ng-repeat="item in markers" >
                 <div class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
                   <div class= "stuff-image-container clearfix">
-                    <img class="stuff-image img-responsive" ng-src={{item.image_url}} ></img>
+                    <img class="stuff-image img-responsive" ng-src={{item.image_url}}
+                    ng-click='markers[item.id][viewing] = !markers[item.id][viewing]'></img>
                   </div>
                   <div class="col-md-12">
                     <dib post="item.id"></dib>

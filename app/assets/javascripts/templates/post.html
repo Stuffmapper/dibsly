@@ -4,7 +4,9 @@
    <a href='#' ng-click='close()'>Back to results</a>
 
      <div class="col-lg-12 col-md-12 col-xs-12 row  individual-post">
-      <img class="img-responsive" src={{stuff.image_url}} ></img>
+       <a ng-href="{{stuff.originalImage}}" >
+         <img class="img-responsive" src={{stuff.image_url}} ></img>
+      </a>
 
      </div>
      <br>
@@ -30,13 +32,12 @@
 
 
         </ul>
-                   
-                   <dib post="stuff.id" ng-show="stuff.dibbable"></dib>  
+
+                   <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
                    <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
-           
-               <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit> 
+
+               <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit>
          <hr>
       </div>
 
 </div>
-
