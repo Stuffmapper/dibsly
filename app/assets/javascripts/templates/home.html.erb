@@ -17,7 +17,7 @@
 
 
 
-        <tab heading="Get Stuff"  >
+        <tab heading="Get Stuff"  active='true' >
            <div id="get-stuff" >
               <div class="row col-md-12 row">
                  <button class="btn" ng-click="onTheCurb()" ng-hide="curb_only"> Only on the Curb</button>
@@ -45,7 +45,7 @@
         </tab>
 
 
-         <tab heading="Give Stuff" active='true' ng-click="startMapper()">
+         <tab heading="Give Stuff" ng-click="startMapper()">
             <div id="give-stuff">
               <div ng-hide='currentUser' >
                 Please <a class='btn' ng-click="showSignin()" >sign in</a> to give stuff

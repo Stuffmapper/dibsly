@@ -24,6 +24,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       $scope.currentPost = post
       $scope.currentPost.viewing = true
 
+    self = this
 
 
     $scope.onTheCurb = ->
@@ -68,6 +69,8 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
           )
         )
       )
+    $scope.toggleView = (event, id, markers )->
+      self.$scope.markers[id].viewing = true
 
     $scope.post = {}
     $scope.$on("fileSelected",
