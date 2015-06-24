@@ -134,37 +134,38 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
     $scope.submitPost = ->
         $scope.loading = true
-        UserService.check(->)
-        if UserService.currentUser
-            formdata = new FormData();
-            formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
-            formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
-            formdata.append('category', $scope.post.category)
-            formdata.append('description', $scope.post.description)
-            formdata.append('on_the_curb', $scope.post.on_the_curb)
-            formdata.append('image', $scope.file);
-            $http.post( "/posts", formdata, {
-                headers: {'Content-Type': undefined}
-                transformRequest: angular.identity
-                }).success (data, status, headers, config) ->
-                    AlertService.add('success', "You've Posted Your Stuff")
-                    canvas = document.getElementById("sm-thumbnail")
-                    context = canvas.getContext("2d");
-                    context.clearRect(0, 0, canvas.width, canvas.height)
-                    $scope.file = null
-                    $scope.post = {}
-                    $scope.loading = false
-                    updateMarkers()
-                    $scope.postMarker.setMap(null)
-                .error (data) ->
-                    for key, value of data
-                        AlertService.add('danger', key + ' ' + value )
-                    $scope.loading = false
-        else
-            AlertService.add('danger', 'Please sign in to continue' )
-            $modal.open
-                templateUrl:'signIn.html',
-                controller:'SignUpCtrl'
+        UserService.check((blank,data)->
+          if data.user
+              formdata = new FormData();
+              formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
+              formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
+              formdata.append('category', $scope.post.category)
+              formdata.append('description', $scope.post.description)
+              formdata.append('on_the_curb', $scope.post.on_the_curb)
+              formdata.append('image', $scope.file);
+              $http.post( "/posts", formdata, {
+                  headers: {'Content-Type': undefined}
+                  transformRequest: angular.identity
+                  }).success (data, status, headers, config) ->
+                      AlertService.add('success', "You've Posted Your Stuff")
+                      canvas = document.getElementById("sm-thumbnail")
+                      context = canvas.getContext("2d");
+                      context.clearRect(0, 0, canvas.width, canvas.height)
+                      $scope.file = null
+                      $scope.post = {}
+                      $scope.loading = false
+                      updateMarkers()
+                      $scope.postMarker.setMap(null)
+                  .error (data) ->
+                      for key, value of data
+                          AlertService.add('danger', key + ' ' + value )
+                      $scope.loading = false
+          else
+              AlertService.add('danger', 'Please sign in to continue' )
+              $scope.loading = false 
+              $modal.open
+                  templateUrl:'signIn.html',
+                  controller:'SignUpCtrl')
     $scope.startMapper = ->
       callback = -> $scope.postMarker.setMap($scope.map)
       if $scope.postMarker

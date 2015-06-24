@@ -2,9 +2,9 @@ factories = angular.module('factories')
 
 factories.factory('UserService',['$http',
     ($http) ->
-        
-        login: 
-            (username,password,callback) -> 
+
+        login:
+            (username,password,callback) ->
                 self = this
                 loginData={ username:username, password:password};
                 console.log(loginData)
@@ -17,14 +17,14 @@ factories.factory('UserService',['$http',
                     else
                         console.log(data)
                         self.currentUser=false;
-                
+
                     callback(null,data)
 
                 .error (err)->
                     callback(err)
-     
-        
-        logout: 
+
+
+        logout:
             (callback) ->
                 self = this
                 $http.get('/log_out')
@@ -33,18 +33,18 @@ factories.factory('UserService',['$http',
                         callback(null,data)
                     .error (err)->
                         callback(err)
-            
-        check: 
+
+        check:
             (callback) ->
                 self=this;
                 $http.get('/auth/check')
-                
+
                 .success (data)->
                     if (data && data.user)
                         self.currentUser=data.user
                     else
                         self.currentUser=false
-                
+
                     callback(null,data)
 
                 .error (err)->
