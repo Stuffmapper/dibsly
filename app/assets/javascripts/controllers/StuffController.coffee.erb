@@ -136,6 +136,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         $scope.loading = true
         UserService.check((blank,data)->
           if data.user
+              token = $("meta[name=\"csrf-token\"]").attr("content")
               formdata = new FormData();
               formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
               formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
@@ -144,7 +145,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
               formdata.append('on_the_curb', $scope.post.on_the_curb)
               formdata.append('image', $scope.file);
               $http.post( "/posts", formdata, {
-                  headers: {'Content-Type': undefined}
+                  headers: {'Content-Type': undefined,'X-CSRF-TOKEN':token}
                   transformRequest: angular.identity
                   }).success (data, status, headers, config) ->
                       AlertService.add('success', "You've Posted Your Stuff")
@@ -162,7 +163,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                       $scope.loading = false
           else
               AlertService.add('danger', 'Please sign in to continue' )
-              $scope.loading = false 
+              $scope.loading = false
               $modal.open
                   templateUrl:'signIn.html',
                   controller:'SignUpCtrl')
