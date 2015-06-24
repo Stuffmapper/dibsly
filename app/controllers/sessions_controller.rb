@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def create_with_omniauth
-    user = User.from_omniauth(env["omniauth.auth"])
+    user = User.from_omniauth(env["omniauth.auth"],request)
     if user
       session[:user_id] = user.id
       redirect_to '/'
@@ -44,10 +44,9 @@ class SessionsController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, 
+    # Never trust parameters from the scary internet,
     # only allow the white list through.
     def sessions_params
       params.permit(:username, :password)
     end
 end
-

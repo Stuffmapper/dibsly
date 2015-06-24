@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :reports, through: :dibs
   #has_many :dib_posts, through: :dibs, :source => :post
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
-  
+
   before_save :downcase_email
   before_save :confirm_email
 
@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   end
 
 
-  def self.from_omniauth(auth)
+  def self.from_omniauth(auth,request)
     oauth_user = User.find_by_email(auth.info.email)
     if oauth_user
       where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
@@ -53,26 +53,36 @@ class User < ActiveRecord::Base
         user.first_name = auth.info.first_name
         user.last_name = auth.info.last_name
         user.email = auth.info.email
-        user.username = auth.info.email.split('@').first+((Integer(auth.uid)%1000000).to_s)
+        user.username = self.create_username auth
         user.password = auth.credentials.token[0..35]
         user.oauth_token = auth.credentials.token
         user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         user.status = STATUS_NEW
         user.verified_email = true
-        user.ip = "not_provided"
+        user.ip = request ? request.remote_ip : "not_provided"
         user.save!
-        return user 
+        return user
       end
     end
   end
 
-  #REVIEW 
+
+  def self.create_username auth
+    username = !auth.info.nickname.nil? ? auth.info.nickname : auth.info.first_name + auth.info.last_name
+    number = 0;
+    while self.find_by_username username
+      number += 1
+      username += number.to_s
+    end
+    username
+  end
+
   def dib_posts
-    
+
     (self.dibs.select {|x| x.post != nil and x.post.current_dib == x }).collect { |y| y.post }
   end
 
-  
+
 
   def mailboxer_email(object)
     self.email
@@ -88,7 +98,7 @@ class User < ActiveRecord::Base
   end
 
   def send_verification_email
-    self.verify_email_token =  SecureRandom.urlsafe_base64(48) 
+    self.verify_email_token =  SecureRandom.urlsafe_base64(48)
     Notifier.email_verification(self).deliver_now
   end
 
@@ -97,7 +107,7 @@ class User < ActiveRecord::Base
 
     self.email = email.downcase
   end
-  
+
   def allowed_to_post_and_dib?
     self.verified_email
   end
