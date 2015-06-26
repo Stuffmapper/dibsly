@@ -17,7 +17,7 @@
 
 
 
-        <tab heading="Get Stuff"  active='true' >
+        <tab heading="Get Stuff"  active='true' ng-click='getStuff()'  >
            <div id="get-stuff" >
               <div class="row col-md-12 row">
                  <button class="btn" ng-click="onTheCurb()" ng-hide="curb_only"> Only on the Curb</button>
@@ -60,7 +60,7 @@
                 <div class="col-lg-12 col-md-12 col-xs-12">
                   <div class="form-group col-md-6">
 
-                    <div id="give-stuff-file-container" class='btn' ng-click="startMapper()">
+                    <div id="give-stuff-file-container" class='btn'>
 
                       <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
 

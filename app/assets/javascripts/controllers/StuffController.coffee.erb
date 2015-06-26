@@ -39,6 +39,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
 
     updateMarkers = ->
+      localMarkers = localStorage.getItem('markers')
+      if localMarkers
+        $scope.makers = JSON.parse(localMarkers)
       neBounds = $scope.map.getBounds().getNorthEast()
       swBounds = $scope.map.getBounds().getSouthWest()
       $http(
@@ -50,10 +53,11 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
           swLng: swBounds.lng()
         ).success((data)->
           for marker in data.posts
-            if not $scope.markers[marker.id]
-              marker.viewing = false
-              $scope.markers[marker.id] = marker
-              $scope.backup[marker.id] = marker )
+            marker.viewing = false
+            $scope.markers[marker.id] = marker
+            $scope.backup[marker.id] = marker
+          localStorage.setItem('markers', JSON.stringify($scope.markers))
+          console.log(localStorage.getItem('markers')))
 
     $scope.$on('mapInitialized', (evt, map) ->
       self = this
@@ -97,24 +101,34 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
        angular.element("map").height(height)
        $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
+    $scope.getStuff = ->
+      updateMarkers()
+      google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
+      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
 
 
 
 
     $scope.mystuff = {posts:{}, dibs:{}}
     $scope.getMyStuff = ->
-        $http.get( '/my-stuff')
-        .success(
-            (data)->
-                for marker in data.posts
-                  $scope.mystuff.posts[marker.id] = marker
-
-          )
-        $http.get( '/my-dibs')
-        .success(
-            (data)->
-                console.log( data  )
-                $scope.mystuff.dibs = data['posts'] )
+        #check UserService
+        UserService.check((blank,data)->
+          if data.user
+            mystuff = localStorage.getItem('mystuff')
+            if mystuff
+              $scope.mystuff = JSON.parse(mystuff)
+          $http.get( '/my-stuff')
+          .success(
+              (data)->
+                  for marker in data.posts
+                    $scope.mystuff.posts[marker.id] = marker
+            )
+          $http.get( '/my-dibs')
+          .success(
+              (data)->
+                  console.log( data  )
+                  $scope.mystuff.dibs = data['posts'] )
+          localStorage.setItem('mystuff', JSON.stringify($scope.my-stuff)))
 
     $scope.removeDibber = (id, description, postID )->
       report = {description: description}
@@ -168,6 +182,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                   templateUrl:'signIn.html',
                   controller:'SignUpCtrl')
     $scope.startMapper = ->
+      $scope.markers = {}
+      google.maps.event.clearListeners(  $scope.map, 'dragend')
+      google.maps.event.clearListeners( $scope.map, 'zoom_changed')
       callback = -> $scope.postMarker.setMap($scope.map)
       if $scope.postMarker
           $scope.postMarker.setMap($scope.map)
