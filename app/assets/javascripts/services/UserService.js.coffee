@@ -27,6 +27,7 @@ factories.factory('UserService',['$http',
         logout:
             (callback) ->
                 self = this
+                localStorage.clear()
                 $http.get('/log_out')
                     .success (data)->
                         self.currentUser=false;
