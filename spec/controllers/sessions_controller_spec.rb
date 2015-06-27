@@ -6,7 +6,7 @@ RSpec.describe SessionsController, :type => :controller do
     before do
       @user = create(:user, :username => 'Superbad' )
       xhr :post, :create, format: :json, username: username, password: password
-    end    
+    end
 
     context "with correct name " do
       let (:username) {'Superbad'}
@@ -17,14 +17,17 @@ RSpec.describe SessionsController, :type => :controller do
         expect(JSON.parse(response.body)['user']).to eq('Superbad')
       end
     end
-    context "with username in wrong case correct name " do
-      let (:username) {'superbad'}
+
+    context "with correct name in a different case " do
+      let (:username) {'superBad'}
       let (:password) {'123456'}
 
-      it 'should 422' do
-        expect(response.status).to eq(422)
+      it 'should 200' do
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['user']).to eq('Superbad')
       end
     end
+
 
     context "with email instead of username" do
       let (:username) { @user.email }
@@ -57,9 +60,9 @@ RSpec.describe SessionsController, :type => :controller do
 
   end
 
-  describe "Get Log out" do 
-    it "should be successful" do 
-      
+  describe "Get Log out" do
+    it "should be successful" do
+
       xhr :get, :destroy, format: :json
       expect(response.status).to eq(200)
     end
@@ -71,7 +74,7 @@ RSpec.describe SessionsController, :type => :controller do
       xhr :post, :create, format: :json, username: 'Superbad', password: '123456'
     end
 
-    context "user logged in " do 
+    context "user logged in " do
       it 'should 200' do
         xhr :get, :check
         expect(response.status).to eq(200)
@@ -87,5 +90,5 @@ RSpec.describe SessionsController, :type => :controller do
       end
     end
 
-  end   
+  end
 end

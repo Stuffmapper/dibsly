@@ -32,6 +32,16 @@ RSpec.describe User, :type => :model do
       end
     end
 
+		describe "doesn't allow usernames of different cases" do
+
+			it "changes doesn't save dup usernames" do
+				create(:user, username: 'John' ) 
+				user2  = build(:user, username: 'john')
+				expect(user2.save).to eq false
+			end
+		end
+
+
     describe "allows user to post if email verified" do
       let(:user) { build(:user, verified_email: false  ) }
 
@@ -60,8 +70,9 @@ RSpec.describe User, :type => :model do
         user.save
         expect( user.verify_email_token ).to_not eq nil
       end
+  	end
 
-			describe "Creates from social media" do
+	 describe "Creates from social media" do
 
 	      it "uses facebook " do
 					User.from_omniauth(OmniAuth.config.mock_auth[:facebook],nil)
@@ -82,9 +93,4 @@ RSpec.describe User, :type => :model do
 
 	    end
 
-    end
-
-
-
-
-end
+  end

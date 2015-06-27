@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name
   validates_presence_of :last_name
-  validates_uniqueness_of :username
+  validates :username, :uniqueness => {:case_sensitive => false}
   #TODO change the database to make username unique on that level
 
   validates :password, :presence => true,
