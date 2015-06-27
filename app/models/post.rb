@@ -9,7 +9,7 @@ class Post < ActiveRecord::Base
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
   process_in_background :image
-  
+
   #for the comments
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
 
@@ -83,11 +83,12 @@ class Post < ActiveRecord::Base
   end
 
   def remove_current_dib
-      self.status = 'new'
-      self.dibbed_until = Time.now - 1.minute
-      self.save
       self.current_dib.notify_undib
-      self.update_attribute(:current_dib, nil)
+      self.update_attributes({
+        :current_dib => nil,
+        :dibbed_until => Time.now - 1.minute,
+        :status => 'new'})
+     self.save!
   end
 
   def available_to_dib?
