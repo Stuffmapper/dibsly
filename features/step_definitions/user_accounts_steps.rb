@@ -147,8 +147,6 @@ When(/^I follow the reset password link and set my new password to "(.*?)"$/) do
   fill_in 'password', with: arg1
   fill_in 'password_confirmation', with: arg1
   click_button 'Change Password'
-  sleep(1)
-  expect(page).to have_text ('Password Changed')
 end
 
 
@@ -161,6 +159,12 @@ Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
     end
     expect(page).to have_text("You have been signed in")
 end
+
+Then(/^I should be able to see "(.*?)"$/) do |arg1|
+  expect(page).to have_text(arg1)
+end
+
+
 
 When(/^I try to login, I should be able to use my email in place of username$/) do
     visit('/')

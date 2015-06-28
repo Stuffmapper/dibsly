@@ -15,10 +15,8 @@ class User < ActiveRecord::Base
   validates :username, :uniqueness => {:case_sensitive => false}
   #TODO change the database to make username unique on that level
 
-  validates :password, :presence => true,
-                       :confirmation => true,
-                       :length => {:within => 6..40},
-                       :on => :create
+  validates :password, length: { minimum: 6 }, allow_nil: true
+  validates :password, length: { minimum: 6 }, presence: true, on: :create
 
 
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
