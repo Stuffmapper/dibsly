@@ -100,7 +100,7 @@ RSpec.describe DibsController, type: :controller do
 		     	@user2.reload
 					dib =  @post.dibs.where(:creator_id => @user2.id).first
 		     	conversation = dib.conversation.receipts_for @user2
-		     	expect(conversation[1].message.body).to eq (
+		     	expect(conversation.last.message.body).to eq (
 						@user2.username + ' has undibbed your stuff'
 					)
 
