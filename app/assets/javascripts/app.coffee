@@ -9,12 +9,12 @@ stfmpr = angular.module('stfmpr',[
         'ui.bootstrap',
         'angular-flash.service',
         'angular-flash.flash-alert-directive',
-        'yaru22.angular-timeago' 
-		
+        'yaru22.angular-timeago'
+
 ])
 
 
- 
+
 controllers = angular.module('controllers',[])
 factories = angular.module('factories',[])
 directives = angular.module('directives',[])
@@ -52,13 +52,15 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl: "post.html"
           controller: 'StuffViewCtrl'
        })
-   
-
-
-])	
 
 
 
+])
+
+
+
+stfmpr.config ($resourceProvider) ->
+  $resourceProvider.defaults.stripTrailingSlashes = false
 
 
 stfmpr.config ($httpProvider) ->
@@ -73,8 +75,5 @@ stfmpr.run(['UserService',(UserService)->
 
     UserService.check((err,data)->
         console.log('check',err,data)
-      ) 
+      )
 ])
-
-
-

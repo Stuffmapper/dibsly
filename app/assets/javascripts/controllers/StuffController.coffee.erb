@@ -3,19 +3,40 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService','UserService','AlertService', '$http',
- ($scope, $window, $modal, MapsService, UserService, AlertService, $http ) ->
+controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
+ ($scope, $window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
     $scope.UserService = UserService;
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
-    $scope.viewing = false
-    $scope.currentPost = { editing: false, viewing: false}
-    $scope.mapCenter = '47.6097,-122.3331'
 
-    $scope.markers = {}
-    $scope.curb_only = false
-    $scope.backup = {}
+    Marker = $resource('/posts/:id', id:'@id');
+    init = ->
+      $scope.viewing = false
+      $scope.currentPost = { editing: false, viewing: false}
+      $scope.mapCenter = '47.6097,-122.3331'
+
+      $scope.markers = {}
+      $scope.mystuff = {posts:{}, dibs:{}}
+      $scope.curb_only = false
+      $scope.backup = {}
+      localMarkers = localStorage.getItem('markers')
+      if localMarkers
+        angular.forEach(JSON.parse(localMarkers),(value, key) ->
+          $scope.markers[key] = new Marker(value)
+        )
+      UserService.check((blank,data)->
+        if data.user
+          mystuff = localStorage.getItem('mystuff')
+          if mystuff
+            $scope.mystuff = JSON.parse(mystuff)
+      )
+
+
+
+
+
+
     $scope.edit = (post)->
       $scope.currentPost = post
       $scope.currentPost.editing =true
@@ -24,7 +45,6 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       $scope.currentPost = post
       $scope.currentPost.viewing = true
 
-    self = this
 
 
     $scope.onTheCurb = ->
@@ -39,31 +59,48 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
 
     updateMarkers = ->
-      localMarkers = localStorage.getItem('markers')
-      if localMarkers
-        $scope.makers = JSON.parse(localMarkers)
-      neBounds = $scope.map.getBounds().getNorthEast()
-      swBounds = $scope.map.getBounds().getSouthWest()
-      $http(
-        url: '/posts/geolocated'
-        params:
-          neLat: neBounds.lat()
-          swLat: swBounds.lat()
-          neLng: neBounds.lng()
-          swLng: swBounds.lng()
-        ).success((data)->
-          for marker in data.posts
-            marker.viewing = false
-            $scope.markers[marker.id] = marker
-            $scope.backup[marker.id] = marker
-          localStorage.setItem('markers', JSON.stringify($scope.markers))
-          console.log(localStorage.getItem('markers')))
+      console.log('updating markers')
+      # neBounds = $scope.map.getBounds().getNorthEast()
+      # swBounds = $scope.map.getBounds().getSouthWest()
+      # $http(
+      #   url: '/posts/geolocated'
+      #   params:
+      #     neLat: neBounds.lat()
+      #     swLat: swBounds.lat()
+      #     neLng: neBounds.lng()
+      #     swLng: swBounds.lng()
+      #   ).success((data)->
+      #     for marker in data.posts
+      #       $scope.backup[marker.id] = marker
+      #       Marker.get(marker)
+      #       .$promise.then((marker)->
+      #         $scope.markers[marker.post.id] = marker.post
+      #         )
+      #     localStorage.setItem('markers', JSON.stringify($scope.backup))
+      #     )
 
     $scope.$on('mapInitialized', (evt, map) ->
       self = this
       updateMarkers()
-      # if $scope.postMarker
-      #   $scope.postMarker.setMap($scope.map)
+      angular.forEach($scope.markers, (value, key)->
+        if !value.marker
+          latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
+          options =
+            zoom: 4
+            center:latLng
+          value.marker = new google.maps.Marker(
+            icon: '<%= asset_path('blue-circle.png')%>'
+            position: latLng,
+            map: $scope.map,
+            title: value.description )
+          google.maps.event.addListener(value.marker, 'click',->
+            infowindow = new google.maps.InfoWindow(
+              content: value.image_url
+            )
+            console.log(value)
+            infowindow.open($scope.map,value.marker)
+          )
+      )
       google.maps.event.addListener(map, 'dragend', updateMarkers )
       google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
       navigator.geolocation.getCurrentPosition((position)->
@@ -96,45 +133,47 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
 
 
     $scope.loading = false
-    $scope.mystuff = {}
+
     $scope.togglemap = (height)->
        angular.element("map").height(height)
        $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
     $scope.getStuff = ->
-      updateMarkers()
+      # localMarkers = localStorage.getItem('markers')
+      # if localMarkers
+      #   angular.forEach(JSON.parse(localMarkers),(value, key) ->
+      #     $scope.markers[key] = new Marker(value)
+      #   )
+      angular.forEach($scope.markers, (value,key)->
+        value.marker.setMap($scope.map)
+      )
       google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
       google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
 
 
 
 
-    $scope.mystuff = {posts:{}, dibs:{}}
     $scope.getMyStuff = ->
-        #check UserService
         UserService.check((blank,data)->
           if data.user
             mystuff = localStorage.getItem('mystuff')
             if mystuff
               $scope.mystuff = JSON.parse(mystuff)
-          $http.get( '/my-stuff')
-          .success(
-              (data)->
-                  for marker in data.posts
-                    $scope.mystuff.posts[marker.id] = marker
+            $http.get( '/my-stuff')
+            .success(
+                (data)->
+                    for marker in data.posts
+                      $scope.mystuff.posts[marker.id] = marker )
+            .then( (data)->
+              console.log('getting my dibs')
+              $http.get( '/my-dibs')
+              .success((data)->
+                $scope.mystuff.dibs = data['posts'] )
+            ).then((data)->
+                localStorage.setItem('mystuff', JSON.stringify($scope.mystuff))
             )
-          $http.get( '/my-dibs')
-          .success(
-              (data)->
-                  console.log( data  )
-                  $scope.mystuff.dibs = data['posts'] )
-          localStorage.setItem('mystuff', JSON.stringify($scope.my-stuff)))
+          )
 
-    $scope.removeDibber = (id, description, postID )->
-      report = {description: description}
-      $http.post( '/dibs/' + id + '/removedib',  {report: report} )
-      .success(  console.log( "number is !", postID)
-        $scope.mystuff.posts[postID]['dibbable'] = true )
 
     $scope.markGone =(id)->
       post = {status: 'gone'}
@@ -143,6 +182,15 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
         AlertService.add('success', "Marked as gone")
       .error ->
         AlertService.add('warning', "Something went wrong")
+
+
+    $scope.removeDibber = (id, description, postID )->
+      report = {description: description}
+      $http.post( '/dibs/' + id + '/removedib',  {report: report} )
+      .success(  console.log( "number is !", postID)
+        $scope.mystuff.posts[postID]['dibbable'] = true )
+
+
 
 
 
@@ -182,7 +230,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
                   templateUrl:'signIn.html',
                   controller:'SignUpCtrl')
     $scope.startMapper = ->
-      $scope.markers = {}
+      angular.forEach($scope.markers, (value,key)->
+        $scope.markers[key].marker.setMap(null)
+      )
       google.maps.event.clearListeners(  $scope.map, 'dragend')
       google.maps.event.clearListeners( $scope.map, 'zoom_changed')
       callback = -> $scope.postMarker.setMap($scope.map)
@@ -226,6 +276,6 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal', 'MapsService'
       navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions)
 
     updatePostMarker(null, 25000)
-
+    init()
 
 ])
