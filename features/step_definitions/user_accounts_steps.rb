@@ -151,6 +151,9 @@ end
 
 
 Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
+    if first(:link, 'Sign Out') != nil
+      first(:link, 'Sign Out').click
+    end
     first(:link, 'Sign In').click
     fill_in 'username', with: @user.username
     fill_in 'password', with: arg1
