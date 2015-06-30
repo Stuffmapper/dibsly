@@ -22,21 +22,13 @@
             <span>{{stuff.published}}</span>
           </li>
 
-          <li><b>Available: </b>
-            <span>{{stuff.dibbable}}</span>
-          </li>
-
           <li><b>Description: </b>
             <span>{{stuff.description}}</span>
           </li>
-
-
         </ul>
-
-                   <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
-                   <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
-
-               <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit>
+          <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
+          <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
+          <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit>
          <hr>
       </div>
 
