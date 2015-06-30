@@ -3,8 +3,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
- ($scope, $window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
+controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
+ ($scope, $timeout, $window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
     $scope.UserService = UserService;
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
@@ -23,6 +23,7 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', '
       localMarkers = localStorage.getItem('markers')
       if localMarkers
         angular.forEach(JSON.parse(localMarkers),(value, key) ->
+          value.viewing = false
           $scope.markers[key] = new Marker(value)
         )
       UserService.check((blank,data)->
@@ -31,8 +32,14 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', '
           if mystuff
             $scope.mystuff = JSON.parse(mystuff)
       )
-
-
+    $scope.openMarker = (id) ->
+      modalInstance = $modal.open(
+        templateUrl: 'post.html',
+        controller: 'StufCtrl',
+        resolve:
+          stuff: ->
+            $scope.markers[id]
+     )
 
 
 
@@ -56,50 +63,61 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', '
           $scope.markers[key] = marker
       $scope.curb_only = !$scope.curb_only
 
+    createMarker = (value, key)->
+      if !value.marker
+        latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
+        options =
+          zoom: 4
+          center:latLng
+        value.marker = new google.maps.Marker(
+          icon: '<%= asset_path('blue-circle.png')%>'
+          position: latLng,
+          map: $scope.map,
+          title: value.description )
+        google.maps.event.addListener(value.marker, 'click',->
+          value.viewing  = true
+          if !value.description
+            value.description = ""
+          innerContent = "<div ng-non-bindable=''>
+                    <div id='siteNotice'></div>
+                     <img class='stuff-map-image' src=" + value.image_url + "></img>
+                    <div id='bodyContent'>
+                      <p>" + value.description + "</p>
+                    </div>
+                  </div>"
+          infowindow = new google.maps.InfoWindow(
+            content: innerContent
+          )
+          infowindow.open($scope.map,value.marker)
+          $scope.openMarker(value.id)
+          $timeout( (-> infowindow.close($scope.map,value.marker)),4000)
+        )
 
 
     updateMarkers = ->
-      console.log('updating markers')
-      # neBounds = $scope.map.getBounds().getNorthEast()
-      # swBounds = $scope.map.getBounds().getSouthWest()
-      # $http(
-      #   url: '/posts/geolocated'
-      #   params:
-      #     neLat: neBounds.lat()
-      #     swLat: swBounds.lat()
-      #     neLng: neBounds.lng()
-      #     swLng: swBounds.lng()
-      #   ).success((data)->
-      #     for marker in data.posts
-      #       $scope.backup[marker.id] = marker
-      #       Marker.get(marker)
-      #       .$promise.then((marker)->
-      #         $scope.markers[marker.post.id] = marker.post
-      #         )
-      #     localStorage.setItem('markers', JSON.stringify($scope.backup))
-      #     )
+      neBounds = $scope.map.getBounds().getNorthEast()
+      swBounds = $scope.map.getBounds().getSouthWest()
+      $http(
+        url: '/posts/geolocated'
+        params:
+          neLat: neBounds.lat()
+          swLat: swBounds.lat()
+          neLng: neBounds.lng()
+          swLng: swBounds.lng()
+        ).success((data)->
+          console.log(data)
+          for marker in data.posts
+            $scope.backup[marker.id] = marker
+            if !$scope.markers[marker.id]
+              createMarker(marker, marker.id)
+          localStorage.setItem('markers', JSON.stringify($scope.backup))
+          )
 
     $scope.$on('mapInitialized', (evt, map) ->
       self = this
       updateMarkers()
       angular.forEach($scope.markers, (value, key)->
-        if !value.marker
-          latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
-          options =
-            zoom: 4
-            center:latLng
-          value.marker = new google.maps.Marker(
-            icon: '<%= asset_path('blue-circle.png')%>'
-            position: latLng,
-            map: $scope.map,
-            title: value.description )
-          google.maps.event.addListener(value.marker, 'click',->
-            infowindow = new google.maps.InfoWindow(
-              content: value.image_url
-            )
-            console.log(value)
-            infowindow.open($scope.map,value.marker)
-          )
+        createMarker(value, key)
       )
       google.maps.event.addListener(map, 'dragend', updateMarkers )
       google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
@@ -110,8 +128,9 @@ controllers.controller('StuffCtrl', [ '$scope','$window','$modal','$resource', '
           )
         )
       )
-    $scope.toggleView = (event, id, markers )->
-      self.$scope.markers[id].viewing = true
+    $scope.markerWindow = (id)->
+      $scope.markers[id].viewing = !$scope.markers[id].viewing
+      google.maps.event.trigger($scope.markers[id].marker, 'click')
 
     $scope.post = {}
     $scope.$on("fileSelected",

@@ -29,17 +29,17 @@
                 <div class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
                   <div class= "stuff-image-container clearfix">
                     <img class="stuff-image img-responsive" ng-src={{item.image_url}}
-                    ng-click='markers[item.id][viewing] = !markers[item.id][viewing]'></img>
+                    ng-click='markerWindow(item.id)'></img>
                   </div>
                   <div class="col-md-12">
                     <dib post="item.id"></dib>
                     <button class= "btn-xs btn-default"
-                    ng-click='markers[item.id][viewing] = !markers[item.id][viewing]'
+                    ng-click=markerWindow(item.id)
                     >Details</button>
                   </div>
                 </div>
                   <details post="item.id" stuff="item" markers="markers"
-                   viewing=markers[item.id][viewing] ng-show=markers[item.id][viewing] ></details>
+                   viewing=item.viewing ng-show=item.viewing></details>
               </div>
 
            </div>
@@ -250,26 +250,6 @@
 
 
   <map id="google-map-container" center={{mapCenter}} zoom="12" >
-    <!-- <div class='g-marker' ng-repeat="post in markers">
-      <marker position="{{post.coords.latitude}}, {{post.coords.longitude}}"
-        title: "{{post.description}}" icon=<%= asset_path('blue-circle.png')%>
-         id="marker-{{post.id}}"
-         on-click="showInfoWindow(event, 'info-{{post.id}}' )"></marker>
-      <info-window id='info-{{post.id}}' visible-on-marker="marker-{{post.id}}">
-        <div ng-non-bindable="">
-          <div id="siteNotice"></div>
-           <img class="stuff-map-image" src={{post.image_url}} ></img>
-          <div id="bodyContent">
-            <p>{{post.description}}</p>
-            <dib post="post.id"></dib>
-            <button class= "btn-xs btn-default"
-            ng-click='markers[post.id][viewing] = !markers[post.id][viewing]'
-            >Details</button>
-
-          </div>
-        </div>
-      </info-window>
-    </div> -->
 
 
   </map>
