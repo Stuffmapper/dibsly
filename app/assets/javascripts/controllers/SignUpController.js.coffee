@@ -3,16 +3,16 @@ controllers = angular.module('controllers')
 
 
 controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http','$window', '$timeout','UserService','AlertService',
-  ($scope, $modal, $modalInstance, $http, $window,$timeout, UserService, AlertService ) -> 
+  ($scope, $modal, $modalInstance, $http, $window,$timeout, UserService, AlertService ) ->
 
-  
 
-    $scope.cancel = ->  
-      $window.location.href = "http://" + $window.location.host 
+
+    $scope.cancel = ->
+      $window.location.href = "http://" + $window.location.host
       $modalInstance.dismiss('cancel')
     $scope.oaLogin = (provider)->
       fbauth  = "http://" + $window.location.host + '/auth/' + provider
-      $window.location.href = fbauth   
+      $window.location.href = fbauth
 
 
     $scope.showPolicy = (policy)->
@@ -27,19 +27,19 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
           username: $scope.username
           email: $scope.email
           password: $scope.password
-          password_confirmation: $scope.password_confirmation 
+          password_confirmation: $scope.password_confirmation
           phone_number: $scope.phone_number
           anonymous: $scope.anonymous
           }
 
-      
+
       $http.post('/users', {user: user}  )
-        .success -> 
-          $window.location.href = "http://" + $window.location.host 
+        .success ->
+          $window.location.href = "http://" + $window.location.host
           $modalInstance.dismiss('cancel')
         .error (data) ->
           for key, value of data
-            
+
             AlertService.add('danger', key + ' ' + value )
 
     $scope.signin = ->
@@ -48,13 +48,13 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
                 if(err)
                     AlertService.add('danger', "Wrong username or password")
                 else if(data.user)
-                  if $window.location.origin != "http://" + $window.location.host 
+                  if $window.location.origin != "http://" + $window.location.host
                     $window.location.href = "http://" + $window.location.host
                     alert('hello ')
                   AlertService.add('success','You have been signed in')
                   $modalInstance.dismiss('cancel')
-                else  
-                  alert(data.error)   
+                else
+                  alert(data.error)
           )
     $scope.fbsignin = ->
         UserService.login(
@@ -64,8 +64,8 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
               else if(data.user)
                 AlertService.add('success','You have been signed in.')
                 $modalInstance.dismiss('cancel')
-              else  
-                alert(data.error)   
+              else
+                alert(data.error)
         )
     $scope.resetPW = ->
       $modalInstance.dismiss('cancel')
@@ -83,13 +83,13 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$ht
       $http(
            url: '/password_resets'
            method: 'POST'
-           params: 
+           params:
                email: $scope.email )
-        .success -> 
+        .success ->
+          AlertService.add('success', "Reset email sent")
           $modalInstance.dismiss('cancel')
         .error (data) ->
           for key, value of data
-            
+
             AlertService.add('danger', key + ' ' + value )
 ])
-
