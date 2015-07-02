@@ -120,10 +120,8 @@ end
 ### VIEW PHOTO
 When(/^click on an item's description on the map$/) do
  expect(page.body).to have_selector('#google-map-container')
-   within(first('.g-marker', :visible => false)) do
       #this is a hack - still not sure how to test google marker photos
-     expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
-  end
+ expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
 
 
 end
@@ -140,7 +138,7 @@ end
 
 Then(/^I should see a photo of the stuff$/) do
 
-  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]")
+  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
 
 end
 

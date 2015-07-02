@@ -74,6 +74,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           position: latLng,
           map: $scope.map,
           title: value.description )
+        $scope.markers[value.id] = value
         google.maps.event.addListener(value.marker, 'click',->
           value.viewing  = true
           if !value.description

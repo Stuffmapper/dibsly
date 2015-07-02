@@ -44,7 +44,11 @@ Given(/^I signup with a username password email and phone$/) do
   within('.modal-footer') do
     click_button "Sign Up"
   end
-  sleep(1)
+  sleep(2)
+  if first(:link, 'Sign Out') != nil
+    first(:link, 'Sign Out').click
+  end
+
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
@@ -197,11 +201,15 @@ end
 
 When(/^I follow the link in the welcome email$/) do
   current_email.click_link "http://"
+  sleep(1)
   expect(page).to have_content("You've verified your email!")
 end
 
 Then(/^I should be able to post an item and dib Jacks shoes$/) do
-  click_link('Sign Out')
+  visit '/'
+  if first(:link, 'Sign Out') != nil
+    first(:link, 'Sign Out').click
+  end
 
   steps %{
     When I log in and give stuff
