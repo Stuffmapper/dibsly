@@ -30,7 +30,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         )
       UserService.check((blank,data)->
         if data.user
-          mystuff = localStorage.getItem('mystuff')
+          mystuff = localStorage.getItem('mystuff' + data.user)
           if mystuff
             $scope.mystuff = JSON.parse(mystuff)
       )
@@ -174,7 +174,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
     $scope.getMyStuff = ->
         UserService.check((blank,data)->
           if data.user
-            mystuff = localStorage.getItem('mystuff')
+            user = data.user
+            mystuff = localStorage.getItem('mystuff' + user)
             if mystuff
               $scope.mystuff = JSON.parse(mystuff)
             $http.get( '/my-stuff')
@@ -188,7 +189,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
               .success((data)->
                 $scope.mystuff.dibs = data['posts'] )
             ).then((data)->
-                localStorage.setItem('mystuff', JSON.stringify($scope.mystuff))
+                localStorage.setItem('mystuff' + user, JSON.stringify($scope.mystuff))
             )
           )
 

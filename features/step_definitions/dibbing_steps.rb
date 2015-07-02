@@ -38,7 +38,7 @@ end
 
 When(/^I hit dib$/) do
   click_link 'Get Stuff'
-  first(:button,'Dib').click 
+  first(:button,'Dib').click
  end
 
 Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
@@ -110,7 +110,7 @@ Then(/^I should not see the shoes in the get stuff menu$/) do
 end
 Then(/^I should see the shoes in the get stuff  menu$/) do
   click_link('Get Stuff')
-  within('#get-stuff') do
+  within find('#get-stuff') do
     click_button "Details"
     expect(page).to have_text("shoes")
   end
