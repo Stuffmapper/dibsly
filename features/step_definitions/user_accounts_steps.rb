@@ -52,20 +52,17 @@ Given(/^I signup with a username password email and phone$/) do
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
-  click_link('Sign Out')
   user = User.find_by_username('fakeuser')
   sign_in user
-  #expect(page).to have_text('You have been signed in.')
-
   expect(page).to have_text('Sign Out')
 
 end
 
 Then(/^I should be able to go to my account with google and facebook$/) do
+   if first(:link, 'Sign Out') != nil
+    first(:link, 'Sign Out').click
+   end
    expect(User.count).to eq 1
-
-   click_link 'Sign Out'
-   expect(page).to_not have_text 'Sign Out'
    first(:link, 'Sign In').click
    click_link 'Facebook'
    expect(User.count).to eq 1
@@ -234,7 +231,11 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
 
 When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) do
   visit '/'
-  click_link('Sign Out')
+
+  if first(:link, 'Sign Out') != nil
+    first(:link, 'Sign Out').click
+  end
+
   @current_user = User.last
   steps %{
     When I log in and give stuff

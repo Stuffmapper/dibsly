@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    username = params[:username]
+    username = params[:username] ? params[:username] : ''
     user = User.where("lower(username) = ?", username.downcase ).first  || User.find_by_email(username.downcase)
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id

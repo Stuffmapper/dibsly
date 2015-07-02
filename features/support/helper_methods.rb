@@ -1,6 +1,9 @@
 
 module FormSubmissionHelpers
   def sign_in user
+    if first(:link, 'Sign Out') != nil
+      first(:link, 'Sign Out').click
+    end
     allow(ApplicationController).to receive(:current_user){ user }
     first(:link,'Sign In').click
     fill_in 'username', with: user.username
