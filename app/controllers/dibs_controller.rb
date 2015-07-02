@@ -2,7 +2,7 @@ class DibsController < ApplicationController
   before_action :authorize
 
 def create
-    if params[:post_id] 
+    if params[:post_id]
 
       @post = Post.find(params[:post_id])
       dib = @post.create_new_dib(current_user, request.remote_ip)
@@ -28,11 +28,11 @@ def undib
   else
     render json: '[]', status: :unprocessable_entity
   end
-  
+
 end
   #part
 def remove_dib
-  dib = Dib.find(params[:id]) 
+  dib = Dib.find(params[:id])
   if dib and dib.post.user == current_user
     dib.remove_as_dibber
     dib.report = Report.create(report_params)
@@ -41,7 +41,7 @@ def remove_dib
   else
       render json: [], status: :unauthorized
   end
-    
+
 end
 
 
@@ -53,7 +53,7 @@ end
   end
 
   def authorize
-    render json: {message: 'User not logged in' }, status: :unauthorized unless current_user 
+    render json: {message: 'User not logged in' }, status: :unauthorized unless current_user
   end
 
 end
