@@ -12,6 +12,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
 
     Marker = $resource('/posts/:id', id:'@id');
     init = ->
+
       $scope.viewing = false
       $scope.currentPost = { editing: false, viewing: false}
       $scope.mapCenter = '47.6097,-122.3331'
@@ -20,6 +21,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
       $scope.mystuff = {posts:{}, dibs:{}}
       $scope.curb_only = false
       $scope.backup = {}
+      $scope.tabs = { getStuff: true, giveStuff: false, myStuff: false }
       localMarkers = localStorage.getItem('markers')
       if localMarkers
         angular.forEach(JSON.parse(localMarkers),(value, key) ->
@@ -159,11 +161,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
        $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
     $scope.getStuff = ->
-      # localMarkers = localStorage.getItem('markers')
-      # if localMarkers
-      #   angular.forEach(JSON.parse(localMarkers),(value, key) ->
-      #     $scope.markers[key] = new Marker(value)
-      #   )
+      $scope.tabs.getStuff = true
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap($scope.map)
       )
@@ -239,6 +237,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
                       $scope.loading = false
                       updateMarkers()
                       $scope.postMarker.setMap(null)
+                      $scope.tabs.giveStuff = false
+                      $scope.getStuff()
                   .error (data) ->
                       for key, value of data
                           AlertService.add('danger', key + ' ' + value )
