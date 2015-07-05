@@ -31,6 +31,17 @@ RSpec.describe DibsController, type: :controller do
       			receipts = conversation.receipts_for @user
       			receipts.each {|receipt| expect(receipt.message.body).to have_text("dibbed your stuff!") }
 			end
+			it 'should send a message to the lister when the post has no description' do
+				@post.description = nil
+				@post.save
+				sign_in(@user2)
+				xhr :get, :create, :post_id => @post.id
+		     	expect(response.status).to eq(200)
+		     	conversation =  @user.mailbox.inbox.last
+      			receipts = conversation.receipts_for @user
+      			receipts.each {|receipt| expect(receipt.message.body).to have_text("dibbed your stuff!") }
+			end
+
 			it 'should send  a message to dibber' do
 				sign_in(@user2)
 				expect(Notifier).to receive(:dibber_notification).and_call_original

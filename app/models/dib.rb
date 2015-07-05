@@ -82,7 +82,7 @@ class Dib < ActiveRecord::Base
   end
 
   def create_conversation
-    subject = !self.post.description.empty? ? " for " + self.post.description : ''
+    subject = !self.post.description.nil? ? " for " + self.post.description : ''
     self.conversation = Mailboxer::ConversationBuilder.new({
           :subject    => "Stuffmapper dib" + subject ,
           :created_at => Time.now,
@@ -91,13 +91,14 @@ class Dib < ActiveRecord::Base
   end
 
   def send_message_to_dibber
-    Notifier.dibber_notification(self).deliver_now
+    Notifier.dibber_notification(self).deliver_later
   end
 
   def notify_poster
     poster = self.post.creator
     dibber = self.user
-    self.start_existing_conversation(self.conversation,[poster],"#{dibber.username}'s dibbed your stuff! #{dibber.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
+    self.start_existing_conversation(self.conversation,[poster],
+    "#{dibber.username}'s dibbed your stuff! #{dibber.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
     self.conversation.add_participant(dibber)
   end
 
