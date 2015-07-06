@@ -2,22 +2,21 @@ class DibsController < ApplicationController
   before_action :authorize
 
 def create
-    if params[:post_id]
+  if params[:post_id] and current_user
 
-      @post = Post.find(params[:post_id])
-      dib = @post.create_new_dib(current_user, request.remote_ip)
+    @post = Post.find(params[:post_id])
+    dib = @post.create_new_dib(current_user, request.remote_ip)
 
-
-      if dib.valid?
-         render json: '[]', status: :ok
-      else
-        render json: dib.errors , status: :unprocessable_entity
-      end
-
+    if dib.valid?
+       render json: '[]', status: :ok
     else
-      render json: '[]', status: :unprocessable_entity
+      render json: dib.errors , status: :unprocessable_entity
     end
+
+  else
+    render json: '[]', status: :unprocessable_entity
   end
+end
 
 def undib
   post = Post.find(params[:id])
@@ -26,11 +25,10 @@ def undib
     post.reload
     render json: '[]', status: :ok
   else
-    render json: '[]', status: :unprocessable_entity
+    render json: {message: "Dib not found"}, status: :unprocessable_entity
   end
 
 end
-  #part
 def remove_dib
   dib = Dib.find(params[:id])
   if dib and dib.post.user == current_user

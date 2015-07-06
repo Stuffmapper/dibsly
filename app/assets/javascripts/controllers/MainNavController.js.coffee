@@ -7,7 +7,7 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParam
         $scope.$watchCollection('UserService',->
             $scope.currentUser = UserService.currentUser
         )
-        
+
         $scope.toggle = false
 
 
@@ -15,7 +15,7 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParam
             $modal.open
                 templateUrl:'signUp.html',
                 controller:'SignUpCtrl'
-                
+
         $scope.showMessages = ->
             $modal.open
                 templateUrl:'inbox.html',
@@ -28,13 +28,16 @@ controllers.controller('MainNavCtrl',['$scope','$location','$modal','$routeParam
 
         $scope.showLogout = ->
         	#do nothing
-        	UserService.logout (err,data)->
-            AlertService.add('success','You have been logged out.')
+        	UserService.logout((err,data)->
+            if data
+              AlertService.add('success','You have been logged out.')
+            else
+              AlertService.add('warning', 'Something went wrong') )
 
         if $routeParams.modal == 'signup'
             $scope.showSignin()
             console.log('routed')
 
-      
-    
+
+
 ])

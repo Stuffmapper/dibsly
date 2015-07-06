@@ -76,6 +76,7 @@ Before do
 end
 
 After do |scenario|
+  execute_script("localStorage.clear()")
   DatabaseCleaner.clean
 end
 
