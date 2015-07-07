@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
-	
+
 	describe "Get geolocated posts", :vcr => vcr_options do
-		 
+
 
 		before do
 			@user = create(:user)
@@ -23,11 +23,11 @@ RSpec.describe PostsController, :type => :controller do
 			  xhr :get, :geolocated
 			  expect(response.body).to eq "{\"posts\":[]}"
 			  expect(response.status).to eq(200)
- 
+
 			end
 
 			it "only returns a nearby post" do
-			   
+
 			   @post.latitude = '47'
 			   @post.longitude = '-122'
 			   @post.save!
@@ -39,7 +39,7 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(response.status).to eq(200)
 			end
 			it "does not return published posts" do
-			   
+
 			   @post.latitude = '47'
 			   @post.longitude = '-122'
 			   @post.published = false
@@ -48,25 +48,25 @@ RSpec.describe PostsController, :type => :controller do
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
 			   expect(parsed_response['posts'][0]).to eq nil
-			   expect(response.status).to eq(200)   
+			   expect(response.status).to eq(200)
 
 			end
-			
+
 
 			it "does not returns post out of scope " do
-			  
+
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
 			   expect(parsed_response['posts'][0]).to eq nil
-			   expect(response.status).to eq(200)   
+			   expect(response.status).to eq(200)
 			end
 			it "returns a post with an image_url" do
-			   
+
 			   @post.latitude = '47'
 			   @post.longitude = '-122'
 			   @post.save!
-			   
+
 			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 		       #ugly need to fix
 		       parsed_response = JSON.parse(response.body.as_json)
@@ -78,13 +78,13 @@ RSpec.describe PostsController, :type => :controller do
 			it "does not return a dibbed item  " do
 			   @post.latitude = '47'
 			   @post.longitude = '-122'
-			   @post.dibbed_until = Time.now + 10.minutes 
+			   @post.dibbed_until = Time.now + 10.minutes
 			   @post.save!
 			   expect(@post.available_to_dib?).to eq(false)
-			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123			
+			   xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
 			   parsed_response = JSON.parse(response.body.as_json)
 			   expect(parsed_response['posts'][0]).to eq nil
-			   expect(response.status).to eq(200)   
+			   expect(response.status).to eq(200)
 			end
 		end
 	end
@@ -93,15 +93,15 @@ RSpec.describe PostsController, :type => :controller do
 			@user = create(:user)
 		end
 
-		context "without login " do 
+		context "without login " do
 
-			it 'should 401' do 
-				xhr :post, :create 
-		     	expect(response.status).to eq(401) 
+			it 'should 401' do
+				xhr :post, :create
+		     	expect(response.status).to eq(401)
 			end
 		end
 
-		context "with login and unverified email", :vcr => vcr_options do 
+		context "with login and unverified email", :vcr => vcr_options do
 			before do
 			@user.update_attribute(:verified_email, false)
 			shoes = File.read("spec/factories/shoes.png")
@@ -109,59 +109,66 @@ RSpec.describe PostsController, :type => :controller do
 			end
 
 
-			it 'should 422 ' do 
+			it 'should 422 ' do
 				sign_in(@user)
-				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' } 
-				expect(response.status).to eq(422) 
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' }
+				expect(response.status).to eq(422)
 			end
 
 
 		end
-	
 
 
-		context "with login and verified email", :vcr => vcr_options do 
+
+		context "with login and verified email", :vcr => vcr_options do
 			before do
 			shoes = File.read("spec/factories/shoes.png")
 			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
 			end
 
 
-			it 'should 422 with incomplete data' do 
+			it 'should 422 with incomplete data' do
 				sign_in(@user)
-				xhr :post, :create, {title:''} 
+				xhr :post, :create, {title:''}
 				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
-		     	expect(response.status).to eq(422) 
+		     	expect(response.status).to eq(422)
 			end
-			it 'should 422 without location data' do 
+
+			it 'should 422 with incomplete data' do
 				sign_in(@user)
-				xhr :post, :create, {title:'', image: @file } 
+				xhr :post, :create, {title:'', image: 'null'}
+				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+					expect(response.status).to eq(422)
+			end
+			it 'should 422 without location data' do
+				sign_in(@user)
+				xhr :post, :create, {title:'', image: @file }
 				expect(response.body).to eq("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
-				expect(response.status).to eq(422) 
-			end
-			
-			it 'should 200 with complete data' do 
-				sign_in(@user)
-				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' } 
-				expect(response.status).to eq(200) 
+				expect(response.status).to eq(422)
 			end
 
-			it 'should update a description' do 
+			it 'should 200 with complete data' do
 				sign_in(@user)
-				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122', description: 'shoes' } 
-				expect(Post.last.description).to eq('shoes') 
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' }
+				expect(response.status).to eq(200)
 			end
 
-			it 'should update a description' do 
+			it 'should update a description' do
 				sign_in(@user)
-				xhr :post, 
+				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122', description: 'shoes' }
+				expect(Post.last.description).to eq('shoes')
+			end
+
+			it 'should update a description' do
+				sign_in(@user)
+				xhr :post,
 					:create, {title:'',
 						image: @file,
 						latitude:'47',
 						longitude:'-122',
 						description: 'shoes',
-						on_the_curb: 'true' } 
-				expect(Post.last.on_the_curb).to eq(true) 
+						on_the_curb: 'true' }
+				expect(Post.last.on_the_curb).to eq(true)
 			end
 
 
@@ -170,45 +177,45 @@ RSpec.describe PostsController, :type => :controller do
 	describe "Post update post", :vcr => vcr_options do
 		before do
 			@user = create(:user)
-			@post = create(:post, 
+			@post = create(:post,
 				creator_id: @user.id,
 				longitude: '-122',
 				latitude: '-49' )
 
 		end
 
-		context "without login " do 
+		context "without login " do
 
-			it 'should 401' do 
-				xhr :post, :update, :id => @post.id 
-		     	expect(response.status).to eq(401) 
+			it 'should 401' do
+				xhr :post, :update, :id => @post.id
+		     	expect(response.status).to eq(401)
 			end
 		end
 
-		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do 
+		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do
 			before do
 			shoes = File.read("spec/factories/shoes.png")
 			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
 			end
 
-			
-			it 'should 200 with complete data' do 
+
+			it 'should 200 with complete data' do
 				sign_in(@user)
-				xhr :post, :update,{id: @post.id , title:'', image: @file, latitude:'47',longitude:'-122' } 
-				expect(response.status).to eq(200) 
+				xhr :post, :update,{id: @post.id , title:'', image: @file, latitude:'47',longitude:'-122' }
+				expect(response.status).to eq(200)
 			end
 
-			it 'should update a description' do 
+			it 'should update a description' do
 				sign_in(@user)
-				xhr :post, :update, { id: @post.id ,title:'', image: @file, latitude:'47',longitude:'-122', description: 'Update this' } 
-				expect(Post.find(@post.id).description).to eq('Update this') 
+				xhr :post, :update, { id: @post.id ,title:'', image: @file, latitude:'47',longitude:'-122', description: 'Update this' }
+				expect(Post.find(@post.id).description).to eq('Update this')
 			end
 
-			it 'should publish or depublish' do 
-				expect(@post.published).to eq(true) 
+			it 'should publish or depublish' do
+				expect(@post.published).to eq(true)
 				sign_in(@user)
-				xhr :post, :update, { id: @post.id , published: false } 
-				expect(Post.find(@post.id).published).to eq(false) 
+				xhr :post, :update, { id: @post.id , published: false }
+				expect(Post.find(@post.id).published).to eq(false)
 			end
 
 
@@ -216,68 +223,68 @@ RSpec.describe PostsController, :type => :controller do
 	end
 
 	describe "Get mystuff", :vcr => vcr_options do
-		 
+
 
 		before do
 			@user = create(:user)
-			@post = create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
-				#create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  ) 
+			@post = create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  )
+				#create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  )
 		end
 
 		context 'without login' do
-			it 'should return 401' do 
-				xhr :get, :my_stuff 
-		     	expect(response.status).to eq(401) 
+			it 'should return 401' do
+				xhr :get, :my_stuff
+		     	expect(response.status).to eq(401)
 
 			end
 		end
-				
+
 		context 'with login' do
 
-			it 'should return 200' do 
+			it 'should return 200' do
 				sign_in(@user)
-				xhr :get, :my_stuff 
-		     	expect(response.status).to eq(200) 
+				xhr :get, :my_stuff
+		     	expect(response.status).to eq(200)
 			end
 
 
-			it 'should return my stuff' do 
-				
+			it 'should return my stuff' do
+
 				sign_in(@user)
-				xhr :get, :my_stuff 
+				xhr :get, :my_stuff
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
 				expect(response.status).to eq(200)
 
 			end
 
-			it 'should return my stuff with a description' do 
-				
+			it 'should return my stuff with a description' do
+
 				@post.description = "awesome kicks"
 				@post.save
 				sign_in(@user)
-				xhr :get, :my_stuff 
+				xhr :get, :my_stuff
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
 
 			end
-			it 'should return my stuff with a creator username' do 
-				
+			it 'should return my stuff with a creator username' do
+
 				@post.description = "awesome kicks"
 				@post.save
 				sign_in(@user)
-				xhr :get, :my_stuff 
+				xhr :get, :my_stuff
 				parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['creator'] ).to eq @user.username
 
 			end
 
-			it 'should return info about dibs' do 
+			it 'should return info about dibs' do
 				@user2 = create(:user)
 				@post.create_new_dib @user2
 
 				sign_in(@user)
-				xhr :get, :my_stuff 
+				xhr :get, :my_stuff
 				parsed_response = JSON.parse(response.body.as_json)
 				first_dib = parsed_response['posts'][0]['dibs'][0]
 				expect( first_dib['dibber'] ).to eq @user2.username
@@ -289,34 +296,34 @@ RSpec.describe PostsController, :type => :controller do
 	describe "Get show", :vcr => vcr_options do
 		before do
 			@user = create(:user)
-		    @post = build(:post, 
+		    @post = build(:post,
 		    		creator_id: @user.id,
 		    		latitude: '49',
-		    		longitude: '-122' 
+		    		longitude: '-122'
 		    		)
 		    @post.save
 		end
 
 		it "should return a 200 response" do
-			
-			xhr :get, :show, :id => @post.id 
+
+			xhr :get, :show, :id => @post.id
 			expect(response.status).to eq(200)
 		end
 
-		it "should return the right post" do	
-			xhr :get, :show, :id => @post.id 
+		it "should return the right post" do
+			xhr :get, :show, :id => @post.id
 			expect(response.status).to eq(200)
 			expect(JSON.parse(response.body)['post']['id']).to eq(@post.id)
 		end
-		it "should an items dibbed status" do	
-			xhr :get, :show, :id => @post.id 
+		it "should an items dibbed status" do
+			xhr :get, :show, :id => @post.id
 			expect(response.status).to eq(200)
 			expect(JSON.parse(response.body)['post']['dibbable']).to eq(true)
 		end
-		it "should an items dibbed status" do	
+		it "should an items dibbed status" do
 			@post.dibbed_until = Time.now + 10.minutes
 			@post.save!
-			xhr :get, :show, :id => @post.id 
+			xhr :get, :show, :id => @post.id
 			expect(response.status).to eq(200)
 			expect(JSON.parse(response.body)['post']['dibbable']).to eq(false)
 		end
@@ -324,19 +331,19 @@ RSpec.describe PostsController, :type => :controller do
 	end
 
 	describe "Get show", :vcr => { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }do
-		
+
 		before do
 			@user = create(:user)
-			4.times do |x| 
-		    	create(:post, 
+			4.times do |x|
+		    	create(:post,
 		    		creator_id: @user.id,
 		    		latitude: '49',
-		    		longitude: '-122', 
+		    		longitude: '-122',
 		    		on_the_curb: true
 		    		)
 		    end
-		    6.times do |x| 
-		    	create(:post, 
+		    6.times do |x|
+		    	create(:post,
 		    		creator_id: @user.id,
 		    		latitude: '49',
 		    		longitude: '-122',
@@ -346,7 +353,7 @@ RSpec.describe PostsController, :type => :controller do
 		end
 
 		it "should return a 200 response" do
-			xhr :get, :search 
+			xhr :get, :search
 			expect(response.status).to eq(200)
 		end
 
@@ -370,5 +377,5 @@ RSpec.describe PostsController, :type => :controller do
 
 	end
 
-	
+
 end

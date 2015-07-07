@@ -1,0 +1,63 @@
+<div id="give-stuff">
+  <div ng-hide='currentUser' >
+    Please <a class='btn' ng-click="showSignin()" >sign in</a> to give stuff
+
+  </div>
+
+  <div ng-hide="loading || !currentUser" >
+    <p ng-hide='attached'> Take a picture of the stuff that you want to give </p>
+    <p ng-show='attached'> Now enter some details, check the location on the map and press the "Give this Stuff!" button </p>
+    <form id="give-stuff-form">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <div class="form-group col-md-6">
+
+        <div id="give-stuff-file-container" class='btn'>
+
+          <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+
+           <input type="file" id="give-stuff-file" file-upload accept="image/*">
+
+
+        </div>
+      </div>
+
+      <div class="col-md-6" id="upload-file-names" >
+        <canvas id="sm-thumbnail" ></canvas>
+      </div>
+
+    </div>
+
+
+    <div class="form-group col-md-12 row">
+
+      <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
+        <option>Electronics</option>
+        <option>Craft Materials</option>
+        <option>Kitchen</option>
+        <option>Garden&Nature</option>
+        <option>Toys</option>
+        <option>Furniture</option>
+        <option>Building Materials</option>
+        <option>Misc</option>
+      </select>
+
+    </div>
+
+    <div class="form-group col-md-12 row">
+      <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
+    </div>
+
+    <div class="checkbox col-md-12 row">
+      <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me. </label>
+    </div>
+
+    <div class="form-group col-md-12 row">
+        <button class="btn" id="give-stuff-submit" ng-click="submitPost()">Give this stuff!</button>
+    </div>
+  </form>
+</div>
+
+<div ng-show="loading" class="add-margin-top-50 col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4">
+  <img class="img-responsive" ng-src=<%= asset_path('spinner.gif')%> ></img>
+</div>
+</div>

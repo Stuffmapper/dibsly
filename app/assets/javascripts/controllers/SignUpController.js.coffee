@@ -2,8 +2,9 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance', '$http','$window', '$timeout','UserService','AlertService',
-  ($scope, $modal, $modalInstance, $http, $window,$timeout, UserService, AlertService ) ->
+controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
+ '$http','$window', '$timeout','UserService','AlertService',
+  ($scope, $modal, $modalInstance, $http,$window,$timeout, UserService, AlertService ) ->
 
 
 

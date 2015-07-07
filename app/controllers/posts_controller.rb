@@ -31,7 +31,7 @@ class PostsController < ApplicationController
   def create
     if (current_user)
       cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined'
+          |key, value| value == 'undefined' || value == 'null'
       }
       @post = Post.new(cleaned_params.merge(
           :ip => request.remote_ip,

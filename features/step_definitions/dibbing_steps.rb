@@ -112,6 +112,8 @@ Then(/^I should see the shoes in the get stuff  menu$/) do
   click_link('Get Stuff')
   within find('#get-stuff') do
     click_button "Details"
+  end
+  within('.content') do
     expect(page).to have_text("shoes")
   end
 
@@ -177,6 +179,7 @@ When(/^I respond, the post should not be available thirty minutes from now$/) do
 end
 
 When(/^I don't respond, the post should be available thirty minutes from now$/) do
+  visit('/')
   Timecop.travel(1805)
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq true

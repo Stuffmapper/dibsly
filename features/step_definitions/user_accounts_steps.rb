@@ -197,9 +197,11 @@ Then(/^I should receive a welcome email$/) do
 end
 
 When(/^I follow the link in the welcome email$/) do
+  expect(@current_user.verified_email).to eq false
   current_email.click_link "http://"
-  sleep(1)
-  expect(page).to have_content("You've verified your email!")
+  sleep(2)
+  @current_user.reload
+  expect(@current_user.verified_email).to eq true
 end
 
 Then(/^I should be able to post an item and dib Jacks shoes$/) do

@@ -8,83 +8,53 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U"
   type="text/javascript"></script>
   <%= stylesheet_link_tag    "application", media: "all" %>
- 
+
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
    <base href="/"> </base>
 
 </head>
-  
+
   <body ng-app="stfmpr" ng-controller="MainNavCtrl as mainnav">
-
-  <nav class="col-md-12" id="main-navbar">
-
-          <ul id="main-navbar-right">
-
-
-            <li id="main-nav-toggle" ng-click='toggle = !toggle' >
-
-            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-            
-            </li>
-
-
-            <li class="full-nav-item" ng-hide="currentUser" ><a href='/' ng-click="showSignup()" >Sign Up</a></li>
-            <li class="full-nav-item" ng-hide="currentUser"><a href='/' ng-click="showSignin()"  >Sign In</a></li>
-            <li class="full-nav-item" ng-show="currentUser"><a href='/'ng-click="showLogout()" >Sign Out</a></li> 
-
-            <li class="inbox">
-              <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
-              <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
-              </button>
-            </li> 
-            <div ng-show="toggle">
-              <li class="collapse-nav-item" ng-hide="currentUser " ng-><a href='#' ng-click="showSignup()" >Sign Up</a></li>
-              <li class="collapse-nav-item" ng-hide="currentUser" ><a href='#' ng-click="showSignin()" >Sign In</a></li>
-              <li class="collapse-nav-item" ng-show="currentUser"><a href='#' ng-click="showLogout()"  >Sign Out</a></li>
-            </div>
-
-
-          </ul>
-
-
+    <nav class="col-md-12 col-lg-12 col-xs-12" id="main-navbar">
+      <ul id="main-navbar-right">
+        <li id="main-nav-toggle" ng-click='toggle = !toggle' >
+          <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+        </li>
+        <li class="full-nav-item" ng-hide="currentUser" ><a href='/' ng-click="showSignup()" >Sign Up</a></li>
+        <li class="full-nav-item" ng-hide="currentUser"><a href='/' ng-click="showSignin()"  >Sign In</a></li>
+        <li class="full-nav-item" ng-show="currentUser"><a href='/'ng-click="showLogout()" >Sign Out</a></li>
+        <li class="inbox">
+          <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
+          <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+          </button>
+        </li>
+        <div ng-show="toggle">
+          <li class="collapse-nav-item" ng-hide="currentUser " ng-><a href='#' ng-click="showSignup()" >Sign Up</a></li>
+          <li class="collapse-nav-item" ng-hide="currentUser" ><a href='#' ng-click="showSignin()" >Sign In</a></li>
+          <li class="collapse-nav-item" ng-show="currentUser"><a href='#' ng-click="showLogout()"  >Sign Out</a></li>
+        </div>
+      </ul>
     </nav>
- 
-       
-
-        <!-- Static navbar -->
-
-
-       <ng-view></ng-view>
-    
-
-
-
-        
-
-   
-
-        <!-- Main component for a primary marketing message or call to action -->
-<script type="text/javascript">
-var _sf_async_config={uid:57522,domain:"stuffmapper-dev.herokuapp.com",useCanonical:true};
-(function(){
-  function loadChartbeat() {
-    window._sf_endpt=(new Date()).getTime();
-    var e = document.createElement('script');
-    e.setAttribute('language', 'javascript');
-    e.setAttribute('type', 'text/javascript');
-    e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
-    document.body.appendChild(e);
-  }
-  var oldonload = window.onload;
-  window.onload = (typeof window.onload != 'function') ?
-     loadChartbeat : function() { oldonload(); loadChartbeat(); };
-})();
-
-</script>
-
-
+    <div class="row col-lg-12 col-md-12 col-sm-12">
+      <alerts></alerts>
+    </div>
+      <ng-view></ng-view>
+    <script type="text/javascript">
+    var _sf_async_config={uid:57522,domain:"stuffmapper-dev.herokuapp.com",useCanonical:true};
+    (function(){
+      function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e = document.createElement('script');
+        e.setAttribute('language', 'javascript');
+        e.setAttribute('type', 'text/javascript');
+        e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
+        document.body.appendChild(e);
+      }
+      var oldonload = window.onload;
+      window.onload = (typeof window.onload != 'function') ?
+         loadChartbeat : function() { oldonload(); loadChartbeat(); };
+    })();
+    </script>
   </body>
-
-
 </html>

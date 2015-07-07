@@ -1,5 +1,5 @@
   <div class='col-md-12 col-lg-12 col-xs-12 '>
-    <div class="close-x pull-right clearfix" ng-click="cancel()">×</div> 
+    <div class="close-x pull-right clearfix" ng-click="cancel()">×</div>
   </div>
 
 <div class="modal-body inbox-modal">
@@ -9,18 +9,18 @@
   </div>
 
   <accordion close-others='true'>
-  
+
     <accordion-group ng-repeat="conversation in inbox track by $index" class="conversation-container" >
 
       <accordion-heading  >
         <div class='col-md-12 col-lg-12 col-xs-12 get-messages' ng-click="getMessages(conversation.id)">
           <div class='inbox-conversation-subject'>
             <div class='col-md-4 col-lg-4 col-xs-4  pull-left'>
-               <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img> 
+               <img ng-src={{conversation.conversable.image_url}} class='img-responsive conversation-image'></img>
             </div>
 
             <div class="col-md-4 col-lg-4 col-xs-4 conversation-center">
-        
+
 
               <div class="col-md-12 col-lg-12 col-xs-12 row conversation-description" >
                  <p>{{conversation.conversable.description }}</p>
@@ -28,7 +28,7 @@
 
               <div class="col-md-12 col-lg-12 col-xs-12 row conversation-posted-at">
                 <p>Posted {{conversation.conversable.created | timeAgo }}</p>
-              </div>    
+              </div>
 
 
             </div >
@@ -37,7 +37,8 @@
               <ul class='post-status-list'>
                 <li>
                   <span>posted</span>
-                  <span class="glyphicon glyphicon-ok-sign pull-right" ng-class="conversation.conversable.posted ? 'posted' : '' " aria-hidden="true"></span>
+                  <span class="glyphicon glyphicon-ok-sign pull-right"
+                  ng-class="conversation.conversable.posted ? 'posted' : '' " aria-hidden="true"></span>
                 </li>
 
                 <li>
@@ -53,7 +54,7 @@
 
           </div>
         </div>
-      </accordion-heading> 
+      </accordion-heading>
 
 
       <div class="converation-messages">
@@ -61,13 +62,13 @@
 
           <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-hide='currentUser == message.sender'>
 
-            <div class="green-bar pull-left" 
+            <div class="green-bar pull-left"
              ng-class=" message.is_read ? 'darkblue' : 'green' " >
                <div class='person-circle'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
-               </div> 
-            </div> 
-      
+               </div>
+            </div>
+
           </div>
 
           <div class="col-md-10 col-lg-10 col-xs-10">
@@ -78,14 +79,14 @@
             </ul>
           </div>
 
-          <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-show='currentUser == message.sender'>   
+          <div class="col-md-2 col-lg-2 col-xs-2 sender-details" ng-show='currentUser == message.sender'>
 
-            <div class="green-bar pull-right" 
+            <div class="green-bar pull-right"
             ng-class="message.is_read ? 'darkblue' : 'green' " >
               <div class='person-circle person-circle-right'>
                 <span class="glyphicon glyphicon-user"  aria-hidden="true"></span>
-              </div> 
-            </div> 
+              </div>
+            </div>
 
 
           </div>
@@ -93,7 +94,7 @@
         </div>
 
       </div>
-      
+
       <hr>
 
       <div class="conversation-reply">
@@ -106,7 +107,3 @@
     </accordion-group>
   </accordion>
 </div>
-
-
-
-

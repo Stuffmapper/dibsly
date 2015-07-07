@@ -15,18 +15,16 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
       $scope.viewing = false
       $scope.currentPost = { editing: false, viewing: false}
       $scope.mapCenter = '47.6097,-122.3331'
-
       $scope.markers = {}
       $scope.mystuff = {posts:{}, dibs:{}}
-      $scope.curb_only = false
+      $scope.attached = false
       $scope.backup = {}
-      $scope.tabs = { getStuff: true, giveStuff: false, myStuff: false }
-      localMarkers = localStorage.getItem('markers')
-      if localMarkers
-        angular.forEach(JSON.parse(localMarkers),(value, key) ->
-          value.viewing = false
-          $scope.markers[key] = new Marker(value)
-        )
+      $scope.tabs = {
+        getStuff: true,
+        giveStuff: false,
+        myStuff: false,
+        details: false }
+      blank = ->
       UserService.check((blank,data)->
         if UserService.currentUser
           mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
@@ -34,16 +32,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
             stuff =  JSON.parse(mystuff)
             $scope.mystuff = JSON.parse(mystuff)
       )
-    $scope.openMarker = (id) ->
-      modalInstance = $modal.open(
-        templateUrl: 'post.html',
-        controller: 'StuffCtrl',
-        resolve:
-          stuff: ->
-            $scope.markers[id]
-     )
-
-
 
 
     $scope.edit = (post)->
@@ -56,81 +44,76 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
 
 
 
-    $scope.onTheCurb = ->
-      for key,marker of $scope.backup
-        if marker.on_the_curb ==  $scope.curb_only
-          delete $scope.markers[key]
-        else
-          $scope.markers[key] = marker
-      $scope.curb_only = !$scope.curb_only
-
-    createMarker = (value, key)->
-      latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
-      options =
-        zoom: 4
-        center:latLng
-      value.marker = new google.maps.Marker(
-        icon: '<%= asset_path('blue-circle.png')%>'
-        position: latLng,
-        map: $scope.map,
-        title: value.description )
-      $scope.markers[value.id] = value
-      google.maps.event.addListener(value.marker, 'click',->
-        value.viewing  = true
-        if !value.description
-          value.description = ""
-        innerContent = "<div ng-non-bindable=''>
-                  <div id='siteNotice'></div>
-                   <img class='stuff-map-image' src=" + value.image_url + "></img>
-                  <div id='bodyContent'>
-                    <p>" + value.description + "</p>
-                  </div>
-                </div>"
-        infowindow = new google.maps.InfoWindow(
-          content: innerContent
+    createMarker = (value, key, map)->
+        latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
+        options =
+          zoom: 4
+          center:latLng
+        value.marker = new google.maps.Marker(
+          icon: '<%= asset_path('blue-circle.png')%>'
+          position: latLng,
+          map: map,
+          title: value.description )
+        value.visible = true
+        $scope.markers[value.id] = value
+        google.maps.event.addListener(value.marker, 'click',->
+          value.viewing  = true
+          if !value.description
+            value.description = ""
+          innerContent = "<div ng-non-bindable=''>
+                    <div id='siteNotice'></div>
+                     <img class='stuff-map-image' src=" + value.image_url + "></img>
+                    <div id='bodyContent'>
+                      <p>" + value.description + "</p>
+                    </div>
+                  </div>"
+          infowindow = new google.maps.InfoWindow(
+            content: innerContent
+          )
+          $scope.$broadcast( 'detailsWanted', { markerId: value.id })
+          infowindow.open($scope.map,value.marker)
+          $timeout( (-> infowindow.close($scope.map,value.marker)),4000)
         )
-        infowindow.open($scope.map,value.marker)
-        $scope.openMarker(value.id)
-        $timeout( (-> infowindow.close($scope.map,value.marker)),4000)
-      )
 
 
     updateMarkers = (map)->
-      map = map || $scope.map
-      replacer = (key,value)->
-        if key == 'marker'
-          return undefined
-        else
-          return value
-
-      neBounds = map.getBounds().getNorthEast()
-      swBounds = map.getBounds().getSouthWest()
-      $http(
-        url: '/posts/geolocated'
-        params:
-          neLat: neBounds.lat()
-          swLat: swBounds.lat()
-          neLng: neBounds.lng()
-          swLng: swBounds.lng()
-        ).success((data)->
-          for marker in data.posts
-            if !$scope.markers[marker.id]
-              createMarker(marker, marker.id)
-          localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
-          )
+      if map
+        replacer = (key,value)->
+          if key == 'marker'
+            return undefined
+          else
+            return value
+        neBounds = map.getBounds().getNorthEast()
+        swBounds = map.getBounds().getSouthWest()
+        $http(
+          url: '/posts/geolocated'
+          params:
+            neLat: neBounds.lat()
+            swLat: swBounds.lat()
+            neLng: neBounds.lng()
+            swLng: swBounds.lng()
+          ).success((data)->
+            for marker in data.posts
+              if !$scope.markers[marker.id]
+                createMarker(marker, marker.id, map)
+            localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
+            )
 
 
     $scope.$on('mapInitialized', (evt, map) ->
+      localMarkers = localStorage.getItem('markers')
+      if localMarkers
+        angular.forEach(JSON.parse(localMarkers),(value, key) ->
+          value.viewing = false
+          $scope.markers[key] = new Marker(value)
+          createMarker(value, value.id, $scope.map)
+        )
       self = this
-      $scope.map = map
-      updateMarkers(map)
-      angular.forEach($scope.markers, (value, key)->
-        if !value.marker
-          createMarker(value, key)
-      )
-      updatePostMarker( blank, 25000)
-      google.maps.event.addListener(map, 'dragend', updateMarkers )
-      google.maps.event.addListener(map, 'zoom_changed', updateMarkers )
+      updateMarkers($scope.map)
+      blank = ->
+      updatePostMarker( blank, 25000, $scope.map)
+      google.maps.event.addListener(map, 'dragend', -> updateMarkers($scope.map) )
+      google.maps.event.addListener(map, 'zoom_changed', -> updateMarkers($scope.map) )
       navigator.geolocation.getCurrentPosition((position)->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         $scope.$apply(->
@@ -138,13 +121,41 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           )
         )
       )
-    $scope.markerWindow = (id)->
-      $scope.markers[id].viewing = !$scope.markers[id].viewing
-      google.maps.event.trigger($scope.markers[id].marker, 'click')
+    $scope.getDetails  = (id, origin)->
+      showtab('details')
+      if $scope.markers[id]
+        $scope.markers[id].viewing = true
+        $scope.stuff = $scope.markers[id]
+        angular.forEach($scope.markers, (value, key)->
+          if key != String(id)
+            value.marker.setMap(null)
+          )
+        if origin != 'marker'
+          google.maps.event.trigger($scope.markers[id].marker, 'click')
+
+      else
+        Marker.get( {id:id} )
+        .$promise.then((post)->
+          $scope.markers[id] = post.post
+          createMarker(post.post, post.id, $scope.map)
+          $scope.stuff = $scope.markers[id]
+          )
+        .$promise.then(
+          if origin != 'marker'
+            google.maps.event.trigger($scope.markers[id].marker, 'click'))
 
     $scope.post = {}
+    $scope.$on("detailsWanted",
+      (event, args) ->
+        console.log('ok')
+        $scope.$apply( ->
+          showtab('details')
+          $scope.markers[args.markerId].viewing = true
+          $scope.stuff = $scope.markers[args.markerId] ))
+
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
+                   $scope.attached = true
                    $scope.file = args.file
                    reader = new FileReader();
                    reader.onload = (event2)->
@@ -168,17 +179,18 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
        $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
     $scope.getStuff = ->
-      $scope.tabs.getStuff = true
+      showtab('getStuff')
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap($scope.map)
       )
-      google.maps.event.addListener($scope.map, 'dragend', updateMarkers )
-      google.maps.event.addListener($scope.map, 'zoom_changed', updateMarkers )
+      google.maps.event.addListener($scope.map, 'dragend', -> updateMarkers($scope.map) )
+      google.maps.event.addListener($scope.map, 'zoom_changed',-> updateMarkers($scope.map) )
 
 
 
 
     $scope.getMyStuff = ->
+        showtab('myStuff')
         UserService.check((blank,data)->
           if data.user
             $scope.mystuff = {posts:{}, dibs:{}}
@@ -219,8 +231,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
 
 
 
-
-
     $scope.submitPost = ->
         $scope.loading = true
         UserService.check((blank,data)->
@@ -241,12 +251,13 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
                       canvas = document.getElementById("sm-thumbnail")
                       context = canvas.getContext("2d");
                       context.clearRect(0, 0, canvas.width, canvas.height)
-                      $scope.file = null
+                      $scope.attached = false
+                      $scope.file = {}
+                      delete $scope.file
                       $scope.post = {}
                       $scope.loading = false
                       updateMarkers()
                       $scope.postMarker.setMap(null)
-                      $scope.tabs.giveStuff = false
                       $scope.getStuff()
                   .error (data) ->
                       for key, value of data
@@ -258,9 +269,19 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
               $modal.open
                   templateUrl:'signIn.html',
                   controller:'SignUpCtrl')
+
+    showtab = (tab)->
+      angular.forEach($scope.tabs, (value, key)->
+        if key == tab
+          $scope.tabs[key] = true
+        else
+          $scope.tabs[key] = false )
+
+
     $scope.startMapper = ->
+      showtab('giveStuff')
       angular.forEach($scope.markers, (value,key)->
-        $scope.markers[key].marker.setMap(null)
+        value.marker.setMap(null)
       )
       google.maps.event.clearListeners(  $scope.map, 'dragend')
       google.maps.event.clearListeners( $scope.map, 'zoom_changed')
@@ -268,41 +289,41 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
       if $scope.postMarker
           $scope.postMarker.setMap($scope.map)
       else
-        updatePostMarker( callback, 6000)
+        updatePostMarker( callback, 6000, $scope.map)
 
-    updatePostMarker = (callback, timeout)->
-      self = this
-      self.callback = callback
-      resetMarker = ->
-        if $scope.postMarker
-          $scope.postMarker.setMap(null)
-      updateMarker = (center)->
-        resetMarker()
-        $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('red-pin.png')%>')
-        updatePost = ->
+    updatePostMarker = (callback, timeout, map)->
+      if map
+        self = this
+        self.callback = callback
+        resetMarker = ->
+          if $scope.postMarker
+            $scope.postMarker.setMap(null)
+        updateMarker = (center)->
+          resetMarker()
+          $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('red-pin.png')%>')
+          updatePost = ->
+            $scope.post.latitude = $scope.postMarker.getPosition().lat()
+            $scope.post.longitude = $scope.postMarker.getPosition().lng()
+          google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
+          google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
+          map.setZoom(12)
+          map.panTo(center)
           $scope.post.latitude = $scope.postMarker.getPosition().lat()
           $scope.post.longitude = $scope.postMarker.getPosition().lng()
-        google.maps.event.addListener($scope.postMarker, 'dragend', updatePost )
-        google.maps.event.addListener($scope.postMarker, 'idle', updatePost )
-        $scope.map.setZoom(12)
-        $scope.map.panTo(center)
-        $scope.post.latitude = $scope.postMarker.getPosition().lat()
-        $scope.post.longitude = $scope.postMarker.getPosition().lng()
-        $scope.postMarker.setMap(null)
-        self.callback()
-      centerSuccess = (position)->
-        center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-        updateMarker(center)
-      centerError = ->
-        console.log("geolocation not supported or error")
-        center = $scope.map.getCenter()
-        updateMarker(center)
-      geoOptions = {
-        enableHighAccuracy: true,
-        maximumAge:300000,
-        timeout: timeout }
-      navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions)
-    blank = ->
+          $scope.postMarker.setMap(null)
+          self.callback()
+        centerSuccess = (position)->
+          center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+          updateMarker(center)
+        centerError = ->
+          console.log("geolocation not supported or error")
+          center = $scope.map.getCenter()
+          updateMarker(center)
+        geoOptions = {
+          enableHighAccuracy: true,
+          maximumAge:300000,
+          timeout: timeout }
+        navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions)
     init()
 
 ])
