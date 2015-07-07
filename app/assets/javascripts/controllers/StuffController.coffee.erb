@@ -116,7 +116,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
             value.marker.setMap(null)
             if value.infowindow
               value.infowindow.close($scope.map,value.marker)
-
           )
         if origin != 'marker'
           google.maps.event.trigger($scope.markers[id].marker, 'click')
@@ -191,6 +190,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
       showtab('getStuff')
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap($scope.map)
+        if value.infowindow
+          value.infowindow.close($scope.map,value.marker)
       )
       google.maps.event.addListener($scope.map, 'dragend', -> updateMarkers($scope.map) )
       google.maps.event.addListener($scope.map, 'zoom_changed',-> updateMarkers($scope.map) )
