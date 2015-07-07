@@ -114,6 +114,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         angular.forEach($scope.markers, (value, key)->
           if key != String(id)
             value.marker.setMap(null)
+            if value.infowindow
+              value.infowindow.close($scope.map,value.marker)
 
           )
         if origin != 'marker'
