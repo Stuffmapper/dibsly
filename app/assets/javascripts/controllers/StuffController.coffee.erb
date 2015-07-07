@@ -57,29 +57,14 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         value.visible = true
         $scope.markers[value.id] = value
         google.maps.event.addListener(value.marker, 'click',->
-          value.viewing  = true
-          if !value.description
-            value.description = ""
-          innerContent = "<div ng-non-bindable=''>
-                    <div id='siteNotice'></div>
-                     <img class='stuff-map-image' src=" + value.image_url + "></img>
-                    <div id='bodyContent'>
-                      <p>" + value.description + "</p>
-                    </div>
-                  </div>"
-          infowindow = new google.maps.InfoWindow(
-            content: innerContent
-          )
           $scope.$broadcast( 'detailsWanted', { markerId: value.id })
-          infowindow.open($scope.map,value.marker)
-          $timeout( (-> infowindow.close($scope.map,value.marker)),4000)
         )
 
 
     updateMarkers = (map)->
       if map
         replacer = (key,value)->
-          if key == 'marker'
+          if key == 'marker' || key == 'infowindow'
             return undefined
           else
             return value
@@ -129,6 +114,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         angular.forEach($scope.markers, (value, key)->
           if key != String(id)
             value.marker.setMap(null)
+
           )
         if origin != 'marker'
           google.maps.event.trigger($scope.markers[id].marker, 'click')
@@ -147,11 +133,32 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
     $scope.post = {}
     $scope.$on("detailsWanted",
       (event, args) ->
-        console.log('ok')
+        id = args.markerId
+        marker = $scope.markers[id]
+        if !marker.description
+          marker.description = ""
+        innerContent = "<div ng-non-bindable=''>
+                            <div id='siteNotice'></div>
+                             <img class='stuff-map-image' src=" + marker.image_url + "></img>
+                            <div id='bodyContent'>
+                              <p>" + marker.description + "</p>
+                            </div>
+                          </div>"
+        infowindow = new google.maps.InfoWindow(
+                    content: innerContent
+                  )
+        marker.infowindow = infowindow
+        angular.forEach($scope.markers, (value, key)->
+          if key != String(id)
+            if value.infowindow
+              value.infowindow.close($scope.map,value.marker)
+          else
+            marker.infowindow.open($scope.map,value.marker)
+          )
         $scope.$apply( ->
           showtab('details')
           $scope.markers[args.markerId].viewing = true
-          $scope.stuff = $scope.markers[args.markerId] ))
+          $scope.stuff = $scope.markers[id] ))
 
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
