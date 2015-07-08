@@ -136,19 +136,20 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
       (event, args) ->
         id = args.markerId
         marker = $scope.markers[id]
-        if !marker.description
-          marker.description = ""
-        innerContent = "<div ng-non-bindable=''>
-                            <div id='siteNotice'></div>
-                             <img class='stuff-map-image' src=" + marker.image_url + "></img>
-                            <div id='bodyContent'>
-                              <p>" + marker.description + "</p>
-                            </div>
-                          </div>"
-        infowindow = new google.maps.InfoWindow(
-                    content: innerContent
-                  )
-        marker.infowindow = infowindow
+        if !marker.infowindow
+          if !marker.description
+            marker.description = ""
+          innerContent = "<div ng-non-bindable=''>
+                              <div id='siteNotice'></div>
+                               <img class='stuff-map-image' src=" + marker.image_url + "></img>
+                              <div id='bodyContent'>
+                                <p>" + marker.description + "</p>
+                              </div>
+                            </div>"
+          infowindow = new google.maps.InfoWindow(
+                      content: innerContent
+                    )
+          marker.infowindow = infowindow
         angular.forEach($scope.markers, (value, key)->
           if key != String(id)
             if value.infowindow
