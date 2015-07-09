@@ -2,6 +2,7 @@ stfmpr = angular.module('stfmpr',[
         'templates',
         'controllers',
         'factories',
+        'filters',
         'directives',
         'ngRoute',
         'ngResource',
@@ -13,12 +14,10 @@ stfmpr = angular.module('stfmpr',[
 
 ])
 
-
-
 controllers = angular.module('controllers',[])
 factories = angular.module('factories',[])
 directives = angular.module('directives',[])
-
+filters = angular.module('filters',[])
 stfmpr.config( ['$routeProvider','$locationProvider',
 
 

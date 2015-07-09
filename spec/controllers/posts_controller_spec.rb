@@ -74,6 +74,20 @@ RSpec.describe PostsController, :type => :controller do
 			   expect(parsed_response['posts'][0]['image_url'] ).to match(/http:\/\/s3-us-west-2.amazonaws.com\/new-stuffmapper-test\/posts\/image/)
 			   expect(response.status).to eq(200)
 			end
+			it "returns a post with an updated_at" do
+
+				@post.latitude = '47'
+				@post.longitude = '-122'
+				@post.save!
+
+				xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
+					#ugly need to fix
+					parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['id'] ).to eq @post.id
+				expect(parsed_response['posts'][0]['updated_at'] ).to_not be nil 
+				expect(response.status).to eq(200)
+			end
+
 
 			it "does not return a dibbed item  " do
 			   @post.latitude = '47'

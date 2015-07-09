@@ -55,6 +55,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           map: map,
           title: value.description )
         value.visible = true
+        value.updated_at = new Date(value.updated_at)
         $scope.markers[value.id] = value
         google.maps.event.addListener(value.marker, 'click',->
           $scope.$broadcast( 'detailsWanted', { markerId: value.id })
@@ -80,6 +81,10 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           ).success((data)->
             for marker in data.posts
               if !$scope.markers[marker.id]
+                createMarker(marker, marker.id, map)
+              else if $scope.markers[marker.id].updated_at < new Date(marker.updated_at)
+                console.log("this is a date")
+                $scope.markers[marker.id].marker.setMap(null)
                 createMarker(marker, marker.id, map)
             localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
             )

@@ -1,6 +1,6 @@
 <div id="get-stuff" >
 
-   <div ng-repeat="item in markers" >
+   <div ng-repeat="item in markers | orderObjectBy:'updated_at':true" >
      <div ng-show 'item.visible' class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
        <div class= "stuff-image-container clearfix">
          <img class="stuff-image img-responsive" ng-src={{item.image_url}}
