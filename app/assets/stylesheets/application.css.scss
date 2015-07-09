@@ -170,7 +170,7 @@ nav{
 .sm-tabs{
 	position: absolute;
 	top:0;
-	z-index: 6;
+	z-index: 8;
 	margin:0;
 	padding:0;
 	width:100%;
@@ -287,11 +287,11 @@ nav{
 	position: absolute;
 	background-color: rgba(255,255,255,.8);
 	height: 100%;
-	z-index: 6;
+	z-index: 5;
 }
 .overlay-info{
 	position: relative;
-	z-index: 8;
+	z-index: 6;
 	background: #EEFAFC;
 	padding: 10px;
 	display: block;
