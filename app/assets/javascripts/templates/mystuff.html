@@ -1,8 +1,10 @@
 <div id="my-stuff" >
-  <div ng-hide='currentUser' >
+  <div ng-hide='currentUser' class="overlay-info add-margin-top-50" >
     Please
     <a class='btn'
     ng-click="showSignin()" >sign in</a>to view your stuff
+  </div>
+  <div class="col-lg-12 col-md-12 col-xs-12" ng-class="!currentUser ? 'overlay-active' : 'overlay-inactive' ">
   </div>
 
     <edit post="currentPost.id" stuff="currentPost"

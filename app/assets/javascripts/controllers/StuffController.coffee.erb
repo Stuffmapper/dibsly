@@ -173,14 +173,17 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
                    $scope.file = args.file
                    reader = new FileReader();
                    reader.onload = (event2)->
-                     canvas = document.getElementById("sm-thumbnail")
-                     ctx = canvas.getContext('2d');
-                     img = new Image()
-                     img.onload = ->
-                       canvas.width = img.width
-                       canvas.height = img.height
-                       ctx.drawImage(img,0,0)
-                     img.src = event2.target.result
+                     angular.forEach(['sm-thumbnail', 'loading-thumbnail'], (element)->
+                       canvas = document.getElementById(element)
+                       ctx = canvas.getContext('2d');
+                       img = new Image()
+                       img.onload = ->
+                         canvas.width = img.width
+                         canvas.height = img.height
+                         ctx.drawImage(img,0,0)
+                       img.src = event2.target.result
+                     )
+
                    reader.readAsDataURL(args.file)
 
                 ))

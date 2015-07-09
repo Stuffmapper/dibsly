@@ -1,10 +1,24 @@
-<div id="give-stuff">
-  <div ng-hide='currentUser' >
+<div id="give-stuff" class="col-lg-12 col-md-12 col-xs-12 ">
+  <div ng-hide='currentUser' class='overlay-info add-margin-top-50' >
     Please <a class='btn' ng-click="showSignin()" >sign in</a> to give stuff
 
   </div>
 
-  <div ng-hide="loading || !currentUser" >
+  <div ng-show="loading" class="col-lg-12 col-md-12 col-xs-12 overlay-info">
+    <div class="col-lg-10 col-md-10 col-xs-10" ><h5>Uploading Photo</h5>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar"
+        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-xs-2 " >
+      <canvas id="loading-thumbnail" ></canvas>
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-xs-12" ng-class="loading || !currentUser ? 'overlay-active' : 'overlay-inactive' ">
+  </div>
+
     <p ng-hide='attached'> Take a picture of the stuff that you want to give </p>
     <p ng-show='attached'> Now enter some details, check the location on the map and press the "Give this Stuff!" button </p>
     <form id="give-stuff-form">
@@ -58,9 +72,4 @@
         <button class="btn" id="give-stuff-submit" ng-click="submitPost()">Give this stuff!</button>
     </div>
   </form>
-</div>
-
-<div ng-show="loading" class="add-margin-top-50 col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-xs-4 col-xs-offset-4">
-  <img class="img-responsive" ng-src=<%= asset_path('spinner.gif')%> ></img>
-</div>
 </div>
