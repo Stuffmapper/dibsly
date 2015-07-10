@@ -29,9 +29,6 @@ $grey: lightgrey; /* letter */
 body{
 	width: 100%;
 }
-::-webkit-scrollbar {
-    display: none;
-}
 
 /*** Helper ***/
 .close-x{
@@ -167,6 +164,10 @@ nav{
 	top: 55px;
 	z-index: 2;
 }
+.scroll-y{
+	overflow-y: auto;
+	height:100%;
+}
 .sm-tabs{
 	position: absolute;
 	top:0;
@@ -217,7 +218,6 @@ nav{
 	margin-top: -40px;
 	margin-bottom: 40px;
 	padding: 80px 10px 10px 10px;
-	overflow-y: scroll;
 }
 
 .stuff-view{

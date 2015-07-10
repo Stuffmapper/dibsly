@@ -25,13 +25,12 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         myStuff: false,
         details: false }
       blank = ->
-      UserService.check((blank,data)->
-        if UserService.currentUser
-          mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
-          if mystuff
-            stuff =  JSON.parse(mystuff)
-            $scope.mystuff = JSON.parse(mystuff)
-      )
+      if UserService.currentUser
+        mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
+        if mystuff
+          stuff =  JSON.parse(mystuff)
+          $scope.mystuff = JSON.parse(mystuff)
+
 
 
     $scope.edit = (post)->
@@ -211,7 +210,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
     $scope.getMyStuff = ->
         showtab('myStuff')
         UserService.check((blank,data)->
-          if data.user
+          if  data && data.user
             $scope.mystuff = {posts:{}, dibs:{}}
             user = data.user
             mystuff = localStorage.getItem('mystuff' + user)
@@ -253,7 +252,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
     $scope.submitPost = ->
         $scope.loading = true
         UserService.check((blank,data)->
-          if data.user
+          if data && data.user
               token = $("meta[name=\"csrf-token\"]").attr("content")
               formdata = new FormData();
               formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
@@ -282,12 +281,14 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
                       for key, value of data
                           AlertService.add('danger', key + ' ' + value )
                       $scope.loading = false
-          else
-              AlertService.add('danger', 'Please sign in to continue' )
-              $scope.loading = false
-              $modal.open
-                  templateUrl:'signIn.html',
-                  controller:'SignUpCtrl')
+
+          if blank
+            console.log(blank)
+            AlertService.add('danger', 'Please sign in to continue' )
+            $scope.loading = false
+            $modal.open
+              templateUrl:'signIn.html',
+              controller:'SignUpCtrl')
 
     showtab = (tab)->
       angular.forEach($scope.tabs, (value, key)->

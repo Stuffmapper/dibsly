@@ -7,7 +7,6 @@ factories.factory('UserService',['$http',
             (username,password,callback) ->
                 self = this
                 loginData={ username:username, password:password};
-                console.log(loginData)
                 $http.post('/sessions/create', loginData)
                 .success (data) ->
 
@@ -21,7 +20,9 @@ factories.factory('UserService',['$http',
                     callback(null,data)
 
                 .error (err)->
-                    callback(err)
+                  console.log(err)
+                  self.currentUser=false;
+                  callback(err)
 
 
         logout:

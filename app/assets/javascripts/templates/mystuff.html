@@ -1,109 +1,95 @@
-<div id="my-stuff" >
-  <div ng-hide='currentUser' class="overlay-info add-margin-top-50" >
-    Please
-    <a class='btn'
-    ng-click="showSignin()" >sign in</a>to view your stuff
-  </div>
-  <div class="col-lg-12 col-md-12 col-xs-12" ng-class="!currentUser ? 'overlay-active' : 'overlay-inactive' ">
-  </div>
-
+<div ng-hide='currentUser' class="overlay-info add-margin-top-50" >
+  Please
+  <a class='btn'
+  ng-click="showSignin()" >sign in</a>to view your stuff
+</div>
+<div class="scroll-y">
+  <div id="my-stuff" class="col-lg-12 col-md-12 col-xs-12" >
+    <div class="col-lg-12 col-md-12 col-xs-12" ng-class="!currentUser ? 'overlay-active' : 'overlay-inactive' ">
+    </div>
     <edit post="currentPost.id" stuff="currentPost"
-     markers="markers" editing='currentPost.editing'
-     ng-show='currentPost.editing'></edit>
-
-  <hr>
-  <h4> My Posts </h4>
-
-  <div ng-repeat="post in mystuff.posts track by $index"
-  id="mystuff-{{post.id}}"
-  ng-hide="post == undefined || !currentUser" >
-   <div class ='col-lg-12 col-md-12 col-xs-12'>
-      <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
-      title={{stuff.description}}  ng-hide=editing  >
-
-          <div class= "stuff-image-container" >
-
+       markers="markers" editing='currentPost.editing'
+       ng-show='currentPost.editing'></edit>
+    <hr>
+    <h4> My Posts </h4>
+    <div ng-repeat="post in mystuff.posts track by $index"
+    id="mystuff-{{post.id}}"
+    ng-hide="post == undefined || !currentUser" >
+      <div class ='col-lg-12 col-md-12 col-xs-12'>
+          <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
+          title={{stuff.description}}  ng-hide=editing  >
+            <div class= "stuff-image-container" >
             <img class="stuff-image img-responsive"
-            ng-src={{post.image_url}} ></img>
+              ng-src={{post.image_url}} ></img>
+            </div>
           </div>
+          <div class='col-lg-9 col-md-9 col-xs-9'>
+            <undib post="post.id" mystuff="post"
+            ng-hide="currentUser == post.creator"></undib>
+            <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
+            ng-click='edit(post)'
+            ng-show="currentUser == post.creator">
+              Edit
+            </button>
+            <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
+            ng-click='getDetails(post.id)'>
+              Details
+            </button>
+            <div class='col-lg-12 col-md-12 col-xs-12'
+                ng-hide='post.published'
+                >Unpublished
+            </div>
+            <div class='col-lg-12 col-md-12 col-xs-12' ng-show='post.published'
+               >Published
+            </div>
+            <ul ng-show='!post.dibbable'>
+              <li >
+                <p>Dibbed by: {{ post.currentDib.dibber}}<p>
+                  <label for='undibReason'> Remove Current Dib </label>
+                   <select class="form-control" id="undibReason"
+                   placeholder="Select Reason" ng-model="undibReason" >
+                    <option>missed pickup</option>
+                    <option>dibber no longer wants item</option>
+                    <option>dibber has flaked on previous pickup</option>
+                    <option>other</option>
+                  </select>
+                  <button class= "btn-xs btn-default"
+                  ng-click="removeDibber(post.currentDib.id, undibReason, post.id)"
+                  >
+                    Remove
+                  </button>
+              </li>
+              <li>
+                <label for='goneReason'> Mark as Gone</label>
+                <select class="form-control"
+                   id="goneReason" placeholder="Select Reason"
+                   ng-model="goneReason" >
+                    <option>dibber has picked up</option>
+                    <option>item is no longer available</option>
+                    <option>other</option>
+                  </select>
 
+                  <button class= "btn-xs btn-default"
+                   ng-click="markGone(post.id, goneReason)">Update</button>
+              </li>
+            </ul>
+          </div>
+          <hr>
       </div>
-
-      <div class='col-lg-9 col-md-9 col-xs-9'>
-           <undib post="post.id" mystuff="post"
-           ng-hide="currentUser == post.creator"></undib>
-           <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
-           ng-click='edit(post)'
-           ng-show="currentUser == post.creator">Edit</button>
-
-           <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
-           ng-click='getDetails(post.id)'>Details</button>
-
-           <div class='col-lg-12 col-md-12 col-xs-12'
-            ng-hide='post.published'
-            >Unpublished</div>
-           <div class='col-lg-12 col-md-12 col-xs-12' ng-show='post.published'
-           >Published</div>
-        <ul ng-show='!post.dibbable'>
-          <li >
-            <p>Dibbed by: {{ post.currentDib.dibber}}<p>
-
-
-              <label for='undibReason'> Remove Current Dib </label>
-               <select class="form-control" id="undibReason"
-               placeholder="Select Reason" ng-model="undibReason" >
-                <option>missed pickup</option>
-                <option>dibber no longer wants item</option>
-                <option>dibber has flaked on previous pickup</option>
-                <option>other</option>
-              </select>
-
-              <button class= "btn-xs btn-default"
-              ng-click="removeDibber(post.currentDib.id, undibReason, post.id)"
-              >Remove</button>
-          </li>
-          <li>
-               <label for='goneReason'> Mark as Gone</label>
-               <select class="form-control"
-               id="goneReason" placeholder="Select Reason"
-               ng-model="goneReason" >
-                <option>dibber has picked up</option>
-                <option>item is no longer available</option>
-                <option>other</option>
-              </select>
-
-              <button class= "btn-xs btn-default"
-               ng-click="markGone(post.id, goneReason)">Update</button>
-          </li>
-
-        </ul>
-
-      </div>
-      <hr>
-
-
-   </div >
-
-
-  </div>
-
-  <hr>
-  <h4> My Dibs </h4>
+    </div>
+    <hr>
+    <h4> My Dibs </h4>
     <div ng-repeat="dib in mystuff.dibs track by $index"
      id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
-   <div class ='col-lg-12 col-md-12 col-xs-12'>
-      <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
-      title={{dib.description}}  ng-hide=editing  >
-
+     <div class ='col-lg-12 col-md-12 col-xs-12'>
+       <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
+        title={{dib.description}}  ng-hide=editing  >
           <div class= "stuff-image-container" >
-
             <img class="stuff-image img-responsive"
-            ng-src={{dib.image_url}} ></img>
+              ng-src={{dib.image_url}} ></img>
           </div>
-
-      </div>
-
-      <div class='col-lg-9 col-md-9 col-xs-9'>
+        </div>
+        <div class='col-lg-9 col-md-9 col-xs-9'>
            <undib post="dib" mystuff="mystuff"
            ng-hide="currentUser == dib.creator"></undib>
            <button class= "btn-xs btn-default"
@@ -112,13 +98,10 @@
 
            <button class= "btn-xs btn-default"
            ng-click='viewDetails(dib)'>Details</button>
-
+        </div>
+        <hr>
+        </div >
       </div>
-      <hr>
-
-
-   </div >
-
-
+    </div>
   </div>
 </div>
