@@ -23,8 +23,6 @@ controllers.controller('MainNavCtrl',['$scope','$timeout','$http','$location','$
                   $scope.gotMail = false )
             .error( (err)-> console.log(err))
           $timeout(updateMail,200000)
-
-
         updateMail()
         UserService.check((results, err)->
           updateMail()

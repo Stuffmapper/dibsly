@@ -48,7 +48,7 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           controller:'MainRouteCtrl'
         })
         .when('/post/:postId',{
-          templateUrl: "post.html"
+          templateUrl: "singlePost.html"
           controller: 'StuffViewCtrl'
        })
 

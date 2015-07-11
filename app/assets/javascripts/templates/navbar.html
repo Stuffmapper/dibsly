@@ -1,0 +1,21 @@
+<nav class="col-md-12 col-lg-12 col-xs-12" id="main-navbar">
+  <ul id="main-navbar-right">
+    <li id="main-nav-toggle" ng-click='toggle = !toggle' >
+      <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+    </li>
+    <li class="full-nav-item" ng-hide="currentUser" ><a href='/' ng-click="showSignup()" >Sign Up</a></li>
+    <li class="full-nav-item" ng-hide="currentUser"><a href='/' ng-click="showSignin()"  >Sign In</a></li>
+    <li class="full-nav-item" ng-show="currentUser"><a href='/'ng-click="showLogout()" >Sign Out</a></li>
+    <li class="inbox">
+      <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
+        <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+        <span class="inbox-count" ng-show="gotMail">{{gotMail}}</span>
+      </button>
+    </li>
+    <div ng-show="toggle">
+      <li class="collapse-nav-item" ng-hide="currentUser " ng-><a href='#' ng-click="showSignup()" >Sign Up</a></li>
+      <li class="collapse-nav-item" ng-hide="currentUser" ><a href='#' ng-click="showSignin()" >Sign In</a></li>
+      <li class="collapse-nav-item" ng-show="currentUser"><a href='#' ng-click="showLogout()"  >Sign Out</a></li>
+    </div>
+  </ul>
+</nav>
