@@ -1,6 +1,11 @@
 class MessagesController < ApplicationController
   before_filter :verify_logged_in
 
+  def inbox_status
+    count = (current_user.mailbox.inbox.unread current_user).count
+    render json: { newMessages: count}, status: :ok
+  end
+
   def index
     @messages = current_user.mailbox.conversations
     render json: @messages, status: :ok
@@ -10,8 +15,8 @@ class MessagesController < ApplicationController
     #TODO paginate this
     conversation = current_user.mailbox.conversations.where(:id => params[:id])[0]
     get_messages_from_conversation(conversation)
-    @messages.each  do |receipt| 
-      receipt.mark_as_read  
+    @messages.each  do |receipt|
+      receipt.mark_as_read
     end
 
     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
@@ -33,7 +38,7 @@ class MessagesController < ApplicationController
         current_user.reply_to_conversation(conversation, message_params[:body])
      end
      get_messages_from_conversation(conversation)
-     render json: @messages, each_serializer: ReceiptSerializer, status: :ok    
+     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
   end
 
   # POST /messages
@@ -64,7 +69,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    # Never trust parameters from the scary internet, 
+    # Never trust parameters from the scary internet,
     # only allow the white list through.
     def message_params
       params.require(:message).permit(:receiver_username, :body, :subject)

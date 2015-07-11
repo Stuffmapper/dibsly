@@ -18,6 +18,7 @@ Dibsly::Application.routes.draw do
   post 'users/:id', :to => 'users#show', :as => :user
   post 'presets' => 'users#presets'
 
+  get  'messages/status', :to => 'messages#inbox_status'
   post 'messages/:id', :to => 'messages#reply'
   get  'chat/:id', :to => 'messages#dib_or_post_chat'
   resources :messages, only: [:show, :create, :index]
@@ -31,11 +32,11 @@ Dibsly::Application.routes.draw do
   get 'my-stuff' => 'posts#my_stuff'
   get 'my-dibs' => 'posts#my_dibs'
   post 'feedbacks/create'
-  
- 
 
-  resources :posts, only: [:create, :index] do 
-    resources :dibs, only: [:create ] 
+
+
+  resources :posts, only: [:create, :index] do
+    resources :dibs, only: [:create ]
   end
   post 'posts/:id/undib' => 'dibs#undib'
   post 'posts/:id/update' => 'posts#update'
@@ -44,7 +45,7 @@ Dibsly::Application.routes.draw do
 
 
   resources :password_resets,  only: [:new, :create, :edit, :update]
-  
+
   get 'posts/:id' => 'posts#show'
 
 

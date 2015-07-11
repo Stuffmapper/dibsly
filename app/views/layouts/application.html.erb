@@ -26,7 +26,8 @@
         <li class="full-nav-item" ng-show="currentUser"><a href='/'ng-click="showLogout()" >Sign Out</a></li>
         <li class="inbox">
           <button type="button" id="inbox" class="btn btn-default" ng-show="currentUser"  ng-click="showMessages()">
-          <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-envelope"  aria-hidden="true"></span>
+            <span class="inbox-count" ng-show="gotMail">{{gotMail}}</span>
           </button>
         </li>
         <div ng-show="toggle">

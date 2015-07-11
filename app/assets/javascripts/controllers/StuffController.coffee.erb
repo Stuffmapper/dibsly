@@ -161,10 +161,14 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           else
             marker.infowindow.open($scope.map,value.marker)
           )
-        $scope.$apply( ->
-          showtab('details')
-          $scope.markers[args.markerId].viewing = true
-          $scope.stuff = $scope.markers[id] ))
+        applyDetails = ->
+          $scope.$apply( ->
+            showtab('details')
+            $scope.markers[args.markerId].viewing = true
+            $scope.stuff = $scope.markers[id]
+          )
+
+        $timeout(applyDetails ,0))
 
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
