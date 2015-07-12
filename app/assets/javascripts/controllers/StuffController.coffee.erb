@@ -10,7 +10,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         $scope.currentUser = UserService.currentUser
      )
 
-    Marker = $resource('/posts/:id', id:'@id');
+    Marker = $resource('/posts/:id', id:'@id' )
     init = ->
       $scope.viewing = false
       $scope.currentPost = { editing: false, viewing: false}
@@ -23,7 +23,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         getStuff: true,
         giveStuff: false,
         myStuff: false,
-        details: false }
+        details: false ,
+        editing: false }
       blank = ->
       if UserService.currentUser
         mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
@@ -33,14 +34,10 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
 
 
-    $scope.edit = (post)->
-      $scope.currentPost = post
-      $scope.currentPost.editing =true
-
-    $scope.viewDetails = (post)->
-      $scope.currentPost = post
-      $scope.currentPost.viewing = true
-
+    $scope.edit = (id)->
+      console.log(id)
+      showtab('editing')
+      $scope.editItem = $scope.markers[id]
 
 
     createMarker = (value, key, map)->
@@ -116,22 +113,20 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.getDetails  = (id, origin)->
       $location.path('/post/' + id, false)
       showtab('details')
-      if $scope.markers[id] && $scope.markers[id].locallyUpdated > Date.now()
-        $scope.markers[id].viewing = true
+      if $scope.markers[id] && origin != 'marker'
+        google.maps.event.trigger($scope.markers[id].marker, 'click')
         $scope.stuff = $scope.markers[id]
-        angular.forEach($scope.markers, (value, key)->
-          if key != String(id)
-            if value.infowindow
-              value.infowindow.close($scope.map,value.marker)
-          )
-        if origin != 'marker'
-          google.maps.event.trigger($scope.markers[id].marker, 'click')
-
       else
         Marker.get( {id:id} )
         .$promise.then((post)->
-          $scope.markers[id] = post.post
-          createMarker(post.post, post.id, $scope.map)
+          console.log('hello')
+          post.post.viewing = true
+          if !$scope.markers[id]
+            $scope.markers[id] = post.post
+            createMarker(post.post, post.id, $scope.map)
+          else
+            post.updated_at = new Date(post.updated_at)
+            angular.extend($scope.markers[id], post.post )
           $scope.stuff = $scope.markers[id]
           if origin != 'marker'
               google.maps.event.trigger($scope.markers[id].marker, 'click'))
@@ -140,7 +135,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.$on("detailsWanted",
       (event, args) ->
         id = args.markerId
-        $location.path('/post/' + id, false)
         marker = $scope.markers[id]
         if !marker.infowindow
           if !marker.description
@@ -163,14 +157,9 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           else
             marker.infowindow.open($scope.map,value.marker)
           )
-        applyDetails = ->
-          $scope.$apply( ->
-            showtab('details')
-            $scope.markers[args.markerId].viewing = true
-            $scope.stuff = $scope.markers[id]
-          )
-
-        $timeout(applyDetails ,0))
+        dets = ->
+          $scope.getDetails(id, 'marker')
+        $timeout(dets ,0))
 
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
@@ -255,8 +244,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       .success(
         $scope.mystuff.posts[postID]['dibbable'] = true )
 
-
-
     $scope.submitPost = ->
         $scope.loading = true
         UserService.check((blank,data)->
@@ -305,6 +292,42 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         else
           $scope.tabs[key] = false )
 
+    $scope.publish = (status) ->
+        if UserService.currentUser
+            $http.post( "/posts/" + $scope.stuff.id + "/update" ,
+                { published: status })
+                .success(
+                    $scope.stuff['published'] = status
+                    if not status
+                        delete $scope.markers[$scope.stuff.id]
+                    else
+                        $scope.markers[$scope.stuff.id] = $scope.stuff )
+
+    $scope.updateStuff = ->
+        UserService.check(->)
+        if UserService.currentUser
+            formdata = new FormData();
+            formdata.append('latitude', $scope.editItem.latitude)
+            formdata.append('longitude', $scope.editItem.longitude)
+            formdata.append('category', $scope.editItem.category)
+            formdata.append('description', $scope.editItem.description)
+            formdata.append('on_the_curb', $scope.editItem.on_the_curb)
+            if $scope.files
+                formdata.append('image', $scope.files[0]);
+            $http.post( "/posts/" + $scope.editItem.id + "/update" , formdata, {
+                headers: {'Content-Type': undefined}
+                transformRequest: angular.identity
+                }).success (data, status, headers, config) ->
+                    AlertService.add('success', "Your post has been updated")
+                    $scope.files = []
+                .error (data) ->
+                    for key, value of data
+                        AlertService.add('danger', key + ' ' + value )
+        else
+            AlertService.add('danger', 'Please sign in to continue' )
+            $modal.open
+                templateUrl:'signIn.html',
+                controller:'SignUpCtrl'
 
     $scope.startMapper = ->
       showtab('giveStuff')

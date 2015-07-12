@@ -1,35 +1,35 @@
 
-<div class="row col-lg-12 col-md-12 col-xs-12 edit-stuff post-details">
+<div class="row col-lg-12 col-md-12 col-xs-12 edit-stuff post-details scroll-y">
  <hr>
- <a href='#' ng-click='close()'>Back to My Stuff</a>
+ <a href='#' ng-click='getStuff()' class="col-lg-12 col-md-12 col-xs-12">Back to results</a>
   <h3>Edit Post</h3>
   <form id="give-stuff-form">
      <div class="row col-md-12">
-      <img class="img-responsive" src={{stuff.image_url}} ></img>
+      <img class="img-responsive" src={{editItem.image_url}} ></img>
 
      </div>
      <br>
 
      <div >
-        <button class= "center btn btn-default" ng-hide='stuff.published'
+        <button class= "center btn btn-default" ng-hide='editItem.published'
          ng-click="publish(true)">Publish</button>
 
-        <button class= "center btn btn-default" ng-show='stuff.published'
+        <button class= "center btn btn-default" ng-show='editItem.published'
         ng-click="publish(false)">Depublish</button>
 
       </div>
       <div class="row col-md-12">
         <ul>
           <li><b>Poster: </b>
-            <span>{{stuff.creator}}</span>
+            <span>{{editItem.creator}}</span>
           </li>
 
           <li><b>Published: </b>
-            <span>{{stuff.published}}</span>
+            <span>{{editItem.published}}</span>
           </li>
 
           <li><b>Available: </b>
-            <span>{{stuff.dibbable}}</span>
+            <span>{{editItem.dibbable}}</span>
           </li>
 
 
@@ -42,7 +42,7 @@
       <div class="form-group ">
 
         <select class="form-control" id="category" placeholder="Category"
-         ng-model="stuff.category" >
+         ng-model="editItem.category" >
          <option>Arts &amp; Crafts</option>
          <option>Books, Games, Media</option>
          <option>Building &amp; Garden Materials</option>
@@ -59,12 +59,12 @@
       <div class="form-group">
         <input type="text" class="form-control" id="description"
          placeholder="Describe this stuff (you can use #tags)"
-          ng-model="stuff.description">
+          ng-model="editItem.description">
       </div>
 
       <div class="checkbox">
         <label><input type="checkbox" id="on_the_curb" name="on_the_curb"
-           ng-model="stuff.on_the_curb"
+           ng-model="editItem.on_the_curb"
            >This item is on the curb/outside/unattended by me </label>
       </div>
 

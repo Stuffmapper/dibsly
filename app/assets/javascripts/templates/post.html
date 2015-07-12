@@ -25,9 +25,8 @@
           </li>
         </ul>
           <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
-          <button class= "btn-xs btn-default" ng-click='editing = !editing' ng-show="currentUser == stuff.creator">Edit</button>
-          <edit post="stuff.id" stuff="stuff" markers="markers" editing=editing ng-show=editing  ></edit>
-         <hr>
+          <button class= "btn-xs btn-default" ng-click='edit(stuff.id)' ng-show="currentUser == stuff.creator">Edit</button>
+        <hr>
       </div>
 
 </div>
