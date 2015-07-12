@@ -3,8 +3,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
- ($scope, $timeout, $window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
+controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routeParams','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
+ ($scope, $timeout,$location, $routeParams,$window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
     $scope.UserService = UserService;
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
@@ -97,6 +97,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
           $scope.markers[key] = new Marker(value)
           createMarker(value, value.id, $scope.map)
         )
+      if $routeParams.postId
+        $scope.getDetails($routeParams.postId, 'initial')
       self = this
       updateMarkers($scope.map)
       blank = ->
@@ -111,13 +113,13 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
         )
       )
     $scope.getDetails  = (id, origin)->
+      $location.path('/post/' + id, false)
       showtab('details')
       if $scope.markers[id]
         $scope.markers[id].viewing = true
         $scope.stuff = $scope.markers[id]
         angular.forEach($scope.markers, (value, key)->
           if key != String(id)
-            value.marker.setMap(null)
             if value.infowindow
               value.infowindow.close($scope.map,value.marker)
           )
@@ -139,6 +141,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
     $scope.$on("detailsWanted",
       (event, args) ->
         id = args.markerId
+        $location.path('/post/' + id, false)
         marker = $scope.markers[id]
         if !marker.infowindow
           if !marker.description
@@ -199,6 +202,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
        $scope.fullMap = !$scope.fullMap
        google.maps.event.trigger(map, 'resize')
     $scope.getStuff = ->
+      $location.path('/')
       showtab('getStuff')
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap($scope.map)
@@ -212,6 +216,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$window','$modal','$r
 
 
     $scope.getMyStuff = ->
+        $location.path('/', false)
         showtab('myStuff')
         UserService.check((blank,data)->
           if  data && data.user

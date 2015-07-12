@@ -48,8 +48,8 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           controller:'MainRouteCtrl'
         })
         .when('/post/:postId',{
-          templateUrl: "singlePost.html"
-          controller: 'StuffViewCtrl'
+          templateUrl: "home.html"
+          controller: 'StuffCtrl'
        })
 
 
@@ -70,8 +70,16 @@ stfmpr.config ($httpProvider) ->
   $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token
 
 
-stfmpr.run(['UserService',(UserService)->
-
+stfmpr.run(['UserService','$location','$route','$rootScope', (UserService, $location, $route, $rootScope)->
+    original = $location.path
+    $location.path = (path,reload)->
+      if reload == false
+        lastRoute = $route.current
+        un = -> $rootScope.$on('$locationChangeSuccess', ->
+          $route.current = lastRoute
+          )
+        un()
+      original.apply($location, [path])
     UserService.check((err,data)->
         console.log('check',err,data)
       )
