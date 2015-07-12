@@ -55,6 +55,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           title: value.description )
         value.visible = true
         value.updated_at = new Date(value.updated_at)
+        value.locallyUpdated = Date.now()
         $scope.markers[value.id] = value
         google.maps.event.addListener(value.marker, 'click',->
           $scope.$broadcast( 'detailsWanted', { markerId: value.id })
@@ -115,7 +116,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.getDetails  = (id, origin)->
       $location.path('/post/' + id, false)
       showtab('details')
-      if $scope.markers[id]
+      if $scope.markers[id] && $scope.markers[id].locallyUpdated > Date.now()
         $scope.markers[id].viewing = true
         $scope.stuff = $scope.markers[id]
         angular.forEach($scope.markers, (value, key)->
@@ -132,10 +133,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           $scope.markers[id] = post.post
           createMarker(post.post, post.id, $scope.map)
           $scope.stuff = $scope.markers[id]
-          )
-        .$promise.then(
           if origin != 'marker'
-            google.maps.event.trigger($scope.markers[id].marker, 'click'))
+              google.maps.event.trigger($scope.markers[id].marker, 'click'))
 
     $scope.post = {}
     $scope.$on("detailsWanted",
