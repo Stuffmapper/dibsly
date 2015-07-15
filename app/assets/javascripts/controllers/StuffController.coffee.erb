@@ -18,6 +18,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       $scope.markers = {}
       $scope.mystuff = {posts:{}, dibs:{}}
       $scope.attached = false
+      $scope.toggle = false
+      $scope.menuHeight = 'get-stuff-view'
       $scope.backup = {}
       $scope.tabs = {
         getStuff: true,
@@ -25,6 +27,10 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         myStuff: false,
         details: false ,
         editing: false }
+      $scope.giveflow = {
+        1: [ true, 'short-view'],
+        2: [false, 'medium-view'],
+        3: [false, 'form-view'] }
       blank = ->
       if UserService.currentUser
         mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
@@ -33,7 +39,15 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           $scope.mystuff = JSON.parse(mystuff)
 
 
-
+    $scope.giveNext = (id)->
+        angular.forEach($scope.giveflow, (value, key) ->
+          stat = String(id)
+          if key == stat
+            $scope.menuHeight = value[1]
+            $scope.giveflow[key][0] = true
+          else
+            $scope.giveflow[key][0] = false
+          )
     $scope.edit = (id)->
       console.log(id)
       showtab('editing')
@@ -185,11 +199,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     $scope.loading = false
 
-    $scope.togglemap = (height)->
-       angular.element("map").height(height)
-       $scope.fullMap = !$scope.fullMap
-       google.maps.event.trigger(map, 'resize')
     $scope.getStuff = ->
+      $scope.menuHeight = 'get-stuff-view'
       $location.path('/')
       showtab('getStuff')
       angular.forEach($scope.markers, (value,key)->
@@ -206,6 +217,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.getMyStuff = ->
         $location.path('/', false)
         showtab('myStuff')
+        $scope.menuHeight = 'my-stuff-view'
         UserService.check((blank,data)->
           if  data && data.user
             $scope.mystuff = {posts:{}, dibs:{}}
@@ -236,6 +248,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         AlertService.add('success', "Marked as gone")
       .error ->
         AlertService.add('warning', "Something went wrong")
+    $scope.menuToggle = ->
+      $scope.toggle = !$scope.toggle
 
 
     $scope.removeDibber = (id, description, postID )->
@@ -334,11 +348,16 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap(null)
       )
+      angular.forEach($scope.giveflow, (value,key)->
+        if value[0] == true
+          $scope.menuHeight = value[1]
+      )
       google.maps.event.clearListeners(  $scope.map, 'dragend')
       google.maps.event.clearListeners( $scope.map, 'zoom_changed')
       callback = -> $scope.postMarker.setMap($scope.map)
       if $scope.postMarker
           $scope.postMarker.setMap($scope.map)
+          $scope.map.panTo($scope.postMarker.getPosition())
       else
         updatePostMarker( callback, 6000, $scope.map)
 
@@ -351,7 +370,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
             $scope.postMarker.setMap(null)
         updateMarker = (center)->
           resetMarker()
-          $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',icon: '<%= asset_path('red-pin.png')%>')
+          $scope.postMarker = new google.maps.Marker(position: center,draggable:true, map:$scope.map,title:'Your Stuff',
+          icon: '<%= asset_path('red-pin.png')%>')
           updatePost = ->
             $scope.post.latitude = $scope.postMarker.getPosition().lat()
             $scope.post.longitude = $scope.postMarker.getPosition().lng()

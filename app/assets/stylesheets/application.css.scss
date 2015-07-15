@@ -40,6 +40,9 @@ body{
 	font-size: 2.5em;
 	color: $black;
 }
+.add-margin-top-15{
+	margin-top: 15px;
+}
 
 .add-margin-top-50{
 	margin-top: 50px;
@@ -47,8 +50,15 @@ body{
 
 #sm-thumbnail{
 	margin-left: 20px;
-	height:100px;
-	width: 100px;
+	width: 200px;
+	max-height: 200px;
+}
+
+.stuff-btn{
+	color: $white;
+	font-size: 1.5rem;
+	padding:4px;
+	background-color: $turqblue;
 }
 #loading-thumbnail{
 	height:40px;
@@ -162,25 +172,22 @@ nav{
 
 
 /**** STUFFMAPPER ****/
-
-
-#show-stuffmapper-menu{
-	position:absolute;
-	margin-top:-10px;
-	bottom: 5px;
-	right: 5px;
-	z-index: 2;
+.hide-menu{
+	position: relative;
+  z-index: 10;
+  list-style: none;
+  text-align: center;
+	li{
+		padding: 0;
+		margin-top: -5px;
+		line-height: 0;
+	span{
+		background-color: grey;
+		padding: 0 2px;
+	}
+	}
 }
-#hide-stuffmapper-menu{
-	position:absolute;
-	margin-top:-10px;
-	left: -1px;
-	font-size:.7em;
-	width:25px;
-	padding:0;
-	top: 55px;
-	z-index: 2;
-}
+
 .scroll-y{
 	overflow-y: auto;
 	height:100%;
@@ -222,21 +229,44 @@ nav{
 	  border-radius: 5px;
     position:relative;
     z-index: 2;
-    background: $white;
     margin-top: 55px;
     font-size: 1.2em;
-    padding:0;
-		height: 90vh;
+    padding:0 0 15px 0;
 		overflow: hidden;
+}
+.toggle{
+	height: 37px;
+}
+.short-view{
+	height: 180px;
+	background: $white;
+}
+.medium-view{
+	min-height: 200px;
+	background: $white;
+}
+.get-stuff-view, .my-stuff-view{
+	height:90vh;
+	background: $white;
 }
 .content{
 	position: relative;
 	height: 100%;
 	margin-top: -40px;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	padding: 80px 10px 10px 10px;
 }
 
+.menu-toggle span{
+	position: absolute;
+	float: left;
+	margin-left: -46.2%;
+	background: lightgrey;
+	color: darkgrey;
+	padding: 2px;
+	border-radius: 2px;
+	border: 1px solid darkgrey;
+}
 .stuff-view{
 	display:inline-block;
 	float:left;
@@ -254,7 +284,6 @@ nav{
 	color:white;
 	background:rgba(0,0,0,.5);
 	overflow:hidden;
-
 }
 .edit-stuff{
 	clear:both;
@@ -263,12 +292,9 @@ nav{
 /*** GIVE STUFF ***/
 
 #give-stuff-file-container{
-	float:left;
-	margin:15px 0;
 	border-radius:10px;
 	height:75px;
 	padding-top:13px;
-	width: 100px;
 	overflow:hidden;
 	background:$turquoise;
 	border: solid 3px $turqblue;
@@ -278,8 +304,8 @@ nav{
 		height:110px;
 		width:110px;
 		padding: 20px;
-		margin-top:-55px;
-		margin-left:-10px;
+		margin-top: -80px;
+		margin-left: -15px;
 		opacity: .01;
 		z-index: 5;
 	}
@@ -291,10 +317,6 @@ nav{
 }
 #give-stuff-submit{
 	background-color:$purple-button;
-	color: $white;
-	font-size: 1.5rem;
-	width: 95%;
-	margin: 20px 2.5%;
 }
 .attached-text h4{
 	margin-top: 0;
@@ -326,24 +348,20 @@ nav{
 		padding: 0;
 	}
 	#stuffmapper-menu{
-		margin-top: 50vh;
-		margin-left: 0;
+		position: absolute;
+		bottom:0;
+		margin-bottom: -20px;
 		padding: 0;
 		margin-right: 0;
 	}
-	#google-map-container{
-		height:60vh;
+	.get-stuff-view, .my-stuff-view{
+		top:0;
+		background-color: rgba(255,255,255,.5)
 	}
 
 }
 @media (min-width: 768px) {
-#google-map-container{
-	height:100%;
-	}
-#hide-stuffmapper-menu{
-	display:none;
 
-    }
 }
 
 /**** MAPS ****/
@@ -353,7 +371,7 @@ nav{
  								margin-right: 0px;
  								margin-bottom: 0px;
  								margin-top: 35px;
-
+								height:100%;
  								top: 0px;
  								left: 0px;
  								overflow: hidden;
@@ -480,9 +498,6 @@ form {
 	}
 	.converation-messages{
 		overflow-y: scroll;
-
-
-
 	}
 
 

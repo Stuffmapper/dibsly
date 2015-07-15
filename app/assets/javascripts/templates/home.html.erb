@@ -1,25 +1,29 @@
 <div  ng-include src="'navbar.html'"></div>
 <div class="row col-lg-12 col-md-12 col-sm-12">
-  <alerts></alerts>
+
 </div>
 
 
 <div ng-controller='StuffCtrl'>
   <div class="container overlap"  >
-      <button class="btn" ng-click="togglemap('40%')" ng-show='fullMap' id="show-stuffmapper-menu">Show Menu</button>
-
     <div class="col-md-4 col-lg-4
     col-sm-6 col-xs-12
     col-sm-offset-6
     col-md-offset-8
-    col-lg-offset-8" id="stuffmapper-menu" ng-hide="fullMap">
-
-      <button  id="hide-stuffmapper-menu" ng-hide="fullMap" ng-click="togglemap('100%')" >>></button>
+    col-lg-offset-8"
+    ng-class="toggle ? 'toggle' : 'menuHeight'"
+     id="stuffmapper-menu" >
 
       <ul class="sm-tabs">
+
+
         <li class="col-md-4 col-lg-4 col-xs-4"
         active='tabs.getStuff'
         ng-class="tabs.getStuff ?  'tab-clicked' : 'tab-unclicked'">
+          <div class="menu-toggle">
+            <span ng-click='menuToggle()' class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+            </span>
+          </div>
           <a href='#' ng-click='getStuff()'>
             <h4>Get Stuff</h4>
           </a>
@@ -38,6 +42,7 @@
             <h4>My Stuff</h4>
           </a>
         </li>
+        <alerts></alerts>
       </ul>
 
       <div ng-show='tabs.getStuff'
