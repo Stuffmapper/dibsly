@@ -227,31 +227,40 @@ nav{
 #stuffmapper-menu{
 
 	  border-radius: 5px;
-    position:relative;
     z-index: 2;
     margin-top: 55px;
     font-size: 1.2em;
     padding:0 0 15px 0;
 		overflow: hidden;
+		background-color: $white;
+		max-height:90vh;
 }
 .toggle{
 	height: 37px;
+	position: absolute;
+	bottom:30px;
 }
 .short-view{
+	position:relative;
 	height: 180px;
-	background: $white;
+	background-color: $white;
 }
 .medium-view{
+	position:relative;
 	min-height: 200px;
+	background-color: $white;
+}
+.get-stuff-view{
+	position:relative;
 	background: $white;
 }
-.get-stuff-view, .my-stuff-view{
-	height:90vh;
-	background: $white;
+#get-stuff,#my-stuff{
+	height: 90vh;
 }
 .content{
 	position: relative;
 	height: 100%;
+
 	margin-top: -40px;
 	margin-bottom: 20px;
 	padding: 80px 10px 10px 10px;
@@ -349,14 +358,14 @@ nav{
 	}
 	#stuffmapper-menu{
 		position: absolute;
-		bottom:0;
+		bottom:10px;
 		margin-bottom: -20px;
 		padding: 0;
 		margin-right: 0;
 	}
 	.get-stuff-view, .my-stuff-view{
-		top:0;
-		background-color: rgba(255,255,255,.5)
+		background-color: rgba(255,255,255,0.5);
+		height:90vh;
 	}
 
 }

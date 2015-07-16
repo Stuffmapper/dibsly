@@ -21,7 +21,14 @@
         active='tabs.getStuff'
         ng-class="tabs.getStuff ?  'tab-clicked' : 'tab-unclicked'">
           <div class="menu-toggle">
-            <span ng-click='menuToggle()' class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+            <span ng-click='menuToggle()'
+            class="glyphicon glyphicon-chevron-down"
+            aria-hidden="true"
+            ng-hide='toggle'></span>
+            <span ng-click='menuToggle()'
+            class="glyphicon glyphicon-chevron-up"
+            aria-hidden="true"
+            ng-show='toggle'>
             </span>
           </div>
           <a href='#' ng-click='getStuff()'>

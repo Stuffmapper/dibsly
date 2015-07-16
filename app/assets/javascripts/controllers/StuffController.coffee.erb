@@ -200,6 +200,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.loading = false
 
     $scope.getStuff = ->
+      $scope.toggle = false
       $scope.menuHeight = 'get-stuff-view'
       $location.path('/')
       showtab('getStuff')
@@ -215,6 +216,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
 
     $scope.getMyStuff = ->
+        $scope.toggle = false
         $location.path('/', false)
         showtab('myStuff')
         $scope.menuHeight = 'my-stuff-view'
@@ -344,6 +346,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                 controller:'SignUpCtrl'
 
     $scope.startMapper = ->
+      $scope.toggle = false
       showtab('giveStuff')
       angular.forEach($scope.markers, (value,key)->
         value.marker.setMap(null)

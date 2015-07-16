@@ -249,7 +249,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_call_original
 
-    within('#give-stuff-form') do
+    within('#give-stuff') do
       expect(page).to have_field 'description'
       fill_in 'description', with: "okkk"
       click_button 'Give this stuff!'

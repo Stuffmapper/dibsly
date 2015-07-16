@@ -5,7 +5,9 @@ When(/^I log in and give stuff$/) do
   sign_in @current_user
   click_link('Give Stuff')
   execute_script("$(document.elementFromPoint(100, 100)).click()")
+  click_button 'Next'
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
+  click_button 'Next'
  end
 
 
@@ -21,7 +23,7 @@ Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_return( true )
 
-		within('#give-stuff-form') do
+		within('#give-stuff') do
 	 		expect(page).to have_field 'description'
 	 		fill_in 'description', with: arg1
 	 		click_button 'Give this stuff!'
@@ -218,15 +220,17 @@ When(/^I login and give stuff and select on the curb$/) do
 end
 
 Then(/^the post should set the post's status to out of my hands$/) do
-  check "on_the_curb"
+  click_link "Give Stuff"
+  click_button 'Next'
+
 
  #TODO - Mock out paperclip properly - this is  not a good test
  #This is making a real request to aws everytime- (this is bad)
 
-  click_link "Get Stuff"
-  click_link "Give Stuff"
 
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
+  click_button 'Next'
+  check "on_the_curb"
   click_button "Give this stuff!"
   sleep(4)
 
@@ -266,8 +270,10 @@ When(/^I try to give stuff after logging in$/) do
 end
 
 Then(/^I should be able to change my photo before submitting$/) do
+  click_button 'Next'
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/free_smiles.png"))
+  click_button 'Next'
   click_button "Give this stuff!"
   sleep(3)
   expect(Post.count).to eq 1
