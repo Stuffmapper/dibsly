@@ -233,11 +233,12 @@ nav{
     padding:0 0 15px 0;
 		overflow: hidden;
 		background-color: $white;
-		max-height:90vh;
+		max-height:100%;
 }
 .toggle{
 	height: 37px;
 	position: absolute;
+	max-width: 300px;
 	bottom:30px;
 }
 .short-view{
@@ -359,6 +360,7 @@ nav{
 	#stuffmapper-menu{
 		position: absolute;
 		bottom:10px;
+		max-height: 90%;
 		margin-bottom: -20px;
 		padding: 0;
 		margin-right: 0;

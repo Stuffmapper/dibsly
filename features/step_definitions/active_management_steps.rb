@@ -41,8 +41,7 @@ Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
   click_link 'Sign Out'
   sign_in @user_jill
   center_map_to_post @shoes
-  click_link 'Get Stuff'
-
+  click_link "Get Stuff"
   click_button 'Details'
   expect(page).to have_text 'shoes'
   first(:button, 'Dib').click

@@ -2,7 +2,7 @@
 
    <div ng-repeat="item in markers | orderObjectBy:'updated_at':true track by $index" >
      <div ng-show 'item.visible' class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
-       <div class= "stuff-image-container clearfix">
+       <div class= "stuff-image-container clearfix" ng-click=getDetails(item.id)>
          <img class="stuff-image img-responsive" ng-src={{item.image_url}}
          ng-click='markerWindow(item.id)'></img>
        </div>
