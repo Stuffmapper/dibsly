@@ -287,6 +287,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                       $scope.loading = false
                       updateMarkers()
                       $scope.postMarker.setMap(null)
+                      $scope.giveNext(1)
                       $scope.getStuff()
                   .error (data) ->
                       for key, value of data

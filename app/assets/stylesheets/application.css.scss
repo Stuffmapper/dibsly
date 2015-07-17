@@ -257,14 +257,15 @@ nav{
 }
 #get-stuff,#my-stuff{
 	height: 90vh;
+	padding-bottom: 100px;
 }
 .content{
 	position: relative;
 	height: 100%;
-
+	max-height: 600px;
 	margin-top: -40px;
 	margin-bottom: 20px;
-	padding: 80px 10px 10px 10px;
+	padding: 80px 10px 200px 10px;
 }
 
 .menu-toggle span{
@@ -309,15 +310,20 @@ nav{
 	background:$turquoise;
 	border: solid 3px $turqblue;
 	position:relative;
+	cursor: pointer;
+	cursor: hand;
 	#give-stuff-file{
-		position:relative;
-		height:110px;
-		width:110px;
-		padding: 20px;
-		margin-top: -80px;
-		margin-left: -15px;
-		opacity: .01;
-		z-index: 5;
+		position: relative;
+	  height: 130%;
+	  width: 130%;
+	  padding: 0;
+	  margin: auto;
+	  margin-left: -10%;
+	  margin-top: -50px;
+	  opacity: .01;
+	  z-index: 5;
+		cursor: pointer;
+		cursor: hand;
 	}
 	.glyphicon{
 		font-size:40px;
@@ -327,6 +333,9 @@ nav{
 }
 #give-stuff-submit{
 	background-color:$purple-button;
+}
+.give-stuff{
+	padding-bottom: 140px;
 }
 .attached-text h4{
 	margin-top: 0;
