@@ -9,7 +9,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
-
+    $scope.menuHeight = 'stuffmapper-menu get-stuff-view'
     Marker = $resource('/posts/:id', id:'@id' )
     init = ->
       $scope.viewing = false
@@ -20,6 +20,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       $scope.attached = false
       $scope.toggle = false
       $scope.menuHeight = 'get-stuff-view'
+
       $scope.backup = {}
       $scope.tabs = {
         getStuff: true,

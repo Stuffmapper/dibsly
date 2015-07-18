@@ -1,18 +1,19 @@
 <div  ng-include src="'navbar.html'"></div>
-<div class="row col-lg-12 col-md-12 col-sm-12">
-
-</div>
 
 
 <div ng-controller='StuffCtrl'>
-  <div class="container overlap"  >
+  <div class="overlap full-height"  >
+    <div class="row add-margin-top-50"></div>
+    <div class="row add-margin-top-50"></div>
+
     <div class="col-md-4 col-lg-4
-    col-sm-6 col-xs-12
-    col-sm-offset-6
+    col-sm-4 col-xs-12
+    col-sm-offset-8
     col-md-offset-8
-    col-lg-offset-8"
-    ng-class="toggle ? 'toggle' : 'menuHeight'"
-     id="stuffmapper-menu" >
+    col-lg-offset-8
+    stuffmapper-menu"
+    ng-class="toggle ? 'toggle' : menuHeight "
+    >
 
       <ul class="sm-tabs">
 
@@ -53,11 +54,11 @@
       </ul>
 
       <div ng-show='tabs.getStuff'
-      class='content' ng-include src="'getstuff.html'"></div>
+      class='content scroll-y' ng-include src="'getstuff.html'"></div>
       <div ng-show='tabs.giveStuff'
        class='content give-stuff' ng-include src="'givestuff.html'"></div>
       <div ng-show='tabs.myStuff'
-      class='content'ng-include src="'mystuff.html'"></div>
+      class='content scroll-y'ng-include src="'mystuff.html'"></div>
       <div ng-show='tabs.details'
       class='content scroll-y'ng-include src="'details.html'">
       </div>
