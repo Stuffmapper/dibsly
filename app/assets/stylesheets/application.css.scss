@@ -35,9 +35,6 @@ body{
 }
 
 /*** Helper ***/
-.edit-post{
-	padding-bottom: 200px;
-}
 .close-x{
 	position: relative;
 	display:block;
@@ -53,6 +50,10 @@ body{
 
 .add-margin-top-50{
 	margin-top: 50px;
+}
+.percent-padding{
+	min-height: 40px;
+	height: 10%
 }
 
 #sm-thumbnail{
@@ -220,11 +221,12 @@ nav{
     z-index: 2;
     font-size: 1.2em;
     padding:0 0 15px 0;
-		height: 100%;
+		overflow: hidden;
+		height: 90%;
 }
 
 .toggle{
-	height: 50px;
+	height: 100px;
 	width: 150px;
 	position: absolute;
 	margin-bottom: 60px;
@@ -260,7 +262,6 @@ nav{
 	font-size: 1.2em;
 	padding:0 0 15px 0;
 	margin-bottom: 50px;
-	height:100%;
 	background: $white;
 }
 

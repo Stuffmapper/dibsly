@@ -3,8 +3,7 @@
 
 <div ng-controller='StuffCtrl'>
   <div class="overlap full-height"  >
-    <div class="row add-margin-top-50"></div>
-    <div class="row add-margin-top-50"></div>
+    <div class="row percent-padding"></div>
 
     <div class="col-md-4 col-lg-4
     col-sm-4 col-xs-12
@@ -31,7 +30,8 @@
             </li>
           </ul>
             <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
-            <button class= "btn-xs btn-default" ng-click='edit(stuff.id)' ng-show="currentUser == stuff.creator">Edit</button>
+            <button class= "btn-xs btn-default" ng-click='edit(stuff.id)'
+            ng-show="currentUser == stuff.creator">Edit</button>
           <hr>
         </div>
       </div>
