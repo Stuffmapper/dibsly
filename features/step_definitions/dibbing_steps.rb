@@ -24,13 +24,13 @@ Then(/^I should see the shoes in the menu$/)  do
   click_link 'Get Stuff'
   click_button 'Details'
   sleep(1)
-  within('#stuffmapper-menu') do
+  within('.stuffmapper-menu') do
     expect(page).to have_text("shoes")
   end
 end
 
 Then(/^I should not see the shoes in the menu$/)  do
-  within('#stuffmapper-menu') do
+  within('.stuffmapper-menu') do
 
     expect(page).to_not have_text("shoes")
   end
@@ -48,7 +48,7 @@ Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
   map.panTo(myLatLng);
   map.setZoom(16);")
   sleep(1)
-  within('#stuffmapper-menu') do
+  within('.stuffmapper-menu') do
     expect(page).to_not have_text("shoes")
   end
 end
@@ -80,8 +80,11 @@ Given(/^I'm logged out$/) do
    # express the regexp above with the code you wish you had
 end
 Then(/^I should not be able to dib the item by pressing dib\.$/) do
-  click_button('Dib')
-  expect(@shoes.available_to_dib?).to eq true # express the regexp above with the code you wish you had
+  within('.post-details') do
+    page.execute_script "window.scrollBy(0,10000)"
+    find(:button, 'Dib').click
+    expect(@shoes.available_to_dib?).to eq true # express the regexp above with the code you wish you had
+  end
 end
 
 ##UNDIB

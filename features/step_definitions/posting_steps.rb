@@ -92,8 +92,11 @@ end
 
 When(/^I try to dib an item$/) do
   visit('/post/' + @post.id.to_s )
+  within('.post-details') do
+    page.execute_script "window.scrollBy(0,10000)"
+    find(:button, 'Dib').click
+  end
 
-  click_button('Dib')
 
 end
 
@@ -249,6 +252,7 @@ Then(/^I should be able to change the out of my hands status after it's posted$/
    @post.reload
    expect(@post.on_the_curb).to eq true
     visit('/post/' + @post.id.to_s )
+    page.execute_script "window.scrollBy(0,10000)"
     first(:button, 'Edit').click
     uncheck 'on_the_curb'
     click_button "Update"

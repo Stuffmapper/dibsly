@@ -8788,7 +8788,7 @@ nav {
 }
 
 /* line 228, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu {
+.stuffmapper-menu {
   border-radius: 5px;
   z-index: 2;
   margin-top: 55px;
@@ -8956,7 +8956,7 @@ nav {
   }
 
   /* line 370, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-  #stuffmapper-menu {
+  .stuffmapper-menu {
     position: absolute;
     bottom: 10px;
     max-height: 90%;

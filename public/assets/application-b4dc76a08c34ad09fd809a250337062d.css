@@ -8690,7 +8690,7 @@ nav {
 }
 
 /* line 147, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu {
+.stuffmapper-menu {
   border-radius: 5px;
   position: absolute;
   z-index: 2;
@@ -8703,31 +8703,31 @@ nav {
   padding: 0;
 }
 /* line 159, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .tab-content {
+.stuffmapper-menu .tab-content {
   padding: 18px;
   background: white;
   width: 100%;
 }
 /* line 164, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .nav-tabs {
+.stuffmapper-menu .nav-tabs {
   background: #5e5e5e;
 }
 /* line 166, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .nav-tabs a {
+.stuffmapper-menu .nav-tabs a {
   color: white;
   font-size: 1.5rem;
 }
 /* line 170, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .nav-tabs li {
+.stuffmapper-menu .nav-tabs li {
   width: 32%;
 }
 /* line 175, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .nav-tabs > li.active > a,
-#stuffmapper-menu .nav-tabs > li.hover > a {
+.stuffmapper-menu .nav-tabs > li.active > a,
+.stuffmapper-menu .nav-tabs > li.hover > a {
   color: #5e5e5e;
 }
 /* line 178, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-#stuffmapper-menu .tab-pane {
+.stuffmapper-menu .tab-pane {
   min-height: 200px;
   max-height: 500px;
   overflow-y: scroll;
@@ -8809,7 +8809,7 @@ nav {
 }
 @media (max-width: 768px) {
   /* line 255, /Users/cynicman2001/railsapps/peaceful-island-3906/app/assets/stylesheets/application.css.scss */
-  #stuffmapper-menu {
+  .stuffmapper-menu {
     top: initial;
     min-width: 100%;
     left: 0px;
