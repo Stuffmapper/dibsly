@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'auth_token'
 
-RSpec.describe SessionsController, :type => :controller do
+RSpec.describe Api::SessionsController, :type => :controller do
 
   describe "Post create" do
     before do
@@ -70,15 +71,14 @@ RSpec.describe SessionsController, :type => :controller do
 
   describe "Get check user" do
     before do
-      user = create(:user, :username => 'Superbad')
+      @user = create(:user, :username => 'Superbad')
       xhr :post, :create, format: :json, username: 'Superbad', password: '123456'
     end
 
     context "user logged in " do
       it 'should 200' do
-        xhr :get, :check
+        xhr :get, :check, token: AuthToken.issue_token({ user_id: @user.id })
         expect(response.status).to eq(200)
-        expect(JSON.parse(response.body)['user']).to eq('Superbad')
       end
     end
 

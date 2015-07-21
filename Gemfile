@@ -46,6 +46,9 @@ gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 
 
+#for Auth
+gem 'jwt', '~> 1.5.1'
+
 #for bower
 gem 'bower-rails'
 

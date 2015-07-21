@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PasswordResetsController, type: :controller do
+RSpec.describe Api::PasswordResetsController, type: :controller do
 
 
 	describe "POST create" do
@@ -91,7 +91,7 @@ RSpec.describe PasswordResetsController, type: :controller do
 
 				end
 
-				it "doesn't work with small passwords" do 
+				it "doesn't work with small passwords" do
 
 					digest = user.password_digest
 					xhr :post, :update, id: user.password_reset_token ,

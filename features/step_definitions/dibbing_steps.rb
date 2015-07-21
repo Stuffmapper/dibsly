@@ -51,6 +51,7 @@ Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
   within('.stuffmapper-menu') do
     expect(page).to_not have_text("shoes")
   end
+
 end
 
 Then(/^Jack should have been notified of my dib\.$/) do

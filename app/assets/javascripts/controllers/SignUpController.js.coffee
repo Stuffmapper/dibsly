@@ -34,7 +34,7 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
           }
 
 
-      $http.post('/users', {user: user}  )
+      $http.post('/api/users', {user: user}  )
         .success ->
           $window.location.href = "http://" + $window.location.host
           $modalInstance.dismiss('cancel')
@@ -82,7 +82,7 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
     $scope.submitReset = ->
       console.log($scope.email)
       $http(
-           url: '/password_resets'
+           url: '/api/password_resets'
            method: 'POST'
            params:
                email: $scope.email )

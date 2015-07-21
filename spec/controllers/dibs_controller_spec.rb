@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DibsController, type: :controller do
+RSpec.describe Api::DibsController, type: :controller do
 	vcr_options = { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }
 
 	describe "dib post", :vcr => vcr_options do

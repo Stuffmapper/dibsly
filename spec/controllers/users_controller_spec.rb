@@ -1,7 +1,7 @@
 
 require 'rails_helper'
 
-RSpec.describe UsersController, :type => :controller do
+RSpec.describe Api::UsersController, :type => :controller do
 
   describe "Post create" do
     before do
@@ -66,8 +66,8 @@ RSpec.describe UsersController, :type => :controller do
         expect(User).to receive(:find_by_verify_email_token).and_call_original
         xhr :get, :confirm_email, confirmation: @current_user.verify_email_token
       end
-         
-      it 'should 200' do    
+
+      it 'should 200' do
         expect(response.status).to eq(200)
       end
 
@@ -91,10 +91,10 @@ RSpec.describe UsersController, :type => :controller do
         expect(@current_user.verified_email).to eq false
         expect(User).to receive(:find_by_verify_email_token).and_call_original
         xhr :get, :confirm_email, confirmation: 'thiseisafake7788'
-        
+
       end
-         
-      it 'should 422' do    
+
+      it 'should 422' do
         expect(response.status).to eq(422)
       end
 
@@ -112,5 +112,5 @@ RSpec.describe UsersController, :type => :controller do
 
 
   end
-  
+
 end

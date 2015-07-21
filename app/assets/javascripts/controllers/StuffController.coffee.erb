@@ -10,7 +10,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         $scope.currentUser = UserService.currentUser
      )
     $scope.menuHeight = 'stuffmapper-menu get-stuff-view'
-    Marker = $resource('/posts/:id', id:'@id' )
+    Marker = $resource('/api/posts/:id', id:'@id' )
     init = ->
       $scope.viewing = false
       $scope.currentPost = { editing: false, viewing: false}
@@ -84,7 +84,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         neBounds = map.getBounds().getNorthEast()
         swBounds = map.getBounds().getSouthWest()
         $http(
-          url: '/posts/geolocated'
+          url: '/api/posts/geolocated'
           params:
             neLat: neBounds.lat()
             swLat: swBounds.lat()
@@ -222,19 +222,19 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         showtab('myStuff')
         $scope.menuHeight = 'my-stuff-view'
         UserService.check((blank,data)->
-          if  data && data.user
+          if UserService.currentUser
             $scope.mystuff = {posts:{}, dibs:{}}
             user = data.user
             mystuff = localStorage.getItem('mystuff' + user)
             if mystuff
               $scope.mystuff = JSON.parse(mystuff)
-            $http.get( '/my-stuff')
+            $http.get( '/api/my-stuff')
             .success(
                 (data)->
                     for marker in data.posts
                       $scope.mystuff.posts[marker.id] = marker )
             .then( (data)->
-              $http.get( '/my-dibs')
+              $http.get( '/api/my-dibs')
               .success((data)->
                 for marker in data.posts
                   $scope.mystuff.dibs[marker.id] = marker )
@@ -246,7 +246,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     $scope.markGone =(id)->
       post = {status: 'gone'}
-      $http.post( "/posts/" + id + "/update", post )
+      $http.post( "/api/posts/" + id + "/update", post )
       .success ->
         AlertService.add('success', "Marked as gone")
       .error ->
@@ -257,14 +257,14 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     $scope.removeDibber = (id, description, postID )->
       report = {description: description}
-      $http.post( '/dibs/' + id + '/removedib',  {report: report} )
+      $http.post( '/api/dibs/' + id + '/removedib',  {report: report} )
       .success(
         $scope.mystuff.posts[postID]['dibbable'] = true )
 
     $scope.submitPost = ->
         $scope.loading = true
         UserService.check((blank,data)->
-          if data && data.user
+          if UserService.currentUser
               token = $("meta[name=\"csrf-token\"]").attr("content")
               formdata = new FormData();
               formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
@@ -273,7 +273,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
               formdata.append('description', $scope.post.description)
               formdata.append('on_the_curb', $scope.post.on_the_curb)
               formdata.append('image', $scope.file);
-              $http.post( "/posts", formdata, {
+              $http.post( "/api/posts", formdata, {
                   headers: {'Content-Type': undefined,'X-CSRF-TOKEN':token}
                   transformRequest: angular.identity
                   }).success (data, status, headers, config) ->
@@ -312,7 +312,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     $scope.publish = (status) ->
         if UserService.currentUser
-            $http.post( "/posts/" + $scope.stuff.id + "/update" ,
+            $http.post( "/api/posts/" + $scope.stuff.id + "/update" ,
                 { published: status })
                 .success(
                     $scope.stuff['published'] = status
@@ -332,7 +332,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
             formdata.append('on_the_curb', $scope.editItem.on_the_curb)
             if $scope.files
                 formdata.append('image', $scope.files[0]);
-            $http.post( "/posts/" + $scope.editItem.id + "/update" , formdata, {
+            $http.post( "/api/posts/" + $scope.editItem.id + "/update" , formdata, {
                 headers: {'Content-Type': undefined}
                 transformRequest: angular.identity
                 }).success (data, status, headers, config) ->
