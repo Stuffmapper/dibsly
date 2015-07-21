@@ -107,6 +107,10 @@ end
 
 Given(/^that I have the signin page open\.$/) do
   visit('/')
+  sleep(2)
+  if first(:link, 'Sign Out') != nil
+    first(:link, 'Sign Out').click
+  end
   first(:link, 'Sign In').click
 end
 
@@ -254,7 +258,6 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
       fill_in 'description', with: "okkk"
       click_button 'Give this stuff!'
     end
-
   expect(page).to have_text('Please verify your email to give stuff')
   click_link('Sign Out')
   @shoes = Post.first
@@ -262,6 +265,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
     When I log in and visit the map location where the shoes are.
     When I hit dib
   }
+  sleep(2)
   expect(page).to have_text('Please verify your email to dib')
 
 end
