@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, :type => :controller do
+RSpec.describe Api::PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
 
 	describe "Get geolocated posts", :vcr => vcr_options do
@@ -84,7 +84,7 @@ RSpec.describe PostsController, :type => :controller do
 					#ugly need to fix
 					parsed_response = JSON.parse(response.body.as_json)
 				expect(parsed_response['posts'][0]['id'] ).to eq @post.id
-				expect(parsed_response['posts'][0]['updated_at'] ).to_not be nil 
+				expect(parsed_response['posts'][0]['updated_at'] ).to_not be nil
 				expect(response.status).to eq(200)
 			end
 

@@ -4,6 +4,7 @@ stfmpr = angular.module('stfmpr',[
         'factories',
         'filters',
         'directives',
+        'ng',
         'ngRoute',
         'ngResource',
         'ngMap',
@@ -68,6 +69,7 @@ stfmpr.config ($httpProvider) ->
 
   # include token in $httpProvider default headers
   $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token
+  $httpProvider.interceptors.push('AuthInterceptor')
 
 
 stfmpr.run(['UserService','$location','$route','$rootScope', (UserService, $location, $route, $rootScope)->

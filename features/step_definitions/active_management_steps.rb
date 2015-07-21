@@ -57,6 +57,7 @@ end
 Then(/^I should be able to see "(.*?)" as the current dibber\.$/) do |arg1|
   sign_in @current_user
   click_link 'My Stuff'
+  sleep(4)
   expect(page).to have_text("Dibbed by: " + arg1)
 end
 

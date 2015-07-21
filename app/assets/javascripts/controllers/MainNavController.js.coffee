@@ -14,7 +14,7 @@ controllers.controller('MainNavCtrl',['$scope','$timeout','$http','$location','$
         updateMail = ->
           console.log("mail is being updated for", UserService.currentUser)
           if UserService.currentUser
-            $http.get( '/messages/status')
+            $http.get( '/api/messages/status')
             .success(
               (data)->
                 if data.newMessages > 0

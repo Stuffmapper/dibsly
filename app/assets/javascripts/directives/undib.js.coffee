@@ -7,9 +7,9 @@ directives.directive('undib', ->
     controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
 
      $scope.giveBack = ()->
-        post_url = 'posts/' + $scope.post.id + '/undib'
+        post_url = '/api/posts/' + $scope.post.id + '/undib'
         UserService.check( (err, data )->
-          if data
+          if UserService.currentUser
   	        $http.post(
   	            post_url
   	            ).success((data)->
@@ -22,10 +22,10 @@ directives.directive('undib', ->
   	                for key, value of error
   	                    AlertService.add('danger', key + ' ' + value )
           else
-          	AlertService.add('danger', 'Please sign in to continue' )
-          	$modal.open
-                  templateUrl:'signIn.html',
-                  controller:'SignUpCtrl'
+            AlertService.add('danger', 'Please sign in to continue' )
+            $modal.open
+              templateUrl:'signIn.html',
+              controller:'SignUpCtrl'
         )]
     replace:true,
     template:  '<button class= "btn-xs btn-default" ng-click=giveBack()>unDib</button>'

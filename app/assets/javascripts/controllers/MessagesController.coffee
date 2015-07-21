@@ -2,14 +2,14 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','$http','$modal','$modalInstance', 
- ($scope, AlertService, UserService,$http, $modal,$modalInstance ) -> 
+controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','$http','$modal','$modalInstance',
+ ($scope, AlertService, UserService,$http, $modal,$modalInstance ) ->
 
     $http(
-         url: '/messages'
+         url: '/api/messages'
       ).success((data)->
         $scope.inbox =  data.messages
-      ).error -> 
+      ).error ->
         AlertService.add('danger', "Please login to continue" )
     $scope.messages = []
     $scope.reply_message = {}
@@ -18,19 +18,17 @@ controllers.controller('MessagesCtrl', [ '$scope','AlertService','UserService','
 
 
     $scope.getMessages = (conversationID) ->
-        $http.get( '/messages/' + conversationID ).success((data)-> $scope.messages[conversationID] =  data.messages)
+        $http.get( '/api/messages/' + conversationID ).success((data)-> $scope.messages[conversationID] =  data.messages)
     $scope.postReply = (conversationID) ->
-        $http.post( '/messages/' + conversationID, message: $scope.reply_message[conversationID]
+        $http.post( '/api/messages/' + conversationID, message: $scope.reply_message[conversationID]
             ).success((data)->
                 $scope.reply_message = {}
                 $scope.messages[conversationID] =  data.messages
             ).error ->
                 AlertService.add('danger', $scope.reply_message[conversationID].body )
-    $scope.cancel = ->  
+    $scope.cancel = ->
       $modalInstance.dismiss('cancel')
 
 
 
 ])
-      
-

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MessagesController, :type => :controller do
+RSpec.describe Api::MessagesController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
 
 
