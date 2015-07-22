@@ -17,7 +17,10 @@ RailsAdmin.config do |config|
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
 
   config.authorize_with do |controller|
-    admin
+
+    if !admin
+      redirect_to '/'
+    end
   end
 
   config.actions do
