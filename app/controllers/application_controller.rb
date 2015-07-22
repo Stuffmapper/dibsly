@@ -3,10 +3,16 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
   helper_method :current_user
+  helper_method :admin
   skip_before_action :verify_authenticity_token, if: :json_request?
 
-  protected
+  private
 
+  #to use the admin
+  def admin
+    user = session[:user_id] && User.find(session[:user_id])
+    @current_user =  user ? user.admin : false
+  end
 
   def current_user
     @current_user = decoded_auth_token ? User.find(decoded_auth_token[0]["user_id"]) : false

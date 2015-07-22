@@ -6,6 +6,7 @@ class Api::SessionsController < ApplicationController
     username.downcase ).first  || User.find_by_email(username.downcase)
     if user && user.authenticate(params[:password])
       token = AuthToken.issue_token({ user_id: user.id })
+      session[:user_id] = user.id
       render json: {user: user.username,
         user_id: user.id,
         token: token}, status: :ok
