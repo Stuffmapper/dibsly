@@ -17,6 +17,10 @@
         <button class= "center btn btn-default" ng-show='editItem.published'
         ng-click="publish(false)">Depublish</button>
 
+        <button class= "center btn btn-default" ng-click='changeLocation(editItem.id)' >
+          <img class='img-responsive' src='<%= asset_path('red-pin.png')%>'>
+        </button>
+
       </div>
       <div class="row col-md-12">
         <ul>

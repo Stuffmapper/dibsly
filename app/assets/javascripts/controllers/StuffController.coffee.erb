@@ -12,33 +12,46 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.menuHeight = 'stuffmapper-menu get-stuff-view'
     Marker = $resource('/api/posts/:id', id:'@id' )
     init = ->
-      $scope.viewing = false
-      $scope.currentPost = { editing: false, viewing: false}
-      $scope.mapCenter = '47.6097,-122.3331'
-      $scope.markers = {}
-      $scope.mystuff = {posts:{}, dibs:{}}
-      $scope.attached = false
-      $scope.toggle = false
-      $scope.menuHeight = 'get-stuff-view'
-
       $scope.backup = {}
-      $scope.tabs = {
-        getStuff: true,
-        giveStuff: false,
-        myStuff: false,
-        details: false ,
-        editing: false }
-      $scope.giveflow = {
-        1: [ true, 'short-view'],
-        2: [false, 'medium-view'],
-        3: [false, 'form-view'] }
-      blank = ->
-      if UserService.currentUser
-        mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
-        if mystuff
-          stuff =  JSON.parse(mystuff)
-          $scope.mystuff = JSON.parse(mystuff)
+      UserService.check((data,err)->
+        if UserService.currentUser
+          mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
+          if mystuff
+            $scope.mystuff = JSON.parse(mystuff)
+      )
+    #CONSTANTS
 
+    $scope.attached = false #for attaching files
+
+    $scope.giveflow = {
+      1: [ true, 'short-view'],
+      2: [false, 'medium-view'],
+      3: [false, 'form-view'] }
+
+    $scope.loading = false
+
+    #TODO have this come from the server or keep it locally
+    $scope.mapCenter = '47.6097,-122.3331'
+
+    $scope.markers = {} #for the markers and posts
+
+    $scope.menuHeight = 'get-stuff-view'
+
+    $scope.mystuff = {posts:{}, dibs:{}}
+
+    $scope.post = {} #for the details view
+
+    $scope.tabs = { #for viewing the menu
+      getStuff: true,
+      giveStuff: false,
+      myStuff: false,
+      details: false ,
+      editing: false }
+
+    $scope.toggle = false
+
+    $scope.changeLocation = (id)->
+      #do something
 
     $scope.giveNext = (id)->
         angular.forEach($scope.giveflow, (value, key) ->
@@ -146,7 +159,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           if origin != 'marker'
               google.maps.event.trigger($scope.markers[id].marker, 'click'))
 
-    $scope.post = {}
     $scope.$on("detailsWanted",
       (event, args) ->
         id = args.markerId
@@ -198,7 +210,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                 ))
 
 
-    $scope.loading = false
+
 
     $scope.getStuff = ->
       $scope.toggle = false
