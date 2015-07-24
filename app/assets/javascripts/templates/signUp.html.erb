@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="modal-head col-lg-12 col-md-12 col-xs-12">
+      <h3 class='col-lg-6 col-md-6 col-xs-6'>Sign Up</h3>
+      <div class "col-lg-6 col-md-6 col-xs-6 add-margin-top-15">
+        <a href='#' ng-click="oaLogin('facebook')" class="pull-right" alt="Facebook Signin">
+          <img class='img-responsive max-icon add-margin-top-15' src='<%= asset_path('fb.png')%>'>
+        </a>
+        <a href='#' ng-click="oaLogin('google_oauth2')" class="pull-right"   alt="Google Signin">
+          <img class='img-responsive max-icon add-margin-top-15'' src='<%= asset_path('google.jpg')%>'>
+        </a>
+      </div>
+    <alerts></alerts>
+  </div>
+  <div class="modal-body col-lg-12 col-md-12 col-xs-12">
+    <form name="form" novalidate>
+
+      <div class="form-group">
+        <div id="first-name">
+          <label for="first_name">First Name *</label>
+          <input type="text" class="form-control" id="first_name"
+          placeholder="First Name" ng-model="first_name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div id="last-name">
+          <label for="last_name">Last Name *</label>
+          <input type="text" class="form-control" id="last_name"
+          placeholder="Last Name" ng-model="last_name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" class="form-control" id="email"
+        placeholder="Enter email" ng-model="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username *</label>
+        <input type="text" class="form-control" id="username"
+        placeholder="Username" ng-model="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input type="password" class="form-control" id="password"
+        placeholder="Password" ng-model="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation">Password Confirmation *</label>
+        <input type="password" class="form-control"
+        id="password_confirmation" placeholder="Confirm Password"
+        ng-model="password_confirmation" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone_number">Phone Number</label>
+        <label id="option" for="optional"> (optional) </label>
+        <input type="tel" class="form-control" id="phone_number" placeholder="Phone Number" ng-model="phone_number">
+      </div>
+
+      <div class="form-group">
+        <label>By clicking sign up, I agree to the
+          <a href="#" ng-click="showPolicy('userAgreement')">Terms of Use</a>
+          and <a href="#" ng-click="showPolicy('privacyPolicy')">Privacy Policy.</a>
+        </label>
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 add-margin-top-15">
+        <button class="btn btn-primary pull-right"
+        ng-click="form.$valid && signup()">Sign Up</button>
+        <button class="btn btn-warning pull-right add-side-margin-10"
+        ng-click="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

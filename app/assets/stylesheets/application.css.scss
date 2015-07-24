@@ -47,6 +47,10 @@ body{
 .add-margin-top-15{
 	margin-top: 15px;
 }
+.add-side-margin-10{
+	margin-left: 10px;
+	margin-right: 10px;
+}
 
 .add-margin-top-50{
 	margin-top: 50px;
@@ -62,6 +66,10 @@ body{
 	max-height: 200px;
 }
 
+.max-icon{
+	max-width: 50px;
+	margin-right:10px;
+}
 .stuff-btn{
 	color: $white;
 	font-size: 1.5rem;
@@ -424,47 +432,7 @@ nav{
 	color: gray;
 }
 
-/*** SignUp ***/
-#signup {
-	float: left;
-}
-
-/*** Login ***/
-.signin {
-	width: 45%;
-	margin-left: 50%;
-	overflow: hidden;
-}
-
-#google {
-	margin-right: 3%;
-	float: right;
-	width: 44%;
-	overflow: hidden;
-}
-
-#facebook {
-	float: right;
-	width: 53%;
-	overflow: hidden;
-}
-
-#signin {
-	float: left;
-}
-
-#signin-bottom, #cancel {
-	width: 15%;
-	margin-right: 0.5%;
-	overflow: hidden;
-}
-
-#forgot {
-	width: 25%;
-	margin-right: 0.5%;
-	overflow: hidden;
-}
-
+  
 
 /*** POST ***/
 .post-details{
