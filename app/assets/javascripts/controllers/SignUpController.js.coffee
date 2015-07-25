@@ -38,6 +38,9 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
         .success ->
           $window.location.href = "http://" + $window.location.host
           $modalInstance.dismiss('cancel')
+          $modal.open
+              templateUrl: 'welcome.html',
+              controller:'SignUpCtrl'
         .error (data) ->
           for key, value of data
 

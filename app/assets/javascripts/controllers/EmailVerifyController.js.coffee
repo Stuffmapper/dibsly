@@ -7,11 +7,12 @@ controllers.controller('EmailVerifyCtrl', [ '$http','$window','$timeout','$route
  ($http,$window,$timeout,$routeParams,$resource, AlertService ) ->
    $http.post( '/api/users/email/' + $routeParams.userKey )
         .success((data)->
-          AlertService.add('success', "You've verified your email!")
-          $timeout( (-> $window.location.href = "http://" + $window.location.host ),1500))
+          $scope.message = "Congrats! You've verified your email! Get started mapping your stuff or dib someone else's"
+          AlertService.add('success', "You've verified your email!"))
         .error((data)->
           for key, value of data
             AlertService.add('danger', key + ' ' + value )
-          $timeout( (->$window.location.href = "http://" + $window.location.host),1500))
+          $scope.message ="Something went wrong and we couldn't verify your email" )
+          #$timeout( (->$window.location.href = "http://" + $window.location.host),1500))
 
 ])

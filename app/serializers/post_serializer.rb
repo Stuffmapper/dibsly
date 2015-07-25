@@ -13,6 +13,10 @@ class PostSerializer < ActiveModel::Serializer
   def originalImage
     object.image.url
   end
+  
+  def image_url
+    object.image.url(:medium)
+  end
 
   def dibbable
   	object.available_to_dib?

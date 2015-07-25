@@ -41,7 +41,7 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           controller:'MainRouteCtrl'
         })
         .when('/user/email/:userKey',{
-          templateUrl:'home.html',
+          templateUrl:'verifyEmail',
           controller:'EmailVerifyCtrl'
         })
         .when('/user/:modalId/:user',{

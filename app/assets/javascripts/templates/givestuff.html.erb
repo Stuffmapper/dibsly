@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="col-lg-2 col-md-2 col-xs-2 " >
-    <canvas id="loading-thumbnail" ></canvas>
+    <img class='img-responsive' ng-src={{current_image}} >
   </div>
 </div>
 <div id="give-stuff" class="col-lg-12 col-md-12 col-xs-12">
@@ -39,7 +39,7 @@
     <div id="give-2" ng-show='giveflow["2"][0]' >
 
       <div ng-show='attached' class="col-lg-12 col-md-12 col-xs-12" >
-          <canvas id="sm-thumbnail" ></canvas>
+          <img ng-src={{current_image}}></img>
       </div>
       <button ng-show='attached'
        class="btn col-lg-3 col-md-3

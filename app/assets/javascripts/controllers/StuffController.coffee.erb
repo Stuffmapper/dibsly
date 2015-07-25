@@ -9,7 +9,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
-    $scope.menuHeight = 'stuffmapper-menu get-stuff-view'
     Marker = $resource('/api/posts/:id', id:'@id' )
     init = ->
       $scope.backup = {}
@@ -51,7 +50,30 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.toggle = false
 
     $scope.changeLocation = (id)->
-      #do something
+      location = $scope.editItem.marker.getPosition()
+      if $scope.editMarker
+        $scope.editMarker.setMap(null)
+      $scope.editMarker = new google.maps.Marker(
+        position: location
+        draggable:true,
+        map:$scope.map,
+        title:$scope.editItem.description,
+        icon: '<%= asset_path('green-pin.png')%>')
+      updatePost = ->
+        $scope.editItem.latitude = $scope.editMarker.getPosition().lat()
+        $scope.editItem.longitude = $scope.editMarker.getPosition().lng()
+      google.maps.event.addListener($scope.editMarker, 'dragend', updatePost )
+      google.maps.event.addListener($scope.editMarker, 'idle', updatePost )
+      $scope.map.setZoom(18)
+      $scope.map.panTo(location)
+
+
+    $scope.edit = (id)->
+      console.log(id)
+      showtab('editing')
+      $scope.editItem = $scope.markers[id]
+      $scope.current_image = $scope.editItem.image_url
+
 
     $scope.giveNext = (id)->
         angular.forEach($scope.giveflow, (value, key) ->
@@ -62,82 +84,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           else
             $scope.giveflow[key][0] = false
           )
-    $scope.edit = (id)->
-      console.log(id)
-      showtab('editing')
-      $scope.editItem = $scope.markers[id]
 
-
-    createMarker = (value, key, map)->
-        latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
-        options =
-          zoom: 4
-          center:latLng
-        value.marker = new google.maps.Marker(
-          icon: '<%= asset_path('blue-circle.png')%>'
-          position: latLng,
-          map: map,
-          title: value.description )
-        value.visible = true
-        value.updated_at = new Date(value.updated_at)
-        value.locallyUpdated = Date.now()
-        $scope.markers[value.id] = value
-        google.maps.event.addListener(value.marker, 'click',->
-          $scope.$broadcast( 'detailsWanted', { markerId: value.id })
-        )
-
-
-    updateMarkers = (map)->
-      if map
-        replacer = (key,value)->
-          if key == 'marker' || key == 'infowindow'
-            return undefined
-          else
-            return value
-        neBounds = map.getBounds().getNorthEast()
-        swBounds = map.getBounds().getSouthWest()
-        $http(
-          url: '/api/posts/geolocated'
-          params:
-            neLat: neBounds.lat()
-            swLat: swBounds.lat()
-            neLng: neBounds.lng()
-            swLng: swBounds.lng()
-          ).success((data)->
-            for marker in data.posts
-              if !$scope.markers[marker.id]
-                createMarker(marker, marker.id, map)
-              else if $scope.markers[marker.id].updated_at < new Date(marker.updated_at)
-                console.log("this is a date")
-                $scope.markers[marker.id].marker.setMap(null)
-                createMarker(marker, marker.id, map)
-            localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
-            )
-
-
-    $scope.$on('mapInitialized', (evt, map) ->
-      localMarkers = localStorage.getItem('markers')
-      if localMarkers
-        angular.forEach(JSON.parse(localMarkers),(value, key) ->
-          value.viewing = false
-          $scope.markers[key] = new Marker(value)
-          createMarker(value, value.id, $scope.map)
-        )
-      if $routeParams.postId
-        $scope.getDetails($routeParams.postId, 'initial')
-      self = this
-      updateMarkers($scope.map)
-      blank = ->
-      updatePostMarker( blank, 25000, $scope.map)
-      google.maps.event.addListener(map, 'dragend', -> updateMarkers($scope.map) )
-      google.maps.event.addListener(map, 'zoom_changed', -> updateMarkers($scope.map) )
-      navigator.geolocation.getCurrentPosition((position)->
-        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-        $scope.$apply(->
-          map.panTo(current_location)
-          )
-        )
-      )
     $scope.getDetails  = (id, origin)->
       $location.path('/post/' + id, false)
       showtab('details')
@@ -158,6 +105,183 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           $scope.stuff = $scope.markers[id]
           if origin != 'marker'
               google.maps.event.trigger($scope.markers[id].marker, 'click'))
+
+    $scope.getMyStuff = ->
+        if $scope.postMarker
+          $scope.postMarker.setMap(null)
+        if $scope.editMarker
+          $scope.editMarker.setMap(null)
+        $scope.toggle = false
+        $location.path('/', false)
+        showtab('myStuff')
+        $scope.menuHeight = 'my-stuff-view'
+        UserService.check((blank,data)->
+          if UserService.currentUser
+            $scope.mystuff = {posts:{}, dibs:{}}
+            user = data.user
+            mystuff = localStorage.getItem('mystuff' + user)
+            if mystuff
+              $scope.mystuff = JSON.parse(mystuff)
+            $http.get( '/api/my-stuff')
+            .success(
+                (data)->
+                    for marker in data.posts
+                      $scope.mystuff.posts[marker.id] = marker )
+            .then( (data)->
+              $http.get( '/api/my-dibs')
+              .success((data)->
+                for marker in data.posts
+                  $scope.mystuff.dibs[marker.id] = marker )
+            ).then((data)->
+                localStorage.setItem('mystuff' + user, JSON.stringify($scope.mystuff))
+            )
+          )
+
+    $scope.getStuff = ->
+      $scope.toggle = false
+      $scope.menuHeight = 'get-stuff-view'
+      if $scope.editMarker
+        $scope.editMarker.setMap(null)
+      if $scope.postMarker
+        $scope.postMarker.setMap(null)
+      $location.path('/')
+      showtab('getStuff')
+      angular.forEach($scope.markers, (value,key)->
+        value.marker.setMap($scope.map)
+        if value.infowindow
+          value.infowindow.close($scope.map,value.marker)
+      )
+      google.maps.event.addListener($scope.map, 'dragend', -> updateMarkers($scope.map) )
+      google.maps.event.addListener($scope.map, 'zoom_changed',-> updateMarkers($scope.map) )
+
+
+
+    $scope.markGone =(id)->
+      post = {status: 'gone'}
+      $http.post( "/api/posts/" + id + "/update", post )
+      .success ->
+        AlertService.add('success', "Marked as gone")
+      .error ->
+        AlertService.add('warning', "Something went wrong")
+
+    $scope.menuToggle = ->
+      $scope.toggle = !$scope.toggle
+
+
+    $scope.publish = (status) ->
+        if UserService.currentUser
+            $http.post( "/api/posts/" + $scope.stuff.id + "/update" ,
+                { published: status })
+                .success(
+                    $scope.stuff['published'] = status
+                    if not status
+                        delete $scope.markers[$scope.stuff.id]
+                    else
+                        $scope.markers[$scope.stuff.id] = $scope.stuff )
+
+    $scope.removeDibber = (id, description, postID )->
+      report = {description: description}
+      $http.post( '/api/dibs/' + id + '/removedib',  {report: report} )
+      .success(
+        $scope.mystuff.posts[postID]['dibbable'] = true )
+
+
+
+    $scope.startMapper = ->
+      $scope.toggle = false
+      showtab('giveStuff')
+      angular.forEach($scope.markers, (value,key)->
+        value.marker.setMap(null)
+      )
+      angular.forEach($scope.giveflow, (value,key)->
+        if value[0] == true
+          $scope.menuHeight = value[1]
+      )
+      google.maps.event.clearListeners(  $scope.map, 'dragend')
+      google.maps.event.clearListeners( $scope.map, 'zoom_changed')
+      callback = -> $scope.postMarker.setMap($scope.map)
+      if $scope.postMarker
+          $scope.postMarker.setMap($scope.map)
+          $scope.map.panTo($scope.postMarker.getPosition())
+      else
+        updatePostMarker( callback, 6000, $scope.map)
+
+    $scope.submitPost = ->
+        $scope.loading = true
+        UserService.check((blank,data)->
+          if UserService.currentUser
+              token = $("meta[name=\"csrf-token\"]").attr("content")
+              formdata = new FormData();
+              formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
+              formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
+              formdata.append('category', $scope.post.category)
+              formdata.append('description', $scope.post.description)
+              formdata.append('on_the_curb', $scope.post.on_the_curb)
+              formdata.append('image', $scope.file);
+              $http.post( "/api/posts", formdata, {
+                  headers: {'Content-Type': undefined,'X-CSRF-TOKEN':token}
+                  transformRequest: angular.identity
+                  }).success (data, status, headers, config) ->
+                      AlertService.add('success', "You've Posted Your Stuff")
+                      canvas = document.getElementById("sm-thumbnail")
+                      context = canvas.getContext("2d");
+                      context.clearRect(0, 0, canvas.width, canvas.height)
+                      $scope.attached = false
+                      $scope.file = {}
+                      delete $scope.file
+                      $scope.post = {}
+                      $scope.loading = false
+                      updateMarkers()
+                      $scope.postMarker.setMap(null)
+                      $scope.giveNext(1)
+                      $scope.getStuff()
+                  .error (data) ->
+                      for key, value of data
+                          AlertService.add('danger', key + ' ' + value )
+                      $scope.loading = false
+
+          if blank
+            console.log(blank)
+            AlertService.add('danger', 'Please sign in to continue' )
+            $scope.loading = false
+            $modal.open
+              templateUrl:'signIn.html',
+              controller:'SignUpCtrl')
+
+
+
+    $scope.updateStuff = ->
+        UserService.check(->
+          if UserService.currentUser
+              formdata = new FormData();
+              formdata.append('latitude', $scope.editItem.latitude)
+              formdata.append('longitude', $scope.editItem.longitude)
+              formdata.append('category', $scope.editItem.category)
+              formdata.append('description', $scope.editItem.description)
+              formdata.append('on_the_curb', $scope.editItem.on_the_curb)
+              if $scope.file
+                  formdata.append('image', $scope.file);
+                  $scope.loading = true
+              $http.post( "/api/posts/" + $scope.editItem.id + "/update" , formdata, {
+                  headers: {'Content-Type': undefined}
+                  transformRequest: angular.identity
+                  }).success (data, status, headers, config) ->
+                      if $scope.editMarker
+                        $scope.editItem.marker.setPosition($scope.editMarker.getPosition())
+                        $scope.editMarker.setMap(null)
+                      AlertService.add('success', "Your post has been updated")
+                      $scope.attached = false
+                      $scope.file = []
+                      $scope.loading = false
+                      $scope.current_image = ''
+                  .error (data) ->
+                      for key, value of data
+                          AlertService.add('danger', key + ' ' + value )
+          else
+              AlertService.add('danger', 'Please sign in to continue' )
+              $modal.open
+                  templateUrl:'signIn.html',
+                  controller:'SignUpCtrl')
 
     $scope.$on("detailsWanted",
       (event, args) ->
@@ -205,115 +329,55 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                        img.src = event2.target.result
                      )
 
+                   reader.onloadend = ->
+                      $scope.$apply( ->
+                        $scope.current_image = reader.result;
+                        )
                    reader.readAsDataURL(args.file)
 
                 ))
 
-
-
-
-    $scope.getStuff = ->
-      $scope.toggle = false
-      $scope.menuHeight = 'get-stuff-view'
-      $location.path('/')
-      showtab('getStuff')
-      angular.forEach($scope.markers, (value,key)->
-        value.marker.setMap($scope.map)
-        if value.infowindow
-          value.infowindow.close($scope.map,value.marker)
-      )
-      google.maps.event.addListener($scope.map, 'dragend', -> updateMarkers($scope.map) )
-      google.maps.event.addListener($scope.map, 'zoom_changed',-> updateMarkers($scope.map) )
-
-
-
-
-    $scope.getMyStuff = ->
-        $scope.toggle = false
-        $location.path('/', false)
-        showtab('myStuff')
-        $scope.menuHeight = 'my-stuff-view'
-        UserService.check((blank,data)->
-          if UserService.currentUser
-            $scope.mystuff = {posts:{}, dibs:{}}
-            user = data.user
-            mystuff = localStorage.getItem('mystuff' + user)
-            if mystuff
-              $scope.mystuff = JSON.parse(mystuff)
-            $http.get( '/api/my-stuff')
-            .success(
-                (data)->
-                    for marker in data.posts
-                      $scope.mystuff.posts[marker.id] = marker )
-            .then( (data)->
-              $http.get( '/api/my-dibs')
-              .success((data)->
-                for marker in data.posts
-                  $scope.mystuff.dibs[marker.id] = marker )
-            ).then((data)->
-                localStorage.setItem('mystuff' + user, JSON.stringify($scope.mystuff))
-            )
+    $scope.$on('mapInitialized', (evt, map) ->
+      localMarkers = localStorage.getItem('markers')
+      if localMarkers
+        angular.forEach(JSON.parse(localMarkers),(value, key) ->
+          value.viewing = false
+          $scope.markers[key] = new Marker(value)
+          createMarker(value, value.id, $scope.map)
+        )
+      if $routeParams.postId
+        $scope.getDetails($routeParams.postId, 'initial')
+      self = this
+      updateMarkers($scope.map)
+      blank = ->
+      updatePostMarker( blank, 25000, $scope.map)
+      google.maps.event.addListener(map, 'dragend', -> updateMarkers($scope.map) )
+      google.maps.event.addListener(map, 'zoom_changed', -> updateMarkers($scope.map) )
+      navigator.geolocation.getCurrentPosition((position)->
+        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        $scope.$apply(->
+          map.panTo(current_location)
           )
+        )
+      )
 
-
-    $scope.markGone =(id)->
-      post = {status: 'gone'}
-      $http.post( "/api/posts/" + id + "/update", post )
-      .success ->
-        AlertService.add('success', "Marked as gone")
-      .error ->
-        AlertService.add('warning', "Something went wrong")
-    $scope.menuToggle = ->
-      $scope.toggle = !$scope.toggle
-
-
-    $scope.removeDibber = (id, description, postID )->
-      report = {description: description}
-      $http.post( '/api/dibs/' + id + '/removedib',  {report: report} )
-      .success(
-        $scope.mystuff.posts[postID]['dibbable'] = true )
-
-    $scope.submitPost = ->
-        $scope.loading = true
-        UserService.check((blank,data)->
-          if UserService.currentUser
-              token = $("meta[name=\"csrf-token\"]").attr("content")
-              formdata = new FormData();
-              formdata.append('latitude',  if $scope.post.latitude then $scope.post.latitude else $scope.map.getCenter().lat())
-              formdata.append('longitude', if $scope.post.longitude then $scope.post.longitude else $scope.map.getCenter().lng() )
-              formdata.append('category', $scope.post.category)
-              formdata.append('description', $scope.post.description)
-              formdata.append('on_the_curb', $scope.post.on_the_curb)
-              formdata.append('image', $scope.file);
-              $http.post( "/api/posts", formdata, {
-                  headers: {'Content-Type': undefined,'X-CSRF-TOKEN':token}
-                  transformRequest: angular.identity
-                  }).success (data, status, headers, config) ->
-                      AlertService.add('success', "You've Posted Your Stuff")
-                      canvas = document.getElementById("sm-thumbnail")
-                      context = canvas.getContext("2d");
-                      context.clearRect(0, 0, canvas.width, canvas.height)
-                      $scope.attached = false
-                      $scope.file = {}
-                      delete $scope.file
-                      $scope.post = {}
-                      $scope.loading = false
-                      updateMarkers()
-                      $scope.postMarker.setMap(null)
-                      $scope.giveNext(1)
-                      $scope.getStuff()
-                  .error (data) ->
-                      for key, value of data
-                          AlertService.add('danger', key + ' ' + value )
-                      $scope.loading = false
-
-          if blank
-            console.log(blank)
-            AlertService.add('danger', 'Please sign in to continue' )
-            $scope.loading = false
-            $modal.open
-              templateUrl:'signIn.html',
-              controller:'SignUpCtrl')
+    createMarker = (value, key, map)->
+        latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
+        options =
+          zoom: 4
+          center:latLng
+        value.marker = new google.maps.Marker(
+          icon: '<%= asset_path('blue-circle.png')%>'
+          position: latLng,
+          map: map,
+          title: value.description )
+        value.visible = true
+        value.updated_at = new Date(value.updated_at)
+        value.locallyUpdated = Date.now()
+        $scope.markers[value.id] = value
+        google.maps.event.addListener(value.marker, 'click',->
+          $scope.$broadcast( 'detailsWanted', { markerId: value.id })
+        )
 
     showtab = (tab)->
       angular.forEach($scope.tabs, (value, key)->
@@ -322,61 +386,35 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         else
           $scope.tabs[key] = false )
 
-    $scope.publish = (status) ->
-        if UserService.currentUser
-            $http.post( "/api/posts/" + $scope.stuff.id + "/update" ,
-                { published: status })
-                .success(
-                    $scope.stuff['published'] = status
-                    if not status
-                        delete $scope.markers[$scope.stuff.id]
-                    else
-                        $scope.markers[$scope.stuff.id] = $scope.stuff )
+    updateMarkers = (map)->
+      if map
+        replacer = (key,value)->
+          if key == 'marker' || key == 'infowindow'
+            return undefined
+          else
+            return value
+        neBounds = map.getBounds().getNorthEast()
+        swBounds = map.getBounds().getSouthWest()
+        $http(
+          url: '/api/posts/geolocated'
+          params:
+            neLat: neBounds.lat()
+            swLat: swBounds.lat()
+            neLng: neBounds.lng()
+            swLng: swBounds.lng()
+          ).success((data)->
+            for marker in data.posts
+              if !$scope.markers[marker.id]
+                createMarker(marker, marker.id, map)
+              else if $scope.markers[marker.id].updated_at < new Date(marker.updated_at)
+                console.log("this is a date")
+                $scope.markers[marker.id].marker.setMap(null)
+                createMarker(marker, marker.id, map)
+            localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
+            )
 
-    $scope.updateStuff = ->
-        UserService.check(->)
-        if UserService.currentUser
-            formdata = new FormData();
-            formdata.append('latitude', $scope.editItem.latitude)
-            formdata.append('longitude', $scope.editItem.longitude)
-            formdata.append('category', $scope.editItem.category)
-            formdata.append('description', $scope.editItem.description)
-            formdata.append('on_the_curb', $scope.editItem.on_the_curb)
-            if $scope.files
-                formdata.append('image', $scope.files[0]);
-            $http.post( "/api/posts/" + $scope.editItem.id + "/update" , formdata, {
-                headers: {'Content-Type': undefined}
-                transformRequest: angular.identity
-                }).success (data, status, headers, config) ->
-                    AlertService.add('success', "Your post has been updated")
-                    $scope.files = []
-                .error (data) ->
-                    for key, value of data
-                        AlertService.add('danger', key + ' ' + value )
-        else
-            AlertService.add('danger', 'Please sign in to continue' )
-            $modal.open
-                templateUrl:'signIn.html',
-                controller:'SignUpCtrl'
 
-    $scope.startMapper = ->
-      $scope.toggle = false
-      showtab('giveStuff')
-      angular.forEach($scope.markers, (value,key)->
-        value.marker.setMap(null)
-      )
-      angular.forEach($scope.giveflow, (value,key)->
-        if value[0] == true
-          $scope.menuHeight = value[1]
-      )
-      google.maps.event.clearListeners(  $scope.map, 'dragend')
-      google.maps.event.clearListeners( $scope.map, 'zoom_changed')
-      callback = -> $scope.postMarker.setMap($scope.map)
-      if $scope.postMarker
-          $scope.postMarker.setMap($scope.map)
-          $scope.map.panTo($scope.postMarker.getPosition())
-      else
-        updatePostMarker( callback, 6000, $scope.map)
+
 
     updatePostMarker = (callback, timeout, map)->
       if map
@@ -412,6 +450,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           maximumAge:300000,
           timeout: timeout }
         navigator.geolocation.getCurrentPosition(centerSuccess,centerError, geoOptions)
+
+
     init()
 
 ])
