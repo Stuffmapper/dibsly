@@ -9,8 +9,8 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
 
 
     $scope.cancel = ->
-      $window.location.href = "http://" + $window.location.host
       $modalInstance.dismiss('cancel')
+      $location.path('/')
     $scope.oaLogin = (provider)->
       fbauth  = "http://" + $window.location.host + '/auth/' + provider
       $window.location.href = fbauth
@@ -36,11 +36,11 @@ controllers.controller('SignUpCtrl', [ '$scope','$modal', '$modalInstance',
 
       $http.post('/api/users', {user: user}  )
         .success ->
-          $window.location.href = "http://" + $window.location.host
           $modalInstance.dismiss('cancel')
           $modal.open
               templateUrl: 'welcome.html',
               controller:'SignUpCtrl'
+          $location.path('/')
         .error (data) ->
           for key, value of data
 
