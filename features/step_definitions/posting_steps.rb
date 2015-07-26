@@ -108,7 +108,7 @@ end
 
 Then(/^I should see the sign in window$/) do
 
-  expect(page).to have_selector('#sign-in-form')
+  expect(page).to have_selector('#signin')
 end
 
 Given(/^that I am not logged in$/) do

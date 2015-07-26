@@ -5,10 +5,8 @@ Feature: User Agreement
 	Background:
 		Given that I am on the home page
 
-	@javascript	
+	@javascript
 	Scenario: Old Fashion Signup
 		Given that I have the signup page open
-		Then I should expect to see a "user agreement"
-		And I should expect to see a "privacy policy"
-
-		
+		Then I should expect to see a "Terms of Use"
+		And I should expect to see a "Privacy Policy"

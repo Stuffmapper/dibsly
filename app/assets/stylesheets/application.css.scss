@@ -60,10 +60,9 @@ body{
 	height: 10%
 }
 
-#sm-thumbnail{
+.img-preview{
 	margin-left: 20px;
-	width: 200px;
-	max-height: 200px;
+	max-height: 180px;
 }
 
 .max-icon{
@@ -432,7 +431,7 @@ nav{
 	color: gray;
 }
 
-  
+
 
 /*** POST ***/
 .post-details{

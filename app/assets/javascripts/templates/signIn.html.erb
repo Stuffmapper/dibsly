@@ -1,16 +1,19 @@
-<div class="container-fluid">
+<div class="container-fluid signin" id="signin">
   <div class="modal-head col-lg-12 col-md-12 col-xs-12">
+    <alerts></alerts>
       <h3 class='col-lg-6 col-md-6 col-xs-6'>Sign In</h3>
       <div class "col-lg-6 col-md-6 col-xs-6 add-margin-top-15">
-        <a href='#' ng-click="oaLogin('facebook')" class="pull-right" alt="Facebook Signin">
+        <a href='#' ng-click="oaLogin('facebook')" class="pull-right"
+        id="Facebook" alt="Facebook Signin">
           <img class='img-responsive max-icon add-margin-top-15' src='<%= asset_path('fb.png')%>'>
         </a>
-        <a href='#' ng-click="oaLogin('google_oauth2')" class="pull-right"   alt="Google Signin">
+        <a href='#' ng-click="oaLogin('google_oauth2')" class="pull-right"
+         id="Google"  alt="Google Signin">
           <img class='img-responsive max-icon add-margin-top-15'' src='<%= asset_path('google.jpg')%>'>
         </a>
       </div>
       <a class="col-lg-12 col-md-12 col-xs-12" href="#" ng-click="notSignUp()">Need to sign up?</a>
-    <alerts></alerts>
+
   </div>
 
   <div class="modal-body col-lg-12 col-md-12 col-xs-12">
@@ -26,13 +29,13 @@
         <div class="form-group col-lg-12 col-md-12 col-xs-12">
           <label for="password">Password *</label>
           <input type="password" class="form-control" id="password" placeholder="Password" ng-model="password">
-          <a href='#' class='pull-left'>Forgot Password?</a>
+          <a href='#' ng-click='resetPW() ' class='pull-left'>Forgot Password?</a>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12
          add-margin-top-15">
          <button class="btn btn-primary pull-right"
          ng-click="signin()">Sign In</button>
-         
+
           <button class="btn btn-warning pull-right add-side-margin-10"
           ng-click="cancel()">Cancel</button>
         </div>

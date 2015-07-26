@@ -41,7 +41,7 @@ Given(/^I signup with a username password email and phone$/) do
   fill_in 'password', with: "123456"
   fill_in 'password_confirmation', with: "123456"
   fill_in 'phone_number', with: "8675309"
-  within('.modal-footer') do
+  within('.sign-up') do
     click_button "Sign Up"
   end
   sleep(2)
@@ -64,7 +64,7 @@ Then(/^I should be able to go to my account with google and facebook$/) do
    end
    expect(User.count).to eq 1
    first(:link, 'Sign In').click
-   click_link 'Facebook'
+   click_link('Facebook')
    expect(User.count).to eq 1
    expect(page).to have_text 'Sign Out'
 
@@ -93,7 +93,7 @@ end
 
 Then(/^I should expect to see a "(.*?)"$/) do |policy|
   click_link(policy)
-   expect(page.body).to have_text("This is a " + policy )
+   expect(page.body).to have_text(policy)
 end
 
 
@@ -117,7 +117,7 @@ end
 Given(/^I fail to sign in with the password "(.*?)"$/) do |arg1|
   fill_in 'username', with: 'Jack'
   fill_in 'password', with: arg1
-  within('.modal-footer') do
+  within('.signin') do
     click_button 'Sign In'
   end
   sleep(1)
@@ -130,7 +130,7 @@ Then(/^I should see a forgot password\? link$/) do
 end
 
 When(/^I follow the forgot password link and enter my email$/) do
-  click_button('Forgot Password?')
+  click_link('Forgot Password?')
   fill_in 'email', with: @user.email
 
 
@@ -165,7 +165,7 @@ Then(/^I should be able to login with my username and "(.*?)"$/) do |arg1|
     first(:link, 'Sign In').click
     fill_in 'username', with: @user.username
     fill_in 'password', with: arg1
-    within('.modal-footer') do
+    within('.signin') do
        click_button 'Sign In'
     end
     expect(page).to have_text("You have been signed in")
@@ -182,7 +182,7 @@ When(/^I try to login, I should be able to use my email in place of username$/) 
     first(:link,'Sign In').click
     fill_in 'username', with: @current_user.email
     fill_in 'password', with: @current_user.password
-    within('.modal-footer') do
+    within('.signin') do
        click_button 'Sign In'
     end
     sleep(1)

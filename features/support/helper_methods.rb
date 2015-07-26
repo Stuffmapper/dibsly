@@ -8,7 +8,7 @@ module FormSubmissionHelpers
     first(:link,'Sign In').click
     fill_in 'username', with: user.username
     fill_in 'password', with: '123456'
-    within('.modal-footer') do
+    within('#signin') do
        click_button 'Sign In'
     end
   end

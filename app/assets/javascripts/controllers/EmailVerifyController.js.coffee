@@ -2,9 +2,10 @@
 controllers = angular.module('controllers')
 
 
-controllers.controller('EmailVerifyCtrl', [ '$http','$window','$timeout','$routeParams',
+controllers.controller('EmailVerifyCtrl', [ '$http','$scope','$window','$timeout','$routeParams',
 '$resource','AlertService',
- ($http,$window,$timeout,$routeParams,$resource, AlertService ) ->
+ ($http,$scope,$window,$timeout,$routeParams,$resource, AlertService ) ->
+   $scope.message = 'Verifying your email'
    $http.post( '/api/users/email/' + $routeParams.userKey )
         .success((data)->
           $scope.message = "Congrats! You've verified your email! Get started mapping your stuff or dib someone else's"
