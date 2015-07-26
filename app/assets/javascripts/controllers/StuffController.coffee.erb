@@ -71,6 +71,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.edit = (id)->
       console.log(id)
       showtab('editing')
+      if $scope.file
+        delete $scope.file
       $scope.editItem = $scope.markers[id]
       $scope.current_image = $scope.editItem.image_url
 
