@@ -177,6 +177,7 @@ Then(/^I should be able to click edit and change the details$/) do
   fill_in 'description', with: "I have changed the details"
   page.execute_script "window.scrollBy(0,10000)"
   find(:button,"Update" ).click
+  sleep(1)
   expect(page.body).to have_text('Your post has been updated') # express the regexp above with the code you wish you had
   @shoes = @post
   steps %{

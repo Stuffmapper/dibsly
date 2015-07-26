@@ -27,7 +27,7 @@
      </div>
      <br>
 
-     
+
      <div class='add-margin-top-50'>
       <div class="col-lg-4 col-md-4 col-xs-4">
         <div id="give-stuff-file-container" class='btn'>
@@ -38,23 +38,29 @@
            <input type="file" id="give-stuff-file" file-upload accept="image/*">
         </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-xs-3" ng-hide='editItem.published'>
-        <button class= "center btn btn-default"
+      <div class="col-lg-3 col-md-3 col-xs-3
+      col-md-offset-2 col-xs-offset-2" ng-hide='editItem.published'>
+        <button class= "center btn btn-default row"
          ng-click="publish(true)">Publish</button>
+         <br>
+
+         <button class= "center btn btn-default row" ng-click='changeLocation(editItem.id)' >
+           <img class='img-responsive' src='<%= asset_path('green-pin.png')%>'>
+         </button>
       </div>
 
-      <div class="col-lg-3 col-md-3 col-xs-3"  ng-show='editItem.published'>
-        <button class= "center btn btn-default"
+      <div class="col-lg-4 col-md-3 col-xs-3
+      col-md-offset-2 col-xs-offset-2"  ng-show='editItem.published'>
+        <button class= "center btn btn-default row"
         ng-click="publish(false)">Depublish</button>
-      </div>
-      <div class="col-lg-2 col-md-2 col-xs-2">
-        <button class= "center btn btn-default" ng-click='changeLocation(editItem.id)' >
+        <br>
+        <button class= "center btn btn-default row" ng-click='changeLocation(editItem.id)' >
           <img class='img-responsive' src='<%= asset_path('green-pin.png')%>'>
         </button>
       </div>
     </div>
 
-      <div class="row col-md-12">
+      <div class="row col-lg-12 col-md-12 col-xs-12">
         <ul>
           <li><b>Poster: </b>
             <span>{{editItem.creator}}</span>

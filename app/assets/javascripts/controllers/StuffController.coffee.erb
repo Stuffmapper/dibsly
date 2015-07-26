@@ -170,14 +170,21 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     $scope.publish = (status) ->
         if UserService.currentUser
-            $http.post( "/api/posts/" + $scope.stuff.id + "/update" ,
-                { published: status })
-                .success(
-                    $scope.stuff['published'] = status
-                    if not status
-                        delete $scope.markers[$scope.stuff.id]
-                    else
-                        $scope.markers[$scope.stuff.id] = $scope.stuff )
+          console.log($scope.editItem.id, '173')
+          $http.post( "/api/posts/" + $scope.editItem.id + "/update",
+              { published: status })
+              .success(
+                console.log('177')
+                $scope.editItem.published = status
+                console.log('178')
+                if not status
+                  console.log('181')
+                else
+                  console.log('184')
+             )
+             .error(
+              console.log
+             )
 
     $scope.removeDibber = (id, description, postID )->
       report = {description: description}
@@ -271,7 +278,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                         $scope.editMarker.setMap(null)
                       AlertService.add('success', "Your post has been updated")
                       $scope.attached = false
-                      $scope.file = []
+                      delete $scope.file
                       $scope.loading = false
                       $scope.current_image = ''
                   .error (data) ->
