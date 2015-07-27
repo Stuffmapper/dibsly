@@ -344,7 +344,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 
 	end
 
-	describe "Get show", :vcr => { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }do
+	describe "Get show", :vcr => { :cassette_name => "Get_show_post_controller", :match_requests_on => [:method] }do
 
 		before do
 			@user = create(:user)

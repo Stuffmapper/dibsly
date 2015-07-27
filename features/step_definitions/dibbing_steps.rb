@@ -1,5 +1,5 @@
 Given(/^I'm a registered user and Jack has posted some shoes and Jill is another registered user$/) do
-  VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+  VCR.use_cassette('dibbing2', :match_requests_on => [:method] ) do
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
     @user_jill = create(:user, :username => "Jill")
@@ -91,7 +91,7 @@ end
 ##UNDIB
 
 Given(/^I'm a registered user and I've dibbed Jack's shoes$/) do
-  VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+  VCR.use_cassette('dibbing1', :match_requests_on => [:method] ) do
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
     @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes' )

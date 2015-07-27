@@ -261,9 +261,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Mon, 27 Jul 2015 03:06:04 GMT
+      - Mon, 27 Jul 2015 04:49:46 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:g42AyQcyoBT9IQCn0du+B711YGM=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:VKwqWoduQablvNh3TcPnmwYGRfU=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - r1IE+Wjz+NtAapejFFgSTfvRbre0zyIsIcJYi/XsWb+vJhV35Nn6DrlWy5k7Z2NUuS5NS3EjR2U=
+      - Bz+BaM7N7B66+d/uLmjW1Akok/mNx45YFkczNjOmirk4VJKECaepN4YpKqOuIBUxE4IkxwFmTWY=
       X-Amz-Request-Id:
-      - 937481A5D73A1CD6
+      - 303A57F62375B172
       Date:
-      - Mon, 27 Jul 2015 03:06:06 GMT
+      - Mon, 27 Jul 2015 04:49:48 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,7 +287,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 27 Jul 2015 03:06:05 GMT
+  recorded_at: Mon, 27 Jul 2015 04:49:47 GMT
 - request:
     method: get
     uri: https://new-stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/001/original/shoes.png
@@ -302,9 +302,9 @@ http_interactions:
       User-Agent:
       - aws-sdk-ruby/1.64.0 ruby/2.2.0 x86_64-linux
       Date:
-      - Mon, 27 Jul 2015 03:06:05 GMT
+      - Mon, 27 Jul 2015 04:49:47 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:QhxmkcacBbUbK0oojqtJrX/AYhY=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:MWq18HgFK/NTVqs9HML8mLDdFWw=
       Accept:
       - "*/*"
   response:
@@ -313,13 +313,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - VI2OGXPao4Pz3W3VDkLiLzWCDYWVGJVvsg2HTD8WGS4N65tFvwHuP325fmNd84CXe746mAmDF2k=
+      - Mq6APf/1hGVXPYr6kGe9un1apsMf/1b0h0OaRhQII6eXxxkjXx7Bq+l9v0ZrHQcLQAq2YJ4OkUQ=
       X-Amz-Request-Id:
-      - 6848CF33BC3374C4
+      - E65CFA8E2A1EE569
       Date:
-      - Mon, 27 Jul 2015 03:06:06 GMT
+      - Mon, 27 Jul 2015 04:49:48 GMT
       Last-Modified:
-      - Mon, 27 Jul 2015 03:06:06 GMT
+      - Mon, 27 Jul 2015 04:49:48 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Accept-Ranges:
@@ -575,7 +575,7 @@ http_interactions:
         ilWRaUKp0ExHEpF/gkFsF6//KFkrTyYTQ0dgMmm1Wrn0Udr/z8dAJ24SfyAQ
         zQckibCf/A8HiH/lX/lX/sny/7RA0jgLAvxJAAAAAElFTkSuQmCC
     http_version: 
-  recorded_at: Mon, 27 Jul 2015 03:06:05 GMT
+  recorded_at: Mon, 27 Jul 2015 04:49:47 GMT
 - request:
     method: put
     uri: https://new-stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/001/original/shoes.png
@@ -837,9 +837,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Mon, 27 Jul 2015 03:06:05 GMT
+      - Mon, 27 Jul 2015 04:49:47 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:OEoKxvi3sdrpcf7RrgIs4nKU9DM=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:2wZDb7efuQ7A7AVCbSa4buKMaiE=
       Accept:
       - "*/*"
   response:
@@ -848,11 +848,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - mGYSYD7yEH2mvOqceo+ojLqzsFmVNJQpX4qs5fSxE5nuZXyd6C9L8T9TbL2AtGRPSW/VevGyWbI=
+      - x4ICj0I/NILttd+3SiPB3UTQ2Jq8C0nGl9Ame38TMTAA74FmMyvDMOFJUjrf4dmcY2X75x/UqA8=
       X-Amz-Request-Id:
-      - C16D93D5F474A79B
+      - E7A12A743D66AFF2
       Date:
-      - Mon, 27 Jul 2015 03:06:07 GMT
+      - Mon, 27 Jul 2015 04:49:48 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -863,7 +863,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 27 Jul 2015 03:06:05 GMT
+  recorded_at: Mon, 27 Jul 2015 04:49:47 GMT
 - request:
     method: put
     uri: https://new-stuffmapper-test.s3-us-west-2.amazonaws.com/posts/images/000/000/001/medium/shoes.png
@@ -1112,8 +1112,8 @@ http_interactions:
         vz+mvWnKucnQTj47/2ju8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD
         /wSDWC8V656j5Wu323MdgXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8
         K//Kv/JPlv8HyjNpx1DtIeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDct
-        MjZUMjA6MDY6MDUtMDc6MDAJpZqOAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
-        LTA3LTI2VDIwOjA2OjA1LTA3OjAwePgiMgAAAABJRU5ErkJggg==
+        MjZUMjE6NDk6NDctMDc6MDCGNHTXAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
+        LTA3LTI2VDIxOjQ5OjQ3LTA3OjAw92nMawAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -1128,9 +1128,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Mon, 27 Jul 2015 03:06:05 GMT
+      - Mon, 27 Jul 2015 04:49:47 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:lbYeAuFtsjXQHZhFVeZy3nNKfZ0=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:lcvf3ScdO2sgtzQ1bLuM3bZyTHs=
       Accept:
       - "*/*"
   response:
@@ -1139,13 +1139,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - Yoiehub4nu35c9/nGRS0k4C/laO176CSfVkIcteHnBBbfmFnC/XVCSwICdN6A5+2bN9B4bhVbPw=
+      - zYTps22Lme2o2Vtape2xtYetXLVcQm1yeEMjiLEkNeM02+3xgINUlznwvGOxTaczgAiKjht7fIk=
       X-Amz-Request-Id:
-      - 5402A9F98ED64979
+      - 3B7AC2AD16E820A9
       Date:
-      - Mon, 27 Jul 2015 03:06:07 GMT
+      - Mon, 27 Jul 2015 04:49:49 GMT
       Etag:
-      - '"d253f9500e0c76b634b90ee52478f62e"'
+      - '"dd258e544585d03a02c4dc1fec5dde6a"'
       Content-Length:
       - '0'
       Server:
@@ -1154,5 +1154,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 27 Jul 2015 03:06:06 GMT
+  recorded_at: Mon, 27 Jul 2015 04:49:48 GMT
 recorded_with: VCR 2.9.3

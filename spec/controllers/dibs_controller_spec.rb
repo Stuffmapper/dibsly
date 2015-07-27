@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::DibsController, type: :controller do
-	vcr_options = { :cassette_name => "aws_cucumber3", :match_requests_on => [:method] }
 
-	describe "dib post", :vcr => vcr_options do
+
+	describe "dib post", :vcr =>  { :cassette_name => "dibpost", :match_requests_on => [:method] }do
 
 		before do
   		  	@user = create(:user)
@@ -65,7 +65,7 @@ RSpec.describe Api::DibsController, type: :controller do
 
 		end
 	end
-	describe "undib post", :vcr => vcr_options do
+	describe "undib post", :vcr =>  { :cassette_name => "undib_post", :match_requests_on => [:method] } do
 
 		before do
   		  	@user = create(:user)
@@ -119,7 +119,7 @@ RSpec.describe Api::DibsController, type: :controller do
 
 		end
 	end
-	describe "Post removedib", :vcr => vcr_options do
+	describe "Post removedib", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
 		before do
 			two_users_post_dib
 		end

@@ -54,7 +54,7 @@ end
 
 Given(/^that Jack is is a registered user and posted shoes with the description "(.*?)"$/) do |arg1|
    jack = create(:user, username: "Jack" )
-   VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+   VCR.use_cassette('posting3', :match_requests_on => [:method] ) do
 
      @post = build(:post,
            creator_id: jack.id,
@@ -149,7 +149,7 @@ end
 
 ## Active management
 Given(/^I already have an account and a post$/)  do
-    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+    VCR.use_cassette('posting2', :match_requests_on => [:method] ) do
       @current_user = create(:user)
       @post = build(:post,
                 creator_id: @current_user.id,
@@ -242,7 +242,7 @@ end
 
 Then(/^I should be able to change the out of my hands status after it's posted$/) do
    #TODO - Mock out paperclip properly - this is  not a good test
-    VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+    VCR.use_cassette('posting1', :match_requests_on => [:method] ) do
       @post = build(:post,
         creator_id: @current_user.id,
         latitude: "47.6097",

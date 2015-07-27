@@ -1,7 +1,7 @@
 
 Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Jill is also a registered user\.$/) do
 
-  VCR.use_cassette('aws_cucumber3', :match_requests_on => [:method] ) do
+  VCR.use_cassette('active_manage_1', :match_requests_on => [:method] ) do
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
     @user_jill = create(:user, :username => "Jill")
