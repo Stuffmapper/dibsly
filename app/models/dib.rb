@@ -91,7 +91,7 @@ class Dib < ActiveRecord::Base
   end
 
   def send_message_to_dibber
-    Notifier.dibber_notification(self).deliver_now
+    Notifier.dibber_notification(self).deliver_later
   end
 
   def notify_poster

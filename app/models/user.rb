@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
   end
 
   def confirm_email
-     Notifier.email_verification(self).deliver_now unless self.verified_email
+    Notifier.email_verification(self).deliver_later unless self.verified_email
   end
 
   def update_email_verify_token
