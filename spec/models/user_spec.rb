@@ -35,7 +35,7 @@ RSpec.describe User, :type => :model do
 		describe "doesn't allow usernames of different cases" do
 
 			it "changes doesn't save dup usernames" do
-				create(:user, username: 'John' ) 
+				create(:user, username: 'John' )
 				user2  = build(:user, username: 'john')
 				expect(user2.save).to eq false
 			end
@@ -58,10 +58,10 @@ RSpec.describe User, :type => :model do
     describe "sends a verification email if email not marked verified before" do
       let(:user) { build(:user, verified_email: false ) }
       it "sends email" do
-        allow( user ).to receive(:send_verification_email).and_call_original
+        allow( user ).to receive(:confirm_email).and_call_original
         expect(Notifier).to receive(:email_verification).and_call_original
         user.save
-        expect( user ).to have_received(:send_verification_email)
+        expect( user ).to have_received(:confirm_email)
 
       end
       it "updates verification token with urlsafe_base64" do
@@ -70,6 +70,15 @@ RSpec.describe User, :type => :model do
         user.save
         expect( user.verify_email_token ).to_not eq nil
       end
+
+			it " doesn't send an email when a user tries to create a user with the same email" do
+				user1 = create(:user)
+				user.email = user1.email
+				allow( user ).to receive(:send_verification_email).and_call_original
+				expect(Notifier).to_not receive(:email_verification).and_call_original
+				user.save
+				expect(user.save).to eq false
+			end
   	end
 
 	 describe "Creates from social media" do

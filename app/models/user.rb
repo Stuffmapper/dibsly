@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted']
 
   before_save :downcase_email
-  before_save :confirm_email
+  before_save :update_email_verify_token
+  after_save :confirm_email
 
   validates_presence_of :first_name
   validates_presence_of :last_name
@@ -92,12 +93,11 @@ class User < ActiveRecord::Base
   end
 
   def confirm_email
-     send_verification_email unless self.verified_email
+     Notifier.email_verification(self).deliver_now unless self.verified_email
   end
 
-  def send_verification_email
-    self.verify_email_token =  SecureRandom.urlsafe_base64(48)
-    Notifier.email_verification(self).deliver_now
+  def update_email_verify_token
+    self.verify_email_token = SecureRandom.urlsafe_base64(48) unless self.verified_email
   end
 
 
