@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  default from: "no_reply.support@stuffmapper.com"
+  default from: "<no reply>support@stuffmapper.com"
 
 	def password_reset(user)
 		@user = user
@@ -7,7 +7,7 @@ class Notifier < ActionMailer::Base
 		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
 					subject: "Reset Your Password" )
 	end
-	
+
 
 	def dibber_notification(dib)
 		@dibbed_post = dib.post

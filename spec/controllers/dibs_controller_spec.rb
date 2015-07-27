@@ -44,7 +44,8 @@ RSpec.describe Api::DibsController, type: :controller do
 
 			it 'should send  a message to dibber' do
 				sign_in(@user2)
-				expect(Notifier).to receive(:dibber_notification).and_call_original
+				expect(Notifier).to receive(:dibber_notification).and_call_original.at_most(2).times
+
 				xhr :get, :create, :post_id => @post.id
 		    end
 
@@ -65,7 +66,8 @@ RSpec.describe Api::DibsController, type: :controller do
 
 		end
 	end
-	describe "undib post", :vcr =>  { :cassette_name => "undib_post", :match_requests_on => [:method] } do
+	describe "undib post", :vcr =>  { :cassette_name => "undib_post",
+		:match_requests_on => [:method] } do
 
 		before do
   		  	@user = create(:user)

@@ -58,8 +58,10 @@ RSpec.describe User, :type => :model do
     describe "sends a verification email if email not marked verified before" do
       let(:user) { build(:user, verified_email: false ) }
       it "sends email" do
-        allow( user ).to receive(:confirm_email).and_call_original
-        expect(Notifier).to receive(:email_verification).and_call_original
+        allow( user ).to receive(:confirm_email).and_call_original.at_most(2).times
+
+        expect(Notifier).to receive(:email_verification).and_call_original.at_most(2).times
+
         user.save
         expect( user ).to have_received(:confirm_email)
 
