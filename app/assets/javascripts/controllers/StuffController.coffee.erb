@@ -49,12 +49,13 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.toggle = false
 
     $scope.cancelGive = ->
+      $scope.loading = false
       $scope.giveNext(1)
       $scope.attached = false
       $scope.file = {}
       delete $scope.file
       $scope.post = {}
-      $scope.loading = false
+
 
     $scope.centerGive = ->
       if window.innerWidth < 600
@@ -249,7 +250,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                   transformRequest: angular.identity
                   }).success (data, status, headers, config) ->
                       AlertService.add('success', "You've Posted Your Stuff")
-                      $scope.cancelGive
+                      $scope.cancelGive()
                       updateMarkers()
                       $scope.postMarker.setMap(null)
                       $scope.giveNext(1)
@@ -337,7 +338,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                    $scope.attached = true
                    $scope.file = args.file
                    reader = new FileReader();
-
                    reader.onloadend = ->
                       $scope.$apply( ->
                         $scope.current_image = reader.result;
