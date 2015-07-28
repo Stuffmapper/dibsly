@@ -87,6 +87,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           )
 
     $scope.getDetails  = (id, origin)->
+      $scope.menuHeight = 'get-stuff-view'
       $location.path('/post/' + id, false)
       showtab('details')
       if $scope.markers[id] && origin != 'marker'
@@ -231,9 +232,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                   transformRequest: angular.identity
                   }).success (data, status, headers, config) ->
                       AlertService.add('success', "You've Posted Your Stuff")
-                      canvas = document.getElementById("sm-thumbnail")
-                      context = canvas.getContext("2d");
-                      context.clearRect(0, 0, canvas.width, canvas.height)
+                      $scope.current_image = ''
                       $scope.attached = false
                       $scope.file = {}
                       delete $scope.file
@@ -242,7 +241,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                       updateMarkers()
                       $scope.postMarker.setMap(null)
                       $scope.giveNext(1)
-                      $scope.getStuff()
+                      $scope.getDetails(data.post.id)
                   .error (data) ->
                       for key, value of data
                           AlertService.add('danger', key + ' ' + value )
@@ -325,17 +324,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                    $scope.attached = true
                    $scope.file = args.file
                    reader = new FileReader();
-                   reader.onload = (event2)->
-                     angular.forEach(['sm-thumbnail', 'loading-thumbnail'], (element)->
-                       canvas = document.getElementById(element)
-                       ctx = canvas.getContext('2d');
-                       img = new Image()
-                       img.onload = ->
-                         canvas.width = img.width
-                         canvas.height = img.height
-                         ctx.drawImage(img,0,0)
-                       img.src = event2.target.result
-                     )
 
                    reader.onloadend = ->
                       $scope.$apply( ->

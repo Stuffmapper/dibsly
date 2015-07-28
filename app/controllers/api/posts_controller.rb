@@ -49,7 +49,7 @@ class Api::PostsController < ApplicationController
           :creator_id => current_user.id ))
       if @post.valid?
         @post.save
-        render json: '[]', status: :ok
+        render json: @post, status: :ok
       else
         render json: @post.errors, status: :unprocessable_entity
       end

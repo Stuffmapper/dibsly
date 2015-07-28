@@ -173,7 +173,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 				expect(Post.last.description).to eq('shoes')
 			end
 
-			it 'should update a description' do
+			it 'should update on the curb' do
 				sign_in(@user)
 				xhr :post,
 					:create, {title:'',
@@ -183,6 +183,19 @@ RSpec.describe Api::PostsController, :type => :controller do
 						description: 'shoes',
 						on_the_curb: 'true' }
 				expect(Post.last.on_the_curb).to eq(true)
+			end
+
+			it 'should return data about the post' do
+				sign_in(@user)
+				xhr :post,
+					:create, {title:'',
+						image: @file,
+						latitude:'47',
+						longitude:'-122',
+						description: 'this is a description for returning data',
+						on_the_curb: 'true' }
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['post']['description'] ).to eq 'this is a description for returning data'
 			end
 
 
