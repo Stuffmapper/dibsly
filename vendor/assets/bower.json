@@ -9,6 +9,7 @@
     "angular-flash": "latest",
     "ngmap": "latest",
     "angular-timeago": "latest",
+    "angular-img-fallback": "latest",
     "angular-bootstrap": "git@github.com:angular-ui/bootstrap-bower.git"
   }
 }

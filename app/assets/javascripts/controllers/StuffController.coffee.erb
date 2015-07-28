@@ -99,6 +99,8 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
           console.log('hello')
           post.post.viewing = true
           if !$scope.markers[id]
+            if(origin == 'newPost')
+              post.post.image_url = '<%= asset_path('processing.png')%>'
             $scope.markers[id] = post.post
             createMarker(post.post, post.id, $scope.map)
           else
@@ -232,7 +234,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                   transformRequest: angular.identity
                   }).success (data, status, headers, config) ->
                       AlertService.add('success', "You've Posted Your Stuff")
-                      $scope.current_image = ''
                       $scope.attached = false
                       $scope.file = {}
                       delete $scope.file
@@ -241,7 +242,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                       updateMarkers()
                       $scope.postMarker.setMap(null)
                       $scope.giveNext(1)
-                      $scope.getDetails(data.post.id)
+                      $scope.getDetails(data.post.id, 'newPost')
                   .error (data) ->
                       for key, value of data
                           AlertService.add('danger', key + ' ' + value )
@@ -297,9 +298,9 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         if !marker.infowindow
           if !marker.description
             marker.description = ""
-          innerContent = "<div ng-non-bindable=''>
-                              <div id='siteNotice'></div>
-                               <img class='stuff-map-image' src=" + marker.image_url + "></img>
+          innerContent = "<div >
+                              <div id='siteNotice' class='stuff-map-image'></div>
+                               <img src=" + marker.image_url + " ></img>
                               <div id='bodyContent'>
                                 <p>" + marker.description + "</p>
                               </div>

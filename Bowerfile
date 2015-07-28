@@ -6,5 +6,6 @@ asset 'angular-mocks'
 asset 'angular-flash'
 asset 'ngmap'
 asset 'angular-timeago'
+asset 'angular-img-fallback'
 asset 'angular-bootstrap', "git@github.com:angular-ui/bootstrap-bower.git"
 # vim: ft=ruby
