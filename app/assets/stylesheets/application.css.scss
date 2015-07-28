@@ -35,6 +35,9 @@ body{
 }
 
 /*** Helper ***/
+.center-pin{
+	z-index:4;
+}
 .close-x{
 	position: relative;
 	display:block;
@@ -73,6 +76,7 @@ body{
 	color: $white;
 	font-size: 1.5rem;
 	padding:4px;
+	margin-top: 5px;
 	background-color: $turqblue;
 }
 #loading-thumbnail{
@@ -278,6 +282,9 @@ nav{
 	background-color: $white;
 	padding: 50px 10px 200px 10px;
 }
+.give-content{
+	padding-bottom:0;
+}
 
 .menu-toggle span{
 	position: absolute;
@@ -326,18 +333,45 @@ nav{
 	#give-stuff-file{
 		position: relative;
 	  height: 130%;
-	  width: 130%;
-	  padding: 0;
+	  width: 50px;
 	  margin: auto;
-	  margin-left: -10%;
-	  margin-top: -50px;
+	  margin-left: -15px;
+	  margin-top: -60px;
 	  opacity: .01;
 	  z-index: 5;
 		cursor: pointer;
 		cursor: hand;
 	}
 	.glyphicon{
-		font-size:40px;
+		font-size:20px;
+		margin-left: -8px;
+		color:$turqblue;
+	}
+
+}
+#change-photo{
+	border-radius:10px;
+	height:30px;
+	overflow:hidden;
+	background:$turquoise;
+	border: solid 3px $turqblue;
+	position:relative;
+	cursor: pointer;
+	cursor: hand;
+	#give-stuff-file{
+		position: relative;
+	  height: 230%;
+	  width: 130%;
+	  margin: auto;
+	  margin-left: -10%;
+	  margin-top: -40px;
+	  opacity: .01;
+	  z-index: 5;
+		cursor: pointer;
+		cursor: hand;
+	}
+	.glyphicon{
+		font-size:20px;
 		color:$turqblue;
 	}
 
@@ -346,7 +380,6 @@ nav{
 	background-color:$purple-button;
 }
 .give-stuff{
-	padding-bottom: 140px;
 	height:100%;
 }
 .attached-text h4{

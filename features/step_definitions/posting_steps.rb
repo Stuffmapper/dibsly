@@ -5,9 +5,7 @@ When(/^I log in and give stuff$/) do
   sign_in @current_user
   click_link('Give Stuff')
   execute_script("$(document.elementFromPoint(100, 100)).click()")
-  click_button 'Next'
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
-  click_button 'Next'
  end
 
 
@@ -225,7 +223,6 @@ end
 
 Then(/^the post should set the post's status to out of my hands$/) do
   click_link "Give Stuff"
-  click_button 'Next'
 
 
  #TODO - Mock out paperclip properly - this is  not a good test
@@ -233,7 +230,6 @@ Then(/^the post should set the post's status to out of my hands$/) do
 
 
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
-  click_button 'Next'
   check "on_the_curb"
   click_button "Give this stuff!"
   sleep(4)
@@ -275,10 +271,8 @@ When(/^I try to give stuff after logging in$/) do
 end
 
 Then(/^I should be able to change my photo before submitting$/) do
-  click_button 'Next'
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
   page.attach_file('give-stuff-file', Rails.root.join("spec/factories/free_smiles.png"))
-  click_button 'Next'
   click_button "Give this stuff!"
   sleep(3)
   expect(Post.count).to eq 1
