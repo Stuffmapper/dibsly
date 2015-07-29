@@ -327,35 +327,39 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         $timeout(dets ,0))
 
     $scope.$on("fileSelected",
-                (event, args) -> $scope.$apply( ->
+                (event, args) ->
                    $scope.giveNext(2)
                    MAX_WIDTH = 800;
                    MAX_HEIGHT = 600;
-                   img = document.createElement("img")
+                   img = document.createElement('img')
                    canvas = document.createElement('canvas')
+                   ctx = canvas.getContext("2d")
                    reader = new FileReader();
-                   reader.onloadend = ->
-                    img.src = reader.result;
-                    width = img.width
-                    height = img.height
-                    if (width > height)
-                      if (width > MAX_WIDTH)
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH
-                    else
-                      if (height > MAX_HEIGHT)
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT
-                    canvas.width = width
-                    canvas.height = height;
-                    ctx = canvas.getContext("2d")
-                    ctx.drawImage(img, 0, 0, width, height)
-                    $scope.$apply( ->
-                      $scope.attached = true
-                      $scope.current_image = canvas.toDataURL("image/png")
-                      $scope.file = $scope.current_image )
+                   img.addEventListener("load",->
+                     ctx.drawImage(img,0,0)
+                     width = img.width
+                     height = img.height
+                     if (width > height)
+                       if (width > MAX_WIDTH)
+                         height *= MAX_WIDTH / width;
+                         width = MAX_WIDTH
+                     else
+                       if (height > MAX_HEIGHT)
+                         width *= MAX_HEIGHT / height;
+                         height = MAX_HEIGHT
+                     canvas.width = width
+                     canvas.height = height
+                     ctx = canvas.getContext("2d")
+                     ctx.drawImage(img,0,0, width, height)
+                     $scope.$apply( ->
+                       console.log(img.height)
+                       $scope.attached = true
+                       $scope.current_image = canvas.toDataURL("image/png")
+                       $scope.file = $scope.current_image ))
+                   reader.onload = ->
+                    img.src = reader.result
                    reader.readAsDataURL(args.file)
-                ))
+                )
 
 
     $scope.$on('mapInitialized', (evt, map) ->
