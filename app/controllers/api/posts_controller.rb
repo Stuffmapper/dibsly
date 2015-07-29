@@ -27,7 +27,7 @@ class Api::PostsController < ApplicationController
     @post = Post.find(params[:id])
     if (current_user) and @post.creator_id == current_user.id
         cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined'
+          |key, value| value == 'undefined' || value == 'null'
       }
       @post.update_attributes cleaned_params
       @post.save!
@@ -40,17 +40,22 @@ class Api::PostsController < ApplicationController
   def create
     if (current_user)
       cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined' || value == 'null'
+          |key, value| value == 'undefined' || value == 'null' || key == 'image'
       }
-      @post = Post.new(cleaned_params.merge(
+      params = cleaned_params.merge(
           :ip => request.remote_ip,
           :status => 'new',
           :user => current_user,
-          :creator_id => current_user.id ))
-      if @post.valid?
+          :creator_id => current_user.id )
+      @post = Post.new(params)
+      if @post.valid? and ( !post_params['image'] || post_params['image'] == 'null' || post_params['image'] == 'undefined')
         @post.save
-        render json: @post, status: :ok
+        UploadImageJob.perform_later( @post, post_params['image'] )
+        render json: @post , status: :ok
       else
+        if ( !post_params['image'] || post_params['image'] == 'null' || post_params['image'] == 'undefined')
+          @post.errors.add(:image, "can't be blank")
+        end
         render json: @post.errors, status: :unprocessable_entity
       end
     else

@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   has_many :reports, through: :dibs
   belongs_to :current_dib, :class_name => Dib, :foreign_key => :current_dib_id
   has_attached_file :image,
-    :styles => { :medium => "300x300>" }, :default_url => "/images/:style/missing.png",
+    :styles => { :medium => "300x300>" }, :default_url => 'missing',
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
   process_in_background :image
@@ -26,7 +26,6 @@ class Post < ActiveRecord::Base
 
 
   validate :creator_must_be_allowed_to_post_and_dib
-  validates_attachment_presence :image
   validates_presence_of :user
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}

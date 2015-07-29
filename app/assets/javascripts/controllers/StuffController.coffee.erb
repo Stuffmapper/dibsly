@@ -111,6 +111,9 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         .$promise.then((post)->
           console.log('hello')
           post.post.viewing = true
+          if post.post.originalImage =='missing'
+            post.post.originalImage = '<%= asset_path('processing.png')%>'
+            post.post.image_url = '<%= asset_path('processing.png')%>'
           if !$scope.markers[id]
             if(origin == 'newPost')
               post.post.image_url = '<%= asset_path('processing.png')%>'
@@ -417,6 +420,9 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
             swLng: swBounds.lng()
           ).success((data)->
             for marker in data.posts
+              if marker.originalImage =='missing'
+                marker.originalImage = '<%= asset_path('processing.png')%>'
+                marker.image_url = '<%= asset_path('processing.png')%>'
               if !$scope.markers[marker.id]
                 createMarker(marker, marker.id, map)
               else if $scope.markers[marker.id].updated_at < new Date(marker.updated_at)

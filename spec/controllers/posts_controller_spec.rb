@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "base64"
 
 RSpec.describe Api::PostsController, :type => :controller do
 	vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
@@ -119,7 +120,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 			before do
 			@user.update_attribute(:verified_email, false)
 			shoes = File.read("spec/factories/shoes.png")
-			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+			@file = Base64.encode64(shoes)
 			end
 
 
@@ -136,22 +137,22 @@ RSpec.describe Api::PostsController, :type => :controller do
 
 		context "with login and verified email", :vcr => vcr_options do
 			before do
-			shoes = File.read("spec/factories/shoes.png")
-			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+				shoes = File.read("spec/factories/shoes.png")
+				@file = "data:image/png;base64," + Base64.encode64(shoes)
 			end
 
 
 			it 'should 422 with incomplete data' do
 				sign_in(@user)
 				xhr :post, :create, {title:''}
-				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
 		     	expect(response.status).to eq(422)
 			end
 
 			it 'should 422 with incomplete data' do
 				sign_in(@user)
 				xhr :post, :create, {title:'', image: 'null'}
-				expect(response.body).to eq("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
+				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
 					expect(response.status).to eq(422)
 			end
 			it 'should 422 without location data' do
@@ -221,8 +222,8 @@ RSpec.describe Api::PostsController, :type => :controller do
 
 		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do
 			before do
-			shoes = File.read("spec/factories/shoes.png")
-			@file = fixture_file_upload(Rails.root.join("spec/factories/shoes.png"), 'image/png')
+				shoes = File.read("spec/factories/shoes.png")
+				@file = "data:image/png;base64," + Base64.encode64(shoes)
 			end
 
 
