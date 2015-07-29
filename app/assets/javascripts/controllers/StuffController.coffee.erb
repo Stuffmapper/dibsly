@@ -109,18 +109,20 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       else
         Marker.get( {id:id} )
         .$promise.then((post)->
-          console.log('hello')
           post.post.viewing = true
           if post.post.originalImage =='missing'
-            post.post.originalImage = '<%= asset_path('processing.png')%>'
-            post.post.image_url = '<%= asset_path('processing.png')%>'
-          if !$scope.markers[id]
-            if(origin == 'newPost')
+            if $scope.markers[id]
+              console.log('line 115')
+              post.post.originalImage = $scope.markers[id].originalImage
+              post.post.image_url = $scope.markers[id].image_url
+            else
+              post.post.originalImage = '<%= asset_path('processing.png')%>'
               post.post.image_url = '<%= asset_path('processing.png')%>'
+          if !$scope.markers[id]
             $scope.markers[id] = post.post
             createMarker(post.post, post.id, $scope.map)
           else
-            post.updated_at = new Date(post.updated_at)
+            post.post.updated_at = new Date(post.updated_at)
             angular.extend($scope.markers[id], post.post )
           $scope.stuff = $scope.markers[id]
           if origin != 'marker'
@@ -248,7 +250,16 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                       updateMarkers()
                       $scope.postMarker.setMap(null)
                       $scope.giveNext(1)
-                      $scope.getDetails(data.post.id, 'newPost')
+                      post = data.post
+                      post.image_url = $scope.current_image
+                      post.originalImage = $scope.current_image
+                      $scope.markers[post.id] = post
+                      createMarker($scope.markers[post.id], post.id, $scope.map)
+                      $scope.stuff = $scope.markers[post.id]
+                      $scope.menuHeight = 'get-stuff-view'
+                      $location.path('/post/' + post.id, false)
+                      showtab('details')
+
                   .error (data) ->
                       for key, value of data
                           AlertService.add('danger', key + ' ' + value )
@@ -303,7 +314,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         marker = $scope.markers[id]
         innerContent = "<div >
                             <div id='siteNotice' class='stuff-map-image'></div>
-                             <img src=" + marker.image_url + " ></img>
+                             <img src=" + marker.image_url + " width='200px' ></img>
                             <div id='bodyContent'>
                               <p>" + marker.description + "</p>
                             </div>

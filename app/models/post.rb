@@ -8,7 +8,6 @@ class Post < ActiveRecord::Base
     :styles => { :medium => "300x300>" }, :default_url => 'missing',
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/aws.yml"
-  process_in_background :image
 
   #for the comments
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
