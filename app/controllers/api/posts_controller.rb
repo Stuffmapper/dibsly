@@ -48,7 +48,8 @@ class Api::PostsController < ApplicationController
           :user => current_user,
           :creator_id => current_user.id )
       @post = Post.new(params)
-      if @post.valid? and ( !post_params['image'] || post_params['image'] == 'null' || post_params['image'] == 'undefined')
+
+      if @post.valid? and ( post_params['image'] || post_params['image'] != 'null' || post_params['image'] != 'undefined')
         @post.save
         UploadImageJob.perform_later( @post, post_params['image'] )
         render json: @post , status: :ok
