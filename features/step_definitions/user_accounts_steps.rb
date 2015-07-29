@@ -258,6 +258,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
       fill_in 'description', with: "okkk"
       click_button 'Give this stuff!'
     end
+  sleep(2)
   expect(page).to have_text('Please verify your email to give stuff')
   click_link('Sign Out')
   @shoes = Post.first
