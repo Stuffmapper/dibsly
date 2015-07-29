@@ -13,10 +13,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     init = ->
       $scope.backup = {}
       UserService.check((data,err)->
-        if UserService.currentUser
-          mystuff = localStorage.getItem('mystuff' + UserService.currentUser)
-          if mystuff
-            $scope.mystuff = JSON.parse(mystuff)
+        console.log(data)
       )
     #CONSTANTS
 
@@ -137,11 +134,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         $scope.menuHeight = 'my-stuff-view'
         UserService.check((blank,data)->
           if UserService.currentUser
-            $scope.mystuff = {posts:{}, dibs:{}}
             user = data.user
-            mystuff = localStorage.getItem('mystuff' + user)
-            if mystuff
-              $scope.mystuff = JSON.parse(mystuff)
             $http.get( '/api/my-stuff')
             .success(
                 (data)->
@@ -152,8 +145,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
               .success((data)->
                 for marker in data.posts
                   $scope.mystuff.dibs[marker.id] = marker )
-            ).then((data)->
-                localStorage.setItem('mystuff' + user, JSON.stringify($scope.mystuff))
             )
           )
 
@@ -307,20 +298,23 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       (event, args) ->
         id = args.markerId
         marker = $scope.markers[id]
+        innerContent = "<div >
+                            <div id='siteNotice' class='stuff-map-image'></div>
+                             <img src=" + marker.image_url + " ></img>
+                            <div id='bodyContent'>
+                              <p>" + marker.description + "</p>
+                            </div>
+                          </div>"
         if !marker.infowindow
           if !marker.description
             marker.description = ""
-          innerContent = "<div >
-                              <div id='siteNotice' class='stuff-map-image'></div>
-                               <img src=" + marker.image_url + " ></img>
-                              <div id='bodyContent'>
-                                <p>" + marker.description + "</p>
-                              </div>
-                            </div>"
+
           infowindow = new google.maps.InfoWindow(
                       content: innerContent
                     )
           marker.infowindow = infowindow
+        else
+          marker.infowindow.setContent(innerContent)
         angular.forEach($scope.markers, (value, key)->
           if key != String(id)
             if value.infowindow
@@ -335,25 +329,36 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.$on("fileSelected",
                 (event, args) -> $scope.$apply( ->
                    $scope.giveNext(2)
-                   $scope.attached = true
-                   $scope.file = args.file
+                   MAX_WIDTH = 800;
+                   MAX_HEIGHT = 600;
+                   img = document.createElement("img")
+                   canvas = document.createElement('canvas')
                    reader = new FileReader();
                    reader.onloadend = ->
-                      $scope.$apply( ->
-                        $scope.current_image = reader.result;
-                        )
+                    img.src = reader.result;
+                    width = img.width
+                    height = img.height
+                    if (width > height)
+                      if (width > MAX_WIDTH)
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH
+                    else
+                      if (height > MAX_HEIGHT)
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT
+                    canvas.width = width
+                    canvas.height = height;
+                    ctx = canvas.getContext("2d")
+                    ctx.drawImage(img, 0, 0, width, height)
+                    $scope.$apply( ->
+                      $scope.attached = true
+                      $scope.current_image = canvas.toDataURL("image/png")
+                      $scope.file = $scope.current_image )
                    reader.readAsDataURL(args.file)
-
                 ))
 
+
     $scope.$on('mapInitialized', (evt, map) ->
-      localMarkers = localStorage.getItem('markers')
-      if localMarkers
-        angular.forEach(JSON.parse(localMarkers),(value, key) ->
-          value.viewing = false
-          $scope.markers[key] = new Marker(value)
-          createMarker(value, value.id, $scope.map)
-        )
       if $routeParams.postId
         $scope.getDetails($routeParams.postId, 'initial')
       self = this
@@ -397,11 +402,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     updateMarkers = (map)->
       if map
-        replacer = (key,value)->
-          if key == 'marker' || key == 'infowindow'
-            return undefined
-          else
-            return value
         neBounds = map.getBounds().getNorthEast()
         swBounds = map.getBounds().getSouthWest()
         $http(
@@ -419,7 +419,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                 console.log("this is a date")
                 $scope.markers[marker.id].marker.setMap(null)
                 createMarker(marker, marker.id, map)
-            localStorage.setItem('markers', JSON.stringify($scope.markers, replacer))
             )
 
 
