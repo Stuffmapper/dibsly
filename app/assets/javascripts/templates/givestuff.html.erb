@@ -19,20 +19,19 @@
 
   <div class="col-lg-12 col-md-12 col-xs-12"
    ng-class="loading || !currentUser ? 'overlay-active' : 'overlay-inactive' ">
- </div>
-   <div id='give-1' ng-show='giveflow["1"][0]' class=' add-margin-top-15'>
-     <div class="col-lg-2
-      col-md-2 col-xs-2">
+  </div>
+  <div id='give-1' ng-show='giveflow["1"][0]' class=' add-margin-top-15'>
+    <div class="col-lg-2
+    col-md-2 col-xs-2">
        <img class='img-responsive' src='<%= asset_path('red-pin.png')%>'>
        </img>
-     </div>
-     <div class="col-lg-8
+    </div>
+    <div class="col-lg-8
       col-md-8 col-xs-8">
        <p> Make sure the marker is in the right spot! </p>
-     </div>
-
-     <div id="give-stuff-file-container" class='btn col-lg-2 col-md-2 col-xs-2'>
-       <span ng-hide='attached'
+    </div>
+    <div id="give-stuff-file-container" class='btn col-lg-2 col-md-2 col-xs-2'>
+      <span ng-hide='attached'
         class="glyphicon glyphicon-camera"
         aria-hidden="true"></span>
         <br>
@@ -49,68 +48,68 @@
 
    </div>
 
-
-
-    <div id="give-2" ng-show='giveflow["2"][0]'>
-        <div ng-show='attached' class="col-lg-6 col-md-6 col-xs-6" >
-            <img class="img-responsive img-preview" ng-src={{current_image}} fallback-src></img>
-        </div>
-
-        <div id="change-photo" class='btn col-lg-4 col-md-4 col-xs-4 add-margin-top-15 add-side-margin-10'>
-          <span ng-hide='attached'
-           class="glyphicon glyphicon-camera"
-           aria-hidden="true"></span>
-          <span class='attached-text'
+  <div id="give-2" ng-show='giveflow["2"][0]'>
+    <div ng-show='attached' class="col-lg-6 col-md-6 col-xs-6" >
+      <img class="img-responsive img-preview" ng-src={{current_image}} fallback-src></img>
+    </div>
+    <div id="change-photo" class='btn col-lg-4 col-md-4 col-xs-4 add-margin-top-15 add-side-margin-10'>
+      <span ng-hide='attached'
+        class="glyphicon glyphicon-camera"
+        aria-hidden="true">
+      </span>
+      <span class='attached-text'
           ng-show='attached'>
             <p>Change</p>
-          </span>
-           <input type="file" id="give-stuff-file" file-upload accept="image/*">
-        </div>
-
-        <button class="center-pin btn btn-default col-lg-4 col-md-4 col-xs-4
-        add-margin-top-15 add-side-margin-10"
-        ng-click='centerGive()' >
-          <img class='img-responsive' src='<%= asset_path('red-pin.png')%>'>
-        </button>
-
-        <div class="form-group col-md-12 col-md-12 col-xs-12  row add-margin-top-15">
-
-        <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
-          <option value="" disabled selected>Choose a category</option>
-          <option>Arts &amp; Crafts</option>
-          <option>Books, Games, Media</option>
-          <option>Building &amp; Garden Materials</option>
-          <option>Clothing &amp; Accessories</option>
-          <option>Electronics</option>
-          <option>Furniture &amp; Household</option>
-          <option>General</option>
-          <option>Kids &amp; Babies</option>
-          <option>Recreation</option>
-        </select>
-
+      </span>
+      <input type="file" id="give-stuff-file" file-upload accept="image/*">
+    </div>
+    <div class ="col-lg-6 col-md-6 col-xs-6">
+      <button class="center-pin btn btn-default col-lg-4 col-md-4 col-xs-4
+      add-margin-top-15 add-side-margin-10"
+      ng-click='centerGive()' >
+        <img class='img-responsive' src='<%= asset_path('red-pin.png')%>'>
+      </button>
+    </div>
+    <br>
+    <div class="col-md-12 col-md-12 col-xs-12 add-margin-top-15">
+      <div class="form-group ">
+          <select class="form-control" id="category" placeholder="Category" ng-model="post.category" >
+            <option value="" disabled selected>Choose a category</option>
+            <option>Arts &amp; Crafts</option>
+            <option>Books, Games, Media</option>
+            <option>Building &amp; Garden Materials</option>
+            <option>Clothing &amp; Accessories</option>
+            <option>Electronics</option>
+            <option>Furniture &amp; Household</option>
+            <option>General</option>
+            <option>Kids &amp; Babies</option>
+            <option>Recreation</option>
+          </select>
       </div>
-
-      <div class="form-group col-md-12 row">
+      <div class="form-group">
         <input type="text" class="form-control" id="description" placeholder="Describe this stuff (you can use #tags)" ng-model="post.description">
       </div>
 
-      <div class="checkbox col-md-12 row">
-        <label><input type="checkbox" id="on_the_curb" name="on_the_curb" ng-model="post.on_the_curb" value='' >This item is on the curb/outside/unattended by me. </label>
-      </div>
-
-      <div class="form-group col-lg-12 col-md-12  col-xs-12 row">
-         <button class="btn col-lg-6 col-md-12 col-xs-12
-         col-lg-offset-1 col-md-offset-1 col-xs-offset-1 stuff-btn"
-          id="give-stuff-submit" ng-click="submitPost()">
-          Give this stuff!</button>
-          <button class="btn col-lg-4 col-md-12 col-xs-12
-          col-lg-offset-1 col-md-offset-1 col-xs-offset-1 stuff-btn"
-           ng-click="cancelGive()">
-           Cancel</button>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="on_the_curb" name="on_the_curb"
+          ng-model="post.on_the_curb" value='' >
+          This item is on the curb/outside/unattended by me.
+        </label>
       </div>
     </div>
 
+    <div class="col-lg-12 col-md-12  col-xs-12 row">
+       <button class="btn col-lg-6 col-md-12 col-xs-12
+       col-lg-offset-1 col-md-offset-1 col-xs-offset-1 stuff-btn"
+        id="give-stuff-submit" ng-click="submitPost()">
+          Give this stuff!
+        </button>
 
-
-
+        <button class="btn col-lg-4 col-md-12 col-xs-12
+        col-lg-offset-1 col-md-offset-1 col-xs-offset-1 stuff-btn"
+         ng-click="cancelGive()">
+          Cancel
+         </button>
+    </div>
 </div>
