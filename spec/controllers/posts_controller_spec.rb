@@ -356,6 +356,13 @@ RSpec.describe Api::PostsController, :type => :controller do
 			expect(JSON.parse(response.body)['post']['dibbable']).to eq(false)
 		end
 
+		it "should show  a status" do
+			xhr :get, :show, :id => @post.id
+			expect(response.status).to eq(200)
+			expect(JSON.parse(response.body)['post']['status']).to eq("new")
+		end
+
+
 	end
 
 	describe "Get show", :vcr => { :cassette_name => "Get_show_post_controller", :match_requests_on => [:method] }do

@@ -75,3 +75,24 @@ Then(/^It should not be on the map and Jill should not be able to dib it\.$/) do
   expect(@shoes.status).to eq "gone"
   visit @shoes.permalink
 end
+
+
+When(/^the edit button shouldn't be viewable$/) do
+  sign_in @current_user
+  visit @shoes.permalink
+  expect(page).to_not have_text "Edit"
+end
+
+When(/^it should be archived$/) do
+  pending
+  click_link 'My Stuff'
+  clink_link 'Posts'
+  within('.archived') do
+    expect(page).to have_text (@post.title)
+  end
+end
+
+When(/^the status should be in the details$/) do
+  visit @shoes.permalink
+  expect(page).to have_text 'This item is gone'
+end

@@ -3,7 +3,8 @@ class MyPostSerializer < ActiveModel::Serializer
   #used for current user posts
   attributes :id, :latitude, :longitude,
   :coords, :image_url,:description, :dibbable,
-   :creator, :on_the_curb, :category, :published, :currentDib,:originalImage
+  :creator, :on_the_curb, :category, :published,
+  :currentDib,:originalImage, :status
   has_many :dibs
 
 
@@ -21,7 +22,7 @@ class MyPostSerializer < ActiveModel::Serializer
     object.image.url
   end
 
-  def image_url  
+  def image_url
     object.image.url(:medium)
   end
 
