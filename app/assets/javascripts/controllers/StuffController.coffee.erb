@@ -108,7 +108,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location',
         google.maps.event.trigger(MarkerService.markers[id].marker, 'click')
         $scope.stuff = MarkerService.markers[id]
       else
-        MarkerService.updateMarker(id, origin)
+        MarkerService.updateMarker(id, origin, -> $scope.stuff = MarkerService.markers[id])
 
 
     $scope.getMyStuff = ->

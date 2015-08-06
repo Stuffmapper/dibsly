@@ -22,6 +22,26 @@ factories.factory('MarkerService', [ '$http', '$resource','$rootScope'
        google.maps.event.addListener(value.marker, 'click',->
          $rootScope.$broadcast( 'detailsWanted', { markerId: value.id })
        )
+    updateMarker: (id, origin, callback)->
+      self = this
+      Marker.get( {id:id} )
+        .$promise.then((post)->
+          if post.post.originalImage =='missing'
+            if $scope.markers[id]
+              post.post.originalImage = $scope.markers[id].originalImage
+              post.post.image_url = $scope.markers[id].image_url
+            else
+              post.post.originalImage = '<%= asset_path('processing.png')%>'
+              post.post.image_url = '<%= asset_path('processing.png')%>'
+          if !self.markers[id]
+            self.markers[id] = post.post
+            self.createMarker(post.post, post.id, self.map)
+          else
+            post.post.updated_at = new Date(post.updated_at)
+            angular.extend(self.markers[id], post.post )
+          if origin != 'marker'
+              google.maps.event.trigger(self.markers[id].marker, 'click')
+          callback())
 
     updateWindow: (id)->
       self = this
