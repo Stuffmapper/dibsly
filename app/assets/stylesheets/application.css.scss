@@ -203,12 +203,24 @@ nav{
 	padding:0;
 	width:100%;
 	list-style: none;
+	background: lightgrey;
 	text-align: center;
 	h4{
 		font-size: 1.5rem;
 	}
+	li {
+	padding: 1px;
+	border: 1px solid grey;
+	border-bottom: 0;
+	}
 }
-
+.sm-low-tabs{
+	margin-top: 39px;
+	background: none;
+	.tab-unclicked{
+		background-color: darkgrey;
+	}
+}
 .tab-clicked{
 	background-color: $white;
 	color:$black;
