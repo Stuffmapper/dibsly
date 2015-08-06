@@ -4,7 +4,8 @@ directives = angular.module('directives')
 directives.directive('undib', ->
     restrict:'E'
     scope: { post: '=', mystuff: '=' },
-    controller:['$scope','$http','UserService','$modal','AlertService','MapsService', ($scope, $http,UserService,$modal,AlertService, MapsService )->
+    controller:['$scope','$http','UserService','$modal','AlertService',
+    ($scope, $http,UserService,$modal,AlertService)->
 
      $scope.giveBack = ()->
         post_url = '/api/posts/' + $scope.post.id + '/undib'

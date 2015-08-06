@@ -1,0 +1,48 @@
+factories = angular.module('factories')
+factories.factory('MarkerService', [ '$http', '$resource','$rootScope'
+  ($http, $resource, $rootScope )->
+    Marker = $resource('/api/posts/:id', id:'@id' )
+    markers: {}
+
+    createMarker: (value, key, map)->
+       self = this
+       latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
+       options =
+         zoom: 4
+         center:latLng
+       value.marker = new google.maps.Marker(
+        icon: '<%= asset_path('blue-circle.png')%>',
+        position: latLng,
+        map: map,
+        title: value.description )
+       value.visible = true
+       value.updated_at = new Date(value.updated_at)
+       value.locallyUpdated = Date.now()
+       self.markers[value.id] = value
+       google.maps.event.addListener(value.marker, 'click',->
+         $rootScope.$broadcast( 'detailsWanted', { markerId: value.id })
+       )
+
+    updateWindow: (id)->
+      self = this
+      marker = self.markers[id]
+      innerContent = "
+        <div >
+          <div id='siteNotice' class='stuff-map-image'></div>
+            <img src=" + marker.image_url + " width='200px' ></img>
+            <div id='bodyContent'>
+              <p>" + marker.description + "</p>
+            </div>
+          </div>
+        </div>"
+      if !marker.description
+        marker.description = ""
+      if !marker.infowindow
+        infowindow = new google.maps.InfoWindow(content: innerContent)
+        marker.infowindow = infowindow
+      else
+        marker.infowindow.setContent(innerContent)
+   	setMap:(map)->
+         self = this
+         self.map = map
+])

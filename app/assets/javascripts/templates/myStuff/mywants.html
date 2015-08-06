@@ -1,0 +1,25 @@
+<h4> My Dibs </h4>
+<div ng-repeat="dib in mystuff.dibs track by $index"
+ id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
+ <div class ='col-lg-12 col-md-12 col-xs-12'>
+   <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
+    title={{dib.description}}  ng-hide=editing  >
+      <div class= "stuff-image-container" >
+        <img class="stuff-image img-responsive"
+          ng-src={{dib.image_url}} ></img>
+      </div>
+    </div>
+    <div class='col-lg-9 col-md-9 col-xs-9'>
+       <undib post="dib" mystuff="mystuff"
+       ng-hide="currentUser == dib.creator"></undib>
+       <button class= "btn-xs btn-default"
+       ng-click='edit(dib)'
+       ng-show="currentUser == dib.creator">Edit</button>
+
+       <button class= "btn-xs btn-default"
+       ng-click='getDetails(dib.id)'>Details</button>
+    </div>
+    <hr>
+    </div >
+  </div>
+</div>

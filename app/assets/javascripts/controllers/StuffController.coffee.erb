@@ -3,13 +3,16 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routeParams','$window','$modal','$resource', 'MapsService','UserService','AlertService', '$http',
- ($scope, $timeout,$location, $routeParams,$window, $modal,$resource, MapsService, UserService, AlertService, $http ) ->
+controllers.controller('StuffCtrl', [ '$scope','$timeout','$location',
+'$routeParams','$window','$modal','$resource', 'MarkerService','UserService',
+'AlertService', '$rootScope','$http',
+ ($scope, $timeout,$location, $routeParams,$window,
+ $modal,$resource,MarkerService, UserService, AlertService, $rootScope, $http ) ->
     $scope.UserService = UserService;
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
-    Marker = $resource('/api/posts/:id', id:'@id' )
+
     init = ->
       $scope.backup = {}
       UserService.check((data,err)->
@@ -27,8 +30,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
 
     #TODO have this come from the server or keep it locally
     $scope.mapCenter = '47.6097,-122.3331'
-
-    $scope.markers = {} #for the markers and posts
 
     $scope.menuHeight = 'get-stuff-view'
 
@@ -85,7 +86,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       console.log(id)
       showtab('editing')
       $scope.file = null
-      $scope.editItem = $scope.markers[id]
+      $scope.editItem = MarkerService.markers[id]
       $scope.current_image = $scope.editItem.image_url
 
 
@@ -103,30 +104,12 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       $scope.menuHeight = 'get-stuff-view'
       $location.path('/post/' + id, false)
       showtab('details')
-      if $scope.markers[id] && origin != 'marker'
-        google.maps.event.trigger($scope.markers[id].marker, 'click')
-        $scope.stuff = $scope.markers[id]
+      if MarkerService.markers[id] && origin != 'marker'
+        google.maps.event.trigger(MarkerService.markers[id].marker, 'click')
+        $scope.stuff = MarkerService.markers[id]
       else
-        Marker.get( {id:id} )
-        .$promise.then((post)->
-          post.post.viewing = true
-          if post.post.originalImage =='missing'
-            if $scope.markers[id]
-              console.log('line 115')
-              post.post.originalImage = $scope.markers[id].originalImage
-              post.post.image_url = $scope.markers[id].image_url
-            else
-              post.post.originalImage = '<%= asset_path('processing.png')%>'
-              post.post.image_url = '<%= asset_path('processing.png')%>'
-          if !$scope.markers[id]
-            $scope.markers[id] = post.post
-            createMarker(post.post, post.id, $scope.map)
-          else
-            post.post.updated_at = new Date(post.updated_at)
-            angular.extend($scope.markers[id], post.post )
-          $scope.stuff = $scope.markers[id]
-          if origin != 'marker'
-              google.maps.event.trigger($scope.markers[id].marker, 'click'))
+        MarkerService.updateMarker(id, origin)
+
 
     $scope.getMyStuff = ->
         if $scope.postMarker
@@ -162,7 +145,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         $scope.postMarker.setMap(null)
       $location.path('/')
       showtab('getStuff')
-      angular.forEach($scope.markers, (value,key)->
+      angular.forEach(MarkerService.markers, (value,key)->
         value.marker.setMap($scope.map)
         if value.infowindow
           value.infowindow.close($scope.map,value.marker)
@@ -213,7 +196,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
     $scope.startMapper = ->
       $scope.toggle = false
       showtab('giveStuff')
-      angular.forEach($scope.markers, (value,key)->
+      angular.forEach(MarkerService.markers, (value,key)->
         value.marker.setMap(null)
       )
       angular.forEach($scope.giveflow, (value,key)->
@@ -253,9 +236,9 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                       post = data.post
                       post.image_url = $scope.current_image
                       post.originalImage = $scope.current_image
-                      $scope.markers[post.id] = post
-                      createMarker($scope.markers[post.id], post.id, $scope.map)
-                      $scope.stuff = $scope.markers[post.id]
+                      MarkerService.markers[post.id] = post
+                      MarkerService.createMarker(MarkerService.markers[post.id], post.id, $scope.map)
+                      $scope.stuff = MarkerService.markers[post.id]
                       $scope.menuHeight = 'get-stuff-view'
                       $location.path('/post/' + post.id, false)
                       showtab('details')
@@ -308,34 +291,16 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
                   templateUrl:'signIn.html',
                   controller:'SignUpCtrl')
 
-    $scope.$on("detailsWanted",
+    $rootScope.$on("detailsWanted",
       (event, args) ->
         id = args.markerId
-        marker = $scope.markers[id]
-        innerContent = "<div >
-                            <div id='siteNotice' class='stuff-map-image'></div>
-                             <img src=" + marker.image_url + " width='200px' ></img>
-                            <div id='bodyContent'>
-                              <p>" + marker.description + "</p>
-                            </div>
-                          </div>"
-        if !marker.infowindow
-          if !marker.description
-            marker.description = ""
-
-          infowindow = new google.maps.InfoWindow(
-                      content: innerContent
-                    )
-          marker.infowindow = infowindow
-        else
-          marker.infowindow.setContent(innerContent)
-        angular.forEach($scope.markers, (value, key)->
+        MarkerService.updateWindow(id)
+        angular.forEach(MarkerService.markers, (value, key)->
           if key != String(id)
             if value.infowindow
               value.infowindow.close($scope.map,value.marker)
           else
-            marker.infowindow.open($scope.map,value.marker)
-          )
+            value.infowindow.open($scope.map,value.marker))
         dets = ->
           $scope.getDetails(id, 'marker')
         $timeout(dets ,0))
@@ -380,6 +345,7 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
       if $routeParams.postId
         $scope.getDetails($routeParams.postId, 'initial')
       self = this
+      MarkerService.setMap($scope.map)
       updateMarkers($scope.map)
       blank = ->
       updatePostMarker( blank, 25000, $scope.map)
@@ -393,23 +359,6 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
         )
       )
 
-    createMarker = (value, key, map)->
-        latLng =  new google.maps.LatLng(value.latitude ,value.longitude)
-        options =
-          zoom: 4
-          center:latLng
-        value.marker = new google.maps.Marker(
-          icon: '<%= asset_path('blue-circle.png')%>'
-          position: latLng,
-          map: map,
-          title: value.description )
-        value.visible = true
-        value.updated_at = new Date(value.updated_at)
-        value.locallyUpdated = Date.now()
-        $scope.markers[value.id] = value
-        google.maps.event.addListener(value.marker, 'click',->
-          $scope.$broadcast( 'detailsWanted', { markerId: value.id })
-        )
 
     showtab = (tab)->
       angular.forEach($scope.tabs, (value, key)->
@@ -434,12 +383,12 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location','$routePar
               if marker.originalImage =='missing'
                 marker.originalImage = '<%= asset_path('processing.png')%>'
                 marker.image_url = '<%= asset_path('processing.png')%>'
-              if !$scope.markers[marker.id]
-                createMarker(marker, marker.id, map)
-              else if $scope.markers[marker.id].updated_at < new Date(marker.updated_at)
+              if !MarkerService.markers[marker.id]
+                MarkerService.createMarker(marker, marker.id, map)
+              else if MarkerService.markers[marker.id].updated_at < new Date(marker.updated_at)
                 console.log("this is a date")
-                $scope.markers[marker.id].marker.setMap(null)
-                createMarker(marker, marker.id, map)
+                MarkerService.markers[marker.id].marker.setMap(null)
+                MarkerService.createMarker(marker, marker.id, map)
             )
 
 
