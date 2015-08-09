@@ -12,6 +12,10 @@ controllers.controller('StuffCtrl', [ '$scope','$timeout','$location',
     $scope.$watchCollection('UserService',->
         $scope.currentUser = UserService.currentUser
      )
+    $scope.$watchCollection('MarkerService',->
+        $scope.markers = MarkerService.markers
+     )
+
 
     init = ->
       $scope.backup = {}

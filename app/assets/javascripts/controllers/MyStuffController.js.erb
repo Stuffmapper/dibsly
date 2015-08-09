@@ -1,0 +1,19 @@
+
+controllers = angular.module('controllers')
+
+
+controllers.controller('MyStuffCtrl',['$scope',function MyStuffCtrl($scope){
+
+  $scope.tabs = {
+    myPosts: true,
+    myDibs: false,
+    myMessages: false,
+    myProfile: false },
+
+  var showtab = function(tab){
+      angular.forEach($scope.tabs, (value, key)->
+        if(key == tab){
+          $scope.tabs[key] = true;
+        } else { $scope.tabs[key] = false ) }
+    }
+}]);
