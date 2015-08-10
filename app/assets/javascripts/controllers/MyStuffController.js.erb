@@ -1,19 +1,49 @@
 
-controllers = angular.module('controllers')
+var controllers = angular.module('controllers');
 
 
-controllers.controller('MyStuffCtrl',['$scope',function MyStuffCtrl($scope){
+controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
+'UserService',function ($scope, MarkerService, UserService){
+
+  $scope.UserService = UserService;
+  $scope.$watchCollection('UserService', function() {
+    $scope.currentUser = UserService.currentUser;
+  });
+  $scope.$watchCollection('MarkerService', function(){
+    $scope.markers = MarkerService.markers;
+  });
+
+
+
 
   $scope.tabs = {
     myPosts: true,
     myDibs: false,
     myMessages: false,
-    myProfile: false },
+    myProfile: false };
 
-  var showtab = function(tab){
-      angular.forEach($scope.tabs, (value, key)->
+    $scope.showtab = function(tab){
+      angular.forEach($scope.tabs, function(value, key){
         if(key == tab){
           $scope.tabs[key] = true;
-        } else { $scope.tabs[key] = false ) }
-    }
+        } else { $scope.tabs[key] = false }
+      });
+    };
+    $scope.show = function(userStatus){
+      var results = [];
+      angular.forEach( $scope.markers, function(value, key){
+        if(value[userStatus] === $scope.currentUser ){
+          results.push(value);
+          console.log(value)
+        }
+      });
+      return results.sort(function(a, b){
+        if(a.updated_at > b.updated_at){
+          return -1;
+        } else if(a.updated_at < b.updated_at){
+          return 1;
+        } else { return 0;}
+      });
+    };
+
 }]);

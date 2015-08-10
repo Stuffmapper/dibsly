@@ -1,0 +1,516 @@
+(function() {
+  var controllers;
+
+  controllers = angular.module('controllers');
+
+  controllers.controller('StuffCtrl', [
+    '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal', '$resource', 'LocationService', 'MarkerService', 'UserService', 'AlertService', '$rootScope', '$http', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource, LocationService, MarkerService, UserService, AlertService, $rootScope, $http) {
+      var init, showtab, updateMarkers, updatePostMarker;
+      $scope.UserService = UserService;
+      $scope.$watchCollection('UserService', function() {
+        return $scope.currentUser = UserService.currentUser;
+      });
+      init = function() {
+        $scope.backup = {};
+        return UserService.check(function(data, err) {
+          return console.log(data);
+        });
+      };
+      $scope.attached = false;
+      $scope.giveflow = {
+        1: [true, 'short-view'],
+        2: [false, 'give-stuff-view']
+      };
+      $scope.loading = false;
+      $scope.mapCenter = '47.6097,-122.3331';
+      $scope.menuHeight = 'get-stuff-view';
+      $scope.mystuff = {
+        posts: {},
+        dibs: {}
+      };
+      $scope.post = {};
+      $scope.tabs = {
+        getStuff: true,
+        giveStuff: false,
+        myStuff: false,
+        details: false,
+        editing: false
+      };
+      $scope.toggle = false;
+      $scope.cancelGive = function() {
+        $scope.loading = false;
+        $scope.giveNext(1);
+        $scope.attached = false;
+        $scope.file = {};
+        delete $scope.file;
+        return $scope.post = {};
+      };
+      $scope.centerGive = function() {
+        if (window.innerWidth < 600) {
+          $scope.toggle = true;
+        }
+        return $scope.map.panTo($scope.postMarker.getPosition());
+      };
+      $scope.changeLocation = function(id) {
+        var location, updatePost;
+        location = $scope.editItem.marker.getPosition();
+        if ($scope.editMarker) {
+          $scope.editMarker.setMap(null);
+        }
+        $scope.editMarker = new google.maps.Marker({
+          position: location,
+          draggable: true,
+          map: $scope.map,
+          title: $scope.editItem.description,
+          icon: '/assets/green-pin.png'
+        });
+        updatePost = function() {
+          $scope.editItem.latitude = $scope.editMarker.getPosition().lat();
+          return $scope.editItem.longitude = $scope.editMarker.getPosition().lng();
+        };
+        google.maps.event.addListener($scope.editMarker, 'dragend', updatePost);
+        google.maps.event.addListener($scope.editMarker, 'idle', updatePost);
+        $scope.map.setZoom(18);
+        return $scope.map.panTo(location);
+      };
+      $scope.edit = function(id) {
+        console.log(id);
+        showtab('editing');
+        $scope.file = null;
+        $scope.editItem = MarkerService.markers[id];
+        return $scope.current_image = $scope.editItem.image_url;
+      };
+      $scope.giveNext = function(id) {
+        return angular.forEach($scope.giveflow, function(value, key) {
+          var stat;
+          stat = String(id);
+          if (key === stat) {
+            $scope.menuHeight = value[1];
+            return $scope.giveflow[key][0] = true;
+          } else {
+            return $scope.giveflow[key][0] = false;
+          }
+        });
+      };
+      $scope.getDetails = function(id, origin) {
+        $scope.menuHeight = 'get-stuff-view';
+        $location.path('/post/' + id, false);
+        showtab('details');
+        if (MarkerService.markers[id] && origin !== 'marker') {
+          google.maps.event.trigger(MarkerService.markers[id].marker, 'click');
+          return $scope.stuff = MarkerService.markers[id];
+        } else {
+          return MarkerService.updateMarker(id, origin, function() {
+            return $scope.stuff = MarkerService.markers[id];
+          });
+        }
+      };
+      $scope.getMyStuff = function() {
+        if ($scope.postMarker) {
+          $scope.postMarker.setMap(null);
+        }
+        if ($scope.editMarker) {
+          $scope.editMarker.setMap(null);
+        }
+        $scope.toggle = false;
+        $location.path('/', false);
+        showtab('myStuff');
+        $scope.menuHeight = 'my-stuff-view';
+        return UserService.check(function(blank, data) {
+          var user;
+          if (UserService.currentUser) {
+            user = data.user;
+            return $http.get('/api/my-stuff').success(function(data) {
+              var i, len, marker, ref, results;
+              ref = data.posts;
+              results = [];
+              for (i = 0, len = ref.length; i < len; i++) {
+                marker = ref[i];
+                results.push($scope.mystuff.posts[marker.id] = marker);
+              }
+              return results;
+            }).then(function(data) {
+              return $http.get('/api/my-dibs').success(function(data) {
+                var i, len, marker, ref, results;
+                ref = data.posts;
+                results = [];
+                for (i = 0, len = ref.length; i < len; i++) {
+                  marker = ref[i];
+                  results.push($scope.mystuff.dibs[marker.id] = marker);
+                }
+                return results;
+              });
+            });
+          }
+        });
+      };
+      $scope.getStuff = function() {
+        $scope.toggle = false;
+        $scope.menuHeight = 'get-stuff-view';
+        if ($scope.editMarker) {
+          $scope.editMarker.setMap(null);
+        }
+        if ($scope.postMarker) {
+          $scope.postMarker.setMap(null);
+        }
+        $location.path('/');
+        showtab('getStuff');
+        angular.forEach(MarkerService.markers, function(value, key) {
+          value.marker.setMap($scope.map);
+          if (value.infowindow) {
+            return value.infowindow.close($scope.map, value.marker);
+          }
+        });
+        google.maps.event.addListener($scope.map, 'dragend', function() {
+          return updateMarkers($scope.map);
+        });
+        return google.maps.event.addListener($scope.map, 'zoom_changed', function() {
+          return updateMarkers($scope.map);
+        });
+      };
+      $scope.markGone = function(id) {
+        var post;
+        post = {
+          status: 'gone'
+        };
+        return $http.post("/api/posts/" + id + "/update", post).success(function() {
+          return AlertService.add('success', "Marked as gone");
+        }).error(function() {
+          return AlertService.add('warning', "Something went wrong");
+        });
+      };
+      $scope.menuToggle = function() {
+        return $scope.toggle = !$scope.toggle;
+      };
+      $scope.publish = function(status) {
+        if (UserService.currentUser) {
+          console.log($scope.editItem.id, '173');
+          return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
+            published: status
+          }).success(console.log('177'), $scope.editItem.published = status, console.log('178'), !status ? console.log('181') : console.log('184')).error(console.log);
+        }
+      };
+      $scope.removeDibber = function(id, description, postID) {
+        var report;
+        report = {
+          description: description
+        };
+        return $http.post('/api/dibs/' + id + '/removedib', {
+          report: report
+        }).success($scope.mystuff.posts[postID]['dibbable'] = true);
+      };
+      $scope.startMapper = function() {
+        var callback;
+        $scope.toggle = false;
+        showtab('giveStuff');
+        angular.forEach(MarkerService.markers, function(value, key) {
+          return value.marker.setMap(null);
+        });
+        angular.forEach($scope.giveflow, function(value, key) {
+          if (value[0] === true) {
+            return $scope.menuHeight = value[1];
+          }
+        });
+        google.maps.event.clearListeners($scope.map, 'dragend');
+        google.maps.event.clearListeners($scope.map, 'zoom_changed');
+        callback = function() {
+          return $scope.postMarker.setMap($scope.map);
+        };
+        if ($scope.postMarker) {
+          $scope.postMarker.setMap($scope.map);
+          return $scope.map.panTo($scope.postMarker.getPosition());
+        } else {
+          return updatePostMarker(callback, 6000, $scope.map);
+        }
+      };
+      $scope.submitPost = function() {
+        $scope.loading = true;
+        return UserService.check(function(blank, data) {
+          var formdata, token;
+          if (UserService.currentUser) {
+            token = $("meta[name=\"csrf-token\"]").attr("content");
+            formdata = new FormData();
+            formdata.append('latitude', $scope.post.latitude ? $scope.post.latitude : $scope.map.getCenter().lat());
+            formdata.append('longitude', $scope.post.longitude ? $scope.post.longitude : $scope.map.getCenter().lng());
+            formdata.append('category', $scope.post.category);
+            formdata.append('description', $scope.post.description);
+            formdata.append('on_the_curb', $scope.post.on_the_curb);
+            formdata.append('image', $scope.file);
+            $http.post("/api/posts", formdata, {
+              headers: {
+                'Content-Type': void 0,
+                'X-CSRF-TOKEN': token
+              },
+              transformRequest: angular.identity
+            }).success(function(data, status, headers, config) {
+              var post;
+              AlertService.add('success', "You've Posted Your Stuff");
+              $scope.cancelGive();
+              updateMarkers();
+              $scope.postMarker.setMap(null);
+              $scope.giveNext(1);
+              post = data.post;
+              post.image_url = $scope.current_image;
+              post.originalImage = $scope.current_image;
+              MarkerService.markers[post.id] = post;
+              MarkerService.createMarker(MarkerService.markers[post.id], post.id, $scope.map);
+              $scope.stuff = MarkerService.markers[post.id];
+              $scope.menuHeight = 'get-stuff-view';
+              $location.path('/post/' + post.id, false);
+              return showtab('details');
+            }).error(function(data) {
+              var key, value;
+              for (key in data) {
+                value = data[key];
+                AlertService.add('danger', key + ' ' + value);
+              }
+              return $scope.loading = false;
+            });
+          }
+          if (blank) {
+            console.log(blank);
+            AlertService.add('danger', 'Please sign in to continue');
+            $scope.loading = false;
+            return $modal.open({
+              templateUrl: 'signIn.html',
+              controller: 'SignUpCtrl'
+            });
+          }
+        });
+      };
+      $scope.updateStuff = function() {
+        return UserService.check(function() {
+          var formdata;
+          if (UserService.currentUser) {
+            formdata = new FormData();
+            formdata.append('latitude', $scope.editItem.latitude);
+            formdata.append('longitude', $scope.editItem.longitude);
+            formdata.append('category', $scope.editItem.category);
+            formdata.append('description', $scope.editItem.description);
+            formdata.append('on_the_curb', $scope.editItem.on_the_curb);
+            if ($scope.file) {
+              formdata.append('image', $scope.file);
+              $scope.loading = true;
+            }
+            return $http.post("/api/posts/" + $scope.editItem.id + "/update", formdata, {
+              headers: {
+                'Content-Type': void 0
+              },
+              transformRequest: angular.identity
+            }).success(function(data, status, headers, config) {
+              if ($scope.editMarker) {
+                $scope.editItem.marker.setPosition($scope.editMarker.getPosition());
+                $scope.editMarker.setMap(null);
+              }
+              AlertService.add('success', "Your post has been updated");
+              $scope.attached = false;
+              delete $scope.file;
+              $scope.loading = false;
+              return $scope.current_image = '';
+            }).error(function(data) {
+              var key, results, value;
+              results = [];
+              for (key in data) {
+                value = data[key];
+                results.push(AlertService.add('danger', key + ' ' + value));
+              }
+              return results;
+            });
+          } else {
+            AlertService.add('danger', 'Please sign in to continue');
+            return $modal.open({
+              templateUrl: 'signIn.html',
+              controller: 'SignUpCtrl'
+            });
+          }
+        });
+      };
+      $rootScope.$on("detailsWanted", function(event, args) {
+        var dets, id;
+        id = args.markerId;
+        MarkerService.updateWindow(id);
+        angular.forEach(MarkerService.markers, function(value, key) {
+          if (key !== String(id)) {
+            if (value.infowindow) {
+              return value.infowindow.close($scope.map, value.marker);
+            }
+          } else {
+            return value.infowindow.open($scope.map, value.marker);
+          }
+        });
+        dets = function() {
+          return $scope.getDetails(id, 'marker');
+        };
+        return $timeout(dets, 0);
+      });
+      $scope.$on("fileSelected", function(event, args) {
+        var MAX_HEIGHT, MAX_WIDTH, canvas, ctx, img, reader;
+        $scope.giveNext(2);
+        MAX_WIDTH = 800;
+        MAX_HEIGHT = 600;
+        img = document.createElement('img');
+        canvas = document.createElement('canvas');
+        ctx = canvas.getContext("2d");
+        reader = new FileReader();
+        img.addEventListener("load", function() {
+          var height, width;
+          ctx.drawImage(img, 0, 0);
+          width = img.width;
+          height = img.height;
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          return $scope.$apply(function() {
+            console.log(img.height);
+            $scope.attached = true;
+            $scope.current_image = canvas.toDataURL("image/png");
+            return $scope.file = $scope.current_image;
+          });
+        });
+        reader.onload = function() {
+          return img.src = reader.result;
+        };
+        return reader.readAsDataURL(args.file);
+      });
+      $scope.$on('mapInitialized', function(evt, map) {
+        var blank, self;
+        if ($routeParams.postId) {
+          $scope.getDetails($routeParams.postId, 'initial');
+        }
+        self = this;
+        MarkerService.setMap($scope.map);
+        updateMarkers($scope.map);
+        blank = function() {};
+        updatePostMarker(blank, 25000, $scope.map);
+        google.maps.event.addListener(map, 'dragend', function() {
+          return updateMarkers($scope.map);
+        });
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+          return updateMarkers($scope.map);
+        });
+        var center = map.getCenter();
+        LocationService.get()
+        .then(
+          function(position){
+            center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          },
+          function(err){ console.log('geolocation not supported') })
+        .then( function(){
+          $timeout(function(){
+            $scope.$apply(function() {
+              map.panTo(center);
+            });},0)
+        })
+      });
+      showtab = function(tab) {
+        return angular.forEach($scope.tabs, function(value, key) {
+          if (key === tab) {
+            return $scope.tabs[key] = true;
+          } else {
+            return $scope.tabs[key] = false;
+          }
+        });
+      };
+      updateMarkers = function(map) {
+        var neBounds, swBounds;
+        if (map) {
+          neBounds = map.getBounds().getNorthEast();
+          swBounds = map.getBounds().getSouthWest();
+          return $http({
+            url: '/api/posts/geolocated',
+            params: {
+              neLat: neBounds.lat(),
+              swLat: swBounds.lat(),
+              neLng: neBounds.lng(),
+              swLng: swBounds.lng()
+            }
+          }).success(function(data) {
+            var i, len, marker, ref, results;
+            ref = data.posts;
+            results = [];
+            for (i = 0, len = ref.length; i < len; i++) {
+              marker = ref[i];
+              if (marker.originalImage === 'missing') {
+                marker.originalImage = '/assets/processing.png';
+                marker.image_url = '/assets/processing.png';
+              }
+              if (!MarkerService.markers[marker.id]) {
+                results.push(MarkerService.createMarker(marker, marker.id, map));
+              } else if (MarkerService.markers[marker.id].updated_at < new Date(marker.updated_at)) {
+                console.log("this is a date");
+                MarkerService.markers[marker.id].marker.setMap(null);
+                results.push(MarkerService.createMarker(marker, marker.id, map));
+              } else {
+                results.push(void 0);
+              }
+            }
+            return results;
+          });
+        }
+      };
+      updatePostMarker = function(callback, timeout, map) {
+        var centerError, centerSuccess, geoOptions, resetMarker, self, updateMarker;
+        if (map) {
+          self = this;
+          self.callback = callback;
+          resetMarker = function() {
+            if ($scope.postMarker) {
+              return $scope.postMarker.setMap(null);
+            }
+          };
+          updateMarker = function(center) {
+            var updatePost;
+            resetMarker();
+            $scope.postMarker = new google.maps.Marker({
+              position: center,
+              draggable: true,
+              map: $scope.map,
+              title: 'Your Stuff',
+              icon: '/assets/red-pin.png'
+            });
+            updatePost = function() {
+              $scope.post.latitude = $scope.postMarker.getPosition().lat();
+              return $scope.post.longitude = $scope.postMarker.getPosition().lng();
+            };
+            google.maps.event.addListener($scope.postMarker, 'dragend', updatePost);
+            google.maps.event.addListener($scope.postMarker, 'idle', updatePost);
+            map.setZoom(12);
+            map.panTo(center);
+            $scope.post.latitude = $scope.postMarker.getPosition().lat();
+            $scope.post.longitude = $scope.postMarker.getPosition().lng();
+            $scope.postMarker.setMap(null);
+            return self.callback();
+          };
+          return LocationService.get()
+          .then(
+            function(position) {
+              var center;
+              center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              return updateMarker(center);
+            },
+            function(err) {
+              var center;
+              console.log("geolocation not supported or error");
+              center = $scope.map.getCenter();
+              return updateMarker(center);
+            }
+          );
+        }
+      };
+      return init();
+    }
+  ]);
+
+}).call(this);

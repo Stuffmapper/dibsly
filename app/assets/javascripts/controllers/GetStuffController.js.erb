@@ -1,0 +1,18 @@
+
+var controllers = angular.module('controllers');
+
+
+controllers.controller('GetStuffCtrl', ['$scope','MarkerService',
+  function ($scope,MarkerService){
+    $scope.$watchCollection('MarkerService', function(){
+      $scope.markers = MarkerService.markers;
+    });
+
+    $scope.showtab = function(tab){
+      angular.forEach($scope.tabs, function(value, key){
+        if(key == tab){
+          $scope.tabs[key] = true;
+        } else { $scope.tabs[key] = false }
+      });
+    };
+}]);
