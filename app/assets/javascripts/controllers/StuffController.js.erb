@@ -62,7 +62,7 @@
           draggable: true,
           map: $scope.map,
           title: $scope.editItem.description,
-          icon: '/assets/green-pin.png'
+          icon: '<%= asset_path('green-pin.png')%>'
         });
         updatePost = function() {
           $scope.editItem.latitude = $scope.editMarker.getPosition().lat();

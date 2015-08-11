@@ -5,16 +5,14 @@ var controllers = angular.module('controllers');
 controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
 'UserService',function ($scope, MarkerService, UserService){
 
-  $scope.UserService = UserService;
-  $scope.$watchCollection('UserService', function() {
-    $scope.currentUser = UserService.currentUser;
-  });
+  // $scope.$watchCollection('UserService', function() {
+  //   $scope.currentUser = UserService.currentUser;
+  // });
   $scope.$watchCollection('MarkerService', function(){
     $scope.markers = MarkerService.markers;
+    $scope.dibs = $scope.show('dibber');
+    $scope.posts = $scope.show('creator');
   });
-
-
-
 
   $scope.tabs = {
     myPosts: true,
@@ -31,10 +29,13 @@ controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
     };
     $scope.show = function(userStatus){
       var results = [];
-      angular.forEach( $scope.markers, function(value, key){
+      angular.forEach( MarkerService.markers, function(value, key){
         if(value[userStatus] === $scope.currentUser ){
           results.push(value);
-          console.log(value)
+          if(value.marker){
+
+            value.marker.setIcon(MarkerService.icons[userStatus])
+          }
         }
       });
       return results.sort(function(a, b){
@@ -45,5 +46,6 @@ controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
         } else { return 0;}
       });
     };
+
 
 }]);

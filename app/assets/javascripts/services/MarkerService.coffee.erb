@@ -3,6 +3,11 @@ factories.factory('MarkerService', [ '$http', '$resource','$rootScope'
   ($http, $resource, $rootScope )->
     Marker = $resource('/api/posts/:id', id:'@id' )
     markers: {}
+    icons: {
+      standard:'<%= asset_path('blue-circle.png')%>',
+      dibber: '<%= asset_path('my-want.png')%>',
+      creator:'<%= asset_path('my-marker.png')%>',
+      moving: '<%= asset_path('green-pin.png')%>' }
 
     createMarker: (value, key, map)->
        self = this
@@ -11,7 +16,7 @@ factories.factory('MarkerService', [ '$http', '$resource','$rootScope'
          zoom: 4
          center:latLng
        value.marker = new google.maps.Marker(
-        icon: '<%= asset_path('blue-circle.png')%>',
+        icon: self.icons.standard,
         position: latLng,
         map: map,
         title: value.description )

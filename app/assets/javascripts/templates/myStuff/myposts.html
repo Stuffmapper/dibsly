@@ -1,65 +1,14 @@
-<h4> My Posts </h4>
-<div ng-repeat="post in mystuff.posts track by $index"
-id="mystuff-{{post.id}}" ng-hide="post == undefined || !currentUser">
-  <div class ='col-lg-12 col-md-12 col-xs-12'>
-      <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
-      title={{stuff.description}}  ng-hide=editing  >
-        <div class= "stuff-image-container" >
-        <img class="stuff-image img-responsive"
-          ng-src={{post.image_url}} ></img>
-        </div>
-      </div>
-      <div class='col-lg-9 col-md-9 col-xs-9'>
-        <undib post="post.id" mystuff="post"
-        ng-hide="currentUser == post.creator"></undib>
-        <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
-        ng-click='edit(post.id)'
-        ng-show="currentUser == post.creator">
-          Edit
-        </button>
-        <button class= "btn-xs btn-default col-lg-4 col-md-4 col-xs-4"
-        ng-click='getDetails(post.id)'>
-          Details
-        </button>
-        <div class='col-lg-12 col-md-12 col-xs-12'
-            ng-hide='post.published'
-            >Unpublished
-        </div>
-        <div class='col-lg-12 col-md-12 col-xs-12' ng-show='post.published'
-           >Published
-        </div>
-        <ul ng-show='!post.dibbable'>
-          <li >
-            <p>Dibbed by: {{ post.currentDib.dibber}}<p>
-              <label for='undibReason'> Remove Current Dib </label>
-               <select class="form-control" id="undibReason"
-               placeholder="Select Reason" ng-model="undibReason" >
-                <option>missed pickup</option>
-                <option>dibber no longer wants item</option>
-                <option>dibber has flaked on previous pickup</option>
-                <option>other</option>
-              </select>
-              <button class= "btn-xs btn-default"
-              ng-click="removeDibber(post.currentDib.id, undibReason, post.id)"
-              >
-                Remove
-              </button>
-          </li>
-          <li>
-            <label for='goneReason'> Mark as Gone</label>
-            <select class="form-control"
-               id="goneReason" placeholder="Select Reason"
-               ng-model="goneReason" >
-                <option>dibber has picked up</option>
-                <option>item is no longer available</option>
-                <option>other</option>
-              </select>
-
-              <button class= "btn-xs btn-default"
-               ng-click="markGone(post.id, goneReason)">Update</button>
-          </li>
-        </ul>
-      </div>
-      <hr>
+<div ng-repeat="item in show('creator') | orderObjectBy:'updated_at':true track by $index" >
+  <div ng-show 'item.visible' class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
+    <div class= "stuff-image-container clearfix" ng-click=getDetails(item.id)>
+      <img class="stuff-image img-responsive" ng-src={{item.image_url}}
+      ng-click='markerWindow(item.id)' fallback-src ></img>
+    </div>
+    <div class="col-md-12">
+      <dib post="item.id"></dib>
+      <button class= "btn-xs btn-default"
+      ng-click=getDetails(item.id)
+      >Details</button>
+    </div>
   </div>
 </div>

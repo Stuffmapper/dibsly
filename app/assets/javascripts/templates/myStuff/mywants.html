@@ -1,25 +1,14 @@
-<h4> My Dibs </h4>
-<div ng-repeat="dib in mystuff.dibs track by $index"
- id="mystuff-{{dib.id}}" ng-hide="dib == undefined || !currentUser" >
- <div class ='col-lg-12 col-md-12 col-xs-12'>
-   <div class="stuff-view col-lg-3 col-md-3 col-xs-3"
-    title={{dib.description}}  ng-hide=editing  >
-      <div class= "stuff-image-container" >
-        <img class="stuff-image img-responsive"
-          ng-src={{dib.image_url}} ></img>
-      </div>
+<div ng-repeat="item in show('dibber') track by $index" >
+  <div ng-show 'item.visible' class="stuff-view col-lg-6 col-md-6 col-xs-6 " title={{item.description}} ng-attr-id={{item.id + '-stuff'}} ng-hide=viewing >
+    <div class= "stuff-image-container clearfix" ng-click=getDetails(item.id)>
+      <img class="stuff-image img-responsive" ng-src={{item.image_url}}
+      ng-click='markerWindow(item.id)' fallback-src ></img>
     </div>
-    <div class='col-lg-9 col-md-9 col-xs-9'>
-       <undib post="dib" mystuff="mystuff"
-       ng-hide="currentUser == dib.creator"></undib>
-       <button class= "btn-xs btn-default"
-       ng-click='edit(dib)'
-       ng-show="currentUser == dib.creator">Edit</button>
-
-       <button class= "btn-xs btn-default"
-       ng-click='getDetails(dib.id)'>Details</button>
+    <div class="col-md-12">
+      <dib post="item.id"></dib>
+      <button class= "btn-xs btn-default"
+      ng-click=getDetails(item.id)
+      >Details</button>
     </div>
-    <hr>
-    </div >
   </div>
 </div>
