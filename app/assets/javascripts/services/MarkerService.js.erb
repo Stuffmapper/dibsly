@@ -1,0 +1,114 @@
+(function() {
+  var factories;
+
+  factories = angular.module('factories');
+
+  factories.factory('MarkerService', [
+    '$http', '$resource', '$rootScope', function($http, $resource, $rootScope) {
+      var Marker;
+      Marker = $resource('/api/posts/:id', {
+        id: '@id'
+      });
+      return {
+        markers: {},
+        icons: {
+            standard:'<%= asset_path('blue-circle.png')%>',
+            dibber: '<%= asset_path('my-want.png')%>',
+            creator:'<%= asset_path('my-marker.png')%>',
+            moving: '<%= asset_path('green-pin.png')%>'
+          },
+
+        setGoogleMarker: function(marker){
+          if(!marker.marker) {
+            self = this;
+            latLng = new google.maps.LatLng(marker.latitude, marker.longitude);
+            options = {
+              zoom: 4,
+              center: latLng
+            };
+            marker.marker = new google.maps.Marker({
+              icon: self.icons.standard,
+              position: latLng,
+              map: self.map,
+              title: value.description
+            });
+          }
+          return google.maps.event.addListener(value.marker, 'click', function() {
+            return $rootScope.$broadcast('detailsWanted', {
+              markerId: value.id
+            });
+          });
+          return marker;
+        },
+
+        createMarker: function(value, key, map) {
+          var latLng, options, self;
+          self = this;
+          value.visible = true;
+          value.updated_at = new Date(value.updated_at);
+          value.locallyUpdated = Date.now();
+          self.setMarker(setGoogleMarker(value))
+        },
+
+        updateMarker: function(id, origin, callback) {
+          var self;
+          self = this;
+          return Marker.get({
+            id: id
+          }).$promise.then(function(post) {
+            if (post.post.originalImage === 'missing') {
+              if ($scope.markers[id]) {
+                post.post.originalImage = $scope.markers[id].originalImage;
+                post.post.image_url = $scope.markers[id].image_url;
+              } else {
+                post.post.originalImage = '<%= asset_path('processing.png')%>';
+                post.post.image_url = '<%= asset_path('processing.png')%>';
+              }
+            }
+            if (!self.markers[id]) {
+              self.markers[id] = post.post;
+              self.createMarker(post.post, post.id, self.map);
+            } else {
+              post.post.updated_at = new Date(post.updated_at);
+              angular.extend(self.markers[id], post.post);
+            }
+            if (origin !== 'marker') {
+              google.maps.event.trigger(self.markers[id].marker, 'click');
+            }
+            return callback();
+          });
+        },
+        updateWindow: function(id) {
+          var infowindow, innerContent, marker, self;
+          self = this;
+          marker = self.markers[id];
+          innerContent = "<div > <div id='siteNotice' class='stuff-map-image'></div> <img src=" + marker.image_url + " width='200px' ></img> <div id='bodyContent'> <p>" + marker.description + "</p> </div> </div> </div>";
+          if (!marker.description) {
+            marker.description = "";
+          }
+          if (!marker.infowindow) {
+            infowindow = new google.maps.InfoWindow({
+              content: innerContent
+            });
+            return marker.infowindow = infowindow;
+          } else {
+            return marker.infowindow.setContent(innerContent);
+          }
+        },
+        setMap: function(map) {
+          var self;
+          self = this;
+          return self.map = map;
+        },
+        setMarker: function(marker){
+          var self;
+          self = this;
+          if(!self.markers[marker.id]){
+            self.markers[marker.id] = marker;
+          } else { angular.extend(self.markers[marker.id], marker ) }
+        }
+      };
+    }
+  ]);
+
+}).call(this);

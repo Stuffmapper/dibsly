@@ -12,9 +12,7 @@
       });
       init = function() {
         $scope.backup = {};
-        return UserService.check(function(data, err) {
-          return console.log(data);
-        });
+        UserService.check();
       };
       $scope.attached = false;
       $scope.giveflow = {
@@ -116,34 +114,38 @@
         $location.path('/', false);
         showtab('myStuff');
         $scope.menuHeight = 'my-stuff-view';
-        return UserService.check(function(blank, data) {
-          var user;
+        return UserService.check()
+        .then(
+          function (data){
+            return $http.get('/api/my-stuff')
+              .success(function(data) {
+                angular.forEach(data.posts, function(marker) {
+                  MarkerService.createMarker(marker, marker.id, $scope.map);
+                });
+              })
+              .error( function(err){ console.log(' Could not get my-stuff')})
+          },
+          function(err){
+            console.log('User not logged in');
+          }
+        )
+        .then( function(){
           if (UserService.currentUser) {
-            user = data.user;
-            return $http.get('/api/my-stuff').success(function(data) {
-              var i, len, marker, ref, results;
-              ref = data.posts;
-              results = [];
-              for (i = 0, len = ref.length; i < len; i++) {
-                marker = ref[i];
-                results.push($scope.mystuff.posts[marker.id] = marker);
-              }
-              return results;
-            }).then(function(data) {
               return $http.get('/api/my-dibs').success(function(data) {
                 var i, len, marker, ref, results;
                 ref = data.posts;
                 results = [];
                 for (i = 0, len = ref.length; i < len; i++) {
                   marker = ref[i];
-                  results.push($scope.mystuff.dibs[marker.id] = marker);
+                  marker.dibber = UserService.currentUser;
+                  MarkerService.createMarker(marker, marker.id, $scope.map);
                 }
                 return results;
               });
-            });
-          }
+            }
+
         });
-      };
+      }
       $scope.getStuff = function() {
         $scope.toggle = false;
         $scope.menuHeight = 'get-stuff-view';
@@ -225,58 +227,61 @@
       };
       $scope.submitPost = function() {
         $scope.loading = true;
-        return UserService.check(function(blank, data) {
-          var formdata, token;
-          if (UserService.currentUser) {
-            token = $("meta[name=\"csrf-token\"]").attr("content");
-            formdata = new FormData();
-            formdata.append('latitude', $scope.post.latitude ? $scope.post.latitude : $scope.map.getCenter().lat());
-            formdata.append('longitude', $scope.post.longitude ? $scope.post.longitude : $scope.map.getCenter().lng());
-            formdata.append('category', $scope.post.category);
-            formdata.append('description', $scope.post.description);
-            formdata.append('on_the_curb', $scope.post.on_the_curb);
-            formdata.append('image', $scope.file);
-            $http.post("/api/posts", formdata, {
-              headers: {
-                'Content-Type': void 0,
-                'X-CSRF-TOKEN': token
-              },
-              transformRequest: angular.identity
-            }).success(function(data, status, headers, config) {
-              var post;
-              AlertService.add('success', "You've Posted Your Stuff");
-              $scope.cancelGive();
-              updateMarkers();
-              $scope.postMarker.setMap(null);
-              $scope.giveNext(1);
-              post = data.post;
-              post.image_url = $scope.current_image;
-              post.originalImage = $scope.current_image;
-              MarkerService.markers[post.id] = post;
-              MarkerService.createMarker(MarkerService.markers[post.id], post.id, $scope.map);
-              $scope.stuff = MarkerService.markers[post.id];
-              $scope.menuHeight = 'get-stuff-view';
-              $location.path('/post/' + post.id, false);
-              return showtab('details');
-            }).error(function(data) {
-              var key, value;
-              for (key in data) {
-                value = data[key];
-                AlertService.add('danger', key + ' ' + value);
+        return UserService.check()
+          .then(
+            function(){
+              var formdata, token;
+              if (UserService.currentUser) {
+                token = $("meta[name=\"csrf-token\"]").attr("content");
+                formdata = new FormData();
+                formdata.append('latitude', $scope.post.latitude ? $scope.post.latitude : $scope.map.getCenter().lat());
+                formdata.append('longitude', $scope.post.longitude ? $scope.post.longitude : $scope.map.getCenter().lng());
+                formdata.append('category', $scope.post.category);
+                formdata.append('description', $scope.post.description);
+                formdata.append('on_the_curb', $scope.post.on_the_curb);
+                formdata.append('image', $scope.file);
+                $http.post("/api/posts", formdata, {
+                  headers: {
+                    'Content-Type': void 0,
+                    'X-CSRF-TOKEN': token
+                  },
+                  transformRequest: angular.identity
+                }).success(function(data, status, headers, config) {
+                  var post;
+                  AlertService.add('success', "You've Posted Your Stuff");
+                  $scope.cancelGive();
+                  updateMarkers();
+                  $scope.postMarker.setMap(null);
+                  $scope.giveNext(1);
+                  post = data.post;
+                  post.image_url = $scope.current_image;
+                  post.originalImage = $scope.current_image;
+                  MarkerService.markers[post.id] = post;
+                  MarkerService.createMarker(MarkerService.markers[post.id], post.id, $scope.map);
+                  $scope.stuff = MarkerService.markers[post.id];
+                  $scope.menuHeight = 'get-stuff-view';
+                  $location.path('/post/' + post.id, false);
+                  return showtab('details');
+                }).error(function(data) {
+                  var key, value;
+                  for (key in data) {
+                    value = data[key];
+                    AlertService.add('danger', key + ' ' + value);
+                  }
+                  return $scope.loading = false;
+                });
               }
-              return $scope.loading = false;
-            });
-          }
-          if (blank) {
-            console.log(blank);
-            AlertService.add('danger', 'Please sign in to continue');
-            $scope.loading = false;
-            return $modal.open({
-              templateUrl: 'signIn.html',
-              controller: 'SignUpCtrl'
-            });
-          }
-        });
+            },
+            function(err){
+              console.log(err);
+              AlertService.add('danger', 'Please sign in to continue');
+              $scope.loading = false;
+              return $modal.open({
+                templateUrl: 'signIn.html',
+                controller: 'SignUpCtrl'
+              });
+            }
+          )
       };
       $scope.updateStuff = function() {
         return UserService.check(function() {

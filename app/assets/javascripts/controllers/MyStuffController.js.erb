@@ -29,15 +29,16 @@ controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
     };
     $scope.show = function(userStatus){
       var results = [];
-      angular.forEach( MarkerService.markers, function(value, key){
-        if(value[userStatus] === $scope.currentUser ){
-          results.push(value);
-          if(value.marker){
-
-            value.marker.setIcon(MarkerService.icons[userStatus])
+      if($scope.currentUser){
+        angular.forEach( MarkerService.markers, function(value, key){
+          if(value[userStatus] === $scope.currentUser ){
+            results.push(value);
+            if(value.marker){
+              value.marker.setIcon(MarkerService.icons[userStatus])
+            }
           }
-        }
-      });
+        });
+      }
       return results.sort(function(a, b){
         if(a.updated_at > b.updated_at){
           return -1;
