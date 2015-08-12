@@ -5,6 +5,7 @@ describe('MyStuffCtrl', function() {
   var controller,
   httpBackend,
   gmarker,
+  google,
   mockUserService,
   mockMarkerService,
   routeParams,
@@ -29,7 +30,7 @@ describe('MyStuffCtrl', function() {
       httpBackend = _$httpBackend_;
       spyOn(UserService,"check").andReturn( UserService.currentUser = 'Jack');
       $scope.currentUser = 'Jack';
-      gmarker = jasmine.createSpyObj('gmarker',['setIcon'])
+      gmarker = jasmine.createSpyObj('gmarker',['setIcon']);
       $scope.markers = {
        1:{dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
        2:{dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},

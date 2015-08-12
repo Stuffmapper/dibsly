@@ -20,9 +20,9 @@
 
         setGoogleMarker: function(marker){
           if(!marker.marker) {
-            self = this;
-            latLng = new google.maps.LatLng(marker.latitude, marker.longitude);
-            options = {
+            var self = this;
+            var latLng = new google.maps.LatLng(marker.latitude, marker.longitude);
+            var options = {
               zoom: 4,
               center: latLng
             };
@@ -30,24 +30,15 @@
               icon: self.icons.standard,
               position: latLng,
               map: self.map,
-              title: value.description
+              title: marker.description
             });
           }
-          return google.maps.event.addListener(value.marker, 'click', function() {
+          return google.maps.event.addListener(marker.marker, 'click', function() {
             return $rootScope.$broadcast('detailsWanted', {
               markerId: value.id
             });
           });
           return marker;
-        },
-
-        createMarker: function(value, key, map) {
-          var latLng, options, self;
-          self = this;
-          value.visible = true;
-          value.updated_at = new Date(value.updated_at);
-          value.locallyUpdated = Date.now();
-          self.setMarker(setGoogleMarker(value))
         },
 
         updateMarker: function(id, origin, callback) {
@@ -65,13 +56,7 @@
                 post.post.image_url = '<%= asset_path('processing.png')%>';
               }
             }
-            if (!self.markers[id]) {
-              self.markers[id] = post.post;
-              self.createMarker(post.post, post.id, self.map);
-            } else {
-              post.post.updated_at = new Date(post.updated_at);
-              angular.extend(self.markers[id], post.post);
-            }
+            self.setMarker(post.post)
             if (origin !== 'marker') {
               google.maps.event.trigger(self.markers[id].marker, 'click');
             }
@@ -100,12 +85,16 @@
           self = this;
           return self.map = map;
         },
+
         setMarker: function(marker){
           var self;
           self = this;
+          marker.updated_at = new Date(marker.updated_at);
+          marker.locallyUpdated = Date.now();
           if(!self.markers[marker.id]){
             self.markers[marker.id] = marker;
           } else { angular.extend(self.markers[marker.id], marker ) }
+          self.setGoogleMarker(self.markers[marker.id]);
         }
       };
     }

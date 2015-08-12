@@ -3,6 +3,14 @@ describe('MyStuffCtrl', function() {
 
 
   var MarkerService, gmarker, markers;
+  //Mocking google
+  //TODO replace with a better Mocking strategy
+  window.google = { maps: {
+      LatLng: function(){ return {} },
+      event: { addListener: function(){} },
+      Marker: function(){ return {thing: 'marker'} }
+    }
+  };
 
 
   beforeEach(module('stfmpr'));
@@ -13,7 +21,7 @@ describe('MyStuffCtrl', function() {
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       MarkerService = _MarkerService_;
     });
-    gmarker = jasmine.createSpyObj('gmarker',['setIcon'])
+    gmarker = jasmine.createSpyObj('gmarker',['setIcon', ])
     markers = {
      1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
      2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
@@ -32,6 +40,7 @@ describe('MyStuffCtrl', function() {
       expect(MarkerService).toBeDefined();
     });
   });
+
   describe('setMarker ', function() {
     it('sets a Marker', function() {
       setupController();
@@ -50,6 +59,18 @@ describe('MyStuffCtrl', function() {
       expect(MarkerService.markers[1].url).toEqual(info.url);
       expect(MarkerService.markers[1].url_image).toEqual(newinfo.url_image);
     });
+
+    it('creates a marker ', function() {
+      setupController();
+      var info = {id:1, url: 'this is a url'}
+      var newinfo = {id:1, url_image: 'this is a url'}
+      expect(MarkerService.markers[1]).toBeUndefined();
+      MarkerService.setMarker(info);
+      expect(MarkerService.markers[1]).toEqual(info);
+      MarkerService.setMarker(newinfo);
+      expect(MarkerService.markers[1].marker).not.toBeUndefined();
+    });
   });
+
 
 });

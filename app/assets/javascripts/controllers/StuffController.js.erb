@@ -120,7 +120,7 @@
             return $http.get('/api/my-stuff')
               .success(function(data) {
                 angular.forEach(data.posts, function(marker) {
-                  MarkerService.createMarker(marker, marker.id, $scope.map);
+                  MarkerService.setMarker(marker);
                 });
               })
               .error( function(err){ console.log(' Could not get my-stuff')})
@@ -138,7 +138,7 @@
                 for (i = 0, len = ref.length; i < len; i++) {
                   marker = ref[i];
                   marker.dibber = UserService.currentUser;
-                  MarkerService.createMarker(marker, marker.id, $scope.map);
+                  MarkerService.setMarker(marker);
                 }
                 return results;
               });
@@ -256,8 +256,7 @@
                   post = data.post;
                   post.image_url = $scope.current_image;
                   post.originalImage = $scope.current_image;
-                  MarkerService.markers[post.id] = post;
-                  MarkerService.createMarker(MarkerService.markers[post.id], post.id, $scope.map);
+                  MarkerService.setMarker(post);
                   $scope.stuff = MarkerService.markers[post.id];
                   $scope.menuHeight = 'get-stuff-view';
                   $location.path('/post/' + post.id, false);
@@ -444,24 +443,14 @@
           }).success(function(data) {
             var i, len, marker, ref, results;
             ref = data.posts;
-            results = [];
             for (i = 0, len = ref.length; i < len; i++) {
               marker = ref[i];
               if (marker.originalImage === 'missing') {
-                marker.originalImage = '/assets/processing.png';
-                marker.image_url = '/assets/processing.png';
+                marker.originalImage = '<%= asset_path('processing.png')%>';
+                marker.image_url = '<%= asset_path('processing.png')%>';
               }
-              if (!MarkerService.markers[marker.id]) {
-                results.push(MarkerService.createMarker(marker, marker.id, map));
-              } else if (MarkerService.markers[marker.id].updated_at < new Date(marker.updated_at)) {
-                console.log("this is a date");
-                MarkerService.markers[marker.id].marker.setMap(null);
-                results.push(MarkerService.createMarker(marker, marker.id, map));
-              } else {
-                results.push(void 0);
-              }
+              MarkerService.setMarker(marker);
             }
-            return results;
           });
         }
       };
