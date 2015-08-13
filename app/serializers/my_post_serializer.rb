@@ -1,7 +1,7 @@
 
 class MyPostSerializer < ActiveModel::Serializer
   #used for current user posts
-  attributes :id, :latitude, :longitude,
+  attributes :id, :isCurrentDibber,  :latitude, :longitude,
   :coords, :image_url,:description, :dibbable,
   :creator, :on_the_curb, :category, :published,
   :currentDib,:originalImage, :status
@@ -16,6 +16,9 @@ class MyPostSerializer < ActiveModel::Serializer
     else
       'hello'
     end
+  end
+  def isCurrentDibber
+    scope[:current_user] ?  object.current_dibber == scope[:current_user] : false
   end
 
   def originalImage

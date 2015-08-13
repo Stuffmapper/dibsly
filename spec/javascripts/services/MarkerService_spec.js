@@ -70,6 +70,65 @@ describe('MyStuffCtrl', function() {
       MarkerService.setMarker(newinfo);
       expect(MarkerService.markers[1].marker).not.toBeUndefined();
     });
+
+    it('creates a marker with show dib and show edit functions', function() {
+      setupController();
+      var info = {
+        id:1,
+        url: 'this is a url',
+        creator: 'someGuy',
+        currentUser: 'someGuy'
+      };
+      var info2 = {
+         id:2,
+         url: 'this is a url',
+         creator: 'someOtherGuy',
+         currentUser: 'someGuy',
+         dibbable: true}
+
+     var info3 = {
+        id:3,
+        url: 'this is a url',
+        creator: 'someOtherGuy',
+        currentUser: 'someGuy',
+        dibber: 'someGuy',
+        isCurrentDibber: true }
+
+      var info4 = {
+         id:4,
+         url: 'this is a url',
+         creator: 'someOtherGuy',
+         currentUser: 'someGuy',
+         dibbable: false}
+
+
+      expect(MarkerService.markers[1]).toBeUndefined();
+      MarkerService.setMarker(info);
+      expect(MarkerService.markers[1]).toEqual(info);
+      expect(MarkerService.markers[1].showEdit).toEqual(true);
+      expect(MarkerService.markers[1].showDib).toEqual(false);
+      expect(MarkerService.markers[1].showUnDib).toEqual(false)
+
+      expect(MarkerService.markers[2]).toBeUndefined();
+      MarkerService.setMarker(info2);
+      expect(MarkerService.markers[2]).toEqual(info);
+      expect(MarkerService.markers[2].showEdit).toEqual(false);
+      expect(MarkerService.markers[2].showDib).toEqual(true);
+      expect(MarkerService.markers[2].showUnDib).toEqual(false);
+
+      expect(MarkerService.markers[3]).toBeUndefined();
+      MarkerService.setMarker(info3);
+      expect(MarkerService.markers[3]).toEqual(info);
+      expect(MarkerService.markers[3].showEdit).toEqual(false);
+      expect(MarkerService.markers[3].showUnDib).toEqual(true);
+
+      expect(MarkerService.markers[4]).toBeUndefined();
+      MarkerService.setMarker(info4);
+      expect(MarkerService.markers[4]).toEqual(info);
+      expect(MarkerService.markers[4].showEdit).toEqual(false);
+      expect(MarkerService.markers[4].showUnDib).toEqual(true);
+
+    });
   });
 
 

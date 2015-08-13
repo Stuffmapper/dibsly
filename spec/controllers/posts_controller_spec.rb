@@ -321,6 +321,47 @@ RSpec.describe Api::PostsController, :type => :controller do
 			end
 		end
 	end
+	describe "Get my-dibs", :vcr => vcr_options do
+
+
+		before do
+			@user = create(:user)
+			@user2 = create(:user)
+			@post = create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  )
+			@post.create_new_dib @user2
+			@post.reload
+			@user2.reload
+				#create(:post, creator_id: @user.id, latitude:'47',longitude:'-122'  )
+		end
+
+		context 'without login' do
+			it 'should return 401' do
+				xhr :get, :my_dibs
+					expect(response.status).to eq(401)
+
+			end
+		end
+
+		context 'with login' do
+
+			it 'should return 200' do
+				sign_in(@user2)
+				xhr :get, :my_dibs
+					expect(response.status).to eq(200)
+			end
+
+			it 'should return my dibs' do
+				sign_in(@user2)
+				xhr :get, :my_dibs
+				parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['coords']
+					).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
+				expect(parsed_response['posts'][0]['isCurrentDibber']
+						).to eq true
+				expect(response.status).to eq(200)
+			end
+		end
+	end
 	describe "Get show", :vcr => vcr_options do
 		before do
 			@user = create(:user)
