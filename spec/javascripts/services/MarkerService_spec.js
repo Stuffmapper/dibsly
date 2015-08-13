@@ -82,7 +82,7 @@ describe('MyStuffController', function() {
 
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(info);
-      expect(MarkerService.markers[1]).toEqual(info);
+      expect(MarkerService.markers[1].id).toEqual(info.id);
       expect(MarkerService.markers[1].showEdit()).toEqual(true);
       expect(MarkerService.markers[1].showDib()).toEqual(false);
       expect(MarkerService.markers[1].showUnDib()).toEqual(false)
@@ -106,7 +106,7 @@ describe('MyStuffController', function() {
       expect(MarkerService.markers[2].id).toEqual(info2.id);
       expect(MarkerService.markers[2].showEdit()).toEqual(false);
       expect(MarkerService.markers[2].showDib()).toEqual(true);
-      //expect(MarkerService.markers[2].showUnDib()).toEqual(false);
+      expect(MarkerService.markers[2].showUnDib()).toEqual(false);
 
 
     });
@@ -123,7 +123,7 @@ describe('MyStuffController', function() {
 
       expect(MarkerService.markers[3]).toBeUndefined();
       MarkerService.setMarker(info3);
-      expect(MarkerService.markers[3]).toEqual(info3);
+      expect(MarkerService.markers[3].id).toEqual(info3.id);
       expect(MarkerService.markers[3].showEdit()).toEqual(false);
       expect(MarkerService.markers[3].showUnDib()).toEqual(true);
 
@@ -141,7 +141,7 @@ describe('MyStuffController', function() {
 
       expect(MarkerService.markers[4]).toBeUndefined();
       MarkerService.setMarker(info4);
-      expect(MarkerService.markers[4]).toEqual(info4);
+      expect(MarkerService.markers[4].id).toEqual(info4.id);
       expect(MarkerService.markers[4].showEdit()).toEqual(false);
       expect(MarkerService.markers[4].showUnDib()).toEqual(false);
       expect(MarkerService.markers[4].showDib()).toEqual(false);
