@@ -1,5 +1,5 @@
 
-describe('MyStuffCtrl', function() {
+describe('MyStuffController', function() {
 
 
   var MarkerService, gmarker, markers;
@@ -46,15 +46,15 @@ describe('MyStuffCtrl', function() {
       setupController();
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(markers[1])
-      expect(MarkerService.markers[1]).toEqual(markers[1]);
+      expect(MarkerService.markers[1].updated_at ).toEqual(markers[1].updated_at );
     });
-    it('extends extends a Marker', function() {
+    it('extends a Marker', function() {
       setupController();
       var info = {id:1, url: 'this is a url'}
       var newinfo = {id:1, url_image: 'this is a url'}
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(info);
-      expect(MarkerService.markers[1]).toEqual(info);
+      expect(MarkerService.markers[1].id).toEqual(info.id);
       MarkerService.setMarker(newinfo);
       expect(MarkerService.markers[1].url).toEqual(info.url);
       expect(MarkerService.markers[1].url_image).toEqual(newinfo.url_image);
@@ -66,7 +66,7 @@ describe('MyStuffCtrl', function() {
       var newinfo = {id:1, url_image: 'this is a url'}
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(info);
-      expect(MarkerService.markers[1]).toEqual(info);
+      expect(MarkerService.markers[1].id).toEqual(info.id);
       MarkerService.setMarker(newinfo);
       expect(MarkerService.markers[1].marker).not.toBeUndefined();
     });
@@ -79,12 +79,39 @@ describe('MyStuffCtrl', function() {
         creator: 'someGuy',
         currentUser: 'someGuy'
       };
+
+      expect(MarkerService.markers[1]).toBeUndefined();
+      MarkerService.setMarker(info);
+      expect(MarkerService.markers[1]).toEqual(info);
+      expect(MarkerService.markers[1].showEdit()).toEqual(true);
+      expect(MarkerService.markers[1].showDib()).toEqual(false);
+      expect(MarkerService.markers[1].showUnDib()).toEqual(false)
+
+
+    });
+
+
+    it('creates a marker that does not show editing info for non creators', function() {
+      setupController();
+
       var info2 = {
          id:2,
          url: 'this is a url',
          creator: 'someOtherGuy',
          currentUser: 'someGuy',
-         dibbable: true}
+         dibbable: true };
+
+      expect(MarkerService.markers[2]).toBeUndefined();
+      MarkerService.setMarker(info2);
+      expect(MarkerService.markers[2].id).toEqual(info2.id);
+      expect(MarkerService.markers[2].showEdit()).toEqual(false);
+      expect(MarkerService.markers[2].showDib()).toEqual(true);
+      //expect(MarkerService.markers[2].showUnDib()).toEqual(false);
+
+
+    });
+
+    it('creates a marker with that shows undib for current dibbers', function() {
 
      var info3 = {
         id:3,
@@ -92,44 +119,33 @@ describe('MyStuffCtrl', function() {
         creator: 'someOtherGuy',
         currentUser: 'someGuy',
         dibber: 'someGuy',
-        isCurrentDibber: true }
+        isCurrentDibber: true };
+
+      expect(MarkerService.markers[3]).toBeUndefined();
+      MarkerService.setMarker(info3);
+      expect(MarkerService.markers[3]).toEqual(info3);
+      expect(MarkerService.markers[3].showEdit()).toEqual(false);
+      expect(MarkerService.markers[3].showUnDib()).toEqual(true);
+
+    });
+
+    it('creates a marker that shows does not show dibs for the undibbable', function() {
+      setupController();
 
       var info4 = {
          id:4,
          url: 'this is a url',
          creator: 'someOtherGuy',
          currentUser: 'someGuy',
-         dibbable: false}
-
-
-      expect(MarkerService.markers[1]).toBeUndefined();
-      MarkerService.setMarker(info);
-      expect(MarkerService.markers[1]).toEqual(info);
-      expect(MarkerService.markers[1].showEdit).toEqual(true);
-      expect(MarkerService.markers[1].showDib).toEqual(false);
-      expect(MarkerService.markers[1].showUnDib).toEqual(false)
-
-      expect(MarkerService.markers[2]).toBeUndefined();
-      MarkerService.setMarker(info2);
-      expect(MarkerService.markers[2]).toEqual(info);
-      expect(MarkerService.markers[2].showEdit).toEqual(false);
-      expect(MarkerService.markers[2].showDib).toEqual(true);
-      expect(MarkerService.markers[2].showUnDib).toEqual(false);
-
-      expect(MarkerService.markers[3]).toBeUndefined();
-      MarkerService.setMarker(info3);
-      expect(MarkerService.markers[3]).toEqual(info);
-      expect(MarkerService.markers[3].showEdit).toEqual(false);
-      expect(MarkerService.markers[3].showUnDib).toEqual(true);
+         dibbable: false };
 
       expect(MarkerService.markers[4]).toBeUndefined();
       MarkerService.setMarker(info4);
-      expect(MarkerService.markers[4]).toEqual(info);
-      expect(MarkerService.markers[4].showEdit).toEqual(false);
-      expect(MarkerService.markers[4].showUnDib).toEqual(true);
+      expect(MarkerService.markers[4]).toEqual(info4);
+      expect(MarkerService.markers[4].showEdit()).toEqual(false);
+      expect(MarkerService.markers[4].showUnDib()).toEqual(false);
+      expect(MarkerService.markers[4].showDib()).toEqual(false);
 
     });
   });
-
-
 });
