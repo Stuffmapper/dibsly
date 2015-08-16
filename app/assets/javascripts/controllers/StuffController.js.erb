@@ -120,6 +120,7 @@
             return $http.get('/api/my-stuff')
               .success(function(data) {
                 angular.forEach(data.posts, function(marker) {
+                  marker.currentUser = UserService.currentUser;
                   MarkerService.setMarker(marker);
                 });
               })
@@ -137,6 +138,7 @@
                 results = [];
                 for (i = 0, len = ref.length; i < len; i++) {
                   marker = ref[i];
+                  marker.currentUser = UserService.currentUser;
                   marker.dibber = UserService.currentUser;
                   MarkerService.setMarker(marker);
                 }
@@ -449,6 +451,7 @@
                 marker.originalImage = '<%= asset_path('processing.png')%>';
                 marker.image_url = '<%= asset_path('processing.png')%>';
               }
+              marker.currentUser = UserService.currentUser;
               MarkerService.setMarker(marker);
             }
           });

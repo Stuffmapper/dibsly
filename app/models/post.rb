@@ -37,7 +37,7 @@ class Post < ActiveRecord::Base
 
   def details
      #keep the name the same as dib model (it's used by the conversable model)
-   { :image_url => self.image_url,
+   { :image_url => self.image.url(:medium),
     :posted => self.published,
     :created => self.created_at,
     :dibbed => self.status == 'dibbed',

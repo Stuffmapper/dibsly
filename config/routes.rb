@@ -13,16 +13,17 @@ Dibsly::Application.routes.draw do
     get 'log_out' => 'sessions#destroy', :as => 'log_out'
     get '/auth/check' => 'sessions#check'
 
-    post 'users' => 'users#create'
     post 'users/email/:confirmation' => 'users#confirm_email'
 
     post 'users/:id', :to => 'users#show', :as => :user
-    post 'presets' => 'users#presets'
+    resources :users, only: [:show, :create, :update]
 
     get  'messages/status', :to => 'messages#inbox_status'
     post 'messages/:id', :to => 'messages#reply'
     get  'chat/:id', :to => 'messages#dib_or_post_chat'
     resources :messages, only: [:show, :create, :index]
+    resources :images, only: [:create ]
+
 
     get 'posts' => 'posts#index'
     post 'posts' => 'posts#create'

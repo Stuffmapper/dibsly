@@ -109,8 +109,57 @@ RSpec.describe Api::UsersController, :type => :controller do
 
     end
 
-
-
   end
+  describe "Post update" do
+    before do
+      @current_user = create(:user )
+      @other_user = create(:user )
+    end
 
+    context "without login" do
+      it 'should 422' do
+        xhr :post, :update, id:  @current_user.id, user:  { first_name: 'NewName', last_name: 'NewLastName' }
+        expect(response.status).to eq(401)
+      end
+    end
+
+    context "with login" do
+      it 'should 200' do
+        sign_in @current_user
+        xhr :post, :update, id:  @current_user.id, user: { first_name: 'NewName', last_name: 'NewLastName' }
+        expect(response.status).to eq(200)
+      end
+
+      it 'should 422 with the wrong user' do
+        expect(@other_user.first_name).to_not eq 'NewName'
+        sign_in @current_user
+        xhr :post, :update, id:  @other_user.id
+        expect(response.status).to eq(401)
+        @other_user.reload
+        expect(@other_user.first_name).to_not eq 'NewName'
+      end
+
+      it 'should update the user' do
+        sign_in @current_user
+        xhr :post, :update, id:  @current_user.id, user: { first_name: 'NewName', last_name: 'NewLastName' }
+        expect(response.status).to eq(200)
+        @current_user.reload
+        expect(@current_user.first_name).to eq 'NewName'
+      end
+      
+      it 'should not work with the a duplicate username' do
+        sign_in @current_user
+        xhr :post, :update, id:  @current_user.id, user: { first_name: 'NewName',
+           last_name: 'NewLastName',
+           username: @other_user.username}
+        expect(response.status).to eq(422)
+        @current_user.reload
+        expect(@current_user.first_name).to_not eq 'NewName'
+        expect(@current_user.first_name).to_not eq  @other_user.username
+      end
+
+
+
+    end
+  end
 end

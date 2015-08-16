@@ -183,4 +183,4 @@ The local code for the angular features can be found in `app/assets/javascripts`
 
 green #4Ab29C
 grey #555
-blue-pin  
+blue-pin #0077BA
