@@ -1,5 +1,5 @@
 
-describe('MyStuffController', function() {
+describe('MarkerService', function() {
 
 
   var MarkerService, gmarker, markers;
