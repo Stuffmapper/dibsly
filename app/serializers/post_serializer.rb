@@ -1,16 +1,23 @@
+
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :latitude, :longitude,
+  #used for current user posts
+  attributes :id, :isCurrentDibber,  :latitude, :longitude,
   :coords, :image_url,:description, :dibbable,
   :creator, :on_the_curb, :category, :published,
-  :originalImage,:updated_at, :status
+  :currentDib,:originalImage, :status, :updated_at, :title
+  has_many :dibs
 
-  def creator
-    object.user.username
+
+  def currentDib
+    dibObject =  scope[:current_user] && object.current_dibber ?  {
+      'dibber': object.current_dibber.username,
+      'id': object.current_dib.id } : false
   end
 
-  def coords
-    {'latitude'=> self.latitude, 'longitude'=> self.longitude }
+  def isCurrentDibber
+    scope[:current_user] ?  object.current_dibber == scope[:current_user] : false
   end
+
   def originalImage
     object.image.url
   end
@@ -19,9 +26,18 @@ class PostSerializer < ActiveModel::Serializer
     object.image.url(:medium)
   end
 
-  def dibbable
-  	object.available_to_dib?
+
+  def coords
+    {'latitude'=> self.latitude, 'longitude'=> self.longitude }
   end
 
+  def dibbable
+    object.available_to_dib?
+  end
+
+
+  def creator
+    object.user.username
+  end
 
 end

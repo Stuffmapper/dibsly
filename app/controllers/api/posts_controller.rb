@@ -114,7 +114,7 @@ class Api::PostsController < ApplicationController
                  current_user)
 
 
-      render json:  @posts, each_serializer: MyPostSerializer, status: :ok
+      render json:  @posts, each_serializer: PostSerializer, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
     end
@@ -124,7 +124,7 @@ class Api::PostsController < ApplicationController
     if (current_user)
 
       @dibs = current_user.dib_posts
-      render json:  @dibs, each_serializer: MyPostSerializer, status: :ok
+      render json:  @dibs, each_serializer: PostSerializer, status: :ok
     else
       render json: {message: 'User not logged in' }, status: :unauthorized
     end

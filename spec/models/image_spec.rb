@@ -16,7 +16,6 @@ RSpec.describe Image, type: :model do
       image = Image.create
       expect(image.save).to eq false
       image.image = fixture_file_upload(Rails.root.join("spec/factories/shoes.txt"), 'image/png')
-      byebug
       expect(image.save).to eq false
     end
   end

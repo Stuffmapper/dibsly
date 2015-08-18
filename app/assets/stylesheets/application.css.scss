@@ -35,6 +35,16 @@ body{
 }
 
 /*** Helper ***/
+.search-input{
+	padding-left: 30px;
+}
+
+.search-magnify{
+	position: absolute;
+	padding: 10px;
+	color: grey;
+}
+
 .center-pin{
 	z-index:4;
 }
@@ -60,7 +70,6 @@ body{
 }
 .percent-padding{
 	min-height: 40px;
-	height: 10%
 }
 
 .img-preview{
@@ -245,7 +254,7 @@ nav{
     font-size: 1.2em;
     padding:0 0 15px 0;
 		overflow: hidden;
-		height: 90%;
+		height: calc(100% - 40px);
 }
 
 .toggle{
@@ -309,10 +318,11 @@ nav{
 	border: 1px solid darkgrey;
 }
 .stuff-view{
-	display:inline-block;
-	float:left;
-	margin-top:5px;
-	min-height: 145px;
+	margin: 0px;
+	padding:0;
+	height: 170px;
+	border: 1px solid grey;
+	overflow: hidden;
 }
 
 .stuff-description{
@@ -426,12 +436,15 @@ nav{
 	.stuffmapper-menu{
 		position: absolute;
 		padding: 0;
-		bottom: 0px;
+		height: 60%;
 		margin-right: 0;
 	}
 	.get-stuff-view, .my-stuff-view{
-		top:100px;
+
 		background-color: rgba(255,255,255,0.5)
+	}
+	#google-map-container{
+		top:60%;
 	}
 
 }
@@ -445,9 +458,9 @@ nav{
  								margin-left: 0px;
  								margin-right: 0px;
  								margin-bottom: 0px;
-								height:100%;
- 								top: 35px;
+								height:calc(100% - 40px);
  								left: 0px;
+								bottom:0px;
  								overflow: hidden;
  								position: absolute;
  								background-color: rgb(229, 227, 223);

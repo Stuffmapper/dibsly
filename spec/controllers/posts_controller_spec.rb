@@ -89,6 +89,23 @@ RSpec.describe Api::PostsController, :type => :controller do
 				expect(response.status).to eq(200)
 			end
 
+			it "returns a post with a category and title" do
+
+				@post.latitude = '47'
+				@post.longitude = '-122'
+				@post.category = 'Electronics'
+				@post.title = 'Old TV'
+				@post.save!
+
+				xhr :get, :geolocated, :neLat => 48, :neLng => -121, :swLat => 46, :swLng => -123
+					#ugly need to fix
+					parsed_response = JSON.parse(response.body.as_json)
+				expect(parsed_response['posts'][0]['id'] ).to eq @post.id
+				expect(parsed_response['posts'][0]['title'] ).to eq @post.title
+				expect(parsed_response['posts'][0]['category'] ).to eq @post.category
+				expect(response.status).to eq(200)
+			end
+
 
 			it "does not return a dibbed item  " do
 			   @post.latitude = '47'
