@@ -2,16 +2,14 @@
 
 
 <div ng-controller='StuffCtrl'>
-  <div class="overlap full-height"  >
-    <div class="row percent-padding"></div>
+  <div class="overlap full-height" >
+
+
 
     <div class="col-md-4 col-lg-4
-    col-sm-4 col-xs-12
-    col-sm-offset-8
-    col-md-offset-8
-    col-lg-offset-8
+    col-sm-4 col-xs-12 pull-right
     stuffmapper-menu"
-    ng-class="toggle ? 'toggle' : menuHeight "
+    ng-class="menuHeight "
     >
 
       <ul class="sm-tabs">
@@ -20,17 +18,6 @@
         <li class="col-md-4 col-lg-4 col-xs-4"
         active='tabs.getStuff'
         ng-class="tabs.getStuff ?  'tab-clicked' : 'tab-unclicked'">
-          <div class="menu-toggle">
-            <span ng-click='menuToggle()'
-            class="glyphicon glyphicon-chevron-down"
-            aria-hidden="true"
-            ng-hide='toggle'></span>
-            <span ng-click='menuToggle()'
-            class="glyphicon glyphicon-chevron-up"
-            aria-hidden="true"
-            ng-show='toggle'>
-            </span>
-          </div>
           <a href='#' ng-click='getStuff()'>
             <h4>Get Stuff</h4>
           </a>
@@ -39,7 +26,7 @@
         <li class="col-md-4 col-lg-4 col-xs-4"
         active='tabs.giveStuff'
         ng-class="tabs.giveStuff ?  'tab-clicked' : 'tab-unclicked'">
-          <a href= '#' ng-click='startMapper()'>
+          <a href= '#' ng-click='giveStuff()'>
             <h4>Give Stuff</h4>
           </a>
         </li>
@@ -67,12 +54,13 @@
 
 
   	</div>
-  </div>
-
-  <div class="container-fluid" id="map-container"  >
-    <map id="google-map-container" center={{mapCenter}} zoom="12" >
-      <span class="glyphicon glyphicon-screenshot center-map"  aria-hidden="true"></span>
+    <map class="col-md-8 col-lg-8 col-sm-8 col-xs-12 pull-left
+    google-map-container" ng-class='mapHeight' center={{mapCenter}} zoom="12" >
+      <span class="glyphicon glyphicon-screenshot center-map"
+        ng-click='centerMap()'
+        aria-hidden="true"></span>
     </map>
+
   </div>
 
 </div>

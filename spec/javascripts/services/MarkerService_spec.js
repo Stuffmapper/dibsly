@@ -148,4 +148,48 @@ describe('MarkerService', function() {
 
     });
   });
+  describe('Marker properties categories', function() {
+    it('is defined', function() {
+      setupController();
+      expect(MarkerService.categories).toBeDefined
+      var info = {
+         id:1,
+         url: 'this is a url',
+         creator: 'someOtherGuy',
+         currentUser: 'someGuy',
+         dibbable: false };
+      MarkerService.setMarker(info);
+      expect(MarkerService.editProperties ).toBeDefined
+
+      expect(MarkerService.categories ).toBeDefined();
+    });
+    it('attaches  a list editable properties to the marker', function() {
+      setupController();
+
+      expect(MarkerService.editProperties ).toEqual(
+        [ 'category',
+          'description',
+          'latitude',
+          'longitude',
+          'on_the_curb',
+          'published',
+          'title'
+        ]
+      );
+    });
+
+    it('has a list of categories', function(){
+      setupController();
+      expect(MarkerService.categories ).toEqual(
+      ['Arts &amp; Crafts',
+      'Books, Games, Media',
+      'Building &amp; Garden Materials',
+      'Clothing &amp; Accessories',
+      'Electronics',
+      'Furniture &amp; Household',
+      'General',
+      'Kids &amp; Babies',
+      'Recreation'] );
+    });
+  });
 });

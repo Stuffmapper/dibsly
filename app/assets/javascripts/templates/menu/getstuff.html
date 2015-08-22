@@ -29,4 +29,16 @@
      <div ng-include src="'misc/marker.html'"></div>
    </div>
 
+   <div class="menu-toggle">
+     <span ng-click='menuToggle()'
+     class="glyphicon glyphicon-chevron-down"
+     aria-hidden="true"
+     ng-hide='toggle'></span>
+     <span ng-click='menuToggle()'
+     class="glyphicon glyphicon-chevron-up"
+     aria-hidden="true"
+     ng-show='toggle'>
+     </span>
+   </div>
+
 </div>

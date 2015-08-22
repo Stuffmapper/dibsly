@@ -19,15 +19,45 @@
       Marker.prototype.showUnDib = function() {
         var self = this
         return self.isCurrentDibber ? true : false };
+      Marker.prototype.editProperties = function(){
+        return [  'category',
+                  'description',
+                  'latitude',
+                  'longitude',
+                  'published',
+                  'title'
+                ];
+      };
       return {
+        editProperties: [
+          'category',
+          'description',
+          'latitude',
+          'longitude',
+          'on_the_curb',
+          'published',
+          'title'
+        ],
         markers: {},
+        map: null,
         icons: {
             standard:'<%= asset_path('blue-circle.png')%>',
             dibber: '<%= asset_path('my-want.png')%>',
             creator:'<%= asset_path('my-marker.png')%>',
-            moving: '<%= asset_path('green-pin.png')%>'
+            moving: '<%= asset_path('green-pin.png')%>',
+            new: '<%= asset_path('pin.svg')%>'
           },
-
+        categories:[
+          'Arts &amp; Crafts',
+          'Books, Games, Media',
+          'Building &amp; Garden Materials',
+          'Clothing &amp; Accessories',
+          'Electronics',
+          'Furniture &amp; Household',
+          'General',
+          'Kids &amp; Babies',
+          'Recreation'
+        ],
         setGoogleMarker: function(marker){
           if(!marker.marker) {
             var self = this;
@@ -44,8 +74,8 @@
             });
           }
           return google.maps.event.addListener(marker.marker, 'click', function() {
-            return $rootScope.$broadcast('detailsWanted', {
-              markerId: value.id
+            $rootScope.$broadcast('detailsWanted', {
+              markerId: marker.id
             });
           });
           return marker;
@@ -93,7 +123,7 @@
         setMap: function(map) {
           var self;
           self = this;
-          return self.map = map;
+          self.map = map;
         },
 
         setMarker: function(marker){

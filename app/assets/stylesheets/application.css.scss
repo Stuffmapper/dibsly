@@ -26,13 +26,87 @@ $green: #4fd67b; /* letter */
 $white: white; /* letter */
 $grey: lightgrey; /* letter */
 
+$green: #4Ab29C;
+$grey: #555;
+$blue: #0077BA;
+
+/*** heights ***/
+
+$navheight: 40px;
+
+$menu-0-height:160px;
+$menu-1-height:200px;
+$menu-2-height:160px;
+
+
 body{
 	width: 100%;
 	overflow: hidden;
 }
+
 .full-height{
 	height: 100vh;
 }
+
+
+
+/*** marker***/
+.floating{
+	padding: 5px;
+	position: absolute;
+	background-color: lightgray;
+	font-size: 9px;
+}
+
+.stuff-category{
+	top: 4px;
+	font-weight: 900;
+
+}
+.stuff-title{
+	font-weight: 900;
+
+}
+.stuff-details{
+
+}
+
+/*** TEXT STYLES ***/
+.text-0{
+	font-size: 12px;
+}
+.text-0-bold{
+ font-size: 12px;
+ font-weight: 800;
+}
+.text-1{
+	font-size: 12px;
+	color:blue;
+}
+
+
+
+/*** Menu Heights ***/
+.menu-0{
+	height: 100%;
+	margin-top: $navheight;
+	padding-bottom: $navheight;
+	margin-bottom: -$navheight;
+}
+.menu-1{
+	height: 100%;
+	margin-top: $navheight;
+	margin-bottom: - $navheight;
+	padding-bottom: $navheight;
+}
+
+.menu-2{
+	height: 100%;
+	margin-top: $navheight;
+	margin-bottom: - $navheight;
+	padding-bottom: $navheight;
+}
+
 
 /*** Helper ***/
 .search-input{
@@ -45,8 +119,25 @@ body{
 	color: grey;
 }
 
-.center-pin{
-	z-index:4;
+.center-map{
+	position: absolute;
+	z-index: 10;
+	top: 50px;
+	right: 20px;
+	background-color: lightgrey;
+	padding: 8px;
+	font-size: 20px;
+	border: 1px solid gray;
+	color: gray;
+}
+.more-left{
+	right:500px;
+}
+.emoji-size{
+	max-height: 15px;
+	max-width: 15px;
+	display: inline;
+	margin: 0;
 }
 .close-x{
 	position: relative;
@@ -69,7 +160,7 @@ body{
 	margin-top: 50px;
 }
 .percent-padding{
-	min-height: 40px;
+	min-height: $navheight;
 }
 
 .img-preview{
@@ -81,12 +172,31 @@ body{
 	max-width: 50px;
 	margin-right:10px;
 }
+
+/*** Button ***/
+
 .stuff-btn{
+	padding:4px;
+	text-align: center;
+	position: relative;
+	margin-top: 5px;
 	color: $white;
 	font-size: 1.5rem;
-	padding:4px;
-	margin-top: 5px;
-	background-color: $turqblue;
+	background-color: $grey;
+	span{
+		vertical-align: middle;
+	}
+}
+.file-btn{
+	position: absolute;
+	z-index: 15;
+	top:0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+}
+.green-btn{
+	background-color: $green;
 }
 #loading-thumbnail{
 	height:40px;
@@ -103,7 +213,7 @@ nav{
 
 #main-navbar{
 	background: $darkblue;
-	height:40px;
+	height:$navheight;
 	position: fixed;
 	top:0px;
 }
@@ -191,10 +301,54 @@ nav{
 			}
 		}
 	}
+		/*** Map Heights ***/
+		.map-0{
+			position: fixed;
+			top:$menu-0-height + $navheight;
+			bottom: 0;
+		}
+		.map-1{
+			position: fixed;
+			top:$menu-1-height + $navheight;
+			bottom:0;
+			height: auto;
+		}
+		.map-2{
+			height: 100% !important;
+		}
+
+		/*** Menu Heights ***/
+		.menu-0{
+			height:$menu-0-height;
+			padding-bottom: 0;
+		}
+		.menu-1{
+			height:$menu-1-height;
+			padding-bottom: 0;
+		}
+		.menu-2{
+			height:$menu-2-height;
+			padding-bottom: 0;
+		}
+
 
 
 }
 
+@media (min-width:769px){
+	/*** Map Heights ***/
+	.map-0{
+		height: 100% !important;
+	}
+	.map-1{
+		height: 100% !important;
+
+	}
+	.map-2{
+		height: 100% !important;
+	}
+
+}
 
 
 
@@ -252,9 +406,10 @@ nav{
 	  border-radius: 5px;
     z-index: 2;
     font-size: 1.2em;
-    padding:0 0 15px 0;
+		margin-top: $navheight;
+		margin-bottom: -$navheight;
+    padding:0 0 $navheight 0;
 		overflow: hidden;
-		height: calc(100% - 40px);
 }
 
 .toggle{
@@ -323,6 +478,7 @@ nav{
 	height: 170px;
 	border: 1px solid grey;
 	overflow: hidden;
+	position: relative;
 }
 
 .stuff-description{
@@ -434,35 +590,28 @@ nav{
 		padding: 0;
 	}
 	.stuffmapper-menu{
-		position: absolute;
 		padding: 0;
-		height: 60%;
 		margin-right: 0;
+		margin-top: $navheight;
+		margin-bottom: -$navheight;
 	}
+
 	.get-stuff-view, .my-stuff-view{
 
 		background-color: rgba(255,255,255,0.5)
 	}
-	#google-map-container{
-		top:60%;
-	}
-
 }
 @media (min-width: 768px) {
 
 }
 
 /**** MAPS ****/
-#google-map-container {
- 								width: 100%;
+.google-map-container{
  								margin-left: 0px;
  								margin-right: 0px;
  								margin-bottom: 0px;
-								height:calc(100% - 40px);
- 								left: 0px;
-								bottom:0px;
+								padding:0;
  								overflow: hidden;
- 								position: absolute;
  								background-color: rgb(229, 227, 223);
  								z-index: 1;
  								}
