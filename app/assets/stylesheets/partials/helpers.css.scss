@@ -1,0 +1,133 @@
+
+/*** Margins ***/
+
+.add-margin-top-15{
+	margin-top: 15px;
+}
+
+.add-side-margin-10{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.add-margin-top-50{
+	margin-top: 50px;
+}
+
+.to-edge{
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 1px;
+}
+
+/*** HEIGHTS ***/
+
+
+/*** Menu Heights ***/
+
+.menu-0{
+	height: 100%;
+	margin-top: $navheight;
+	padding-bottom: $navheight;
+	margin-bottom: -$navheight;
+}
+.menu-1{
+	height: 100%;
+	margin-top: $navheight;
+	margin-bottom: - $navheight;
+	padding-bottom: $navheight;
+}
+
+.menu-2{
+	height: 100%;
+	margin-top: $navheight;
+	margin-bottom: - $navheight;
+	padding-bottom: $navheight;
+}
+
+@media (max-width: 768px) {
+		/*** Map Heights ***/
+  .map-0{
+  	position: fixed;
+  	top:$menu-0-height + $navheight;
+  	bottom: 0;
+  }
+  .map-1{
+  	position: fixed;
+  	top:$menu-1-height + $navheight;
+  	bottom:0;
+  	height: auto;
+  }
+  .map-2{
+  	height: 100% !important;
+  }
+
+  /*** Menu Heights ***/
+  .menu-0{
+  	height:$menu-0-height;
+  	padding-bottom: 0;
+  }
+  .menu-1{
+  	height:$menu-1-height;
+  	padding-bottom: 0;
+  }
+  .menu-2{
+  	height:$menu-2-height;
+  	padding-bottom: 0;
+  }
+}
+
+@media (min-width:769px){
+	/*** Map Heights ***/
+  .map-0{
+  	height: 100% !important;
+  }
+  .map-1{
+  	height: 100% !important;
+
+  }
+  .map-2{
+  	height: 100% !important;
+  }
+}
+
+
+/*** RESPONSIVE VISIBILITY HELPERS  ****/
+
+/*** meant to correspond to the bootstrap grid**/
+@media (max-width:768px){
+	.col-sm-hide{
+		display:none !important;
+	}
+	.col-sm-bottom{
+		position: absolute;
+		left:0;
+		bottom:0;
+	}
+
+}
+
+@media (min-width:768px) and ( max-width:1200px){
+	/*** Map Heights ***/
+	.col-md-hide{
+		display:none !important;
+	}
+	.col-md-bottom{
+		position:absolute;
+		left:0;
+		bottom:0;
+	}
+
+}
+@media (min-width:1200px){
+	.col-lg-hide{
+		display:none !important;
+	}
+	.col-lg-bottom{
+		position:absolute;
+		bottom:0;
+		left: 0;
+	}
+
+}

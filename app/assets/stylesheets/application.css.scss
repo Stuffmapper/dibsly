@@ -13,30 +13,26 @@
 
 /* html labels */
 
+//Not for bootstrap media queries
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+// @media (min-width: @screen-sm-min) { ... }
+//
+// /* Medium devices (desktops, 992px and up) */
+// @media (min-width: @screen-md-min) { ... }
+//
+// /* Large devices (large desktops, 1200px and up) */
+// @media (min-width: @screen-lg-min) { ... }
+
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap-sprockets";
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap";
-
-$darkblue: #445d75; /* navbar */
-$black: #5e5e5e; /* stuff header background */
-$purple-button: #784b87; /* give stuff button */
-$turquoise: #a7e3ee; /* camera button */
-$turqblue: #6b8598; /* camera outline */
-$bluedot: #037fc2; /* blue dot */
-$green: #4fd67b; /* letter */
-$white: white; /* letter */
-$grey: lightgrey; /* letter */
-
-$green: #4Ab29C;
-$grey: #555;
-$blue: #0077BA;
-
-/*** heights ***/
-
-$navheight: 40px;
-
-$menu-0-height:160px;
-$menu-1-height:200px;
-$menu-2-height:160px;
+@import "partials/variables";
+@import "partials/components";
+@import "partials/helpers";
+@import "menu/menu";
 
 
 body{
@@ -47,7 +43,6 @@ body{
 .full-height{
 	height: 100vh;
 }
-
 
 
 /*** marker***/
@@ -71,42 +66,6 @@ body{
 
 }
 
-/*** TEXT STYLES ***/
-.text-0{
-	font-size: 12px;
-}
-.text-0-bold{
- font-size: 12px;
- font-weight: 800;
-}
-.text-1{
-	font-size: 12px;
-	color:blue;
-}
-
-
-
-/*** Menu Heights ***/
-.menu-0{
-	height: 100%;
-	margin-top: $navheight;
-	padding-bottom: $navheight;
-	margin-bottom: -$navheight;
-}
-.menu-1{
-	height: 100%;
-	margin-top: $navheight;
-	margin-bottom: - $navheight;
-	padding-bottom: $navheight;
-}
-
-.menu-2{
-	height: 100%;
-	margin-top: $navheight;
-	margin-bottom: - $navheight;
-	padding-bottom: $navheight;
-}
-
 
 /*** Helper ***/
 .search-input{
@@ -119,17 +78,7 @@ body{
 	color: grey;
 }
 
-.center-map{
-	position: absolute;
-	z-index: 10;
-	top: 50px;
-	right: 20px;
-	background-color: lightgrey;
-	padding: 8px;
-	font-size: 20px;
-	border: 1px solid gray;
-	color: gray;
-}
+
 .more-left{
 	right:500px;
 }
@@ -148,17 +97,7 @@ body{
 	font-size: 2.5em;
 	color: $black;
 }
-.add-margin-top-15{
-	margin-top: 15px;
-}
-.add-side-margin-10{
-	margin-left: 10px;
-	margin-right: 10px;
-}
 
-.add-margin-top-50{
-	margin-top: 50px;
-}
 .percent-padding{
 	min-height: $navheight;
 }
@@ -173,36 +112,6 @@ body{
 	margin-right:10px;
 }
 
-/*** Button ***/
-
-.stuff-btn{
-	padding:4px;
-	text-align: center;
-	position: relative;
-	margin-top: 5px;
-	color: $white;
-	font-size: 1.5rem;
-	background-color: $grey;
-	span{
-		vertical-align: middle;
-	}
-}
-.file-btn{
-	position: absolute;
-	z-index: 15;
-	top:0;
-	left: 0;
-	opacity: 0;
-	width: 100%;
-}
-.green-btn{
-	background-color: $green;
-}
-#loading-thumbnail{
-	height:40px;
-	width:40px;
-	margin-left:-20px;
-}
 
 /**** Navbar ****/
 
@@ -301,55 +210,7 @@ nav{
 			}
 		}
 	}
-		/*** Map Heights ***/
-		.map-0{
-			position: fixed;
-			top:$menu-0-height + $navheight;
-			bottom: 0;
-		}
-		.map-1{
-			position: fixed;
-			top:$menu-1-height + $navheight;
-			bottom:0;
-			height: auto;
-		}
-		.map-2{
-			height: 100% !important;
-		}
-
-		/*** Menu Heights ***/
-		.menu-0{
-			height:$menu-0-height;
-			padding-bottom: 0;
-		}
-		.menu-1{
-			height:$menu-1-height;
-			padding-bottom: 0;
-		}
-		.menu-2{
-			height:$menu-2-height;
-			padding-bottom: 0;
-		}
-
-
-
 }
-
-@media (min-width:769px){
-	/*** Map Heights ***/
-	.map-0{
-		height: 100% !important;
-	}
-	.map-1{
-		height: 100% !important;
-
-	}
-	.map-2{
-		height: 100% !important;
-	}
-
-}
-
 
 
 

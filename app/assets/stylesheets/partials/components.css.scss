@@ -1,0 +1,65 @@
+
+/*** Button ***/
+
+.stuff-btn{
+	padding:4px;
+	text-align: center;
+	position: relative;
+	margin-top: 5px;
+	border:3px solid $white;
+	border-radius: 5px;
+	color: $white;
+	font-size: 1.2rem;
+	background-color: $lightgray;
+	span{
+		vertical-align: middle;
+	}
+}
+
+.file-btn{
+	position: absolute;
+	z-index: 15;
+	top:0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+}
+.green-btn{
+	background-color: $green;
+}
+.gray-btn{
+	background-color: $lightgray;
+	color:$black;
+	&:hover{
+		color: $white;
+	}
+
+}
+
+/*** TEXT STYLES ***/
+.text-0{
+	font-size: 12px;
+}
+.text-0-bold{
+ font-size: 12px;
+ font-weight: 800;
+}
+.text-1{
+	font-size: 12px;
+	color:blue;
+}
+
+
+/*** Cross hair marker on map  ***/
+
+.center-map{
+	position: absolute;
+	z-index: 10;
+	top: 50px;
+	right: 20px;
+	background-color: lightgrey;
+	padding: 8px;
+	font-size: 20px;
+	border: 1px solid gray;
+	color: gray;
+}

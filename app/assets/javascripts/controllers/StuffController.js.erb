@@ -10,9 +10,14 @@
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
+      setMenu = function() { if($routeParams.menuState){
+        showtab($routeParams.menuState)
+      }};
+
       init = function() {
         $scope.backup = {};
         UserService.check();
+        setMenu();
       };
       $scope.attached = false;
 
@@ -38,6 +43,7 @@
       };
       $scope.toggle = false;
 
+
       $scope.cancelGive = function() {
         $scope.loading = false;
         $scope.giveNext(1);
@@ -53,7 +59,8 @@
           function(position){
             //sets the center
             console.log(position);
-            var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var center = new google.maps.LatLng(position.coords.latitude,
+              position.coords.longitude);
             $scope.map.panTo(center)
             //use a promise to confirm the idle event
           },
@@ -131,7 +138,6 @@
           $scope.editMarker.setMap(null);
         }
         $scope.toggle = false;
-        $location.path('/', false);
         showtab('myStuff');
         return UserService.check()
         .then(
@@ -176,7 +182,6 @@
         if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
         }
-        $location.path('/');
         showtab('getStuff');
         angular.forEach(MarkerService.markers, function(value, key) {
           value.marker.setMap($scope.map);
@@ -230,8 +235,7 @@
         });
         $scope.menuHeight = 'menu-1';
         $scope.mapHeight = 'map-1';
-        google.maps.event.trigger($scope.map, 'resize');
-      };
+            };
       $scope.submitPost = function() {
         $scope.loading = true;
         return UserService.check()
@@ -425,6 +429,7 @@
       showtab = function(tab) {
         return angular.forEach($scope.tabs, function(value, key) {
           if (key === tab) {
+            $location.path('/menu/' + key, false);
             return $scope.tabs[key] = true;
           } else {
             return $scope.tabs[key] = false;
