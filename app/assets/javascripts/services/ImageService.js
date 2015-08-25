@@ -1,8 +1,9 @@
  factories = angular.module('factories')
 
- factories.factory('ImageService',[ '$q','$http', function($q,$http){
+ factories.factory('ImageService',[ '$q','$http','AlertService', function($q,$http, AlertService){
 
         return {
+          images: {},
           convert: function( maxWidth, maxHeight, file ) {
             var deferred = $q.defer();
             setTimeout(function(){deferred.reject('Timeout try again') }, 10000);
@@ -30,13 +31,35 @@
               canvas.width = width;
               canvas.height = height;
               ctx = canvas.getContext("2d");
-              deferred.resolve(canvas.toDataURL("image/png"));
+              ctx.drawImage(img, 0, 0, width, height);
+              var results = canvas.toDataURL("image/png");
+              deferred.resolve(results);
             });
             reader.onload = function() {
               img.src = reader.result;
             };
             reader.readAsDataURL(file);
             return deferred.promise;
+         },
+         createGroup: function(args){
+           var self = this;
+           if(!self.images[args.origin]){
+             self.images[args.origin] = [];
+           } else if (self.images[args.origin].length >= 1) {
+             AlertService.add('warning', "Please only upload only one file");
+           }
+           var group = {};
+           self.convert(1000, 1000, args.file)
+           .then(function(original){
+             group.original = original;
+           })
+           .then( function(){
+             self.convert(100, 100, args.file)
+             .then(function(thumbnail){
+               group.thumbnail = thumbnail;
+               self.images[args.origin].push(group);
+             })
+           });
          },
          upload: function(image) {
           var deferred = $q.defer();
@@ -45,9 +68,6 @@
           .error(function(error){
             console.error(error)
             deferred.reject(error)});
-
-
-
           return deferred.promise;
         },
 

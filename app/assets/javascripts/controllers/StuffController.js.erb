@@ -4,7 +4,10 @@
   controllers = angular.module('controllers');
 
   controllers.controller('StuffCtrl', [
-    '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal', '$resource', 'LocationService', 'MarkerService', 'UserService', 'AlertService', '$rootScope', '$http', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource, LocationService, MarkerService, UserService, AlertService, $rootScope, $http) {
+    '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal', '$resource', 'ImageService',
+    'LocationService', 'MarkerService', 'UserService', 'AlertService',
+    '$rootScope', '$http', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource,
+      ImageService, LocationService, MarkerService, UserService, AlertService, $rootScope, $http) {
       var init, showtab, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
       $scope.$watchCollection('UserService', function() {
@@ -172,6 +175,9 @@
             }
 
         });
+      }
+      $scope.images = function(){
+        return ImageService.images[$location.url()]
       }
       $scope.getStuff = function() {
         $scope.toggle = false;
@@ -357,46 +363,12 @@
         };
         return $timeout(dets, 0);
       });
+
       $scope.$on("fileSelected", function(event, args) {
-        var MAX_HEIGHT, MAX_WIDTH, canvas, ctx, img, reader;
         $scope.giveNext(2);
-        MAX_WIDTH = 800;
-        MAX_HEIGHT = 600;
-        img = document.createElement('img');
-        canvas = document.createElement('canvas');
-        ctx = canvas.getContext("2d");
-        reader = new FileReader();
-        img.addEventListener("load", function() {
-          var height, width;
-          ctx.drawImage(img, 0, 0);
-          width = img.width;
-          height = img.height;
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
-          }
-          canvas.width = width;
-          canvas.height = height;
-          ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, width, height);
-          return $scope.$apply(function() {
-            $scope.attached = true;
-            $scope.current_image = canvas.toDataURL("image/png");
-            return $scope.file = $scope.current_image;
-          });
-        });
-        reader.onload = function() {
-          return img.src = reader.result;
-        };
-        return reader.readAsDataURL(args.file);
+        ImageService.createGroup(args)
       });
+
       $scope.$on('mapInitialized', function(evt, map) {
         var blank, self;
         if ($routeParams.postId) {

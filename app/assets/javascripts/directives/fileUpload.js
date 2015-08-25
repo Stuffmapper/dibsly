@@ -3,7 +3,7 @@
 
   directives = angular.module('directives');
 
-  directives.directive('fileUpload', function() {
+  directives.directive('fileUpload', ['$location', function($location) {
     return {
       scope: true,
       link: function(scope, el, attrs) {
@@ -16,14 +16,16 @@
           _results = [];
           for (_i = 0, _len = files.length; _i < _len; _i++) {
             file = files[_i];
+            console.log('line 18')
             _results.push(scope.$emit("fileSelected", {
-              file: file
+              file: file,
+              origin: $location.url()
             }));
           }
           return _results;
         });
       }
     };
-  });
+  }]);
 
 }).call(this);

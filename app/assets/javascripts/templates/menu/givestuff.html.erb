@@ -48,16 +48,9 @@
 
   <div id="give-2" ng-show='giveflow["2"][0]'>
 
-    <div ng-show='attached' class="col-lg-6 col-md-6 col-xs-6" >
-      <img class="img-responsive img-preview" ng-src={{current_image}} fallback-src></img>
-    </div>
-    <div class ="col-lg-6 col-md-6 col-xs-6">
-      <button class="center-pin btn btn-default col-lg-4 col-md-4 col-xs-4
-      add-margin-top-15 add-side-margin-10"
-      ng-click='centerGive()' >
-        <img class='img-responsive' src='<%= asset_path('red-pin.png')%>'>
-      </button>
-    </div>
+    <img class="img-responsive img-preview" ng-src={{images()[0].thumbnail}} fallback-src></img>
+
+
     <br>
     <div class="col-md-12 col-md-12 col-xs-12 add-margin-top-15">
       <div class="form-group ">

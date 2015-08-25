@@ -87,5 +87,5 @@ stfmpr.run(['UserService','$location','$route','$rootScope', (UserService, $loca
           )
         un()
       original.apply($location, [path])
-    return UserService.check().then( -> console.log('line 86', UserService.currentUser))
+    return UserService.check()
 ])
