@@ -53,12 +53,19 @@
   	top:$menu-0-height + $navheight;
   	bottom: 0;
   }
-  .map-1{
+  .map-1-1{
   	position: fixed;
   	top:$menu-1-height + $navheight;
   	bottom:0;
   	height: auto;
   }
+	.map-1-2{
+		position: fixed;
+		top:$navheight + $tabheight;
+		height: $map-1-2-height;
+		.center-map{ display: none;}
+
+	}
   .map-2{
   	height: 100% !important;
   }
@@ -68,14 +75,25 @@
   	height:$menu-0-height;
   	padding-bottom: 0;
   }
-  .menu-1{
+  .menu-1-1{
   	height:$menu-1-height;
   	padding-bottom: 0;
   }
+	.menu-1-2{
+		height:$tabheight;
+		padding-bottom: 0;
+		overflow: visible;
+	}
   .menu-2{
   	height:$menu-2-height;
   	padding-bottom: 0;
   }
+	/*** Misc ***/
+	.pull-sm-bottom{
+		position: fixed;
+		bottom:0px;
+	}
+
 }
 
 @media (min-width:769px){
@@ -83,10 +101,13 @@
   .map-0{
   	height: 100% !important;
   }
-  .map-1{
+  .map-1-1{
   	height: 100% !important;
 
   }
+	.map-1-2{
+		height: 100% !important;
+	}
   .map-2{
   	height: 100% !important;
   }
@@ -102,7 +123,7 @@
 	}
 	.col-sm-bottom{
 		position: absolute;
-		left:0;
+		left: 0;
 		bottom:0;
 	}
 

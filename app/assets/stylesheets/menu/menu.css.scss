@@ -1,12 +1,33 @@
 /* Small devices (tablets, 768px and up) */
-#give-stuff{
+.give-stuff{
   height: 100%;
 }
 
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+  #give-2{
+    position: fixed;
+    padding-top: 20px;
+    overflow: scroll;
+    top: $tabheight + $navheight + $map-1-2-height;
+  }
+  .give-img-cnt{
+    max-height:80px;
+    overflow: hidden;
+    min-height:50px;
 
+  }
+  .give-img-cnt:hover{
+    max-height: 100%;
+    -webkit-transition: max-height 2s; /* Safari */
+     transition: max-height 2s;
+     transition-timing-function: ease-in;
+  }
 
+  .give-img{
+    width: 100%;
+    height: inherit;
+  }
 }
 //
 // /* Medium devices (desktops, 992px and up) */

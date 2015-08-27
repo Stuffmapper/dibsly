@@ -53,6 +53,10 @@ stfmpr.config( ['$routeProvider','$locationProvider',
           templateUrl:'home.html',
           controller:'StuffCtrl'
         })
+        .when('/menu/:menuState/:next',{
+          templateUrl:'home.html',
+          controller:'StuffCtrl'
+        })
         .when('/post/:postId',{
           templateUrl: "home.html"
           controller: 'StuffCtrl'

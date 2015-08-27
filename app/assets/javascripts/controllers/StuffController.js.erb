@@ -5,17 +5,20 @@
 
   controllers.controller('StuffCtrl', [
     '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal', '$resource', 'ImageService',
-    'LocationService', 'MarkerService', 'UserService', 'AlertService',
+    'LocationService','MapsService', 'MarkerService', 'UserService', 'AlertService',
     '$rootScope', '$http', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource,
-      ImageService, LocationService, MarkerService, UserService, AlertService, $rootScope, $http) {
-      var init, showtab, updateMarkers, updatePostMarker;
+      ImageService, LocationService,MapsService, MarkerService, UserService, AlertService, $rootScope, $http) {
+      var init, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
+      console.log(MapsService);
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
-      setMenu = function() { if($routeParams.menuState){
-        showtab($routeParams.menuState)
-      }};
+      setMenu = function() {
+        if($routeParams.menuState){
+          $scope.showtab($routeParams.menuState);
+        } else if($location.url() == '/' ) { updateMarkers($scope.map) }
+      };
 
       init = function() {
         $scope.backup = {};
@@ -23,6 +26,7 @@
         setMenu();
       };
       $scope.attached = false;
+      $scope.categories = MarkerService.categories;
 
       $scope.giveflow = {
         1: [true, ''],
@@ -32,17 +36,13 @@
       $scope.mapCenter = '47.6097,-122.3331';
       $scope.mapHeight = 'map-0';
       $scope.menuHeight = 'menu-0';
-      $scope.mystuff = {
-        posts: {},
-        dibs: {}
-      };
       $scope.post = {};
       $scope.tabs = {
-        getStuff: true,
-        giveStuff: false,
-        myStuff: false,
-        details: false,
-        editing: false
+        getStuff: [ true, '' ],
+        giveStuff:[ false,  '' ],
+        myStuff: [ false, '' ],
+        details: [ false,  ''],
+        editing: [ false, '']
       };
       $scope.toggle = false;
 
@@ -104,7 +104,7 @@
       };
       $scope.edit = function(id) {
         console.log(id);
-        showtab('editing');
+        $scope.showtab('editing');
         $scope.file = null;
         $scope.editItem = MarkerService.markers[id];
         return $scope.current_image = $scope.editItem.image_url;
@@ -113,8 +113,10 @@
         return angular.forEach($scope.giveflow, function(value, key) {
           var stat;
           stat = String(id);
+          $scope.mapHeight = 'map-1-' + stat
+          $scope.menuHeight = 'menu-1-' + stat
           if (key === stat) {
-            $scope.menuHeight = value[1];
+            $location.path('/menu/giveStuff/' + stat, false);
             return $scope.giveflow[key][0] = true;
           } else {
             return $scope.giveflow[key][0] = false;
@@ -123,7 +125,6 @@
       };
       $scope.getDetails = function(id, origin) {
         $location.path('/post/' + id, false);
-        showtab('details');
         if (MarkerService.markers[id] && origin !== 'marker') {
           google.maps.event.trigger(MarkerService.markers[id].marker, 'click');
           return $scope.stuff = MarkerService.markers[id];
@@ -133,7 +134,8 @@
           });
         }
       };
-      $scope.getMyStuff = function() {
+      $scope.myStuff = function() {
+        $location.path('/menu/myStuff', false)
         if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
         }
@@ -141,7 +143,6 @@
           $scope.editMarker.setMap(null);
         }
         $scope.toggle = false;
-        showtab('myStuff');
         return UserService.check()
         .then(
           function (data){
@@ -177,24 +178,13 @@
         });
       }
       $scope.images = function(){
-        return ImageService.images[$location.url()]
+        return ImageService.images[$routeParams.menuState]
       }
       $scope.getStuff = function() {
+        $location.path('/menu/getStuff', false)
         $scope.toggle = false;
         $scope.menuHeight = 'get-stuff-view';
-        if ($scope.editMarker) {
-          $scope.editMarker.setMap(null);
-        }
-        if ($scope.postMarker) {
-          $scope.postMarker.setMap(null);
-        }
-        showtab('getStuff');
-        angular.forEach(MarkerService.markers, function(value, key) {
-          value.marker.setMap($scope.map);
-          if (value.infowindow) {
-            return value.infowindow.close($scope.map, value.marker);
-          }
-        });
+        updateMarkers($scope.map)
         google.maps.event.addListener($scope.map, 'dragend', function() {
           return updateMarkers($scope.map);
         });
@@ -235,13 +225,29 @@
         }).success($scope.mystuff.posts[postID]['dibbable'] = true);
       };
       $scope.giveStuff = function() {
-        showtab('giveStuff');
-        angular.forEach(MarkerService.markers, function(value, key) {
-          return value.marker.setMap(null);
-        });
-        $scope.menuHeight = 'menu-1';
-        $scope.mapHeight = 'map-1';
-            };
+        $scope.menuHeight = 'menu-1-1';
+        $scope.mapHeight = 'map-1-1';
+        google.maps.event.clearInstanceListeners($scope.map)
+        var state = $routeParams.next ? $routeParams.next : 1
+        $scope.giveNext(state);
+        var markerSet = MarkerService.markers['giveStuff'];
+        var marker = markerSet ? markerSet : {id: 'giveStuff'};
+        MarkerService.clearMarkers('giveStuff', $scope.map );
+        if(!markerSet){
+          var center = $scope.map.getCenter();
+          LocationService.get()
+          .then(
+            function(position){
+              center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            },
+            function(err){ console.log('geolocation not supported') })
+          .then( function() {
+            angular.extend( marker, { latitude: center.lat(), longitude: center.lng() });
+            MarkerService.setMarker(marker);
+          })
+        }
+      };
+
       $scope.submitPost = function() {
         $scope.loading = true;
         return UserService.check()
@@ -266,7 +272,6 @@
                   AlertService.add('success', "You've Posted Your Stuff");
                   $scope.cancelGive();
                   updateMarkers();
-                  $scope.postMarker.setMap(null);
                   $scope.giveNext(1);
                   post = data.post;
                   post.image_url = $scope.current_image;
@@ -275,7 +280,7 @@
                   $scope.stuff = MarkerService.markers[post.id];
                   $scope.menuHeight = 'get-stuff-view';
                   $location.path('/post/' + post.id, false);
-                  return showtab('details');
+                  return $scope.showtab('details');
                 }).error(function(data) {
                   var key, value;
                   for (key in data) {
@@ -375,15 +380,8 @@
           $scope.getDetails($routeParams.postId, 'initial');
         }
         self = this;
-        updateMarkers($scope.map);
         blank = function() {};
         updatePostMarker(blank, 25000, $scope.map);
-        google.maps.event.addListener(map, 'dragend', function() {
-          return updateMarkers($scope.map);
-        });
-        google.maps.event.addListener(map, 'zoom_changed', function() {
-          return updateMarkers($scope.map);
-        });
         var center = map.getCenter();
         LocationService.get()
         .then(
@@ -397,14 +395,19 @@
               map.panTo(center);
             });},0)
         })
+        console.log('414')
+        init();
       });
-      showtab = function(tab) {
+      $scope.showtab = function(tab) {
         return angular.forEach($scope.tabs, function(value, key) {
           if (key === tab) {
-            $location.path('/menu/' + key, false);
-            return $scope.tabs[key] = true;
+            $scope.tabs[key][0] = true;
+
+            if(typeof $scope[key] == 'function'){
+              $scope[key]();
+            };
           } else {
-            return $scope.tabs[key] = false;
+            return $scope.tabs[key][0] = false;
           }
         });
       };
@@ -467,7 +470,6 @@
             map.panTo(center);
             $scope.post.latitude = $scope.postMarker.getPosition().lat();
             $scope.post.longitude = $scope.postMarker.getPosition().lng();
-            $scope.postMarker.setMap(null);
             return self.callback();
           };
           return LocationService.get()
@@ -485,8 +487,7 @@
             }
           );
         }
-      };
-      return init();
+      };;
     }
   ]);
 

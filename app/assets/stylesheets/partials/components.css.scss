@@ -35,6 +35,24 @@
 	}
 
 }
+.sm-abs-button{
+	display: none;
+
+}
+
+@media (max-width:768px) {
+	.map-1-2, .menu-1-2{
+		.sm-abs-button{
+			position: absolute;
+			bottom: 10px;
+			right:10px;
+			min-height:33px;
+			background-color: $lightgray;
+			display:inline-block;
+		}
+	}
+}
+
 
 /*** TEXT STYLES ***/
 .text-0{

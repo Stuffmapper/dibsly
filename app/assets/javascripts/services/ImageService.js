@@ -54,10 +54,10 @@
              group.original = original;
            })
            .then( function(){
-             self.convert(100, 100, args.file)
+             self.convert(300, 300, args.file)
              .then(function(thumbnail){
                group.thumbnail = thumbnail;
-               self.images[args.origin].push(group);
+               self.images[args.origin].unshift(group);
              })
            });
          },

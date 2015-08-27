@@ -3,7 +3,7 @@
 
   directives = angular.module('directives');
 
-  directives.directive('fileUpload', ['$location', function($location) {
+  directives.directive('fileUpload', ['$location','$routeParams', function($location, $routeParams) {
     return {
       scope: true,
       link: function(scope, el, attrs) {
@@ -16,10 +16,9 @@
           _results = [];
           for (_i = 0, _len = files.length; _i < _len; _i++) {
             file = files[_i];
-            console.log('line 18')
             _results.push(scope.$emit("fileSelected", {
               file: file,
-              origin: $location.url()
+              origin: $routeParams.menuState
             }));
           }
           return _results;

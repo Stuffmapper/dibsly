@@ -48,16 +48,29 @@
             new: '<%= asset_path('pin.svg')%>'
           },
         categories:[
-          'Arts &amp; Crafts',
+          'Arts & Crafts',
           'Books, Games, Media',
-          'Building &amp; Garden Materials',
-          'Clothing &amp; Accessories',
+          'Building & Garden Materials',
+          'Clothing & Accessories',
           'Electronics',
-          'Furniture &amp; Household',
+          'Furniture & Household',
           'General',
-          'Kids &amp; Babies',
+          'Kids & Babies',
           'Recreation'
         ],
+        addMarkerListener: function(markerID, events, fn){
+          angular.forEach(events, function(event){
+            google.maps.event.addListener(self.markers[markerID].marker , event ,fn);
+          });
+        },
+        clearMarkers: function( exception, map ){
+          var self = this;
+          angular.forEach(self.markers, function(value, key) {
+             if (key !== exception ){
+              value.marker.setMap(null);
+             } else { value.marker.setMap(map) }
+          });
+        },
         setGoogleMarker: function(marker){
           if(!marker.marker) {
             var self = this;
@@ -88,9 +101,9 @@
             id: id
           }).$promise.then(function(post) {
             if (post.post.originalImage === 'missing') {
-              if ($scope.markers[id]) {
+              if (self.markers[id]) {
                 post.post.originalImage = $scope.markers[id].originalImage;
-                post.post.image_url = $scope.markers[id].image_url;
+                post.post.image_url = self.markers[id].image_url;
               } else {
                 post.post.originalImage = '<%= asset_path('processing.png')%>';
                 post.post.image_url = '<%= asset_path('processing.png')%>';

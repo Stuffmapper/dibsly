@@ -102,10 +102,6 @@ body{
 	min-height: $navheight;
 }
 
-.img-preview{
-	margin-left: 20px;
-	max-height: 180px;
-}
 
 .max-icon{
 	max-width: 50px;
@@ -359,65 +355,7 @@ nav{
 
 /*** GIVE STUFF ***/
 
-#give-stuff-file-container{
-	border-radius:10px;
-	height:75px;
-	padding-top:13px;
-	overflow:hidden;
-	background:$turquoise;
-	border: solid 3px $turqblue;
-	position:relative;
-	cursor: pointer;
-	cursor: hand;
-	#give-stuff-file{
-		position: relative;
-	  height: 130%;
-	  width: 50px;
-	  margin: auto;
-	  margin-left: -15px;
-	  margin-top: -60px;
-	  opacity: .01;
-	  z-index: 5;
-		cursor: pointer;
-		cursor: hand;
-	}
-	.glyphicon{
-		font-size:20px;
-		margin-left: -8px;
-		color:$turqblue;
-	}
 
-}
-#change-photo{
-	border-radius:10px;
-	height:30px;
-	overflow:hidden;
-	background:$turquoise;
-	border: solid 3px $turqblue;
-	position:relative;
-	cursor: pointer;
-	cursor: hand;
-	#give-stuff-file{
-		position: relative;
-	  height: 230%;
-	  width: 130%;
-	  margin: auto;
-	  margin-left: -10%;
-	  margin-top: -40px;
-	  opacity: .01;
-	  z-index: 5;
-		cursor: pointer;
-		cursor: hand;
-	}
-	.glyphicon{
-		font-size:20px;
-		color:$turqblue;
-	}
-
-}
-#give-stuff-submit{
-	background-color:$purple-button;
-}
 .give-stuff{
 	height:100%;
 }
