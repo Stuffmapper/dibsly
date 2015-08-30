@@ -196,6 +196,30 @@ describe('MarkerService', function() {
     it('is defined', function() {
       setupController();
       expect(MarkerService.where ).toBeDefined
+      // 1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
+      // 2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
+      // 3:{id:3, dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
+      // 4:{id:4, dibber:'Jackie', creator:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker},
+      // 5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
+      // 6:{id:6, marker:gmarker}
+    });
+
+    it('is returns markers with matching attributes', function() {
+      setupController();
+      angular.forEach(markers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where({ dibber:'john' });
+      expect(results.length ).toEqual(1)
+      expect(results[0].id ).toEqual(3)
+      //TODO ass more paramaters
+
+      // 1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
+      // 2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
+      // 3:{id:3, dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
+      // 4:{id:4, dibber:'Jackie', creator:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker},
+      // 5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
+      // 6:{id:6, marker:gmarker}
     });
 
   });

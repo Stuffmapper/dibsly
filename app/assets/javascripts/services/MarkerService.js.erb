@@ -148,7 +148,19 @@
           self.setGoogleMarker(self.markers[marker.id]);
         },
         where: function(has, doesnot){
-          return new Error('not implemented')
+          var self;
+          self = this;
+          var results = [];
+          angular.forEach(self.markers,
+            function(value ){
+              angular.forEach( has, function(searchvalue, searchterm){
+                if(value[searchterm] === searchvalue){
+                  results.push(value)
+                }
+              })
+            }
+          );
+          return results;
         }
       };
     }
