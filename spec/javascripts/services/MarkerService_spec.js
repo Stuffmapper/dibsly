@@ -181,15 +181,22 @@ describe('MarkerService', function() {
     it('has a list of categories', function(){
       setupController();
       expect(MarkerService.categories ).toEqual(
-      ['Arts &amp; Crafts',
+      ['Arts & Crafts',
       'Books, Games, Media',
-      'Building &amp; Garden Materials',
-      'Clothing &amp; Accessories',
+      'Building & Garden Materials',
+      'Clothing & Accessories',
       'Electronics',
-      'Furniture &amp; Household',
+      'Furniture & Household',
       'General',
-      'Kids &amp; Babies',
+      'Kids & Babies',
       'Recreation'] );
     });
+  });
+  describe('Where function', function() {
+    it('is defined', function() {
+      setupController();
+      expect(MarkerService.where ).toBeDefined
+    });
+
   });
 });

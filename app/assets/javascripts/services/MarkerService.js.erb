@@ -4,7 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('MarkerService', [
-    '$http', '$resource', '$rootScope', function($http, $resource, $rootScope) {
+    '$http','MapsService', '$resource', '$rootScope',
+     function($http,MapsService,$resource, $rootScope) {
       var Marker;
       Marker = $resource('/api/posts/:id', {
         id: '@id'
@@ -58,35 +59,31 @@
           'Kids & Babies',
           'Recreation'
         ],
-        addMarkerListener: function(markerID, events, fn){
-          angular.forEach(events, function(event){
-            google.maps.event.addListener(self.markers[markerID].marker , event ,fn);
-          });
-        },
+
         clearMarkers: function( exception, map ){
           var self = this;
           angular.forEach(self.markers, function(value, key) {
-             if (key !== exception ){
-              value.marker.setMap(null);
+             if (key !== exception && value.marker ){
+              MapsService.setMapMarker(value.marker, null)
              } else { value.marker.setMap(map) }
           });
         },
         setGoogleMarker: function(marker){
           if(!marker.marker) {
             var self = this;
-            var latLng = new google.maps.LatLng(marker.latitude, marker.longitude);
+            var latLng = MapsService.newLatLng(marker.latitude, marker.longitude);
             var options = {
               zoom: 4,
               center: latLng
             };
-            marker.marker = new google.maps.Marker({
+            marker.marker = MapsService.newMapMarker({
               icon: self.icons.standard,
               position: latLng,
               map: self.map,
               title: marker.description
             });
           }
-          return google.maps.event.addListener(marker.marker, 'click', function() {
+          return MapsService.addMarkerListener( marker.marker, 'click', function() {
             $rootScope.$broadcast('detailsWanted', {
               markerId: marker.id
             });
@@ -111,7 +108,7 @@
             }
             self.setMarker(post.post)
             if (origin !== 'marker') {
-              google.maps.event.trigger(self.markers[id].marker, 'click');
+              MapsService.triggerMarkerEvent(self.markers[id].marker, 'click');
             }
             return callback();
           });
@@ -125,14 +122,15 @@
             marker.description = "";
           }
           if (!marker.infowindow) {
-            infowindow = new google.maps.InfoWindow({
+            infowindow = MapsService.newInfoWindow({
               content: innerContent
             });
             return marker.infowindow = infowindow;
           } else {
-            return marker.infowindow.setContent(innerContent);
+            return MapsService.setInfoContent(marker, innerContent);
           }
         },
+
         setMap: function(map) {
           var self;
           self = this;
@@ -148,6 +146,9 @@
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
           self.setGoogleMarker(self.markers[marker.id]);
+        },
+        where: function(has, doesnot){
+          return new Error('not implemented')
         }
       };
     }

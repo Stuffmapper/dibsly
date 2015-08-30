@@ -28,7 +28,7 @@ describe('MyStuffCtrl', function() {
       $scope = $rootScope.$new();
       $routeParams = _$routeParams_;
       httpBackend = _$httpBackend_;
-      spyOn(UserService,"check").andReturn( UserService.currentUser = 'Jack');
+      spyOn(UserService,"check").and.returnValue( UserService.currentUser = 'Jack');
       $scope.currentUser = 'Jack';
       gmarker = jasmine.createSpyObj('gmarker',['setIcon']);
       $scope.markers = {

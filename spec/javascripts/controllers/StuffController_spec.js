@@ -6,9 +6,9 @@ describe('StuffCtrl', function() {
   httpBackend,
   $location,
   gmarker,
-  google,
-  mockUserService,
-  mockMarkerService,
+  LocationService,
+  mockMapsService,
+  MarkerService,
   routeParams,
   $q,
   $rootScope,
@@ -18,7 +18,8 @@ describe('StuffCtrl', function() {
   var setupController = function(){
     module('stfmpr');
 
-    inject(function(_$controller_,_$q_, _$rootScope_, _$httpBackend_, _$location_, _$routeParams_, UserService, MarkerService){
+    inject(function(_$controller_,_$q_, _$rootScope_, _$httpBackend_,
+       _$location_, _$routeParams_, LocationService, UserService, MarkerService, MapsService){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       $controller = _$controller_;
       $location = _$location_;
@@ -27,7 +28,8 @@ describe('StuffCtrl', function() {
       $scope = $rootScope.$new();
       $routeParams = _$routeParams_;
       httpBackend = _$httpBackend_;
-      spyOn(UserService,"check").andReturn( UserService.currentUser = 'Jack');
+      LocationService = LocationService;
+      spyOn(UserService,"check").and.returnValue( UserService.currentUser = 'Jack');
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new']);
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
@@ -40,6 +42,10 @@ describe('StuffCtrl', function() {
        6:{ marker:gmarker}
       };
       MarkerService.markers = $scope.markers;
+      mockMapsService = MapsService;
+      spyOn(mockMapsService, 'panTo').and.returnValue('non')
+      spyOn(mockMapsService, 'getCenter').and.returnValue('non')
+
       controller = $controller('StuffCtrl', { $scope: $scope });
     });
 
@@ -47,34 +53,48 @@ describe('StuffCtrl', function() {
   };
 
   describe('center map', function() {
-    it('calls map service', function() {
-      setupController()
+    beforeEach(function(done) {
+      done();
+    }, 4000);
 
-      throw new Error('not implemented!!')
 
-    });
-
-    it('sets map to the User Location', function() {
+    it('calls map service center function without navigator', function(done) {
       setupController();
+      //MapsService =
+      $scope.centerMap()
+      .then( function(data){
+        expect(mockMapsService.getCenter ).toHaveBeenCalled();
+        done();
 
-      throw new Error('not implemented!!')
+      })
+      $rootScope.$digest();
+      //needed for promises to resolve
 
     });
 
-    it('Sets an alert if the Location service is unavailable', function() {
+    it('sets map to the User Location when there is a navigator', function(done) {
       setupController();
-      throw new Error('not implemented!!')
+      spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
+       window.navigator = { geolocation: {
+          getCurrentPosition: function(success, error, geoOptions){
+             success({
+               coords: { latitude:1, longitude: 3 }
+             })
+          }
+        }
+      };
+      $scope.centerMap()
+      .then( function(data){
+        expect( mockMapsService.newLatLng ).toHaveBeenCalled();
+        done();
+      })
+      $rootScope.$digest();
+      //needed for promises to resolve
     });
+
 
   });
 
-  describe('Get Details', function() {
-    it('only make the call once if you click on details or the icon', function() {
-      setupController()
-      throw new Error('not implemented!!')
-
-    });
-  });
   describe('Give Stuff', function() {
     it('opens up Give Stuff when in the routeParams ', function() {
       setupController();
@@ -82,15 +102,15 @@ describe('StuffCtrl', function() {
         $scope: $scope,
         $routeParams: { menuState: 'giveStuff'}
       });
-
-      expect($scope.tabs.giveStuff ).toEqual(true)
+      $scope.$emit('mapInitialized', {}) //to fake the map loading
+      expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
     it('sets the routeParams', function() {
       setupController();
       expect( $location.url() ).toEqual('/')
       $scope.giveStuff();
-      expect($location.url() ).toEqual('/menu/giveStuff')
+      expect($location.url() ).toEqual('/menu/giveStuff/1')
     });
 
   });
@@ -104,8 +124,8 @@ describe('StuffCtrl', function() {
     it('sets the classes for the map and menu', function() {
       setupController();
       $scope.giveStuff();
-      expect($scope.mapHeight).toEqual('map-1');
-      expect($scope.menuHeight).toEqual('menu-1');
+      expect($scope.mapHeight).toEqual('map-1-1');
+      expect($scope.menuHeight).toEqual('menu-1-1');
     });
   });
 

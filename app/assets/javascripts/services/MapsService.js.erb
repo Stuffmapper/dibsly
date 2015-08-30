@@ -5,44 +5,42 @@
 
   factories.factory('MapsService',[ function() {
       return {
-        addMarkerListener: function(){
-          throw new Error('not implemented')
+        addMarkerListener: function(marker, event, fn ){
+          google.maps.event.addListener(marker, event, fn )
         },
-        addMapListener: function(){
-          throw new Error('not implemented')
+        addMapListener: function(map, event, fn){
+          google.maps.event.addListener(map, event, fn )
         },
-        getCenter: function(){
-          throw new Error('not implemented')
+        getCenter: function(map){
+          return map.getCenter();
         },
-        newInfoWindow: function(){
-          throw new Error('not implemented')
+        newInfoWindow: function(options){
+          return new google.maps.InfoWindow(options);
         },
-        newLatLng: function(){
-          throw new Error('not implemented')
+        newLatLng: function(latitude, longitude){
+          return new google.maps.LatLng(latitude, longitude)
         },
-        newMapMarker: function(){
-          throw new Error('not implemented')
+        newMapMarker: function(options){
+          return  new google.maps.Marker(options);
         },
-        panTo: function(){
-          throw new Error('not implemented')
+        panTo: function(map, latlng){
+          //note consider using promise here
+          map.panTo(latlng);
         },
         removeMapListener: function(){
           throw new Error('not implemented')
         },
-        setInfoContent: function(){
-          throw new Error('not implemented')
+        setInfoContent: function(marker, content){
+          marker.InfoWindow.setInfoContent(content);
         },
         setZoom: function(){
           throw new Error('not implemented')
         },
-        setMarker: function(){
-          throw new Error('not implemented')
+        setMapMarker: function(marker, map){
+          marker.setMap(map);
         },
-        setMapMarker: function(){
-          throw new Error('not implemented')
-        },
-        triggerMarkerEvent: function(){
-          throw new Error('not implemented')
+        triggerMarkerEvent: function(marker, event){
+          google.maps.event.trigger(marker, event);
         },
 
       };
@@ -50,17 +48,3 @@
   ]);
 
 }).call(this);
-
-//
-
-// });
-//
-
-// it('defines map functions', function() {
-//   setupController()
-
-//   expect(MapsService.panTo).toBeDefined();
-//   expect(MapsService.getCenter).toBeDefined();
-//   expect(MapsService.setZoom).toBeDefined();
-//
-// });

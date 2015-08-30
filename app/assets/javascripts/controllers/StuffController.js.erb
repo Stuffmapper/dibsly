@@ -10,13 +10,14 @@
       ImageService, LocationService,MapsService, MarkerService, UserService, AlertService, $rootScope, $http) {
       var init, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
-      console.log(MapsService);
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
       setMenu = function() {
+        console.log($routeParams);
         if($routeParams.menuState){
           $scope.showtab($routeParams.menuState);
+          console.log($routeParams);
         } else if($location.url() == '/' ) { updateMarkers($scope.map) }
       };
 
@@ -57,53 +58,24 @@
       };
 
       $scope.centerMap = function(){
-        LocationService.get()
-        .then(
+        var center;
+
+        return LocationService.get().then(
           function(position){
-            //sets the center
-            console.log(position);
-            var center = new google.maps.LatLng(position.coords.latitude,
+            console.log(' this is line 66')
+
+            center = MapsService.newLatLng(position.coords.latitude,
               position.coords.longitude);
-            $scope.map.panTo(center)
-            //use a promise to confirm the idle event
           },
           function(error){
-            console.log(error);
-            $scope.map.getCenter();
+            //console.log('this is 71', error);
+            center = MapsService.getCenter($scope.map);
           }
-        )
+         )
+         .then( function(){ MapsService.panTo($scope.map, center);})
       }
 
-      $scope.centerGive = function() {
-        if (window.innerWidth < 600) {
-          $scope.toggle = true;
-        }
-        return $scope.map.panTo($scope.postMarker.getPosition());
-      };
-      $scope.changeLocation = function(id) {
-        var location, updatePost;
-        location = $scope.editItem.marker.getPosition();
-        if ($scope.editMarker) {
-          $scope.editMarker.setMap(null);
-        }
-        $scope.editMarker = new google.maps.Marker({
-          position: location,
-          draggable: true,
-          map: $scope.map,
-          title: $scope.editItem.description,
-          icon: '<%= asset_path('green-pin.png')%>'
-        });
-        updatePost = function() {
-          $scope.editItem.latitude = $scope.editMarker.getPosition().lat();
-          return $scope.editItem.longitude = $scope.editMarker.getPosition().lng();
-        };
-        google.maps.event.addListener($scope.editMarker, 'dragend', updatePost);
-        google.maps.event.addListener($scope.editMarker, 'idle', updatePost);
-        $scope.map.setZoom(18);
-        return $scope.map.panTo(location);
-      };
       $scope.edit = function(id) {
-        console.log(id);
         $scope.showtab('editing');
         $scope.file = null;
         $scope.editItem = MarkerService.markers[id];
@@ -126,7 +98,7 @@
       $scope.getDetails = function(id, origin) {
         $location.path('/post/' + id, false);
         if (MarkerService.markers[id] && origin !== 'marker') {
-          google.maps.event.trigger(MarkerService.markers[id].marker, 'click');
+          MapsService.triggerMarkerEvent(MarkerService.markers[id].marker, 'click' );
           return $scope.stuff = MarkerService.markers[id];
         } else {
           return MarkerService.updateMarker(id, origin, function() {
@@ -185,10 +157,10 @@
         $scope.toggle = false;
         $scope.menuHeight = 'get-stuff-view';
         updateMarkers($scope.map)
-        google.maps.event.addListener($scope.map, 'dragend', function() {
+        MapsService.addMapListener($scope.map, 'dragend', function() {
           return updateMarkers($scope.map);
         });
-        return google.maps.event.addListener($scope.map, 'zoom_changed', function() {
+        MapsService.addMapListener($scope.map, 'zoom_changed', function() {
           return updateMarkers($scope.map);
         });
       };
@@ -208,7 +180,6 @@
       };
       $scope.publish = function(status) {
         if (UserService.currentUser) {
-          console.log($scope.editItem.id, '173');
           return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
             published: status
           }).success( console.log('success') )
@@ -227,18 +198,17 @@
       $scope.giveStuff = function() {
         $scope.menuHeight = 'menu-1-1';
         $scope.mapHeight = 'map-1-1';
-        google.maps.event.clearInstanceListeners($scope.map)
         var state = $routeParams.next ? $routeParams.next : 1
         $scope.giveNext(state);
         var markerSet = MarkerService.markers['giveStuff'];
         var marker = markerSet ? markerSet : {id: 'giveStuff'};
         MarkerService.clearMarkers('giveStuff', $scope.map );
         if(!markerSet){
-          var center = $scope.map.getCenter();
+          var center = MapsService.getCenter($scope.map);
           LocationService.get()
           .then(
             function(position){
-              center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              center = MapsService.newLatLng(position.coords.latitude, position.coords.longitude);
             },
             function(err){ console.log('geolocation not supported') })
           .then( function() {
@@ -382,20 +352,7 @@
         self = this;
         blank = function() {};
         updatePostMarker(blank, 25000, $scope.map);
-        var center = map.getCenter();
-        LocationService.get()
-        .then(
-          function(position){
-            center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          },
-          function(err){ console.log('geolocation not supported') })
-        .then( function(){
-          $timeout(function(){
-            $scope.$apply(function() {
-              map.panTo(center);
-            });},0)
-        })
-        console.log('414')
+        $scope.centerMap()
         init();
       });
       $scope.showtab = function(tab) {
@@ -453,7 +410,7 @@
           updateMarker = function(center) {
             var updatePost;
             resetMarker();
-            $scope.postMarker = new google.maps.Marker({
+            $scope.postMarker = MapsService.newMapMarker({
               position: center,
               draggable: true,
               map: $scope.map,
@@ -464,28 +421,14 @@
               $scope.post.latitude = $scope.postMarker.getPosition().lat();
               return $scope.post.longitude = $scope.postMarker.getPosition().lng();
             };
-            google.maps.event.addListener($scope.postMarker, 'dragend', updatePost);
-            google.maps.event.addListener($scope.postMarker, 'idle', updatePost);
+            MapsService.addMarkerListener($scope.postMarker, 'dragend', updatePost);
+            MapsService.addMarkerListener($scope.postMarker, 'idle', updatePost);
             map.setZoom(12);
             map.panTo(center);
             $scope.post.latitude = $scope.postMarker.getPosition().lat();
             $scope.post.longitude = $scope.postMarker.getPosition().lng();
             return self.callback();
           };
-          return LocationService.get()
-          .then(
-            function(position) {
-              var center;
-              center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-              return updateMarker(center);
-            },
-            function(err) {
-              var center;
-              console.log("geolocation not supported or error");
-              center = $scope.map.getCenter();
-              return updateMarker(center);
-            }
-          );
         }
       };;
     }
