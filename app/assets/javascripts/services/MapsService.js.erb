@@ -11,8 +11,43 @@
         addMapListener: function(map, event, fn){
           google.maps.event.addListener(map, event, fn )
         },
+        createBox: function(coords, distance){
+          var getCoords = function(coords, brng, distance){
+            var results = {};
+            var R = 3959; //Earth radius in miles
+            var lat1 = coords.lat  * Math.PI / 180;
+            var lon1 = coords.lon  * Math.PI / 180;
+            var bearing = brng * Math.PI / 180;
+            var lat2 = Math.asin( Math.sin(lat1)*Math.cos(distance/R) +
+                                Math.cos(lat1)*Math.sin(distance/R)*Math.cos(bearing) );
+
+
+            var lon2 = lon1 + Math.atan2(Math.sin(bearing)*Math.sin(distance/R)*Math.cos(lat1),
+                                     Math.cos(distance/R)-Math.sin(lat1)*Math.sin(lat2));
+            lon2 = (lon2+3*Math.PI) % (2*Math.PI) - Math.PI; // normalise to -180..+180°
+            results.lat = lat2 * 180 / Math.PI;;
+            results.lon = lon2 * 180 / Math.PI;
+            return results;
+          };
+          return {nw: getCoords(coords,-45, distance), se: getCoords(coords,135, distance)};
+
+        },
         getCenter: function(map){
-          return map.getCenter();
+          var position = map.getCenter();
+          return {lat:position.lat(), lon:position.lng() }
+        },
+        getBoundingBox: function(coords, distance){
+          //distancs in miles
+          //coords {lat:1, lon:1}
+          var self = this;
+          var within = function(box, coords){
+           return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&
+           box.nw.lon  <=  coords.lon && coords.lon <= box.se.lon );
+          };
+          if(self.boundingBox && !within(self.boundingBox, coords)){
+            self.boundingBox = self.createBox(coords, distance);
+          } else if(!self.boundingBox){ self.boundingBox = self.createBox(coords, distance); }
+          return self.boundingBox ;
         },
         newInfoWindow: function(options){
           return new google.maps.InfoWindow(options);

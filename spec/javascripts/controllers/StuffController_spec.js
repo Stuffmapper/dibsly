@@ -9,6 +9,7 @@ describe('StuffCtrl', function() {
   LocationService,
   mockMapsService,
   MarkerService,
+  mockMarkerService,
   routeParams,
   $q,
   $rootScope,
@@ -33,7 +34,7 @@ describe('StuffCtrl', function() {
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new']);
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
-      $scope.markers = {
+      var markers = {
        1:{dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
        2:{dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
        3:{dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
@@ -41,10 +42,11 @@ describe('StuffCtrl', function() {
        5:{dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
        6:{ marker:gmarker}
       };
-      MarkerService.markers = $scope.markers;
+      MarkerService.markers = markers;
+      mockMarkerService = MarkerService;
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'panTo').and.returnValue('non')
-      spyOn(mockMapsService, 'getCenter').and.returnValue('non')
+      spyOn(mockMapsService, 'getCenter').and.returnValue({lat:1, lat:2})
 
       controller = $controller('StuffCtrl', { $scope: $scope });
     });
@@ -128,6 +130,33 @@ describe('StuffCtrl', function() {
       expect($scope.menuHeight).toEqual('menu-1-1');
     });
   });
+
+  describe('get markers', function() {
+    it('is defined', function() {
+      setupController()
+      expect($scope.markers).toBeDefined();
+    });
+    it('sets the classes for the map and menu', function() {
+      setupController();
+      spyOn(mockMarkerService, 'where');
+      $scope.markers({visable:true})
+
+      expect(mockMarkerService.where).toHaveBeenCalled();
+
+    });
+  });
+  describe('mapChanged', function() {
+    it('activated the updateMarkers', function() {
+      setupController();
+      spyOn($scope, 'updateMarkers');
+      $scope.$emit('mapChanged', {nw:{lat:1, lon:2},se:{lat:1, lon:2}})
+
+      expect($scope.updateMarkers).toHaveBeenCalled();
+
+    });
+  });
+
+
 
 
 });

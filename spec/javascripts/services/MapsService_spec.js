@@ -3,8 +3,8 @@ describe('MapsService', function() {
 
 
   var MapsService;
-  //Mocking google
-  //TODO replace with a better Mocking strategy
+  //NOTE calls to google are not being tested
+  //this is mainly a wrapper
 
 
   beforeEach(module('stfmpr'));
@@ -46,6 +46,39 @@ describe('MapsService', function() {
       expect(MapsService.setZoom).toBeDefined();
 
     });
+
+  });
+
+  describe('getBoundingBox', function() {
+    it('is defined', function() {
+      setupController()
+      expect(MapsService.getBoundingBox).toBeDefined();
+    });
+
+    it('returns a box', function() {
+      setupController()
+      var coords = {lat:47, lon: -122 };
+      //Note accurate?
+      //distance in miles
+      expect(MapsService.getBoundingBox(coords, 10)).toEqual({
+        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
+       });
+
+    });
+    it('returns the existing box if point within existing box', function() {
+      setupController()
+      MapsService.boundingBox = {
+        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
+      };
+      var coords = {lat:46.9, lon: -121.9 };
+
+      expect(MapsService.getBoundingBox(coords, 10)).toEqual({
+        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
+       });
+     });
 
   });
 });

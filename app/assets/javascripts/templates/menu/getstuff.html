@@ -1,17 +1,9 @@
 <div id="get-stuff" ng-controller="GetStuffCtrl" >
   <div class='col-lg-6 col-md-6 col-xs-6 to-edge'>
     <select class="form-control" id="category" placeholder="Category"
-    ng-model="post.category" >
+    ng-model="search.category" >
       <option value="" disabled selected>All Categories</option>
-      <option>Arts &amp; Crafts</option>
-      <option>Books, Games, Media</option>
-      <option>Building &amp; Garden Materials</option>
-      <option>Clothing &amp; Accessories</option>
-      <option>Electronics</option>
-      <option>Furniture &amp; Household</option>
-      <option>General</option>
-      <option>Kids &amp; Babies</option>
-      <option>Recreation</option>
+      <option ng-repeat="category in categories">{{category}}</option>
     </select>
   </div>
   <div class="col-lg-6 col-md-6 col-xs-6 to-edge">
@@ -24,7 +16,7 @@
   <br>
 
    <div
-   ng-repeat="item in markers | orderObjectBy:'updated_at':true track by $index" >
+   ng-repeat="item in mapped" >
 
      <div ng-include src="'misc/marker.html'"></div>
    </div>

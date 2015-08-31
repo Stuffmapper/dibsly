@@ -14,6 +14,7 @@ describe('MarkerService', function() {
 
 
   beforeEach(module('stfmpr'));
+  var markers;
 
   var setupController = function(){
 
@@ -24,13 +25,14 @@ describe('MarkerService', function() {
     gmarker = jasmine.createSpyObj('gmarker',['setIcon', ])
     markers = {
      1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
-     2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
+     2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker, category: 'books'},
      3:{id:3, dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
      4:{id:4, dibber:'Jackie', creator:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker},
-     5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
+     5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker, },
      6:{id:6, marker:gmarker}
     };
   };
+
 
 
 
@@ -40,12 +42,37 @@ describe('MarkerService', function() {
       expect(MarkerService).toBeDefined();
     });
   });
+  describe('delete', function() {
+    it('is defined', function() {
+      setupController();
+      MarkerService.markers = markers;
+      expect(MarkerService.delete).toBeDefined();
+      expect(MarkerService.markers[1]).toBeDefined();
+      MarkerService.delete( MarkerService.markers[1] );
+      expect(MarkerService.markers[1]).toEqual(undefined);
+
+    });
+  });
+
+
+  describe('MarkerService.contains', function() {
+    it('is defined', function() {
+      setupController();
+      expect(MarkerService.contains).toBeDefined();
+    });
+    it('returns a boolean if an item is in an object', function() {
+      setupController();
+      expect(MarkerService.contains({category: 'books'}, {category: 'books'} )).toEqual(true)
+      expect(MarkerService.contains({category: 'books'}, {category: 'bookers'} )).toEqual(false)
+    });
+  });
 
   describe('setMarker ', function() {
     it('sets a Marker', function() {
       setupController();
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(markers[1])
+      expect(MarkerService.markers[1].mapped).toEqual(true) //TODO removed
       expect(MarkerService.markers[1].updated_at ).toEqual(markers[1].updated_at );
     });
     it('extends a Marker', function() {
@@ -167,8 +194,10 @@ describe('MarkerService', function() {
       setupController();
 
       expect(MarkerService.editProperties ).toEqual(
-        [ 'category',
+        [ 'id',
+          'category',
           'description',
+          'image_url',
           'latitude',
           'longitude',
           'on_the_curb',
@@ -193,33 +222,100 @@ describe('MarkerService', function() {
     });
   });
   describe('Where function', function() {
+    var testMarkers;
+    beforeEach( function(){
+      testMarkers = [
+        {
+          id:1,
+          dibber:'Jack',
+          updated_at: new Date('2012-11-25'),//4
+          marker: gmarker,
+          fake:true
+        },
+        {
+          id: 2,
+          dibber:'Jack',
+          updated_at: new Date('2014-11-22'),//2
+          marker: gmarker,
+          category: 'books',
+          fake:true
+        },
+        {
+          id:3,
+          dibber: 'john',
+          creator:'Jack',
+          updated_at: new Date('2012-11-24'),//5
+          marker: gmarker,
+          fake:true
+        },
+        {
+          id:4,
+          dibber:'Jackie',
+          creator:'Jack',
+          updated_at: new Date('2012-11-26'),//3
+          marker: gmarker,
+          fake:true
+
+        },
+        {
+          id:5,
+          dibber:'Jack',
+          updated_at: new Date('2014-11-23'),//1
+          marker: gmarker,
+          fake:true
+        },
+        {id:6, marker:gmarker}
+      ];
+
+    })
     it('is defined', function() {
       setupController();
       expect(MarkerService.where ).toBeDefined
-      // 1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
-      // 2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
-      // 3:{id:3, dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
-      // 4:{id:4, dibber:'Jackie', creator:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker},
-      // 5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
-      // 6:{id:6, marker:gmarker}
     });
 
     it('is returns markers with matching attributes', function() {
       setupController();
-      angular.forEach(markers, function(value){
+      angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
       var results = MarkerService.where({ dibber:'john' });
       expect(results.length ).toEqual(1)
       expect(results[0].id ).toEqual(3)
-      //TODO ass more paramaters
 
-      // 1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
-      // 2:{id: 2, dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
-      // 3:{id:3, dibber: 'john', creator:'Jack', updated_at: new Date('2012-11-24'), marker: gmarker },
-      // 4:{id:4, dibber:'Jackie', creator:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker},
-      // 5:{id:5, dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
-      // 6:{id:6, marker:gmarker}
+
+    });
+
+    it('returns markers with matching attributes in order', function() {
+      setupController();
+
+
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where({ fake:true });
+      expect(results.length ).toEqual(5)
+      expect(results[0].id ).toEqual(5)
+      expect(results[1].id ).toEqual(2)
+      expect(results[3].id ).toEqual(1)
+
+    });
+
+    it('is doesn\'t return results in the negative', function() {
+      setupController();
+      angular.forEach(markers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where({ dibber:'Jack' }, { category: 'books'});
+      expect(results.length ).toEqual(2)
+      expect(results[1].id ).toEqual(1)
+    });
+    it('is returns everything with an empty object' , function() {
+      setupController();
+      angular.forEach(markers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where({});
+      expect(results.length ).toEqual(6)
     });
 
   });

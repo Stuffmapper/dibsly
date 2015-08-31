@@ -176,7 +176,14 @@ The local code for the angular features can be found in `app/assets/javascripts`
   add a status field to dib to report information
   reset dib status
 
+### BoundingBox
 
+The code for creating the boundingbox in map service for points was adapted from
+[this guy](http://www.movable-type.co.uk/scripts/latlong.html)
+
+### JWT storage
+
+https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage/
 
 ### colors
 
