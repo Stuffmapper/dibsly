@@ -9,7 +9,7 @@
 #### Ruby Version
 
 
-We're using ruby-2.2.0 on this site. To check you're version. Type `ruby -v` in the command line. 
+We're using ruby-2.2.0 on this site. To check you're version. Type `ruby -v` in the command line.
 downgrade
 if you need to upgrade or downgrade. Checkout [RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv) as options for your ruby version management. Either one should work with. There is a .ruby-version file included that either system should be able to use.
 
@@ -29,7 +29,7 @@ $ sudo yum install postgresql postgresql-server postgresql-devel
 
 $ sudo yum install mysql-devel sqlite3x-devel libyaml-devel nodejs
 
-$ sudo gem update 
+$ sudo gem update
 
 $ sudo gem update  --system
 
@@ -82,7 +82,7 @@ postgres=# grant all privileges on database dibsley_test to <username>;
   `createuser yourusername -s -d`
 
   - set up environment variables for the test & dev databases
-  
+
   - something like this in your ~/.bash_profile file:
 
 ```
@@ -95,20 +95,31 @@ export STFMP_DEV_PASS=""
 
 ```
  - run `. ~/.bash_profile` to make those changes active
- 
+
 
 
 ### Run the site
 
-After going throught the perquisites
+After going through the perquisites
+
+
+
+create an .env file with the following two lines
+`
+RAILS_ENV=development
+PORT=3000
+
+`
+Install heroku tool kit to get foreman;
 
 - in the root directory in the command line
 - `bundle install`
 - `rake db:create `
 - `rake db:migrate RAILS_ENV=development`
-- `rails s`
+- `foreman start`
+
 - The site should be running on at localhost:3000
- 
+
 
 
 ### Git work flow:
@@ -126,14 +137,14 @@ Unless your collaborating to fix an issue, tests should be created and passing b
 
 
 
-### Front End Dependencies 
+### Front End Dependencies
 
 This uses bower to install front end dependencies. You can still use gems for this but I found that bower offers more access to other libraries and slightly more flexibility.
 
 To add new libraries, declare them in the `Bowerfile` in the root directory. and run.
 
  	rake bower:install
- 	
+
  The files will be stored in the director `vendor/assets/bower_components` and then included on the page through `app/assets/javascripts/application.js`
 
 To get angular and rails working on the site, the instructions on [angular-rails.com](http://www.angular-rails.com) were strictly followed. Some things will be implemented the slightly different . But is should be a good read through to understand why this site was set up the way it was.
@@ -141,7 +152,7 @@ To get angular and rails working on the site, the instructions on [angular-rails
 
 
 
-The local code for the angular features can be found in `app/assets/javascripts` and are written in coffee script. 
+The local code for the angular features can be found in `app/assets/javascripts` and are written in coffee script.
 
 
 
@@ -149,36 +160,29 @@ The local code for the angular features can be found in `app/assets/javascripts`
 ###Testing
 
   for continuous testing
-  
+
   `guard`
-  
+
   to run the entire suite of tests
-  
+
   `rake`
-  
+
   to run the just the rspec tests
-  
+
   `bundle exec rake rspec`
- 
+
  rspec tests can be found in the `spec/` folder
-  
+
   to only run the end to end tests
-  
+
   `bundle exec rake cucumber`
-  
+
   cucumber tests can be found in the `features/` folder
   the capybara step definitions can be found in the `features/step_definitons` folder
- 
- As of writing this readme, the tests for the javascript/angular code is not running. It is important that they get running at some point and I encourage anyone to write more tests and get them running. 
- 
+
+ As of writing this readme, the tests for the javascript/angular code is not running. It is important that they get running at some point and I encourage anyone to write more tests and get them running.
+
  #notes on dib
   remove a current dib
   add a status field to dib to report information
   reset dib status
-
- 
-
-
-
-
-
