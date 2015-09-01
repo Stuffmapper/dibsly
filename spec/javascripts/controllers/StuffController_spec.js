@@ -30,7 +30,6 @@ describe('StuffCtrl', function() {
       $routeParams = _$routeParams_;
       httpBackend = _$httpBackend_;
       LocationService = LocationService;
-      spyOn(UserService,"check").and.returnValue( UserService.currentUser = 'Jack');
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new']);
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
@@ -115,7 +114,6 @@ describe('StuffCtrl', function() {
       $scope.giveStuff();
       expect($location.url() ).toEqual('/menu/giveStuff/1')
     });
-
   });
 
   describe('change to give stuff tabmap', function() {
@@ -164,6 +162,25 @@ describe('StuffCtrl', function() {
     });
   });
 
+
+  describe('get Stuff', function() {
+    it('sets all the markers to the map', function() {
+      setupController();
+      spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
+      $scope.getStuff();
+      expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+    });
+  });
+  describe('My Stuff', function() {
+    it('sets all the markers to the map', function() {
+      setupController();
+      spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
+      $scope.myStuff();
+      $rootScope.$digest();
+      expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+
+    });
+  });
 
 
 

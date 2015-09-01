@@ -11,14 +11,11 @@
       var init, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
-      $scope.search = {  };
+      $scope.search = {};
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
       $scope.$watchCollection('MarkerService', function() {
-        return $scope.mapped = $scope.markers($scope.search)
-      });
-      $scope.$watchCollection('search', function() {
         return $scope.mapped = $scope.markers($scope.search)
       });
       var setMenu = function() {
@@ -120,9 +117,10 @@
         }
       };
       $scope.markers = function(has, hasnot){
-        return MarkerService.where( has, hasnot||{} );
+        return MarkerService.where( has, hasnot );
       };
       $scope.myStuff = function() {
+        MarkerService.setAll($scope.map);
         $location.path('/menu/myStuff', false)
         if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
@@ -170,10 +168,10 @@
       }
       $scope.getStuff = function() {
         $location.path('/menu/getStuff', false)
-        $scope.toggle = false;
         $scope.menuHeight = 'get-stuff-view';
         $scope.updateMarkers($scope.map);
-        $scope.mapped = $scope.markers({mapped:true });
+        MarkerService.setAll($scope.map);
+        $scope.mapped = $scope.markers();
       };
       $scope.markGone = function(id) {
         var post;
@@ -213,7 +211,6 @@
         $scope.giveNext(state);
         var markerSet = MarkerService.markers['giveStuff'];
         var marker = markerSet ? markerSet : {id: 'giveStuff'};
-        MarkerService.clearMarkers('giveStuff', $scope.map );
         if(!markerSet){
           var center = MapsService.getCenter($scope.map);
           LocationService.get()
