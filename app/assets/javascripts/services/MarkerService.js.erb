@@ -73,7 +73,7 @@
         contains: function(object, attributes){
           var contains = false;
           angular.forEach(attributes, function(value, attr){
-            if(object[attr] && object[attr] === value){
+            if(object.hasOwnProperty(attr) && object[attr] === value){
               return contains = true;
             }
           });
@@ -108,9 +108,9 @@
           delete self.markers[marker.id];
           LocalService.set('markers', JSON.stringify(cached) )
         },
-        setGoogleMarker: function(marker){
-          if(!marker.marker) {
-            var self = this;
+        setGoogleMarker: function(marker, map){
+          var self = this;
+          if(!marker.marker ) {
             var latLng = MapsService.newLatLng(marker.latitude, marker.longitude);
             var options = {
               zoom: 4,
@@ -119,9 +119,12 @@
             marker.marker = MapsService.newMapMarker({
               icon: self.icons.standard,
               position: latLng,
-              map: self.map,
+              map: map,
               title: marker.description
             });
+          }
+          if(!map){
+            self.markers[marker.id].mapped = false
           }
           return MapsService.addMarkerListener( marker.marker, 'click', function() {
             $rootScope.$broadcast('detailsWanted', {
@@ -139,7 +142,7 @@
           }).$promise.then(function(post) {
             if (post.post.originalImage === 'missing') {
               if (self.markers[id]) {
-                post.post.originalImage = $scope.markers[id].originalImage;
+                post.post.originalImage = self.markers[id].originalImage;
                 post.post.image_url = self.markers[id].image_url;
               } else {
                 post.post.originalImage = '<%= asset_path('processing.png')%>';

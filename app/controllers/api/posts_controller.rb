@@ -86,8 +86,9 @@ class Api::PostsController < ApplicationController
 
   def geolocated
 
-    @posts = Post.where(:latitude => params[:swLat]..params[:neLat])
-                 .where(:longitude => params[:swLng]..params[:neLng])
+
+    @posts = Post.where(:latitude => params[:seLat]..params[:nwLat])
+                 .where(:longitude => params[:nwLng]..params[:seLng])
                  .where(:published => true)
                  .where(:status => 'new')
                  .where("dibbed_until < ?", Time.now)

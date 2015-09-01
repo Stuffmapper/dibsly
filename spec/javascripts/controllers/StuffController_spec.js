@@ -47,6 +47,7 @@ describe('StuffCtrl', function() {
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'panTo').and.returnValue('non')
       spyOn(mockMapsService, 'getCenter').and.returnValue({lat:1, lat:2})
+      spyOn(mockMapsService, 'addMapListener').and.returnValue('');
 
       controller = $controller('StuffCtrl', { $scope: $scope });
     });
@@ -146,13 +147,20 @@ describe('StuffCtrl', function() {
     });
   });
   describe('mapChanged', function() {
-    it('activated the updateMarkers', function() {
+    it('activates the updateMarkers', function() {
       setupController();
       spyOn($scope, 'updateMarkers');
       $scope.$emit('mapChanged', {nw:{lat:1, lon:2},se:{lat:1, lon:2}})
 
       expect($scope.updateMarkers).toHaveBeenCalled();
 
+    });
+  });
+  describe('mapInitialized', function() {
+    it('sets event listeners', function() {
+      setupController();
+      $scope.$emit('mapInitialized')
+      expect(mockMapsService.addMapListener).toHaveBeenCalled();
     });
   });
 

@@ -4,7 +4,8 @@ var controllers = angular.module('controllers');
 
 controllers.controller('MyStuffCtrl', ['$scope', 'MarkerService',
 'UserService',function ($scope, MarkerService, UserService){
-
+  $scope.UserService = UserService;
+  $scope.MarkerService = MarkerService;
   $scope.$watchCollection('UserService', function() {
     $scope.currentUser = UserService.currentUser;
   });

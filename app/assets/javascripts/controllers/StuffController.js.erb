@@ -363,10 +363,18 @@
         if ($routeParams.postId) {
           $scope.getDetails($routeParams.postId, 'initial');
         }
+        var getPosition = function(){
+           $scope.$emit( 'mapChanged', MapsService.getCenter($scope.map) )
+        };
         $scope.centerMap()
+        MapsService.map = $scope.map;
+        MapsService.addMapListener($scope.map, 'dragend', getPosition );
         init();
+        angular.forEach(MarkerService.where({mapped:false}), function(value){
+          MapsService.setMapMarker(value.marker, $scope.map )
+          value.mapped = true;
+        })
       });
-
       $scope.showtab = function(tab) {
         return angular.forEach($scope.tabs, function(value, key) {
           if (key === tab) {
@@ -401,43 +409,11 @@
               marker.image_url = '<%= asset_path('processing.png')%>';
             }
             marker.currentUser = UserService.currentUser;
-            MarkerService.setMap($scope.map);
             MarkerService.setMarker(marker);
           };
         });
       };
-      updatePostMarker = function(callback, timeout, map) {
-        var centerError, centerSuccess, geoOptions, resetMarker, self, updateMarker;
-        if (map) {
-          self = this;
-          self.callback = callback;
-          resetMarker = function() {
-            if ($scope.postMarker) {
-              return $scope.postMarker.setMap(null);
-            }
-          };
-          updateMarker = function(center) {
-            var updatePost;
-            resetMarker();
-            $scope.postMarker = MapsService.newMapMarker({
-              position: center,
-              draggable: true,
-              map: $scope.map,
-              title: 'Your Stuff',
-              icon: MarkerService.icons.new
-            });
-            updatePost = function() {
-              $scope.post.latitude = $scope.postMarker.getPosition().lat();
-              return $scope.post.longitude = $scope.postMarker.getPosition().lng();
-            };
-            map.setZoom(12);
-            map.panTo(center);
-            $scope.post.latitude = $scope.postMarker.getPosition().lat();
-            $scope.post.longitude = $scope.postMarker.getPosition().lng();
-            return self.callback();
-          };
-        }
-      };;
+
     }
   ]);
 

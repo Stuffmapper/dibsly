@@ -72,7 +72,7 @@ describe('MarkerService', function() {
       setupController();
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(markers[1])
-      expect(MarkerService.markers[1].mapped).toEqual(true) //TODO removed
+      expect(MarkerService.markers[1].mapped).toEqual(false) //because map not defined
       expect(MarkerService.markers[1].updated_at ).toEqual(markers[1].updated_at );
     });
     it('extends a Marker', function() {
@@ -297,6 +297,18 @@ describe('MarkerService', function() {
       expect(results[0].id ).toEqual(5)
       expect(results[1].id ).toEqual(2)
       expect(results[3].id ).toEqual(1)
+
+    });
+
+    it('returns markers if they haven\'t been mapped', function() {
+      setupController();
+
+
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where({ mapped:false });
+      expect(results.length ).toEqual(6)
 
     });
 
