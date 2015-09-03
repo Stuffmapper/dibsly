@@ -29,11 +29,13 @@
             results.lon = lon2 * 180 / Math.PI;
             return results;
           };
+          console.log('32 ')
           return {nw: getCoords(coords,-45, distance), se: getCoords(coords,135, distance)};
 
         },
         getCenter: function(map){
-          var position = map.getCenter();
+          var self = this;
+          var position = map ?  map.getCenter() : self.newLatLng( 47.6097,-122.3331)  ;
           return {lat:position.lat(), lon:position.lng() }
         },
         getBoundingBox: function(coords, distance){

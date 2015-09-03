@@ -188,13 +188,8 @@
           }
         },
 
-        setMap: function(map) {
-          var self;
-          self = this;
-          self.map = map;
-        },
 
-        setMarker: function(marker){
+        setMarker: function(marker, map){
           var self;
           self = this;
           marker.updated_at = new Date(marker.updated_at);
@@ -204,7 +199,7 @@
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
           self.saveLocal( self.markers[marker.id] )
-          self.setGoogleMarker(self.markers[marker.id]);
+          self.setGoogleMarker(self.markers[marker.id], map);
         },
 
         where: function(has, doesnot){

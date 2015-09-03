@@ -172,7 +172,7 @@
         $location.path('/menu/getStuff', false)
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $scope.updateMarkers($scope.map);
+        $scope.updateMarkers(MapsService.getCenter($scope.map));
         MarkerService.setAll($scope.map);
         $scope.mapped = $scope.markers();
       };
@@ -221,12 +221,10 @@
           LocationService.get()
           .then(
             function(position){
-              console.log('223');
               center = MapsService.newLatLng(position.coords.latitude, position.coords.longitude);
             },
             function(err){ console.log('geolocation not supported') })
           .then( function() {
-            console.log('we are at line 227 stuffcontroller');
             angular.extend( marker, { latitude: center.lat, longitude: center.lon, icon: 'giveStuff', draggable: true });
             MarkerService.setMarker(marker);
           })
@@ -256,7 +254,6 @@
                   var post;
                   AlertService.add('success', "You've Posted Your Stuff");
                   $scope.cancelGive();
-                  updateMarkers();
                   $scope.giveNext(1);
                   post = data.post;
                   post.image_url = $scope.current_image;
@@ -412,7 +409,7 @@
               marker.image_url = '<%= asset_path('processing.png')%>';
             }
             marker.currentUser = UserService.currentUser;
-            MarkerService.setMarker(marker);
+            MarkerService.setMarker(marker, $scope.map);
           };
         });
       };

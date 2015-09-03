@@ -3,7 +3,8 @@ describe('StuffCtrl', function() {
 
 
   var controller,
-  httpBackend,
+  authHandler,
+  $httpBackend,
   $location,
   gmarker,
   LocationService,
@@ -30,12 +31,24 @@ describe('StuffCtrl', function() {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $routeParams = _$routeParams_;
-      httpBackend = _$httpBackend_;
+      $httpBackend = _$httpBackend_;
       mockLocalService = LocalService;
       LocationService = LocationService;
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new', 'panTo']);
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
+      // //TODO make this work
+      //
+      // authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ );
+      // authHandler.respond({ posts: [
+      //                           {id:1, dibber:'Jack', updated_at:'2012-11-25' },
+      //                           {id:2, dibber:'Jack', updated_at: '2014-11-22'},
+      //                           {id:3, dibber: 'john', creator:'Jack', updated_at: '2012-11-24'},
+      //                           {id:4, dibber:'Jackie', creator:'Jack', updated_at:'2012-11-25'},
+      //                           {id:5, dibber:'Jack', updated_at:'2014-11-23' }
+      //                       ]
+      //                      });
+
       var markers = {
        1:{dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
        2:{dibber:'Jack', updated_at: new Date('2014-11-22'), marker: gmarker},
@@ -74,7 +87,7 @@ describe('StuffCtrl', function() {
         done();
 
       })
-      $rootScope.$digest();
+      setTimeout($rootScope.$digest(), 0);
       //needed for promises to resolve
 
     });
@@ -176,8 +189,7 @@ describe('StuffCtrl', function() {
     it('activates the updateMarkers', function() {
       setupController();
       spyOn($scope, 'updateMarkers');
-      $scope.$emit('mapChanged', {nw:{lat:1, lon:2},se:{lat:1, lon:2}})
-
+      $scope.$emit('mapChanged', {nw:{lat:1, lon:2},se:{lat:1, lon:2}});
       expect($scope.updateMarkers).toHaveBeenCalled();
 
     });
@@ -193,10 +205,14 @@ describe('StuffCtrl', function() {
 
   describe('get Stuff', function() {
     it('sets all the markers to the map', function() {
+
       setupController();
       spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
       $scope.getStuff();
-      expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+      $httpBackend.expectGET( "/api/posts/geolocated?nwLat=2.153494406622975&nwLng=NaN&seLat=1.846491232208534&seLng=NaN");
+      expect(5).toEqual($scope.mapped.length);
+      expect(mockMapsService.setMapMarker.calls.count()).toEqual(5);
+      $httpBackend.verifyNoOutstandingExpectation();
     });
     it('setsthe menu and map height', function() {
       setupController();
