@@ -43,7 +43,7 @@
 # #  * 'just' rspec: 'rspec'
 
 
-guard :rspec, zeus: true, bundler: false do
+guard :rspec, cmd: 'rspec' do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 

@@ -48,7 +48,7 @@
             dibber: '<%= asset_path('my-want.png')%>',
             creator:'<%= asset_path('my-marker.png')%>',
             moving: '<%= asset_path('green-pin.png')%>',
-            new: '<%= asset_path('pin.svg')%>'
+            giveStuff: '<%= asset_path('pin.svg')%>'
           },
         categories:[
           'Arts & Crafts',
@@ -108,7 +108,7 @@
           delete self.markers[marker.id];
           LocalService.set('markers', JSON.stringify(cached) )
         },
-        setAll: function(map){
+        setAll: function( map){
           var self = this;
           angular.forEach( self.where(), function(marker){
             if(marker.marker){
@@ -126,7 +126,8 @@
               center: latLng
             };
             marker.marker = MapsService.newMapMarker({
-              icon: self.icons.standard,
+              icon: self.icons[marker.icon] || self.icons.standard,
+              draggable: marker.draggable,
               position: latLng,
               map: map,
               title: marker.description
@@ -135,11 +136,13 @@
           if(!map){
             self.markers[marker.id].mapped = false
           }
-          return MapsService.addMarkerListener( marker.marker, 'click', function() {
-            $rootScope.$broadcast('detailsWanted', {
-              markerId: marker.id
+          if (marker.id !== 'giveStuff'){
+            MapsService.addMarkerListener( marker.marker, 'click', function() {
+              $rootScope.$broadcast('detailsWanted', {
+                markerId: marker.id
+              });
             });
-          });
+          }
           return marker;
         },
 

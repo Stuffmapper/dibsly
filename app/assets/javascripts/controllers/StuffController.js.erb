@@ -23,11 +23,11 @@
           $scope.showtab($routeParams.menuState);
         } else if($location.url() == '/' ) {
           var position = MapsService.getCenter($scope.map)
-          $scope.updateMarkers(position)
+          $scope.getStuff();
         }
       };
       var loadCache = function(){
-        var markers = JSON.parse( LocalService.get('markers'));
+        var markers = LocalService.get('markers') ?  JSON.parse( LocalService.get('markers')) : undefined ;
         angular.forEach(markers, function(marker, key){
             MarkerService.setMarker(marker)
         })
@@ -47,9 +47,9 @@
         2: [false, '']
       };
       $scope.loading = false;
-      $scope.mapCenter = '47.6097,-122.3331';
-      $scope.mapHeight = 'map-0';
+      $scope.mapCenter = LocalService.get('mapcenter') || '47.6097,-122.3331';
       $scope.menuHeight = 'menu-0';
+      $scope.mapHeight = 'map-0'
       $scope.post = {};
       $scope.tabs = {
         getStuff: [ true, '' ],
@@ -75,17 +75,19 @@
 
         return LocationService.get().then(
           function(position){
-            center = MapsService.newLatLng(position.coords.latitude,
-              position.coords.longitude);
+            center = {lat: position.coords.latitude, lon: position.coords.longitude };
+            LocalService.set('mapcenter', position.coords.latitude + ',' + position.coords.longitude )
           },
           function(error){
             center = MapsService.getCenter($scope.map);
           }
          )
-         .then( function(){ MapsService.panTo($scope.map, center);})
+         .then( function(){
+           MapsService.panTo($scope.map, center);})
       }
 
       $scope.edit = function(id) {
+        //TODO
         $scope.showtab('editing');
         $scope.file = null;
         $scope.editItem = MarkerService.markers[id];
@@ -168,7 +170,8 @@
       }
       $scope.getStuff = function() {
         $location.path('/menu/getStuff', false)
-        $scope.menuHeight = 'get-stuff-view';
+        $scope.menuHeight = 'menu-0';
+        $scope.mapHeight = 'map-0';
         $scope.updateMarkers($scope.map);
         MarkerService.setAll($scope.map);
         $scope.mapped = $scope.markers();
@@ -207,23 +210,27 @@
       $scope.giveStuff = function() {
         $scope.menuHeight = 'menu-1-1';
         $scope.mapHeight = 'map-1-1';
+        MarkerService.clearMarkers('giveStuff', $scope.map );
         var state = $routeParams.next ? $routeParams.next : 1
         $scope.giveNext(state);
         var markerSet = MarkerService.markers['giveStuff'];
         var marker = markerSet ? markerSet : {id: 'giveStuff'};
+        console.log('marker set?', markerSet);
         if(!markerSet){
           var center = MapsService.getCenter($scope.map);
           LocationService.get()
           .then(
             function(position){
+              console.log('223');
               center = MapsService.newLatLng(position.coords.latitude, position.coords.longitude);
             },
             function(err){ console.log('geolocation not supported') })
           .then( function() {
-            angular.extend( marker, { latitude: center.lat(), longitude: center.lng() });
+            console.log('we are at line 227 stuffcontroller');
+            angular.extend( marker, { latitude: center.lat, longitude: center.lon, icon: 'giveStuff', draggable: true });
             MarkerService.setMarker(marker);
           })
-        }
+        } //else panto the marker
       };
 
       $scope.submitPost = function() {
@@ -357,6 +364,9 @@
       });
 
       $scope.$on('mapInitialized', function(evt, map) {
+        if($routeParams.menuState !== 'giveStuff'){
+          MarkerService.setAll($scope.map )
+        }
         if ($routeParams.postId) {
           $scope.getDetails($routeParams.postId, 'initial');
         }
@@ -364,13 +374,9 @@
            $scope.$emit( 'mapChanged', MapsService.getCenter($scope.map) )
         };
         $scope.centerMap()
-        MapsService.map = $scope.map;
         MapsService.addMapListener($scope.map, 'dragend', getPosition );
         init();
-        angular.forEach(MarkerService.where({mapped:false}), function(value){
-          MapsService.setMapMarker(value.marker, $scope.map )
-          value.mapped = true;
-        })
+
       });
       $scope.showtab = function(tab) {
         return angular.forEach($scope.tabs, function(value, key) {
@@ -386,7 +392,7 @@
         });
       };
       $scope.updateMarkers = function(coords) {
-        var box = MapsService.getBoundingBox(coords, 5);
+        var box = MapsService.getBoundingBox(coords, 15);
         return $http({
           url: '/api/posts/geolocated',
           params: {

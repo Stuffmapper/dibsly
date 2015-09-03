@@ -7,8 +7,7 @@
     '$http', '$q', 'LocalService', function($http, $q, LocalService) {
       return {
         login: function(username, password, callback) {
-          var loginData, self;
-          self = this;
+          var self = this;
           loginData = {
             username: username,
             password: password
@@ -31,8 +30,7 @@
           });
         },
         logout: function(callback) {
-          var self;
-          self = this;
+          var self = this;
           localStorage.clear();
           return $http.get('/api/log_out').success(function(data) {
             self.currentUser = false;
@@ -45,7 +43,7 @@
           var self = this;
           return $q( function(resolve, reject){
             var user;
-            user = JSON.parse(LocalService.get('sMToken'));
+            user = LocalService.getJSON('sMToken');
             if (user) {
               return $http.get('/api/auth/check?token=' + user.token)
               .success(

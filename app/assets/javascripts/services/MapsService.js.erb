@@ -60,7 +60,8 @@
         },
         panTo: function(map, latlng){
           //note consider using promise here
-          map.panTo(latlng);
+          var self = this;
+          map.panTo(self.newLatLng(latlng.lat, latlng.lon ));
         },
         removeMapListener: function(){
           throw new Error('not implemented')

@@ -7,6 +7,7 @@ describe('StuffCtrl', function() {
   $location,
   gmarker,
   LocationService,
+  mockLocalService,
   mockMapsService,
   MarkerService,
   mockMarkerService,
@@ -20,7 +21,8 @@ describe('StuffCtrl', function() {
     module('stfmpr');
 
     inject(function(_$controller_,_$q_, _$rootScope_, _$httpBackend_,
-       _$location_, _$routeParams_, LocationService, UserService, MarkerService, MapsService){
+       _$location_, _$routeParams_, LocalService, LocationService, UserService,
+        MarkerService, MapsService){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       $controller = _$controller_;
       $location = _$location_;
@@ -29,9 +31,10 @@ describe('StuffCtrl', function() {
       $scope = $rootScope.$new();
       $routeParams = _$routeParams_;
       httpBackend = _$httpBackend_;
+      mockLocalService = LocalService;
       LocationService = LocationService;
       $scope.currentUser = 'Jack';
-      $scope.map = jasmine.createSpyObj('map',['new']);
+      $scope.map = jasmine.createSpyObj('map',['new', 'panTo']);
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
       var markers = {
        1:{dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
@@ -44,7 +47,9 @@ describe('StuffCtrl', function() {
       MarkerService.markers = markers;
       mockMarkerService = MarkerService;
       mockMapsService = MapsService;
-      spyOn(mockMapsService, 'panTo').and.returnValue('non')
+      spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
+      spyOn(mockLocalService, 'get').and.returnValue(undefined)
+      spyOn(mockMapsService, 'panTo').and.callThrough();
       spyOn(mockMapsService, 'getCenter').and.returnValue({lat:1, lat:2})
       spyOn(mockMapsService, 'addMapListener').and.returnValue('');
 
@@ -76,7 +81,6 @@ describe('StuffCtrl', function() {
 
     it('sets map to the User Location when there is a navigator', function(done) {
       setupController();
-      spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
        window.navigator = { geolocation: {
           getCurrentPosition: function(success, error, geoOptions){
              success({
@@ -108,12 +112,35 @@ describe('StuffCtrl', function() {
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
+    it('opens up Give Stuff when in the routeParams ', function() {
+      setupController();
+      spyOn( mockMarkerService, 'clearMarkers').and.returnValue('');
+      controller = $controller('StuffCtrl', {
+        $scope: $scope,
+        $routeParams: { menuState: 'giveStuff'}
+      });
+      $scope.$emit('mapInitialized', {}) //to fake the map loading
+      expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff', $scope.map);
+      expect($scope.tabs.giveStuff[0] ).toEqual(true)
+
+    });
     it('sets the routeParams', function() {
       setupController();
       expect( $location.url() ).toEqual('/')
       $scope.giveStuff();
       expect($location.url() ).toEqual('/menu/giveStuff/1')
     });
+
+    it('adds listeners to the give stuff item when undefined', function() {
+      setupController();
+      spyOn(mockMapsService, 'addMarkerListener').and.returnValue( true )
+      spyOn(mockMarkerService, 'setMarker').and.returnValue( true );
+      $scope.giveStuff();
+      $rootScope.$digest();
+      expect(mockMapsService.addMarkerListener).toHaveBeenCalled();
+
+    });
+
   });
 
   describe('change to give stuff tabmap', function() {
@@ -122,6 +149,7 @@ describe('StuffCtrl', function() {
       expect($scope.mapHeight).toBeDefined();
       expect($scope.menuHeight).toBeDefined();
     });
+
     it('sets the classes for the map and menu', function() {
       setupController();
       $scope.giveStuff();
@@ -168,6 +196,14 @@ describe('StuffCtrl', function() {
       setupController();
       spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
       $scope.getStuff();
+      expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+    });
+    it('setsthe menu and map height', function() {
+      setupController();
+      spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
+      $scope.getStuff();
+      expect($scope.mapHeight).toEqual('map-0');
+      expect($scope.menuHeight).toEqual('menu-0');
       expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
     });
   });
