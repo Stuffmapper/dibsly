@@ -109,9 +109,11 @@
         });
       };
       $scope.getDetails = function(id) {
-        $rootScope.$broadcast('detailsWanted', {
-          markerId: id
-        });
+        $timeout(function(){
+          $rootScope.$broadcast('detailsWanted', {
+            markerId: id
+          });
+        },1);
       };
       $scope.showDetails = function(id){
         $scope.stuff = MarkerService.markers[id]
@@ -123,7 +125,8 @@
         return MarkerService.where( has, hasnot );
       };
       $scope.myStuff = function() {
-        MarkerService.setAll($scope.map);
+        MarkerService.clearMarkers();
+        MarkerService.setAll($scope.map, {}, { temporary: true});
         $location.path('/menu/myStuff', false)
         if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
@@ -173,10 +176,12 @@
         $location.path('/menu/getStuff', false)
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
+        MarkerService.clearMarkers(null,$scope.map);
+        MarkerService.setAll($scope.map, {}, { temporary: true});
         $scope.updateMarkers(MapsService.getCenter($scope.map))
         .then( function(){
           $scope.mapped = $scope.markers();
-          MarkerService.setAll($scope.map);
+          MarkerService.setAll($scope.map, {}, { temporary: true});
         });
       };
       $scope.markGone = function(id) {
@@ -213,25 +218,38 @@
       $scope.giveStuff = function() {
         $scope.menuHeight = 'menu-1-1';
         $scope.mapHeight = 'map-1-1';
-        MarkerService.clearMarkers('giveStuff', $scope.map );
+        MarkerService.clearMarkers();
         var state = $routeParams.next ? $routeParams.next : 1
         $scope.giveNext(state);
         var markerSet = MarkerService.markers['giveStuff'];
-        var marker = markerSet ? markerSet : {id: 'giveStuff'};
-        console.log('marker set?', markerSet);
-        if(!markerSet){
+        var marker = markerSet ? markerSet : {
+          id: 'giveStuff',
+          icon: 'giveStuff',
+          draggable: true,
+          temporary: true
+        };
+        if(!marker.marker){
           var center = MapsService.getCenter($scope.map);
           LocationService.get()
           .then(
             function(position){
-              center = MapsService.newLatLng(position.coords.latitude, position.coords.longitude);
+              center = {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude
+                };
             },
             function(err){ console.log('geolocation not supported') })
           .then( function() {
-            angular.extend( marker, { latitude: center.lat, longitude: center.lon, icon: 'giveStuff', draggable: true });
-            MarkerService.setMarker(marker);
+            angular.extend( marker, {
+              latitude: center.lat,
+              longitude: center.lon
+            });
+            MarkerService.setMarker(marker, $scope.map );
           })
-        } //else panto the marker
+        } else {
+          console.log('line 235', marker)
+          MarkerService.clearMarkers('giveStuff', $scope.map );
+        }
       };
 
       $scope.submitPost = function() {
@@ -343,13 +361,13 @@
           if (!MarkerService.markers[id]) {
             MarkerService.updateMarker(id, $scope.map)
             .then(function(){
-              console.log('line 345')
               MarkerService.updateWindow(id);
-              MarkerService.clearWindows(id, $scope.map);
+              MarkerService.clearWindows('365', id, $scope.map);
               $scope.showDetails(id);
             })
           } else {
             MarkerService.updateWindow(id);
+            console.log('370', id, $scope.map);
             MarkerService.clearWindows(id, $scope.map)
             $scope.$apply( function(){
               $scope.showDetails(id);
@@ -371,7 +389,7 @@
 
       $scope.$on('mapInitialized', function(evt, map) {
         if($routeParams.menuState !== 'giveStuff'){
-          MarkerService.setAll($scope.map )
+          MarkerService.setAll($scope.map, {}, {id: 'giveStuff'});
         }
         if ($routeParams.postId) {
           $scope.getDetails($routeParams.postId, 'initial');
@@ -391,6 +409,8 @@
       //not call a function (i.e. for edit and details).
       $scope.showTab = function(tab) {
         var original;
+        console.log( '412', $scope.map)
+        MarkerService.clearWindows('none', $scope.map);
         angular.forEach($scope.tabs, function(value, key){
           //resets all the tabs
           if(value[1]){

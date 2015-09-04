@@ -73,8 +73,8 @@
         clearWindows: function(exception, map){
           var self = this;
           angular.forEach(self.markers, function(value, key) {
-            if (key !== String(exception)) {
-              if (value.infowindow) {
+            if (String(key) !== String(exception)) {
+              if (value.infowindow && value.marker) {
                 //TODO add to mapservices
                 return value.infowindow.close(map, value.marker);
               }
@@ -104,15 +104,17 @@
         },
         saveLocal: function(marker){
           var self = this;
-          var cached = JSON.parse( LocalService.get('markers')) || {};
-          var data = {};
-          angular.forEach(self.editProperties, function(value){
-            if(marker[value]){
-              data[value] = marker[value]
-            }
-          });
-          cached[marker.id] = data;
-          LocalService.set('markers', JSON.stringify(cached))
+          if(!marker.temporary){
+            var cached = JSON.parse( LocalService.get('markers')) || {};
+            var data = {};
+            angular.forEach(self.editProperties, function(value){
+              if(marker[value]){
+                data[value] = marker[value]
+              }
+            });
+            cached[marker.id] = data;
+            LocalService.set('markers', JSON.stringify(cached))
+         }
         },
         delete: function(marker){
           self = this;
@@ -121,9 +123,9 @@
           delete self.markers[marker.id];
           LocalService.set('markers', JSON.stringify(cached) )
         },
-        setAll: function( map){
+        setAll: function(map, has, doesnot){
           var self = this;
-          angular.forEach( self.where(), function(marker){
+          angular.forEach( self.where(has, doesnot), function(marker){
             if(marker.marker){
               MapsService.setMapMarker(marker.marker, map)
             }
@@ -147,7 +149,7 @@
             });
             if (marker.id !== 'giveStuff'){
               MapsService.addMarkerListener( marker.marker, 'click', function() {
-                $rootScope.$broadcast('detailsWanted', {
+                $rootScope.$broadcast('anted', {
                   markerId: marker.id
                 });
               });
@@ -156,7 +158,7 @@
           return marker;
         },
 
-        updateMarker: function(id,callback) {
+        updateMarker: function(id,map) {
           var defer = $q.defer();
           setTimeout(function(){
             $q.reject('timeout')
@@ -174,8 +176,9 @@
                 post.post.originalImage = '<%= asset_path('processing.png')%>';
                 post.post.image_url = '<%= asset_path('processing.png')%>';
               }
+              defer.resolve('marker updated')
             }
-            self.setMarker(post.post)
+            self.setMarker(post.post, map)
             defer.resolve('marker updated')
             return defer.promise;
           });
