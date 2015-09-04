@@ -4,8 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('MarkerService', [
-    '$http','LocalService','MapsService', '$resource', '$rootScope',
-     function($http,LocalService,MapsService,$resource, $rootScope) {
+    '$http','LocalService','MapsService', '$resource', '$rootScope', '$q',
+     function($http,LocalService,MapsService,$resource, $rootScope, $q) {
       var Marker;
       Marker = $resource('/api/posts/:id', {
         id: '@id'
@@ -145,18 +145,22 @@
               map: map,
               title: marker.description
             });
-          }
-          if (marker.id !== 'giveStuff'){
-            MapsService.addMarkerListener( marker.marker, 'click', function() {
-              $rootScope.$broadcast('detailsWanted', {
-                markerId: marker.id
+            if (marker.id !== 'giveStuff'){
+              MapsService.addMarkerListener( marker.marker, 'click', function() {
+                $rootScope.$broadcast('detailsWanted', {
+                  markerId: marker.id
+                });
               });
-            });
+            }
           }
           return marker;
         },
 
-        updateMarker: function(id, origin, callback) {
+        updateMarker: function(id,callback) {
+          var defer = $q.defer();
+          setTimeout(function(){
+            $q.reject('timeout')
+          })
           var self;
           self = this;
           return Marker.get({
@@ -172,10 +176,8 @@
               }
             }
             self.setMarker(post.post)
-            if (origin !== 'marker') {
-              MapsService.triggerMarkerEvent(self.markers[id].marker, 'click');
-            }
-            return callback();
+            defer.resolve('marker updated')
+            return defer.promise;
           });
         },
         updateWindow: function(id) {

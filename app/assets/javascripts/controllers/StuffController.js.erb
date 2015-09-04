@@ -6,12 +6,13 @@
   controllers.controller('StuffCtrl', [
     '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal', '$resource', 'ImageService',
     'LocalService', 'LocationService','MapsService', 'MarkerService', 'UserService', 'AlertService',
-    '$rootScope', '$http', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource,
-      ImageService,LocalService, LocationService,MapsService, MarkerService, UserService, AlertService, $rootScope, $http) {
+    '$rootScope', '$http', '$q', function($scope, $timeout, $location, $routeParams, $window, $modal, $resource,
+      ImageService,LocalService, LocationService,MapsService, MarkerService, UserService, AlertService, $rootScope, $http, $q) {
       var init, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
       $scope.search = {};
+      $scope.stuff = {};
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
@@ -27,7 +28,7 @@
         }
       };
       var loadCache = function(){
-        var markers = LocalService.get('markers') ?  JSON.parse( LocalService.get('markers')) : undefined ;
+        var markers = LocalService.getJSON('markers');
         angular.forEach(markers, function(marker, key){
             MarkerService.setMarker(marker)
         })
@@ -113,10 +114,11 @@
         });
       };
       $scope.showDetails = function(id){
-        $scope.stuff = MarkerService.markers[id];
+        $scope.stuff = MarkerService.markers[id]
         $location.path('/post/' + id, false);
         $scope.showTab('details')
       };
+
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
       };
@@ -171,9 +173,11 @@
         $location.path('/menu/getStuff', false)
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $scope.updateMarkers(MapsService.getCenter($scope.map));
-        MarkerService.setAll($scope.map);
-        $scope.mapped = $scope.markers();
+        $scope.updateMarkers(MapsService.getCenter($scope.map))
+        .then( function(){
+          $scope.mapped = $scope.markers();
+          MarkerService.setAll($scope.map);
+        });
       };
       $scope.markGone = function(id) {
         var post;
@@ -333,16 +337,24 @@
       };
 
 
-      var detailsTimes = 0;
 
       $rootScope.$on("detailsWanted", function(event, args) {
-          detailsTimes += 1;
           var id = args.markerId;
-          MarkerService.updateWindow(id);
-          MarkerService.clearWindows(id, $scope.map)
-          $scope.$apply( function(){
-            $scope.showDetails(id);
-          })
+          if (!MarkerService.markers[id]) {
+            MarkerService.updateMarker(id, $scope.map)
+            .then(function(){
+              console.log('line 345')
+              MarkerService.updateWindow(id);
+              MarkerService.clearWindows(id, $scope.map);
+              $scope.showDetails(id);
+            })
+          } else {
+            MarkerService.updateWindow(id);
+            MarkerService.clearWindows(id, $scope.map)
+            $scope.$apply( function(){
+              $scope.showDetails(id);
+            });
+          }
         });
 
       $scope.$on("fileSelected", function(event, args) {
@@ -351,7 +363,10 @@
       });
 
       $scope.$on('mapChanged', function(evt, args) {
-        $scope.updateMarkers(args);
+        $scope.updateMarkers(args)
+        .then( function(){
+          $scope.mapped = $scope.markers();
+        })
       });
 
       $scope.$on('mapInitialized', function(evt, map) {
@@ -365,7 +380,9 @@
            $scope.$emit( 'mapChanged', MapsService.getCenter($scope.map) )
         };
         $scope.centerMap()
-        MapsService.addMapListener($scope.map, 'dragend', getPosition );
+        angular.forEach(['dragend','zoom_changed', 'idle'], function(mapEvent){
+          MapsService.addMapListener($scope.map, mapEvent, getPosition );
+        })
         init();
 
       });
@@ -382,6 +399,7 @@
           $scope.tabs[key][1] = false;
           $scope.tabs[key][0] = false;
         });
+        $scope.stuff.lastVisit = original;
         //sets correct states
         $scope.tabs[tab][1] = true;
         $scope.tabs[tab][0] = true;
@@ -393,8 +411,9 @@
         if(typeof $scope[tab] === 'function'){ $scope[tab]() }
       };
       $scope.updateMarkers = function(coords) {
+        var defer = $q.defer();
         var box = MapsService.getBoundingBox(coords, 15);
-        return $http({
+        $http({
           url: '/api/posts/geolocated',
           params: {
             nwLat: box.nw.lat,
@@ -415,9 +434,11 @@
             marker.currentUser = UserService.currentUser;
             MarkerService.setMarker(marker, $scope.map);
           };
-        });
+         defer.resolve('markers updated')
+        })
+        .error(function(err) { defer.reject(err) } );
+        return defer.promise;
       };
-
     }
   ]);
 
