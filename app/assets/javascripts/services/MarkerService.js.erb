@@ -146,15 +146,12 @@
               title: marker.description
             });
           }
-          if(!map){
-            self.markers[marker.id].mapped = false
-          }
           if (marker.id !== 'giveStuff'){
-            // MapsService.addMarkerListener( marker.marker, 'click', function() {
-            //   $rootScope.$broadcast('detailsWanted', {
-            //     markerId: marker.id
-            //   });
-            // });
+            MapsService.addMarkerListener( marker.marker, 'click', function() {
+              $rootScope.$broadcast('detailsWanted', {
+                markerId: marker.id
+              });
+            });
           }
           return marker;
         },

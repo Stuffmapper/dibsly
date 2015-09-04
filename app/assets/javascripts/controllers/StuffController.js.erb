@@ -113,16 +113,9 @@
         });
       };
       $scope.showDetails = function(id){
-        $location.path('/post/' + id, false);
-        // if (MarkerService.markers[id] && origin !== 'marker') {
-        //   MapsService.triggerMarkerEvent(MarkerService.markers[id].marker, 'click' );
-        //   $scope.stuff = MarkerService.markers[id];
-        // } else {
-        //   // MarkerService.updateMarker(id, origin, function() {
-        $scope.showTab('details')
         $scope.stuff = MarkerService.markers[id];
-          // });
-
+        $location.path('/post/' + id, false);
+        $scope.showTab('details')
       };
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
@@ -344,12 +337,12 @@
 
       $rootScope.$on("detailsWanted", function(event, args) {
           detailsTimes += 1;
-          console.log('details emited', detailsTimes, event)
           var id = args.markerId;
-
           MarkerService.updateWindow(id);
           MarkerService.clearWindows(id, $scope.map)
-          $scope.showDetails(id);
+          $scope.$apply( function(){
+            $scope.showDetails(id);
+          })
         });
 
       $scope.$on("fileSelected", function(event, args) {
@@ -379,73 +372,25 @@
       //calls the function related to the tab
       //if it is a function otherwise will
       //not call a function (i.e. for edit and details).
-      var times = 0;
       $scope.showTab = function(tab) {
-        times += 1;
-        console.log('times called', times);
-        // var original;
-        // angular.forEach($scope.tabs, function(value, key) {
-        //   if (value[1] === true) { original = key };
-        //   if (key === tab) {
-        //     $scope.tabs[key][0] = true;
-        //     $scope.tabs[key][1] = true;
-        //     if (typeof $scope[key] == 'function'){ $scope[key](); }
-        //
-        //   } else {
-        //     $scope.tabs[key][1] = false;
-        //     $scope.tabs[key][0] = false;
-        //   }
-        // });
-        // if( tab === 'details') {
-        //   console.log($scope.tabs[original] )
-        //    $scope.tabs[original][1] = true;}
-
-        angular.forEach($scope.tabs, function(value, key) {
-          // if (value[1] === true ) { original = key };
-          if (key === tab) {
-            $scope.tabs[key][0] = true;
-            // $scope.tabs[key][1] = true;
-
-            if (typeof $scope[key] == 'function'){
-              $scope[key]();
-              $scope.tabs[key][1] = true;
-              }
-
-          } else {
-            if (tab !== 'details' && typeof $scope[key] == 'function'){
-              $scope.tabs[key][1] = false;
-            }
-            $scope.tabs[key][0] = false;
+        var original;
+        angular.forEach($scope.tabs, function(value, key){
+          //resets all the tabs
+          if(value[1]){
+            original = key;
           }
+          $scope.tabs[key][1] = false;
+          $scope.tabs[key][0] = false;
         });
-        //
-
-        // if (tab === 'details'){
-        //   $scope.tabs[original][1] = true;
-        // }
-        //
-        //
-        // angular.forEach($scope.tabs, function(value, key) {
-        //   if (value === true) { original = key };
-        //   if (key === tab) {
-        //     if(tab !== 'details'){
-        //       $scope.tabs[key][0] = true;
-        //       $scope.tabs[key][1] = true;
-        //     } else {
-        //       $scope.tabs[key][0] = true;
-        //     }
-        //     if (typeof $scope[key] == 'function'){ $scope[key](); }
-        //
-        //   } else {
-        //     if (tab === 'details'){
-        //       $scope.tabs[key][1] = false;
-        //     }
-        //     $scope.tabs[key][0] = false;
-        //   }
-        // });
-        // // if ($scope.tabs['details'][0] = true) {
-        // //   $scope.tabs[original][1] = true;
-        // }
+        //sets correct states
+        $scope.tabs[tab][1] = true;
+        $scope.tabs[tab][0] = true;
+        if (tab === 'details') {
+          $scope.tabs['details'][1] = false;
+          $scope.tabs[original][1] = true;
+        }
+        //calls corresponding function if exits
+        if(typeof $scope[tab] === 'function'){ $scope[tab]() }
       };
       $scope.updateMarkers = function(coords) {
         var box = MapsService.getBoundingBox(coords, 15);
