@@ -20,7 +20,7 @@
       });
       var setMenu = function() {
         if($routeParams.menuState){
-          $scope.showtab($routeParams.menuState);
+          $scope.showTab($routeParams.menuState);
         } else if($location.url() == '/' ) {
           var position = MapsService.getCenter($scope.map)
           $scope.getStuff();
@@ -52,11 +52,11 @@
       $scope.mapHeight = 'map-0'
       $scope.post = {};
       $scope.tabs = {
-        getStuff: [ true, '' ],
-        giveStuff:[ false,  '' ],
-        myStuff: [ false, '' ],
-        details: [ false,  ''],
-        editing: [ false, '']
+        getStuff: [ true, true ],
+        giveStuff:[ false,  false ],
+        myStuff: [ false, false ],
+        details: [ false,  false],
+        editing: [ false, false]
       };
       $scope.toggle = false;
 
@@ -88,7 +88,7 @@
 
       $scope.edit = function(id) {
         //TODO
-        $scope.showtab('editing');
+        $scope.showTab('editing');
         $scope.file = null;
         $scope.editItem = MarkerService.markers[id];
         return $scope.current_image = $scope.editItem.image_url;
@@ -107,16 +107,22 @@
           }
         });
       };
-      $scope.getDetails = function(id, origin) {
+      $scope.getDetails = function(id) {
+        $rootScope.$broadcast('detailsWanted', {
+          markerId: id
+        });
+      };
+      $scope.showDetails = function(id){
         $location.path('/post/' + id, false);
-        if (MarkerService.markers[id] && origin !== 'marker') {
-          MapsService.triggerMarkerEvent(MarkerService.markers[id].marker, 'click' );
-          return $scope.stuff = MarkerService.markers[id];
-        } else {
-          return MarkerService.updateMarker(id, origin, function() {
-            return $scope.stuff = MarkerService.markers[id];
-          });
-        }
+        // if (MarkerService.markers[id] && origin !== 'marker') {
+        //   MapsService.triggerMarkerEvent(MarkerService.markers[id].marker, 'click' );
+        //   $scope.stuff = MarkerService.markers[id];
+        // } else {
+        //   // MarkerService.updateMarker(id, origin, function() {
+        $scope.showTab('details')
+        $scope.stuff = MarkerService.markers[id];
+          // });
+
       };
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
@@ -262,7 +268,7 @@
                   $scope.stuff = MarkerService.markers[post.id];
                   $scope.menuHeight = 'get-stuff-view';
                   $location.path('/post/' + post.id, false);
-                  return $scope.showtab('details');
+                  return $scope.showTab('details');
                 }).error(function(data) {
                   var key, value;
                   for (key in data) {
@@ -332,24 +338,19 @@
          }
         );
       };
+
+
+      var detailsTimes = 0;
+
       $rootScope.$on("detailsWanted", function(event, args) {
-        var dets, id;
-        id = args.markerId;
-        MarkerService.updateWindow(id);
-        angular.forEach(MarkerService.markers, function(value, key) {
-          if (key !== String(id)) {
-            if (value.infowindow) {
-              return value.infowindow.close($scope.map, value.marker);
-            }
-          } else {
-            return value.infowindow.open($scope.map, value.marker);
-          }
+          detailsTimes += 1;
+          console.log('details emited', detailsTimes, event)
+          var id = args.markerId;
+
+          MarkerService.updateWindow(id);
+          MarkerService.clearWindows(id, $scope.map)
+          $scope.showDetails(id);
         });
-        dets = function() {
-          return $scope.getDetails(id, 'marker');
-        };
-        return $timeout(dets, 0);
-      });
 
       $scope.$on("fileSelected", function(event, args) {
         $scope.giveNext(2);
@@ -375,18 +376,76 @@
         init();
 
       });
-      $scope.showtab = function(tab) {
-        return angular.forEach($scope.tabs, function(value, key) {
+      //calls the function related to the tab
+      //if it is a function otherwise will
+      //not call a function (i.e. for edit and details).
+      var times = 0;
+      $scope.showTab = function(tab) {
+        times += 1;
+        console.log('times called', times);
+        // var original;
+        // angular.forEach($scope.tabs, function(value, key) {
+        //   if (value[1] === true) { original = key };
+        //   if (key === tab) {
+        //     $scope.tabs[key][0] = true;
+        //     $scope.tabs[key][1] = true;
+        //     if (typeof $scope[key] == 'function'){ $scope[key](); }
+        //
+        //   } else {
+        //     $scope.tabs[key][1] = false;
+        //     $scope.tabs[key][0] = false;
+        //   }
+        // });
+        // if( tab === 'details') {
+        //   console.log($scope.tabs[original] )
+        //    $scope.tabs[original][1] = true;}
+
+        angular.forEach($scope.tabs, function(value, key) {
+          // if (value[1] === true ) { original = key };
           if (key === tab) {
             $scope.tabs[key][0] = true;
+            // $scope.tabs[key][1] = true;
 
-            if(typeof $scope[key] == 'function'){
+            if (typeof $scope[key] == 'function'){
               $scope[key]();
-            };
+              $scope.tabs[key][1] = true;
+              }
+
           } else {
-            return $scope.tabs[key][0] = false;
+            if (tab !== 'details' && typeof $scope[key] == 'function'){
+              $scope.tabs[key][1] = false;
+            }
+            $scope.tabs[key][0] = false;
           }
         });
+        //
+
+        // if (tab === 'details'){
+        //   $scope.tabs[original][1] = true;
+        // }
+        //
+        //
+        // angular.forEach($scope.tabs, function(value, key) {
+        //   if (value === true) { original = key };
+        //   if (key === tab) {
+        //     if(tab !== 'details'){
+        //       $scope.tabs[key][0] = true;
+        //       $scope.tabs[key][1] = true;
+        //     } else {
+        //       $scope.tabs[key][0] = true;
+        //     }
+        //     if (typeof $scope[key] == 'function'){ $scope[key](); }
+        //
+        //   } else {
+        //     if (tab === 'details'){
+        //       $scope.tabs[key][1] = false;
+        //     }
+        //     $scope.tabs[key][0] = false;
+        //   }
+        // });
+        // // if ($scope.tabs['details'][0] = true) {
+        // //   $scope.tabs[original][1] = true;
+        // }
       };
       $scope.updateMarkers = function(coords) {
         var box = MapsService.getBoundingBox(coords, 15);

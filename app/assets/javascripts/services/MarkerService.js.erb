@@ -70,6 +70,19 @@
              } else { value.marker.setMap(map) }
           });
         },
+        clearWindows: function(exception, map){
+          var self = this;
+          angular.forEach(self.markers, function(value, key) {
+            if (key !== String(exception)) {
+              if (value.infowindow) {
+                //TODO add to mapservices
+                return value.infowindow.close(map, value.marker);
+              }
+            } else {
+              return value.infowindow.open(map, value.marker);
+            }
+          });
+        },
         contains: function(object, attributes){
           var contains = false;
             angular.forEach(attributes, function(value, attr){
@@ -137,11 +150,11 @@
             self.markers[marker.id].mapped = false
           }
           if (marker.id !== 'giveStuff'){
-            MapsService.addMarkerListener( marker.marker, 'click', function() {
-              $rootScope.$broadcast('detailsWanted', {
-                markerId: marker.id
-              });
-            });
+            // MapsService.addMarkerListener( marker.marker, 'click', function() {
+            //   $rootScope.$broadcast('detailsWanted', {
+            //     markerId: marker.id
+            //   });
+            // });
           }
           return marker;
         },
