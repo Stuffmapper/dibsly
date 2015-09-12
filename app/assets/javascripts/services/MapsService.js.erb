@@ -3,8 +3,15 @@
 
   factories = angular.module('factories');
 
-  factories.factory('MapsService',[ function() {
+  factories.factory('MapsService',[ '$timeout', '$q', function($timeout, $q) {
+      //TODO make all of these promises that wait 
+      // if the map is not initialized
+
       return {
+
+        mapStatus: 'new',
+        queue: [],
+
         addMarkerListener: function(marker, event, fn ){
           google.maps.event.addListener(marker, event, fn )
         },
@@ -36,11 +43,11 @@
         getCenter: function(map){
           var self = this;
           var position = map ?  map.getCenter() : self.newLatLng( 47.6097,-122.3331)  ;
-          return {lat:position.lat(), lon:position.lng() }
+          return {lat:position.lat(), lng:position.lng() }
         },
         getBoundingBox: function(coords, distance){
           //distancs in miles
-          //coords {lat:1, lon:1}
+          //coords {lat:1, lng:1}
           var self = this;
           var within = function(box, coords){
            return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&
@@ -51,6 +58,55 @@
           } else if(!self.boundingBox){ self.boundingBox = self.createBox(coords, distance); }
           return self.boundingBox ;
         },
+        getPosition: function(marker){
+
+          return {
+            lat: marker.getPosition().lat(),
+            lng: marker.getPosition().lng()
+          };
+
+        },
+        getMap: function(){
+          var self = this;
+          var deferred = $q.defer()
+          self.queue.push(deferred);
+          if(self.mapStatus != 'loading'){
+            self.initializeOrGetMap()
+            .then(
+              function(map){
+                while(self.queue.length > 0){
+                  var def = self.queue.pop();
+                  def.resolve(map)
+                }
+            });
+          }
+          return deferred.promise;
+        },
+        initializeOrGetMap: function(){
+          self = this;
+          return $q( function(resolve, reject){
+            if(self.map){
+              resolve(self.map)
+            } else {
+              self.mapStatus = 'loading';
+              var center = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
+              google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
+                callback: function(){
+                  map = new google.maps.Map(document.getElementById('google-map'), {
+                    center: center ,
+                    zoom: 15
+                  }),
+                  google.maps.event.addListenerOnce(map, "idle", function() {
+                    self.map = map;
+                    self.mapStatus = 'loaded'
+                    resolve(map)
+                  });
+                }
+              });
+            }
+          })
+        },
+
         newInfoWindow: function(options){
           return new google.maps.InfoWindow(options);
         },
@@ -64,6 +120,20 @@
           //note consider using promise here
           var self = this;
           map.panTo(self.newLatLng(latlng.lat, latlng.lon ));
+        },
+        panToMarker: function(map, marker ){
+          var self = this;
+          self.panTo(map, self.getPosition(marker) )
+        },
+        resizeMap: function(map){
+          return $q(function(resolve, reject){
+            $timeout( function(){
+                if(map){
+                  google.maps.event.trigger(map,'resize');
+                  resolve()
+                } else { reject(new Error('no map defined')) }
+            },0)
+          });
         },
         removeMapListener: function(){
           throw new Error('not implemented')
@@ -79,6 +149,7 @@
           marker.setMap(map);
         },
         triggerMarkerEvent: function(marker, event){
+
           google.maps.event.trigger(marker, event);
         },
 

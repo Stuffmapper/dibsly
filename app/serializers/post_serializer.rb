@@ -15,6 +15,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def isCurrentDibber
+    #Later Move this logic to the front end.
     scope[:current_user] ?  object.current_dibber == scope[:current_user] : false
   end
 

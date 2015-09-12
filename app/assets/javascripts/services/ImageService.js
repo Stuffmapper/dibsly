@@ -43,22 +43,25 @@
          },
          createGroup: function(args){
            var self = this;
-           if(!self.images[args.origin]){
-             self.images[args.origin] = [];
-           } else if (self.images[args.origin].length >= 1) {
-             AlertService.add('warning', "Please only upload only one file");
-           }
-           var group = {};
-           self.convert(1000, 1000, args.file)
-           .then(function(original){
-             group.original = original;
-           })
-           .then( function(){
-             self.convert(300, 300, args.file)
-             .then(function(thumbnail){
-               group.thumbnail = thumbnail;
-               self.images[args.origin].unshift(group);
+           return $q(function(resolve, reject){
+             if(!self.images[args.origin]){
+               self.images[args.origin] = [];
+             } else if (self.images[args.origin].length >= 1) {
+               AlertService.add('warning', "Please only upload only one file");
+             }
+             var group = {};
+             self.convert(1000, 1000, args.file)
+             .then(function(original){
+               group.original = original;
              })
+             .then( function(){
+               self.convert(300, 300, args.file)
+               .then(function(thumbnail){
+                 group.thumbnail = thumbnail;
+                 self.images[args.origin].unshift(group);
+                 resolve('images created');
+               })
+             });
            });
          },
          upload: function(image) {

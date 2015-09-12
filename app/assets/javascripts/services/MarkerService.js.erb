@@ -85,17 +85,22 @@
         },
         contains: function(object, attributes){
           var contains = false;
-            angular.forEach(attributes, function(value, attr){
+          angular.forEach(attributes, function(attribute){
+            angular.forEach(attribute, function(value, attr){
               if(object.hasOwnProperty(attr) && object[attr] === value){
                contains = true;
               }
             });
+          });
           return contains;
+
         },
         isEmpty: function(obj){
           // null and undefined are "empty"
+          var self = this;
           if (!obj) return true;
-          if (obj.length > 0)    return false;
+          if (obj.length === 1 && self.isEmpty(obj[0]) )   return true;
+          if (obj.length > 0 )    return false;
           if (obj.length === 0)  return true;
           for (var key in obj) {
               if (hasOwnProperty.call(obj, key)) return false;
@@ -117,6 +122,7 @@
          }
         },
         delete: function(marker){
+          //REVIEW is this being used anywhere?
           self = this;
           var cached = JSON.parse( LocalService.get('markers')) || {};
           delete cached[marker.id];
@@ -209,7 +215,6 @@
           self = this;
           marker.updated_at = new Date(marker.updated_at);
           marker.locallyUpdated = Date.now();
-          marker.mapped = true; //TODO remove this
           if(!self.markers[marker.id]){
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
@@ -219,6 +224,9 @@
 
         where: function(has, doesnot){
           var self = this;
+          if (has && has.constructor  !== Array){
+            var has = [has];
+          }
           var results = [];
           angular.forEach(self.markers,
             function(value ){

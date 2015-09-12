@@ -41,7 +41,10 @@ describe('MapsService', function() {
       setupController()
       expect(MapsService.addMapListener).toBeDefined();
       expect(MapsService.removeMapListener).toBeDefined();
+      expect(MapsService.getPosition).toBeDefined();
       expect(MapsService.panTo).toBeDefined();
+      expect(MapsService.panToMarker).toBeDefined();
+      expect(MapsService.resizeMap).toBeDefined();
       expect(MapsService.getCenter).toBeDefined();
       expect(MapsService.setZoom).toBeDefined();
 

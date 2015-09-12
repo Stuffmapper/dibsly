@@ -2,7 +2,7 @@
 describe('MarkerService', function() {
 
 
-  var MarkerService, gmarker, markers;
+  var MarkerService, gmarker, markers, mockLocalService;
   //Mocking google
   //TODO replace with a better Mocking strategy
   window.google = { maps: {
@@ -18,9 +18,10 @@ describe('MarkerService', function() {
 
   var setupController = function(){
 
-    inject(function(_MarkerService_){
+    inject(function(_MarkerService_, _LocalService_){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       MarkerService = _MarkerService_;
+      mockLocalService = _LocalService_;
     });
     gmarker = jasmine.createSpyObj('gmarker',['setIcon', ])
     markers = {
@@ -62,8 +63,9 @@ describe('MarkerService', function() {
     });
     it('returns a boolean if an item is in an object', function() {
       setupController();
-      expect(MarkerService.contains({category: 'books'}, {category: 'books'} )).toEqual(true)
-      expect(MarkerService.contains({category: 'books'}, {category: 'bookers'} )).toEqual(false)
+      expect(MarkerService.contains({category: 'books'},
+      [{category: 'books'}] )).toEqual(true)
+      expect(MarkerService.contains({category: 'books'}, [{category: 'bookers'}] )).toEqual(false)
     });
   });
 
@@ -72,7 +74,6 @@ describe('MarkerService', function() {
       setupController();
       expect(MarkerService.markers[1]).toBeUndefined();
       MarkerService.setMarker(markers[1])
-      expect(MarkerService.markers[1].mapped).toEqual(false) //because map not defined
       expect(MarkerService.markers[1].updated_at ).toEqual(markers[1].updated_at );
     });
     it('extends a Marker', function() {
@@ -273,12 +274,12 @@ describe('MarkerService', function() {
       expect(MarkerService.where ).toBeDefined
     });
 
-    it('is returns markers with matching attributes', function() {
+    it('returns markers with matching attributes', function() {
       setupController();
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where({ dibber:'john' });
+      var results = MarkerService.where([{ dibber:'john' }]);
       expect(results.length ).toEqual(1)
       expect(results[0].id ).toEqual(3)
 
@@ -292,22 +293,56 @@ describe('MarkerService', function() {
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where({ fake:true });
+      var results = MarkerService.where([{ fake:true }]);
       expect(results.length ).toEqual(5)
       expect(results[0].id ).toEqual(5)
       expect(results[1].id ).toEqual(2)
       expect(results[3].id ).toEqual(1)
 
     });
-
-    it('returns markers if they haven\'t been mapped', function() {
+    it('takes a single object or an array', function() {
       setupController();
 
 
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where({ mapped:false });
+      var results = MarkerService.where([{ fake:true }]);
+      expect(results.length ).toEqual(5)
+      expect(results[0].id ).toEqual(5)
+      expect(results[1].id ).toEqual(2)
+      expect(results[3].id ).toEqual(1)
+      results = MarkerService.where({ fake:true });
+      expect(results.length ).toEqual(5)
+      expect(results[0].id ).toEqual(5)
+      expect(results[1].id ).toEqual(2)
+      expect(results[3].id ).toEqual(1)
+
+
+    });
+
+
+    it('returns items with multiple values for the same attributes', function() {
+      setupController();
+
+
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where([{ id:5 }, {id:2 }]);
+      expect(results.length ).toEqual(2)
+      expect(results[0].id ).toEqual(5)
+      expect(results[1].id ).toEqual(2)
+
+
+    });
+
+    it('returns markers if they haven\'t been mapped', function() {
+      setupController();
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where();
       expect(results.length ).toEqual(6)
 
     });
@@ -317,7 +352,7 @@ describe('MarkerService', function() {
       angular.forEach(markers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where({ dibber:'Jack' }, { category: 'books'});
+      var results = MarkerService.where([{ dibber: 'Jack' }], [{ category: 'books'}]);
       expect(results.length ).toEqual(2)
       expect(results[1].id ).toEqual(1)
     });
@@ -326,8 +361,32 @@ describe('MarkerService', function() {
       angular.forEach(markers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where({});
+      var results = MarkerService.where([]);
       expect(results.length ).toEqual(6)
+      results = MarkerService.where();
+      expect(results.length ).toEqual(6)
+      results = MarkerService.where([{}]);
+      expect(results.length ).toEqual(6)
+    });
+
+  });
+  describe('saveLocal function', function() {
+
+    it('is defined', function() {
+      setupController();
+      expect(MarkerService.saveLocal ).toBeDefined
+    });
+    it('calls LocalService when a marker isn\'t temporary', function() {
+      setupController();
+      spyOn(mockLocalService, 'set' ).and.returnValue(true);
+      MarkerService.saveLocal({id:1});
+      expect(mockLocalService.set ).toHaveBeenCalled();
+    });
+    it(' does\t call a LocalService when a marker is temporary', function() {
+      setupController();
+      spyOn(mockLocalService, 'set' ).and.returnValue(true);
+      MarkerService.saveLocal({id:1, temporary:true});
+      expect(mockLocalService.set ).not.toHaveBeenCalled();
     });
 
   });
