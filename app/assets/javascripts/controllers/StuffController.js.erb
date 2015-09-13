@@ -48,10 +48,14 @@
           MapsService.getCenter()
           .then( function(center){
             $scope.$emit( 'mapChanged', center )
-          }) 
+          }); 
         };
-        $scope.centerMap()
-        MapsService.addMapListener('dragend', getPosition );
+        
+        $scope.centerMap().then(
+          function(){
+            MapsService.addMapListener('dragend', getPosition );
+          }
+        )
       };
 
       $scope.attached = false;

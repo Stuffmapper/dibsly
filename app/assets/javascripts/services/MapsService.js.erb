@@ -10,6 +10,14 @@
     var self = this;
     self.mapStatus = 'new';
     self.queue = [];
+
+    var emptyQueue = function(map){
+      while(self.queue.length > 0){
+        var def = self.queue.pop()
+        def.resolve(map)
+      };
+    };
+
     self.getMap = function(){
       var deferred = $q.defer()
       self.queue.push(deferred);
@@ -17,42 +25,35 @@
         self.initializeOrGetMap()
         .then(
           function(map){
-            var count = 0;
-            while(self.queue.length > 0){
-              var def = self.queue.pop()
-              count +=1;
-              console.log(count, 'cached calls')
-              def.resolve(map)
-
-            }
+            emptyQueue(map);
         });
       }
       return deferred.promise;
       }
     self.initializeOrGetMap = function(){
-        return $q( function(resolve, reject){
-          if(self.map){
-            resolve(self.map)
-          } else {
-            self.mapStatus = 'loading';
-            var center = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
-            google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
-              callback: function(){
-                timesInits += 1;
-                console.log('this has been initialized %s times', timesInits)
-                map = new google.maps.Map(document.getElementById('google-map'), {
-                  center: center ,
-                  zoom: 15
-                }),
-                google.maps.event.addListenerOnce(map, "idle", function() {
-                  self.map = map;
-                  self.mapStatus = 'loaded'
-                  resolve(map)
-                });
-              }
-            });
-          }
-        })
+        var defer = $q.defer();
+        if(self.map){
+          defer.resolve(self.map)
+        } else {
+          self.mapStatus = 'loading';
+          var center = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
+          google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
+            callback: function(){
+              timesInits += 1;
+              console.log('this has been initialized %s times', timesInits)
+              map = new google.maps.Map(document.getElementById('google-map'), {
+                center: center ,
+                zoom: 15
+              }),
+              self.map = map;
+              self.mapStatus = 'loaded'
+              console.log('line 50 of MapsService', self.queue)
+              emptyQueue(map);
+              defer.resolve(map)
+            }
+          });
+        }
+        return defer.promise;
       }
 
       return {
