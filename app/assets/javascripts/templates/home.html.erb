@@ -55,12 +55,14 @@
 
   	</div>
     <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12 pull-left
-    google-map-container" ng-class='mapHeight' id="google-map"
+    google-map-container" ng-class='mapHeight'>
       <span class="glyphicon glyphicon-screenshot center-map"
         ng-click='centerMap()'
-        aria-hidden="true"></span>
+        aria-hidden="true">
+      </span>
       <div class='btn sm-abs-button'ng-click='giveNext(1)'>Change Location</div>
-
+      <div id="google-map">
+      </div>
     </div>
 
   </div>

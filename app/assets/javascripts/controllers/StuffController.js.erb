@@ -10,7 +10,6 @@
      function($scope, $timeout, $location, $routeParams, $window, $modal,
        $resource,ImageService,LocalService, LocationService,MapsService,
        MarkerService, UserService, AlertService, $rootScope, $http) {
-      var init, updateMarkers, updatePostMarker;
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
       $scope.search = {};
@@ -24,27 +23,37 @@
         if($routeParams.menuState){
           $scope.showTab($routeParams.menuState);
         } else if($location.url() == '/' ) {
-          var position = MapsService.getCenter($scope.map)
+          var position = MapsService.getCenter()
           $scope.getStuff();
         }
       };
       var loadCache = function(){
-        //TODO put this into init for clarity
-        //have the functions that need to be implemented on mapinitializes
-        //create a utility that waits on the maptobe working until it activates the function
         var markers = LocalService.get('markers') ?  JSON.parse(
           LocalService.get('markers')) : undefined ;
         angular.forEach(markers, function(marker, key){
             MarkerService.setMarker(marker)
         })
       };
-      loadCache();
+      
 
       var init = function() {
         $scope.backup = {};
         UserService.check();
         setMenu();
+        if ($routeParams.postId) {
+          $scope.getDetails($routeParams.postId);
+        }
+        loadCache();
+        var getPosition = function(){
+          MapsService.getCenter()
+          .then( function(center){
+            $scope.$emit( 'mapChanged', center )
+          }) 
+        };
+        $scope.centerMap()
+        MapsService.addMapListener('dragend', getPosition );
       };
+
       $scope.attached = false;
       $scope.categories = MarkerService.categories;
 
@@ -55,7 +64,7 @@
 
 
       $scope.loading = false;
-      $scope.mapCenter = LocalService.get('mapcenter') || '47.6097,-122.3331';//previously cached center or Seattle as default
+
       $scope.menuHeight = 'menu-0';
       $scope.mapHeight = 'map-0'
       $scope.post = {};
@@ -70,6 +79,7 @@
 
 
       $scope.cancelGive = function() {
+        //REVIEW this has changed
         $scope.loading = false;
         $scope.giveNext(1);
         $scope.attached = false;
@@ -85,17 +95,16 @@
           function(position){
             center = {
               lat: position.coords.latitude,
-              lon: position.coords.longitude
+              lng: position.coords.longitude
             };
-            LocalService.set('mapcenter',
-             position.coords.latitude + ',' + position.coords.longitude )
+            LocalService.set('mapcenter', JSON.stringify(center))
           },
           function(error){
-            center = MapsService.getCenter($scope.map);
+            center = MapsService.getCenter();
           }
          )
          .then( function(){
-           MapsService.panTo($scope.map, center);})
+           MapsService.panTo(center);})
       }
 
       $scope.edit = function(id) {
@@ -117,10 +126,9 @@
         var stat = String(id);
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat
-        MapsService.resizeMap($scope.map)
+        MapsService.resizeMap()
         .then(function(){
-          MapsService.panToMarker($scope.map,
-            MarkerService.markers['giveStuff'].marker)
+          MapsService.panToMarker(MarkerService.markers['giveStuff'].marker)
         })
       };
 
@@ -134,7 +142,7 @@
         return MarkerService.where( has, hasnot );
       };
       $scope.myStuff = function() {
-        MarkerService.setAll($scope.map);
+        MarkerService.setAll();
         $location.path('/menu/myStuff', false)
         if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
@@ -186,7 +194,7 @@
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
         $scope.updateMarkers(MapsService.getCenter($scope.map));
-        MarkerService.setAll($scope.map);
+        MarkerService.setAll();
         $scope.mapped = $scope.markers();
         MapsService.resizeMap($scope.map)
       };
@@ -225,21 +233,29 @@
       $scope.giveStuff = function() {
         $scope.menuHeight = 'menu-1-1';
         $scope.mapHeight = 'map-1-1';
-        MarkerService.clearMarkers('giveStuff', $scope.map );
+        MarkerService.clearMarkers('giveStuff');
         var markerSet = MarkerService.markers['giveStuff'];
         var marker = markerSet ? markerSet : {id: 'giveStuff',
          temporary:true,
          updated_at: Date.now(),
          icon: 'giveStuff',
          draggable:true };
-        if(!markerSet){
-          var center = MapsService.getCenter($scope.map);
-          marker.latitude = center.lat;
-          marker.longitude = center.lon;
+
+        var done = function(){
+          console.log(marker, 'line')
+          MarkerService.setMarker(marker)
+          var state = $routeParams.next ? $routeParams.next : 1
+          $scope.giveNext(state);
         }
-        MarkerService.setMarker(marker, $scope.map)
-        var state = $routeParams.next ? $routeParams.next : 1
-        $scope.giveNext(state);
+        if(!markerSet){
+          return MapsService.getCenter()
+          .then( function(center){
+            console.log(center);
+            marker.latitude = center.lat;
+            marker.longitude = center.lng;
+            done();
+          })
+        } else { done(); }
       };
 
 
@@ -367,28 +383,11 @@
       });
 
       $scope.$on('mapChanged', function(evt, args) {
+        console.log('the map has changed', args)
         $scope.updateMarkers(args);
       });
 
-      $scope.$on('mapInitialized', function(evt, map) {
 
-        //TODO remove this and angular google maps
-        // the plan is to have all calls to the mapservice 
-        // be promises that work when the map is loaded
-        if($routeParams.menuState !== 'giveStuff'){
-          MarkerService.setAll($scope.map )
-        }
-        if ($routeParams.postId) {
-          $scope.getDetails($routeParams.postId, 'initial');
-        }
-        var getPosition = function(){
-           $scope.$emit( 'mapChanged', MapsService.getCenter($scope.map) )
-        };
-        $scope.centerMap()
-        MapsService.addMapListener($scope.map, 'dragend', getPosition );
-        init();
-
-      });
       //calls the function related to the tab
       //if it is a function otherwise will
       //not call a function (i.e. for edit and details).
@@ -411,6 +410,7 @@
         }
         //calls corresponding function if exits
         if(typeof $scope[tab] === 'function'){ $scope[tab]() }
+        MapsService.resizeMap();
       };
       $scope.updateMarkers = function(coords) {
         var box = MapsService.getBoundingBox(coords, 15);
@@ -419,8 +419,8 @@
           params: {
             nwLat: box.nw.lat,
             seLat: box.se.lat,
-            nwLng: box.nw.lon,
-            seLng: box.se.lon
+            nwLng: box.nw.lng,
+            seLng: box.se.lng
           }
         })
         .success(function(data) {
@@ -437,6 +437,7 @@
           };
         });
       };
+      init();
 
     }
   ]);

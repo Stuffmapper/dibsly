@@ -42,7 +42,6 @@
           'title'
         ],
         markers: {},
-        map: null,
         icons: {
             standard:'<%= asset_path('blue-circle.png')%>',
             dibber: '<%= asset_path('my-want.png')%>',
@@ -62,11 +61,11 @@
           'Recreation'
         ],
 
-        clearMarkers: function( exception, map ){
+        clearMarkers: function( exception ){
           var self = this;
           angular.forEach(self.markers, function(value, key) {
              if (key !== exception && value.marker ){
-              MapsService.setMapMarker(value.marker, null)
+              MapsService.clearMapMarker(value.marker)
              } else { value.marker.setMap(map) }
           });
         },
@@ -75,14 +74,14 @@
           angular.forEach(self.markers, function(value, key) {
             if (String(key) !== String(exception)) {
               if (value.infowindow && value.marker) {
-                //TODO add to mapservices
-                return value.infowindow.close(map, value.marker);
+                return MapsService.closeInfoWindow(value.infowindow, value.marker);
               }
             } else {
-              return value.infowindow.open(map, value.marker);
+              return MapsService.openInfoWindow(value.infowindow, value.marker);
             }
           });
         },
+
         contains: function(object, attributes){
           var contains = false;
           angular.forEach(attributes, function(attribute){
@@ -129,39 +128,28 @@
           delete self.markers[marker.id];
           LocalService.set('markers', JSON.stringify(cached) )
         },
-        setAll: function(map, has, doesnot){
+        setAll: function(has, doesnot){
           var self = this;
           angular.forEach( self.where(has, doesnot), function(marker){
             if(marker.marker){
-              MapsService.setMapMarker(marker.marker, map)
+              MapsService.setMapMarker(marker.marker)
             }
           });
         },
 
-        setGoogleMarker: function(marker, map){
+        setGoogleMarker: function(marker){
           var self = this;
           if(!marker.marker ) {
-            var latLng = MapsService.newLatLng(marker.latitude, marker.longitude);
-            var options = {
-              zoom: 4,
-              center: latLng
-            };
-            marker.marker = MapsService.newMapMarker({
+            return MapsService.newMapMarker({
               icon: self.icons[marker.icon] || self.icons.standard,
               draggable: marker.draggable,
-              position: latLng,
-              map: map,
+              position: { lat: marker.latitude, lng: marker.longitude },
               title: marker.description
-            });
-            if (marker.id !== 'giveStuff'){
-              MapsService.addMarkerListener( marker.marker, 'click', function() {
-                $rootScope.$broadcast('anted', {
-                  markerId: marker.id
-                });
-              });
-            }
-          }
-          return marker;
+            }).then(function(gmarker){ 
+              console.log(gmarker);
+              self.markers[marker.id].marker = gmarker
+            })
+          }  
         },
 
         updateMarker: function(id,map) {
@@ -210,16 +198,15 @@
         },
 
 
-        setMarker: function(marker, map){
-          var self;
-          self = this;
+        setMarker: function(marker){
+          var self = this;
           marker.updated_at = new Date(marker.updated_at);
           marker.locallyUpdated = Date.now();
           if(!self.markers[marker.id]){
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
           self.saveLocal( self.markers[marker.id] )
-          self.setGoogleMarker(self.markers[marker.id], map);
+          self.setGoogleMarker(self.markers[marker.id]);
         },
 
         where: function(has, doesnot){

@@ -7,7 +7,6 @@ stfmpr = angular.module('stfmpr',[
         'ng',
         'ngRoute',
         'ngResource',
-        'ngMap',
         'dcbImgFallback',
         'ui.bootstrap',
         'angular-flash.service',
@@ -81,7 +80,7 @@ stfmpr.config ($httpProvider) ->
   $httpProvider.interceptors.push('AuthInterceptor')
 
 
-stfmpr.run(['UserService','$location','$route','$rootScope', (UserService, $location, $route, $rootScope)->
+stfmpr.run(['UserService','$location','$route','$rootScope', 'MapsService', (UserService, $location, $route, $rootScope, MapsService)->
     original = $location.path
     $location.path = (path,reload)->
       if reload == false
@@ -91,5 +90,6 @@ stfmpr.run(['UserService','$location','$route','$rootScope', (UserService, $loca
           )
         un()
       original.apply($location, [path])
+    MapsService.loadMap();
     return UserService.check()
 ])
