@@ -138,9 +138,10 @@
         },
 
         setGoogleMarker: function(marker){
+          var defer = $q.defer();
           var self = this;
           if(!marker.marker ) {
-            return MapsService.newMapMarker({
+            MapsService.newMapMarker({
               icon: self.icons[marker.icon] || self.icons.standard,
               draggable: marker.draggable,
               position: { lat: marker.latitude, lng: marker.longitude },
@@ -148,8 +149,10 @@
             }).then(function(gmarker){ 
               console.log(gmarker);
               self.markers[marker.id].marker = gmarker
+              defer.resolve(gmarker);
             })
-          }  
+          } else { defer.resolve(marker.marker) }
+          return defer.promise; 
         },
 
         updateMarker: function(id,map) {
@@ -206,7 +209,7 @@
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
           self.saveLocal( self.markers[marker.id] )
-          self.setGoogleMarker(self.markers[marker.id]);
+          return self.setGoogleMarker(self.markers[marker.id]);
         },
 
         where: function(has, doesnot){
