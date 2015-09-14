@@ -5,12 +5,8 @@ describe('MarkerService', function() {
   var mockMapsService,MarkerService, gmarker,gmap, markers, mockLocalService, $q, $rootScope;
   //Mocking google
   //TODO replace with a better Mocking strategy
-  window.google = { maps: {
-      LatLng: function(){ return {} },
-      event: { addListener: function(){} },
-      Marker: function(){ return {thing: 'marker'} }
-    },
-    load: function(){ }//Again todo ..beter mocking
+  window.google = { 
+   load: function(){ }// todo ..beter mocking
   };
 
 

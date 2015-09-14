@@ -17,6 +17,9 @@ describe('StuffCtrl', function() {
   $rootScope,
   $scope,
   UserService;
+  window.google = { 
+    load: function(){ }// todo ..beter mocking
+  };
 
   var setupController = function(){
     module('stfmpr');
@@ -39,7 +42,8 @@ describe('StuffCtrl', function() {
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
       // //TODO make this work
       //
-      // authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ );
+      authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
+        .respond({ posts:[ {dibber:'Jack', updated_at: new Date('2012-11-25') } ] });
       // authHandler.respond({ posts: [
       //                           {id:1, dibber:'Jack', updated_at:'2012-11-25' },
       //                           {id:2, dibber:'Jack', updated_at: '2014-11-22'},
@@ -63,10 +67,15 @@ describe('StuffCtrl', function() {
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
       spyOn(mockLocalService, 'get').and.returnValue(undefined)
       spyOn(mockMapsService, 'panTo').and.callThrough();
-      spyOn(mockMapsService, 'getCenter').and.returnValue({lat:1, lat:2})
+      spyOn(mockMapsService, 'getCenter').and.returnValue(
+        $q(function(reject, resolve){ 
+          resolve({lat:1, lng:2}); 
+        })
+      );
       spyOn(mockMapsService, 'addMapListener').and.returnValue('');
 
       controller = $controller('StuffCtrl', { $scope: $scope });
+
     });
 
 
@@ -104,7 +113,7 @@ describe('StuffCtrl', function() {
       };
       $scope.centerMap()
       .then( function(data){
-        expect( mockMapsService.newLatLng ).toHaveBeenCalled();
+        expect( mockMapsService.getCenter ).toHaveBeenCalled();
         done();
       })
       $rootScope.$digest();
@@ -133,14 +142,18 @@ describe('StuffCtrl', function() {
         $routeParams: { menuState: 'giveStuff'}
       });
       $scope.$emit('mapInitialized', {}) //to fake the map loading
-      expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff', $scope.map);
+      expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff');
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
     it('sets the routeParams', function() {
       setupController();
-      expect( $location.url() ).toEqual('/')
+      spyOn($scope, 'giveNext' ).and.callThrough();
+      expect( $location.url() ).toEqual('/menu/getStuff')
       $scope.giveStuff();
+      $rootScope.$digest();
+      expect($scope.giveNext).toHaveBeenCalled();
+
       expect($location.url() ).toEqual('/menu/giveStuff/1')
     });
 

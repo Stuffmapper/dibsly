@@ -10,6 +10,9 @@ describe('MapsService', function() {
   beforeEach(module('stfmpr'));
 
   var setupController = function(){
+    window.google = { 
+   load: function(){ }// todo ..beter mocking
+  };
 
     inject(function(_MapsService_){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
@@ -60,28 +63,31 @@ describe('MapsService', function() {
 
     it('returns a box', function() {
       setupController()
-      var coords = {lat:47, lon: -122 };
+      var coords = {lat:47, lng: -122 };
       //Note accurate?
       //distance in miles
       expect(MapsService.getBoundingBox(coords, 10)).toEqual({
-        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
-        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
+        nw:{ lat: 47.10223626958386, lng: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lng: -121.85023590256421 }
        });
 
     });
     it('returns the existing box if point within existing box', function() {
       setupController()
-      MapsService.boundingBox = {
-        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
-        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
-      };
-      var coords = {lat:46.9, lon: -121.9 };
+      MapsService.setBoundingBox({
+        nw:{ lat: 47.10223626958386, lng: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lng: -121.85023590256421 }
+      });
+      var coords = {lat:46.9, lng: -121.9 };
 
       expect(MapsService.getBoundingBox(coords, 10)).toEqual({
-        nw:{ lat: 47.10223626958386, lon: -122.15033889231952 },
-        se: { lat: 46.89756772513648, lon: -121.85023590256421 }
+        nw:{ lat: 47.10223626958386, lng: -122.15033889231952 },
+        se: { lat: 46.89756772513648, lng: -121.85023590256421 }
        });
      });
 
   });
 });
+
+  // Failure/Error: Expected Object({ nw: Object({ lat: 47.00223661318345, lng: -122.05005726202955 }), se: Object({ lat: 46.79756806611827, lng: -121.75051445612024 }) }) 
+  // to equal Object({ nw: Object({ lat: 47.10223626958386, lng: -122.15033889231952 }), se: Object({ lat: 46.89756772513648, lng: -121.85023590256421 }) }).
