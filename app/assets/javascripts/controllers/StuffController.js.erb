@@ -4,10 +4,10 @@
   controllers = angular.module('controllers');
 
   controllers.controller('StuffCtrl', [
-    '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal',
+    '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal','$q',
     '$resource', 'ImageService','LocalService', 'LocationService','MapsService',
      'MarkerService', 'UserService', 'AlertService','$rootScope', '$http',
-     function($scope, $timeout, $location, $routeParams, $window, $modal,
+     function($scope, $timeout, $location, $routeParams, $window, $modal,$q,
        $resource,ImageService,LocalService, LocationService,MapsService,
        MarkerService, UserService, AlertService, $rootScope, $http) {
       $scope.UserService = UserService;
@@ -235,6 +235,7 @@
         }).success($scope.mystuff.posts[postID]['dibbable'] = true);
       };
       $scope.giveStuff = function() {
+        var defer = $q.defer();
         $scope.menuHeight = 'menu-1-1';
         $scope.mapHeight = 'map-1-1';
         MarkerService.clearMarkers('giveStuff');
@@ -245,21 +246,23 @@
          icon: 'giveStuff',
          draggable:true };
 
-        var done = function(){
+        var done = function(defer){
           console.log(marker, 'line')
           MarkerService.setMarker(marker)
           var state = $routeParams.next ? $routeParams.next : 1
           $scope.giveNext(state);
-        }
+          defer.resolve()
+        };
         if(!markerSet){
-          return MapsService.getCenter()
+           MapsService.getCenter()
           .then( function(center){
-            console.log(center);
+            console.log("this is line 257");
             marker.latitude = center.lat;
             marker.longitude = center.lng;
-            done();
+            done(defer);
           })
-        } else { done(); }
+        } else { done(defer); }
+        return defer.promise;
       };
 
 

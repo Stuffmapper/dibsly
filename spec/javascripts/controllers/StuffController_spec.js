@@ -12,9 +12,10 @@ describe('StuffCtrl', function() {
   mockMapsService,
   MarkerService,
   mockMarkerService,
-  routeParams,
+  $routeParams,
   $q,
   $rootScope,
+  $timeout,
   $scope,
   UserService;
   window.google = { 
@@ -25,7 +26,7 @@ describe('StuffCtrl', function() {
     module('stfmpr');
 
     inject(function(_$controller_,_$q_, _$rootScope_, _$httpBackend_,
-       _$location_, _$routeParams_, LocalService, LocationService, UserService,
+       _$location_, _$routeParams_,_$timeout_, LocalService, LocationService, UserService,
         MarkerService, MapsService){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       $controller = _$controller_;
@@ -39,6 +40,7 @@ describe('StuffCtrl', function() {
       LocationService = LocationService;
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new', 'panTo']);
+      $timeout = _$timeout_;
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
       // //TODO make this work
       //
@@ -68,7 +70,7 @@ describe('StuffCtrl', function() {
       spyOn(mockLocalService, 'get').and.returnValue(undefined)
       spyOn(mockMapsService, 'panTo').and.callThrough();
       spyOn(mockMapsService, 'getCenter').and.returnValue(
-        $q(function(reject, resolve){ 
+        $q(function(reject, resolve){
           resolve({lat:1, lng:2}); 
         })
       );
@@ -130,7 +132,6 @@ describe('StuffCtrl', function() {
         $scope: $scope,
         $routeParams: { menuState: 'giveStuff'}
       });
-      $scope.$emit('mapInitialized', {}) //to fake the map loading
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
@@ -141,20 +142,24 @@ describe('StuffCtrl', function() {
         $scope: $scope,
         $routeParams: { menuState: 'giveStuff'}
       });
-      $scope.$emit('mapInitialized', {}) //to fake the map loading
       expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff');
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
-    it('sets the routeParams', function() {
+    it('sets the routeParams', function(done) {
       setupController();
-      spyOn($scope, 'giveNext' ).and.callThrough();
+      spyOn($scope, 'giveNext' )
       expect( $location.url() ).toEqual('/menu/getStuff')
-      $scope.giveStuff();
+      $scope.giveStuff()
+      .then( function(){
+        expect($scope.giveNext).toHaveBeenCalled();
+        expect($location.url() ).toEqual('/menu/giveStuff/1')
+        done();
+      });
       $rootScope.$digest();
-      expect($scope.giveNext).toHaveBeenCalled();
 
-      expect($location.url() ).toEqual('/menu/giveStuff/1')
+     
+
     });
 
     it('adds listeners to the give stuff item when undefined', function() {
@@ -227,7 +232,7 @@ describe('StuffCtrl', function() {
       expect(mockMapsService.setMapMarker.calls.count()).toEqual(5);
       //$httpBackend.verifyNoOutstandingExpectation();
     });
-    it('setsthe menu and map height', function() {
+    it('sets the menu and map height', function() {
       setupController();
       spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
       $scope.getStuff();
