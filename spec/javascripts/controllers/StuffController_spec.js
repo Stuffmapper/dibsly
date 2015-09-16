@@ -69,11 +69,7 @@ describe('StuffCtrl', function() {
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
       spyOn(mockLocalService, 'get').and.returnValue(undefined)
       spyOn(mockMapsService, 'panTo').and.callThrough();
-      spyOn(mockMapsService, 'getCenter').and.returnValue(
-        $q(function(reject, resolve){
-          resolve({lat:1, lng:2}); 
-        })
-      );
+      spyOn(mockMapsService, 'getCenter').and.returnValue($q.when({lat:1,lng:2 }));
       spyOn(mockMapsService, 'addMapListener').and.returnValue('');
 
       controller = $controller('StuffCtrl', { $scope: $scope });
@@ -135,6 +131,7 @@ describe('StuffCtrl', function() {
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
+
     it('opens up Give Stuff and clears the markers when in the routeParams ', function() {
       setupController();
       spyOn( mockMarkerService, 'clearMarkers').and.returnValue('');
@@ -146,9 +143,10 @@ describe('StuffCtrl', function() {
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
+
     it('sets the routeParams', function(done) {
       setupController();
-      spyOn($scope, 'giveNext' )
+      spyOn($scope, 'giveNext' ).and.callThrough();
       expect( $location.url() ).toEqual('/menu/getStuff')
       $scope.giveStuff()
       .then( function(){
@@ -156,7 +154,7 @@ describe('StuffCtrl', function() {
         expect($location.url() ).toEqual('/menu/giveStuff/1')
         done();
       });
-      $rootScope.$digest();
+      setTimeout($rootScope.$digest(), 0);
 
      
 

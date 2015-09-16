@@ -129,7 +129,8 @@
       $scope.giveNext = function(id) {
         var stat = String(id);
         $scope.mapHeight = 'map-1-' + stat
-        $scope.menuHeight = 'menu-1-' + stat
+        $scope.menuHeight = 'menu-1-' + stat;
+         $location.path('/menu/giveStuff/' + stat, false)
         MapsService.resizeMap()
         .then(function(){
           MapsService.panToMarker(MarkerService.markers['giveStuff'].marker)
