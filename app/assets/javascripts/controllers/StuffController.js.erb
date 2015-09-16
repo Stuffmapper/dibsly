@@ -5,10 +5,10 @@
 
   controllers.controller('StuffCtrl', [
     '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal','$q',
-    '$resource', 'ImageService','LocalService', 'LocationService','MapsService',
+    '$resource','$route', 'ImageService','LocalService', 'LocationService','MapsService',
      'MarkerService', 'UserService', 'AlertService','$rootScope', '$http',
      function($scope, $timeout, $location, $routeParams, $window, $modal,$q,
-       $resource,ImageService,LocalService, LocationService,MapsService,
+       $resource, $route, ImageService,LocalService, LocationService,MapsService,
        MarkerService, UserService, AlertService, $rootScope, $http) {
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
@@ -62,7 +62,7 @@
       $scope.categories = MarkerService.categories;
 
       $scope.giveState = function(state){ 
-        var current = $routeParams.next || '1'; 
+        var current = $route.current.next || '1'; 
         return current == state;
       }
 
@@ -104,10 +104,14 @@
             LocalService.set('mapcenter', JSON.stringify(center))
           },
           function(error){
-            center = MapsService.getCenter();
+            return MapsService.getCenter()
+            .then(function (mapcenter){
+              return center = mapcenter;
+            })
           }
          )
          .then( function(){
+
            MapsService.panTo(center);})
       }
 
@@ -131,6 +135,7 @@
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat;
          $location.path('/menu/giveStuff/' + stat, false)
+         //console.log('line 134 ', $route.current.params )
         MapsService.resizeMap()
         .then(function(){
           MapsService.panToMarker(MarkerService.markers['giveStuff'].marker)
@@ -192,16 +197,18 @@
         .then(function(){ MapsService.resizeMap($scope.map) });
       }
       $scope.images = function(){
-        return ImageService.images[$routeParams.menuState]
+        return ImageService.images[$route.current.menuState]
       }
       $scope.getStuff = function() {
         $location.path('/menu/getStuff', false)
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $scope.updateMarkers(MapsService.getCenter($scope.map));
-        MarkerService.setAll();
-        $scope.mapped = $scope.markers();
-        MapsService.resizeMap($scope.map)
+        MapsService.getCenter()
+        .then(function(center){
+          $scope.updateMarkers(center);//todo make sure this is called
+          MarkerService.setAll();
+          $scope.mapped = $scope.markers();
+        });
       };
       $scope.markGone = function(id) {
         var post;
@@ -250,7 +257,7 @@
         var done = function(defer){
           console.log(marker, 'line')
           MarkerService.setMarker(marker)
-          var state = $routeParams.next ? $routeParams.next : 1
+          var state = $route.current && $route.current.next ? $route.current.next : 1
           $scope.giveNext(state);
           defer.resolve()
         };
@@ -422,7 +429,7 @@
       };
       $scope.updateMarkers = function(coords) {
         var box = MapsService.getBoundingBox(coords, 15);
-        return $http({
+        $http({
           url: '/api/posts/geolocated',
           params: {
             nwLat: box.nw.lat,
@@ -432,6 +439,7 @@
           }
         })
         .success(function(data) {
+          console.log(data, 'line 442')
           var i, len, marker, ref, results;
           ref = data.posts;
           for (i = 0, len = ref.length; i < len; i++) {

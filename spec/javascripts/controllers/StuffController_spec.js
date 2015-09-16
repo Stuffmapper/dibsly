@@ -15,6 +15,7 @@ describe('StuffCtrl', function() {
   $routeParams,
   $q,
   $rootScope,
+  $route_,
   $timeout,
   $scope,
   UserService;
@@ -26,7 +27,7 @@ describe('StuffCtrl', function() {
     module('stfmpr');
 
     inject(function(_$controller_,_$q_, _$rootScope_, _$httpBackend_,
-       _$location_, _$routeParams_,_$timeout_, LocalService, LocationService, UserService,
+       _$location_,_$route_, _$routeParams_,_$timeout_, LocalService, LocationService, UserService,
         MarkerService, MapsService){
       // The injector unwraps the underscores (_) from around the parameter names when matchin
       $controller = _$controller_;
@@ -34,6 +35,7 @@ describe('StuffCtrl', function() {
       $q = _$q_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+      $route = _$route_;
       $routeParams = _$routeParams_;
       $httpBackend = _$httpBackend_;
       mockLocalService = LocalService;
@@ -44,7 +46,7 @@ describe('StuffCtrl', function() {
       gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
       // //TODO make this work
       //
-      authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
+      authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated/ )
         .respond({ posts:[ {dibber:'Jack', updated_at: new Date('2012-11-25') } ] });
       // authHandler.respond({ posts: [
       //                           {id:1, dibber:'Jack', updated_at:'2012-11-25' },
@@ -63,7 +65,6 @@ describe('StuffCtrl', function() {
        5:{dibber:'Jack', updated_at: new Date('2014-11-23'), marker: gmarker },
        6:{ marker:gmarker}
       };
-      MarkerService.markers = markers;
       mockMarkerService = MarkerService;
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
@@ -144,7 +145,7 @@ describe('StuffCtrl', function() {
 
     });
 
-    it('sets the routeParams', function(done) {
+    it('sets the location url', function(done) {
       setupController();
       spyOn($scope, 'giveNext' ).and.callThrough();
       expect( $location.url() ).toEqual('/menu/getStuff')
@@ -154,11 +155,11 @@ describe('StuffCtrl', function() {
         expect($location.url() ).toEqual('/menu/giveStuff/1')
         done();
       });
-      setTimeout($rootScope.$digest(), 0);
 
-     
+      $rootScope.$digest();
 
     });
+
 
     it('adds listeners to the give stuff item when undefined', function() {
       setupController();
@@ -225,10 +226,13 @@ describe('StuffCtrl', function() {
       setupController();
       spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
       $scope.getStuff();
-      //$httpBackend.expectGET( "/api/posts/geolocated?nwLat=2.153494406622975&nwLng=NaN&seLat=1.846491232208534&seLng=NaN");
-      expect(5).toEqual($scope.mapped.length);
+      $httpBackend.expectGET( /\/api\/posts\/geolocated/ )
+      //expect(5).toEqual($scope.mapped.length);
+      $rootScope.$digest();
+      $httpBackend.flush();
       expect(mockMapsService.setMapMarker.calls.count()).toEqual(5);
-      //$httpBackend.verifyNoOutstandingExpectation();
+     $httpBackend.verifyNoOutstandingExpectation();
+     $httpBackend.verifyNoOutstandingRequest();
     });
     it('sets the menu and map height', function() {
       setupController();
@@ -237,6 +241,18 @@ describe('StuffCtrl', function() {
       expect($scope.mapHeight).toEqual('map-0');
       expect($scope.menuHeight).toEqual('menu-0');
       expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+    });
+    it('calls all updateMarkers', function(done) {
+
+      setupController();
+      spyOn($scope, 'updateMarkers').and.callThrough();
+      $scope.getStuff();
+      $httpBackend.expectGET( '/api/posts/geolocated/' )
+      $rootScope.$digest();
+       $httpBackend.flush();
+      expect($scope.updateMarkers).toHaveBeenCalled();
+      $httpBackend.verifyNoOutstandingExpectation();
+      done();
     });
   });
   describe('My Stuff', function() {
