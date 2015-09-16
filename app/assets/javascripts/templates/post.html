@@ -1,32 +1,36 @@
+<div>
+  <div ng-show='stuff.isCurrentDibber'>
+    <button  class= "dib-button dib-button-send-message">Dibbed! Send a message to the lister! &gt;&gt;</button>
+    <a href='#' class='undib-link'>Undib! I don't want this anymore</a>
+    <hr class='thin-hr'>
+  </div>
 
-<div class="col-lg-12 col-md-12 col-xs-12  post-details">
+  <div ng-if="stuff.creator === stuff.currentUser">
+    <div ng-hide="currentDib">  
+      <button class="dib-button not-dibbed">This stuff hasn't been dibbed yet...</button>
+    </div>
 
-     <div class="col-lg-12 col-md-12 col-xs-12 row  individual-post">
-       <a ng-href="{{stuff.originalImage}}" >
-         <img class="img-responsive" ng-src={{stuff.image_url}} fallback-src ></img>
-      </a>
+    <div ng-show="currentDib">
+      <button class="dib-button dibbed"><span class="glyphicon glyphicon-message"></span>&nbsp;&gt;&gt;</button>
+    </div>
 
-     </div>
-     <br>
+  </div>
+  <span>{{stuff.title}}</span>
 
+  <br>
+  <div class='floating stuff-category'>{{stuff.category}}</div>
+  <div class='floating stuff-status'>{{stuff.status}}</div>
+  <a ng-href="{{stuff.originalImage}}" >
+  <img class="img-responsive img-detail" ng-src={{stuff.image_url}} fallback-src ></img>
+  </a>
 
-      <div class="col-lg-12 col-md-12 col-xs-12 row " >
-        <ul id='show-post'>
-          <li><b>Poster: </b>
-            <span>{{stuff.creator}}</span>
-          </li>
+  <div class='detail-description'>
+    <span>{{stuff.description}}</span>
+  </div>
+  <div ng-hide="stuff.creator === stuff.currentUser">
+    
+    <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
 
-          <li><b>Published: </b>
-            <span>{{stuff.published}}</span>
-          </li>
-
-          <li><b>Description: </b>
-            <span>{{stuff.description}}</span>
-          </li>
-        </ul>
-          <dib post="stuff.id" ng-show="stuff.dibbable"></dib>
-          <button class= "btn-xs btn-default" ng-click='edit(stuff.id)' ng-show="currentUser == stuff.creator">Edit</button>
-        <hr>
-      </div>
+  </div>
 
 </div>
