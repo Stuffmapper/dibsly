@@ -35,7 +35,6 @@
         })
       };
       
-
       var init = function() {
         $scope.backup = {};
         UserService.check();
@@ -94,7 +93,6 @@
 
       $scope.centerMap = function(){
         var center;
-
         return LocationService.get().then(
           function(position){
             center = {
@@ -104,15 +102,15 @@
             LocalService.set('mapcenter', JSON.stringify(center))
           },
           function(error){
-            return MapsService.getCenter()
+            MapsService.getCenter()
             .then(function (mapcenter){
-              return center = mapcenter;
+              center = mapcenter;
             })
           }
          )
          .then( function(){
 
-           MapsService.panTo(center);})
+           return MapsService.panTo(center);})
       }
 
       $scope.edit = function(id) {
@@ -135,7 +133,7 @@
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat;
          $location.path('/menu/giveStuff/' + stat, false)
-         //console.log('line 134 ', $route.current.params )
+
         MapsService.resizeMap()
         .then(function(){
           MapsService.panToMarker(MarkerService.markers['giveStuff'].marker)
@@ -205,9 +203,11 @@
         $scope.mapHeight = 'map-0';
         MapsService.getCenter()
         .then(function(center){
-          $scope.updateMarkers(center);//todo make sure this is called
-          MarkerService.setAll();
-          $scope.mapped = $scope.markers();
+          $scope.updateMarkers(center)
+          .then(function(){
+            MarkerService.setAll()
+           $scope.mapped = $scope.markers();
+          });
         });
       };
       $scope.markGone = function(id) {
@@ -253,9 +253,7 @@
          updated_at: Date.now(),
          icon: 'giveStuff',
          draggable:true };
-
         var done = function(defer){
-          console.log(marker, 'line')
           MarkerService.setMarker(marker)
           var state = $route.current && $route.current.next ? $route.current.next : 1
           $scope.giveNext(state);
@@ -264,7 +262,6 @@
         if(!markerSet){
            MapsService.getCenter()
           .then( function(center){
-            console.log("this is line 257");
             marker.latitude = center.lat;
             marker.longitude = center.lng;
             done(defer);
@@ -428,6 +425,7 @@
         MapsService.resizeMap();
       };
       $scope.updateMarkers = function(coords) {
+        var defer = $q.defer();
         var box = MapsService.getBoundingBox(coords, 15);
         $http({
           url: '/api/posts/geolocated',
@@ -439,7 +437,6 @@
           }
         })
         .success(function(data) {
-          console.log(data, 'line 442')
           var i, len, marker, ref, results;
           ref = data.posts;
           for (i = 0, len = ref.length; i < len; i++) {
@@ -449,9 +446,11 @@
               marker.image_url = '<%= asset_path('processing.png')%>';
             }
             marker.currentUser = UserService.currentUser;
-            MarkerService.setMarker(marker, $scope.map);
+            MarkerService.setMarker(marker);
           };
+          defer.resolve('markers updated')
         });
+        return defer.promise;
       };
       init();
 

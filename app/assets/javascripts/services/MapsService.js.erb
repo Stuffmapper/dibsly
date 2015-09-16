@@ -186,6 +186,7 @@
         throw new Error('not implemented')
       },
       setMapMarker: function(marker){
+        console.log('this was called')
         return self.getMap()
         .then( function(map){
          marker.setMap(map); } )
