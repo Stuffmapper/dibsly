@@ -13,6 +13,7 @@
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
       $scope.search = {};
+      $scope.stuff = {};
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
@@ -61,8 +62,8 @@
       $scope.categories = MarkerService.categories;
 
       $scope.giveState = function(state){ 
-        var current = $route.current.next || '1'; 
-        return current == state;
+        var current = $location.search().gsp || '1'; 
+        return current == String(state);
       }
 
 
@@ -76,6 +77,7 @@
         giveStuff:[ false,  false ],
         myStuff: [ false, false ],
         details: [ false,  false],
+        mydetails: [ false,  false],
         editing: [ false, false]
       };
       $scope.toggle = false;
@@ -83,12 +85,10 @@
 
       $scope.cancelGive = function() {
         //REVIEW this has changed
-        $scope.loading = false;
+
+        //needs a test behind it
         $scope.giveNext(1);
-        $scope.attached = false;
-        $scope.file = {};
-        delete $scope.file;
-        return $scope.post = {};
+  
       };
 
       $scope.centerMap = function(){
@@ -129,10 +129,12 @@
       };
 
       $scope.giveNext = function(id) {
+        console.log('status')
         var stat = String(id);
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat;
-         $location.path('/menu/giveStuff/' + stat, false)
+        $location.path('/menu/giveStuff/' + stat, false).search({gsp: stat})
+
 
         MapsService.resizeMap()
         .then(function(){
@@ -141,18 +143,25 @@
       };
 
       $scope.showDetails = function(id){
-        $scope.menuHeight = 'menu-details'
+        var template = $location.search().tab === 'ms' ? 'mydetails' : 'details' 
+        //TODO have the state use another service or write own solution
+        //the current hack on $location and the $route is so that the page doesn't 
+        //render the page and attempt to reload the google map
+        $scope.menuHeight = 'menu-details';
+        $scope.mapHeight = 'map-4';
         $scope.stuff = MarkerService.markers[id];
         $location.path('/post/' + id, false);
-        $scope.showTab('details')
+                console.log(template)
+        $scope.showTab(template)
       };
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
       };
       $scope.myStuff = function() {
         MarkerService.setAll();
-        $location.path('/menu/myStuff', false)
-        if ($scope.postMarker) {
+        $location.path('/menu/myStuff', false).search({tab: 'ms'})
+        //TODO refactor the search paramater 
+       if ($scope.postMarker) {
           $scope.postMarker.setMap(null);
         }
         if ($scope.editMarker) {
@@ -198,14 +207,14 @@
         return ImageService.images[$route.current.menuState]
       }
       $scope.getStuff = function() {
-        $location.path('/menu/getStuff', false)
+        $location.path('/menu/getStuff', false).search({tab: 'gs'})
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
         MapsService.getCenter()
         .then(function(center){
           $scope.updateMarkers(center)
           .then(function(){
-            MarkerService.setAll()
+            MarkerService.setAll({}, {temporary:true});
            $scope.mapped = $scope.markers();
           });
         });
@@ -375,11 +384,7 @@
         );
       };
 
-
-      var detailsTimes = 0;
-
       $rootScope.$on("detailsWanted", function(event, args) {
-          detailsTimes += 1;
           var id = args.markerId;
           MarkerService.updateWindow(id);
           MarkerService.clearWindows(id, $scope.map)
@@ -388,8 +393,12 @@
           //   $scope.showDetails(id);
           // })
         });
+      $scope.$on('$routeChangeSuccess', function(){
+        console.log($route.current.params.next, 'this is line 392')
+      })
 
       $scope.$on("fileSelected", function(event, args) {
+        console.log('a file is seleceted')
         ImageService.createGroup(args)
         .then(function(){ $scope.giveNext(2); })
       });
@@ -416,11 +425,16 @@
         //sets correct states
         $scope.tabs[tab][1] = true;
         $scope.tabs[tab][0] = true;
-        if (tab === 'details') {
+        if (tab === 'details' || tab === 'mydetails') {
+          //TODO make this cleaner
           $scope.tabs['details'][1] = false;
+          $scope.tabs['mydetails'][1] = false;
           $scope.tabs[original][1] = true;
         }
-        //calls corresponding function if exits
+        //calls corresponding function if exists
+        $scope.stuff.last = original;
+        //TODO store this state elsewhere
+
         if(typeof $scope[tab] === 'function'){ $scope[tab]() }
         MapsService.resizeMap();
       };

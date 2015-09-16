@@ -147,8 +147,12 @@
               position: { lat: marker.latitude, lng: marker.longitude },
               title: marker.description
             }).then(function(gmarker){ 
-              console.log(gmarker);
               self.markers[marker.id].marker = gmarker
+              MapsService.addMarkerListener(gmarker, 'click', function(){
+                $rootScope.$broadcast('detailsWanted', {
+                      markerId: marker.id
+                  });
+              } )
               defer.resolve(gmarker);
             })
           } else { defer.resolve(marker.marker) }

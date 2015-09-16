@@ -45,6 +45,10 @@
 	margin-bottom: - $navheight;
 	padding-bottom: $navheight;
 }
+.menu-details{
+		/*** fix stuff here ***/
+   
+}
 
 @media (max-width: 768px) {
 		/*** Map Heights ***/
@@ -93,6 +97,11 @@
 		position: fixed;
 		bottom:0px;
 	}
+	.menu-details{
+		/*** fix stuff here ***/
+   
+	}
+
 
 }
 
@@ -110,6 +119,9 @@
 	}
   .map-2{
   	height: 100% !important;
+  }
+  .map-4{
+  	/*** add to me! **/
   }
 }
 
@@ -130,7 +142,7 @@
 }
 
 @media (min-width:768px) and ( max-width:1200px){
-	/*** Map Heights ***/
+
 	.col-md-hide{
 		display:none !important;
 	}

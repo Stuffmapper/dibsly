@@ -40,17 +40,14 @@
       </div>
 
       <div class='btn col-lg-8 col-md-12 col-xs-12 col-sm-bottom stuff-btn
-        green-btn' ng-hide='images()[0]'>
+        green-btn' >
            <span>It's correct! Let's add a photo >> </span>
            <input class='file-btn' type="file" file-upload accept="image/*">
       </div>
 
-      <div class='btn col-lg-8 col-md-12 col-xs-12 col-sm-bottom stuff-btn
-        green-btn' ng-click='giveNext(2)' ng-show='images()[0]'>It's correct! continue >></div>
-
      </div>
 
-    <div id="give-2" ng-show='giveState(1)' class='pull-sm-bottom to-edge'>
+    <div id="give-2" ng-show='giveState(2)' class='pull-sm-bottom to-edge'>
 
       <div class="col-lg-6 col-md-6 col-xs-12 to-edge give-img-cnt">
         <img class="img-responsive img-preview to-edge give-img" ng-src={{images()[0].thumbnail}} fallback-src></img>

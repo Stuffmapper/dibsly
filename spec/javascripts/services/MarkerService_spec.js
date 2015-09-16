@@ -35,6 +35,8 @@ describe('MarkerService', function() {
     };
     spyOn(mockMapsService,'loadMap').and.returnValue( $q( function(resolve, reject){ resolve(gmap); }) ) 
     spyOn(mockMapsService,'newMapMarker').and.returnValue( $q( function(resolve, reject){ resolve(gmarker); }) ) 
+    spyOn(mockMapsService,'addMarkerListener').and.returnValue( true ) 
+
   };
 
 

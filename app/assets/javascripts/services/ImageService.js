@@ -42,6 +42,7 @@
             return deferred.promise;
          },
          createGroup: function(args){
+          console.log('line 45 of images', args)
            var self = this;
            return $q(function(resolve, reject){
              if(!self.images[args.origin]){
@@ -59,6 +60,7 @@
                .then(function(thumbnail){
                  group.thumbnail = thumbnail;
                  self.images[args.origin].unshift(group);
+                 console.log('this is tha  line 63')
                  resolve('images created');
                })
              });

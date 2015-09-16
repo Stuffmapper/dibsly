@@ -71,7 +71,7 @@ describe('StuffCtrl', function() {
       spyOn(mockMapsService, 'getCenter').and.returnValue( $q.when({ lat:1, lng:2 }) );
       spyOn(mockMapsService, 'newMapMarker').and.returnValue( $q.when(gmarker) )
       spyOn(mockMapsService, 'addMapListener').and.returnValue('');
-
+      spyOn(mockMapsService, 'addMarkerListener').and.returnValue(true);
       controller = $controller('StuffCtrl', { $scope: $scope });
 
     });
@@ -145,11 +145,11 @@ describe('StuffCtrl', function() {
     it('sets the routeParams', function(done) {
       setupController();
       spyOn($scope, 'giveNext' ).and.callThrough();
-      expect( $location.url() ).toEqual('/menu/getStuff')
+      expect( $location.url() ).toEqual('/menu/getStuff?tab=gs')
       $scope.giveStuff()
       .then( function(){
         expect($scope.giveNext).toHaveBeenCalled();
-        expect($location.url() ).toEqual('/menu/giveStuff/1')
+        expect($location.url() ).toEqual('/menu/giveStuff/1?gsp=1')
         done();
       });
       $rootScope.$digest()

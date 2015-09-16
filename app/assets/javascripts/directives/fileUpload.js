@@ -15,6 +15,7 @@
           }
           _results = [];
           for (_i = 0, _len = files.length; _i < _len; _i++) {
+             console.log('line 20 in the thing')
             file = files[_i];
             _results.push(scope.$emit("fileSelected", {
               file: file,
