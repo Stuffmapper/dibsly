@@ -26,6 +26,6 @@ directives.directive('dib', ->
         )
     ]
     replace:true,
-    template:  '<button class= "btn-xs btn-default" ng-click=giveMe(post)>Dib</button>'
+    template:  '<button class= "dib-button dib-button-details" ng-click=giveMe(post)>I want this stuff! &gt;&gt;</button>'
 
 )
