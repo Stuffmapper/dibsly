@@ -56,7 +56,7 @@
     /*** Map Heights ***/
   .map-0{
     position: fixed;
-    top:$menu-0-height + 25vh;
+    top:$menu-0-height + $navheight;
     bottom: 0;
   }
   .map-1-1{

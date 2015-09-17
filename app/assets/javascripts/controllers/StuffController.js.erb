@@ -143,16 +143,15 @@
       };
 
       $scope.showDetails = function(id){
-        var template = $location.search().tab === 'ms' ? 'mydetails' : 'details' 
+        $scope.previous = $location.search().tab === 'ms' ? 'myStuff' : 'getStuff' 
         //TODO have the state use another service or write own solution
         //the current hack on $location and the $route is so that the page doesn't 
         //render the page and attempt to reload the google map
-        $scope.menuHeight = 'menu-details';
+        $scope.menuHeight = 'menu-3';
         $scope.mapHeight = 'map-4';
         $scope.stuff = MarkerService.markers[id];
         $location.path('/post/' + id, false);
-                console.log(template)
-        $scope.showTab(template)
+        $scope.showTab('details')
       };
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
