@@ -41,8 +41,9 @@ describe('StuffCtrl', function() {
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new', 'panTo']);
       $timeout = _$timeout_;
-      gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap']);
+      gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap', 'getPosition']);
       // //TODO make this work
+
       //
       authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
       authHandler.respond({ posts: [
@@ -67,8 +68,12 @@ describe('StuffCtrl', function() {
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
       spyOn(mockLocalService, 'get').and.returnValue(undefined)
-      spyOn(mockMapsService, 'panTo').and.callThrough();
-      spyOn(mockMapsService, 'getCenter').and.returnValue( $q.when({ lat:1, lng:2 }) );
+      spyOn(mockMapsService, 'panTo').and.returnValue( $q.when({}) )
+      spyOn(mockMapsService, 'getCenter').and.callFake( function(){ 
+  
+          return $q.when({ lat:1, lng:2 })
+        });
+      spyOn(mockMapsService, 'getPosition').and.returnValue( { lat:1, lng:2 } );
       spyOn(mockMapsService, 'newMapMarker').and.returnValue( $q.when(gmarker) )
       spyOn(mockMapsService, 'addMapListener').and.returnValue('');
       spyOn(mockMapsService, 'addMarkerListener').and.returnValue(true);
@@ -158,21 +163,23 @@ describe('StuffCtrl', function() {
 
     });
 
-
-  });
-
-  describe('change to give stuff tabmap', function() {
     it('sets the classes for the map and menu', function() {
       setupController()
       expect($scope.mapHeight).toBeDefined();
       expect($scope.menuHeight).toBeDefined();
     });
 
-    it('sets the classes for the map and menu', function() {
+    it('sets the classes for the map and menu', function(done) {
       setupController();
-      $scope.giveStuff();
-      expect($scope.mapHeight).toEqual('map-1-1');
-      expect($scope.menuHeight).toEqual('menu-1-1');
+      expect($scope.mapHeight).toEqual('map-0');
+      expect($scope.menuHeight).toEqual('menu-0');
+      $scope.giveStuff()
+      .then(function(){
+        expect($scope.mapHeight).toEqual('map-1-1');
+        expect($scope.menuHeight).toEqual('menu-1-1');
+        done();
+      })
+      $rootScope.$digest();
     });
   });
 

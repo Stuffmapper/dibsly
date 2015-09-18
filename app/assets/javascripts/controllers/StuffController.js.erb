@@ -10,68 +10,21 @@
      function($scope, $timeout, $location, $routeParams, $window, $modal,$q,
        $resource, $route, ImageService,LocalService, LocationService,MapsService,
        MarkerService, UserService, AlertService, $rootScope, $http) {
-      $scope.UserService = UserService;
-      $scope.MarkerService = MarkerService;
-      $scope.search = {};
-      $scope.stuff = {};
-      $scope.$watchCollection('UserService', function() {
-        return $scope.currentUser = UserService.currentUser;
-      });
-      $scope.$watchCollection('MarkerService', function() {
-        return $scope.mapped = $scope.markers($scope.search)
-      });
-      var setMenu = function() {
-        if($routeParams.menuState){
-          $scope.showTab($routeParams.menuState);
-        } else if($location.url() == '/' ) {
-          var position = MapsService.getCenter()
-          $scope.getStuff();
-        }
-      };
-      var loadCache = function(){
-        var markers = LocalService.get('markers') ?  JSON.parse(
-          LocalService.get('markers')) : undefined ;
-        angular.forEach(markers, function(marker, key){
-            MarkerService.setMarker(marker)
-        })
-      };
-      
-      var init = function() {
-        $scope.backup = {};
-        UserService.check();
-        setMenu();
-        if ($routeParams.postId) {
-          $scope.getDetails($routeParams.postId);
-        }
-        loadCache();
-        var getPosition = function(){
-          MapsService.getCenter()
-          .then( function(center){
-            $scope.$emit( 'mapChanged', center )
-          }); 
-        };
-        
-        $scope.centerMap().then(
-          function(){
-            MapsService.addMapListener('dragend', getPosition );
-          }
-        )
-      };
 
-      $scope.attached = false;
+       // $SCOPE OBJECTS
+
       $scope.categories = MarkerService.categories;
-
-      $scope.giveState = function(state){ 
-        var current = $location.search().gsp || '1'; 
-        return current == String(state);
-      }
-
-
       $scope.loading = false;
-
       $scope.menuHeight = 'menu-0';
       $scope.mapHeight = 'map-0'
       $scope.post = {};
+
+      $scope.UserService = UserService;
+      $scope.MarkerService = MarkerService;
+
+      $scope.search = {};
+      $scope.stuff = {};
+
       $scope.tabs = {
         getStuff: [ true, true ],
         giveStuff:[ false,  false ],
@@ -80,7 +33,17 @@
         mydetails: [ false,  false],
         editing: [ false, false]
       };
-      $scope.toggle = false;
+
+      //WATCHES
+
+      $scope.$watchCollection('UserService', function() {
+        return $scope.currentUser = UserService.currentUser;
+      });
+      $scope.$watchCollection('MarkerService', function() {
+        return $scope.mapped = $scope.markers($scope.search)
+      });
+
+      // $SCOPE FUNCTIONS
 
 
       $scope.cancelGive = function() {
@@ -104,27 +67,48 @@
           function(error){
             MapsService.getCenter()
             .then(function (mapcenter){
-              center = mapcenter;
+              return center = mapcenter;
             })
           }
          )
          .then( function(){
 
-           return MapsService.panTo(center);})
+           return MapsService.panTo(center);
+         });
       }
 
       $scope.edit = function(id) {
-        //TODO -- this needs to be rewritten to accomodate 
-        // the current mettod
+        //TODO -- this needs to be rewritten 
+        //TODO --- move to Marker Resource
 
         $scope.showTab('editing');
         $scope.file = null;
         $scope.editItem = MarkerService.markers[id];
         return $scope.current_image = $scope.editItem.image_url;
       };
+
+      $scope.giveState = function(state){ 
+        var current = innerState() || '1'; 
+        return current === String(state) 
+      };
+
       $scope.getDetails = function(id) {
         $rootScope.$broadcast('detailsWanted', {
           markerId: id
+        });
+      };
+
+      $scope.getStuff = function() {
+        $location.path('/menu/getStuff', false).search({tab: 'gs'})
+        $scope.menuHeight = 'menu-0';
+        $scope.mapHeight = 'map-0';
+        return MapsService.getCenter()
+        .then(function(center){
+          $scope.updateMarkers(center)
+          .then(function(){
+            MarkerService.setAll({}, {temporary:true});
+           $scope.mapped = $scope.markers();
+          });
         });
       };
 
@@ -133,30 +117,48 @@
         var stat = String(id);
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat;
-        $location.path('/menu/giveStuff/' + stat, false).search({gsp: stat})
-
-
-        MapsService.resizeMap()
-        .then(function(){
-          MapsService.panToMarker(MarkerService.markers['giveStuff'].marker)
-        })
+        $location.path('menu/giveStuff/' + stat, false).search({gsp: stat});
+         MarkerService.clearMarkers('giveStuff');
+        return MapsService.resizeMap() 
+        .then(function(){ MapsService.panToMarker(MarkerService.markers['giveStuff'].marker) })
       };
 
-      $scope.showDetails = function(id){
-        var template = $location.search().tab === 'ms' ? 'mydetails' : 'details' 
-        //TODO have the state use another service or write own solution
-        //the current hack on $location and the $route is so that the page doesn't 
-        //render the page and attempt to reload the google map
-        $scope.menuHeight = 'menu-details';
-        $scope.mapHeight = 'map-4';
-        $scope.stuff = MarkerService.markers[id];
-        $location.path('/post/' + id, false);
-                console.log(template)
-        $scope.showTab(template)
+      $scope.giveStuff = function() {
+        var state = innerState() || '1';
+        addImageGroup('giveStuff');
+        return getSetTemporary('giveStuff')
+        .then( function(marker){ 
+          marker.images = ImageService.images['giveStuff']
+          return MarkerService.setMarker(marker) })
+        .then( function(){ 
+          $scope.post = MarkerService.markers['giveStuff'];
+          console.log($scope.post.images)
+          return $scope.giveNext(state); 
+        });
       };
+
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
       };
+
+      $scope.markGone = function(id) {
+        //Move into MarkerService resource
+        var post;
+        post = {
+          status: 'gone'
+        };
+        return $http.post("/api/posts/" + id + "/update",
+          post).success(function() {
+          return AlertService.add('success', "Marked as gone");
+        }).error(function() {
+          return AlertService.add('warning', "Something went wrong");
+        });
+      };
+      $scope.menuToggle = function() {
+        //make sure this is used
+        return $scope.toggle = !$scope.toggle;
+      };
+
       $scope.myStuff = function() {
         MarkerService.setAll();
         $location.path('/menu/myStuff', false).search({tab: 'ms'})
@@ -199,42 +201,12 @@
                 return results;
               });
             }
-
         })
-        .then(function(){ MapsService.resizeMap($scope.map) });
       }
-      $scope.images = function(){
-        return ImageService.images[$route.current.menuState]
-      }
-      $scope.getStuff = function() {
-        $location.path('/menu/getStuff', false).search({tab: 'gs'})
-        $scope.menuHeight = 'menu-0';
-        $scope.mapHeight = 'map-0';
-        MapsService.getCenter()
-        .then(function(center){
-          $scope.updateMarkers(center)
-          .then(function(){
-            MarkerService.setAll({}, {temporary:true});
-           $scope.mapped = $scope.markers();
-          });
-        });
-      };
-      $scope.markGone = function(id) {
-        var post;
-        post = {
-          status: 'gone'
-        };
-        return $http.post("/api/posts/" + id + "/update",
-          post).success(function() {
-          return AlertService.add('success', "Marked as gone");
-        }).error(function() {
-          return AlertService.add('warning', "Something went wrong");
-        });
-      };
-      $scope.menuToggle = function() {
-        return $scope.toggle = !$scope.toggle;
-      };
+      
+
       $scope.publish = function(status) {
+        //TODO move to Marker Resource
         if (UserService.currentUser) {
           return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
             published: status
@@ -242,6 +214,7 @@
           .error(console.log);
         }
       };
+
       $scope.removeDibber = function(id, description, postID) {
         var report;
         report = {
@@ -251,36 +224,56 @@
           report: report
         }).success($scope.mystuff.posts[postID]['dibbable'] = true);
       };
-      $scope.giveStuff = function() {
-        var defer = $q.defer();
-        $scope.menuHeight = 'menu-1-1';
-        $scope.mapHeight = 'map-1-1';
-        MarkerService.clearMarkers('giveStuff');
-        var markerSet = MarkerService.markers['giveStuff'];
-        var marker = markerSet ? markerSet : {id: 'giveStuff',
-         temporary:true,
-         updated_at: Date.now(),
-         icon: 'giveStuff',
-         draggable:true };
-        var done = function(defer){
-          MarkerService.setMarker(marker)
-          var state = $route.current && $route.current.next ? $route.current.next : 1
-          $scope.giveNext(state);
-          defer.resolve()
-        };
-        if(!markerSet){
-           MapsService.getCenter()
-          .then( function(center){
-            marker.latitude = center.lat;
-            marker.longitude = center.lng;
-            done(defer);
-          })
-        } else { done(defer); }
-        return defer.promise;
+
+      $scope.showDetails = function(id){
+        var template = $location.search().tab === 'ms' ? 'mydetails' : 'details' 
+        //TODO have the state use another service or write own solution
+        //the current hack on $location and the $route is so that the page doesn't 
+        //render the page and attempt to reload the google map
+        $scope.menuHeight = 'menu-details';
+        $scope.mapHeight = 'map-4';
+        $scope.stuff = MarkerService.markers[id];
+        $location.path('/post/' + id, false);
+                console.log(template)
+        $scope.showTab(template)
+      };
+
+       //calls the function related to the tab
+      //if it is a function otherwise will
+      //not call a function (i.e. for edit and details).
+      $scope.showTab = function(tab) {
+        var original;
+        angular.forEach($scope.tabs, function(value, key){
+          //resets all the tabs
+          if(value[1]){
+            original = key;
+          }
+          $scope.tabs[key][1] = false;
+          $scope.tabs[key][0] = false;
+        });
+        //sets correct states
+        $scope.tabs[tab][1] = true;
+        $scope.tabs[tab][0] = true;
+        if (tab === 'details' || tab === 'mydetails') {
+          //TODO make this cleaner
+          $scope.tabs['details'][1] = false;
+          $scope.tabs['mydetails'][1] = false;
+          $scope.tabs[original][1] = true;
+        }
+        //calls corresponding function if exists
+        $scope.stuff.last = original;
+        //TODO store this state elsewhere
+
+        if(typeof $scope[tab] === 'function'){ $scope[tab]()
+          .then(function(){ MapsService.resizeMap() }) 
+        }
       };
 
 
+
+
       $scope.submitPost = function() {
+        //TODO move this into marker service resource
         $scope.loading = true;
         return UserService.check()
           .then(
@@ -293,9 +286,7 @@
                     formdata.append(value, $scope.post[value]);
                   }
                 });
-
-
-                formdata.append('image', $scope.file);
+                formdata.append('image', $scope.post.images.original);
                 $http.post("/api/posts", formdata, {
                   headers: {
                     'Content-Type': void 0,
@@ -307,8 +298,8 @@
                   $scope.cancelGive();
                   $scope.giveNext(1);
                   post = data.post;
-                  post.image_url = $scope.current_image;
-                  post.originalImage = $scope.current_image;
+                  post.image_url = post.images.thumbnail;
+                  post.originalImage = post.images.original;
                   MarkerService.setMarker(post);
                   $scope.stuff = MarkerService.markers[post.id];
                   $scope.menuHeight = 'get-stuff-view';
@@ -336,6 +327,7 @@
           )
       };
       $scope.updateStuff = function() {
+        //TODO move to marker servicee
         return UserService.check()
         .then( function() {
           var formdata;
@@ -384,30 +376,6 @@
         );
       };
 
-      $rootScope.$on("detailsWanted", function(event, args) {
-          var id = args.markerId;
-          MarkerService.updateWindow(id);
-          MarkerService.clearWindows(id, $scope.map)
-          $scope.showDetails(id);
-          // $scope.$apply( function(){
-          //   $scope.showDetails(id);
-          // })
-        });
-      $scope.$on('$routeChangeSuccess', function(){
-        console.log($route.current.params.next, 'this is line 392')
-      })
-
-      $scope.$on("fileSelected", function(event, args) {
-        console.log('a file is seleceted')
-        ImageService.createGroup(args)
-        .then(function(){ $scope.giveNext(2); })
-      });
-
-      $scope.$on('mapChanged', function(evt, args) {
-        console.log('the map has changed', args)
-        $scope.updateMarkers(args);
-      });
-
 
       //calls the function related to the tab
       //if it is a function otherwise will
@@ -438,6 +406,7 @@
         if(typeof $scope[tab] === 'function'){ $scope[tab]() }
         MapsService.resizeMap();
       };
+
       $scope.updateMarkers = function(coords) {
         var defer = $q.defer();
         var box = MapsService.getBoundingBox(coords, 15);
@@ -465,6 +434,98 @@
           defer.resolve('markers updated')
         });
         return defer.promise;
+      };
+
+      //LISTENERS
+
+      $rootScope.$on("detailsWanted", function(event, args) {
+          var id = args.markerId;
+          MarkerService.updateWindow(id);
+          MarkerService.clearWindows(id, $scope.map)
+          $scope.showDetails(id);
+          // $scope.$apply( function(){
+          //   $scope.showDetails(id);
+          // })
+        });
+      
+      $scope.$on("fileSelected", function(event, args) {
+        args.origin = args.location.split('/')[2]
+        ImageService.createGroup(args)
+        .then(function(){ $scope.giveNext(2); })
+      });
+
+      $scope.$on('mapChanged', function(evt, args) {
+        $scope.updateMarkers(args);
+      });
+
+
+      //HELPER FUNCTIONS 
+      var addImageGroup = function(id) {
+        var image = MarkerService.markers[id] && MarkerService.markers[id].image_url;
+        ImageService.addImageGroup(id, image)
+      };
+
+      var getSetTemporary = function(id){
+        // returns a promise
+        var markerSet = MarkerService.markers[id];
+        var marker = markerSet ? markerSet : {
+          id: id,
+          temporary:true,
+          updated_at: Date.now(),
+          icon: id,
+          draggable:true 
+        };
+        if (!markerSet){
+           return MapsService.getCenter()
+          .then( function(center){
+            marker.latitude = center.lat;
+            marker.longitude = center.lng;
+            return marker;
+          });
+        } else { return $q.when(marker); }
+      };
+
+
+      var init = function() {
+        UserService.check();
+        setMenu();
+        if ($routeParams.postId) {
+          //Works on init only .. otherwise routeparams inaccurate
+          $scope.getDetails($routeParams.postId);
+        }
+        loadCache();
+        var getPosition = function(){
+          MapsService.getCenter()
+          .then( function(center){
+            $scope.$emit( 'mapChanged', center )
+          }); 
+        };
+        $scope.centerMap().then(
+          function(){
+            MapsService.addMapListener('dragend', getPosition );
+        })
+      };
+
+      //TODO remove this and use ui-router
+      var innerState = function(){
+        return $location.path().split('/' ).length >= 4 && $location.path().split('/' )[3];
+      };
+
+      var loadCache = function(){
+        //TODO put this in the Main controller
+        var markers = LocalService.getJSON('markers'); 
+        angular.forEach(markers, function(marker, key){
+            MarkerService.setMarker(marker)
+        })
+      };     
+
+      var setMenu = function() {
+        if($routeParams.menuState){
+          $scope.showTab($routeParams.menuState);
+        } else if($location.url() == '/' ) {
+          var position = MapsService.getCenter()
+          $scope.getStuff();
+        }
       };
       init();
 

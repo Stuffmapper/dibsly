@@ -153,9 +153,9 @@
                       markerId: marker.id
                   });
               } )
-              defer.resolve(gmarker);
+              defer.resolve(marker);
             })
-          } else { defer.resolve(marker.marker) }
+          } else { defer.resolve(marker) }
           return defer.promise; 
         },
 

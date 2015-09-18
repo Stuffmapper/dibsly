@@ -54,7 +54,6 @@
         self.getMap()
         .then(
           function(map){
-            console.log('adding map listener', event)
             google.maps.event.addListener(map, event, fn )
           }
         )
@@ -95,7 +94,7 @@
         .then(
           function(map){
 
-            var position = map ?  map.getCenter() : self.newLatLng( 47.6097,-122.3331)  ;
+            var position = map ?  map.getCenter() : self.newLatLng( 47.6097,-122.3331);
             return {lat:position.lat(), lng:position.lng() };
         });
       },
@@ -113,7 +112,6 @@
         return self.boundingBox ;
       },
       getPosition: function(marker){
-
         return {
           lat: marker.getPosition().lat(),
           lng: marker.getPosition().lng()
@@ -150,13 +148,14 @@
       },
       panTo: function(latlng){
         var that = this;
-        self.getMap()
-        .then(function(map){ map.panTo(that.newLatLng(latlng.lat, latlng.lng ));})  
+        return self.getMap()
+        .then(function(map){ 
+          map.panTo(that.newLatLng(latlng.lat, latlng.lng ));})  
       },
 
       panToMarker: function( marker ){
         var that = this;    
-        that.panTo( that.getPosition(marker) ) 
+        return that.panTo( that.getPosition(marker) ) 
       },
 
       resizeMap: function(){
@@ -186,7 +185,6 @@
         throw new Error('not implemented')
       },
       setMapMarker: function(marker){
-        console.log('this was called')
         return self.getMap()
         .then( function(map){
          marker.setMap(map); } )
