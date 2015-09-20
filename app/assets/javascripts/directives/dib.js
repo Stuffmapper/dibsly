@@ -14,8 +14,9 @@ directives.directive('dib', function() {
           var post_url;
           console.log('given it to me');
           post_url = '/api/posts/' + post_id + '/dibs';
-          return UserService.check(function(err, data) {
-            if (data) {
+          return UserService.check()
+          .then(
+            function(user){
               $http.post(post_url, {}).success(function(results) {
                 console.log('dib sent');
                 return AlertService.add('success', "Dibbed your stuff");
@@ -29,16 +30,16 @@ directives.directive('dib', function() {
                 }
                 return results1;
               });
-            }
-            if (err) {
+            },
+            function(err){
               console.log('error dibbing: ', err)
               AlertService.add('danger', 'Please sign in to continue');
-              return $modal.open({
+              $modal.open({
                 templateUrl: 'signIn.html',
                 controller: 'SignUpCtrl'
               });
             }
-          });
+          );
         };
       }
     ],
