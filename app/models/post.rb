@@ -13,7 +13,8 @@ class Post < ActiveRecord::Base
   has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
-  STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed', STATUS_GONE = 'gone',]
+  STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted',
+   STATUS_CLAIMED = 'claimed', STATUS_DIBBED = 'dibbed', STATUS_GONE = 'gone',STATUS_LOADING = 'loading' ]
 
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode
@@ -50,7 +51,7 @@ class Post < ActiveRecord::Base
   end
 
   def current_dibber
-    self.current_dib.user unless !self.current_dib
+    self.current_dib.user unless !self.current_dib 
   end
 
 
@@ -75,9 +76,11 @@ class Post < ActiveRecord::Base
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build( :ip => request_ip)
     dibber.dibs << dib
-    set_dibbed_until dib if dib.save
-    self.update_attribute(:current_dib, dib)
-    dib
+    if dib.save
+      set_dibbed_until dib if dib.save
+      self.update_attribute(:current_dib, dib)
+    end
+    return dib
   end
 
   def remove_current_dib
@@ -90,7 +93,7 @@ class Post < ActiveRecord::Base
   end
 
   def available_to_dib?
-    %w(dibbed claimed deleted).include?(self.status)  ? false : self.dibbed_until <= Time.now
+    %w(dibbed claimed deleted loading).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
 
   def make_dib_permanent

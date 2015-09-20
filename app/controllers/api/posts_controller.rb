@@ -44,17 +44,22 @@ class Api::PostsController < ApplicationController
       }
       params = cleaned_params.merge(
           :ip => request.remote_ip,
-          :status => 'new',
+          :status => 'loading',
           :user => current_user,
           :creator_id => current_user.id )
       @post = Post.new(params)
 
-      if @post.valid? and ( post_params['image'] || post_params['image'] != 'null' || post_params['image'] != 'undefined')
+      if @post.valid? and ( 
+        post_params['image'] || 
+        post_params['image'] != 'null' || 
+        post_params['image'] != 'undefined'
+      )
         @post.save
         UploadImageJob.perform_later( @post, post_params['image'] )
         render json: @post , status: :ok
       else
-        if ( !post_params['image'] || post_params['image'] == 'null' || post_params['image'] == 'undefined')
+        if ( !post_params['image'] || post_params['image'] == 'null' ||
+         post_params['image'] == 'undefined')
           @post.errors.add(:image, "can't be blank")
         end
         render json: @post.errors, status: :unprocessable_entity

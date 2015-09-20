@@ -51,6 +51,7 @@
         //REVIEW this has changed
 
         //needs a test behind it
+        //TODO delete file for give
         $scope.giveNext(1);
   
       };
@@ -115,7 +116,8 @@
         $scope.menuHeight = 'menu-1-' + stat;
         $location.path('menu/giveStuff/' + stat, false).search({gsp: stat});
         return MapsService.resizeMap() 
-        .then(function(){ return $q.when( MapsService.panToMarker(
+        .then(function(){ 
+          return $q.when( MapsService.panToMarker(
           MarkerService.markers['giveStuff'].marker) ) })
         .then(function(){  
           return MarkerService.clearMarkers('giveStuff'); 
@@ -143,7 +145,7 @@
       };
 
       $scope.markGone = function(id) {
-        //Move into MarkerService resource
+        //TODO Move into MarkerService resource
         var post;
         post = {
           status: 'gone'
@@ -156,7 +158,7 @@
         });
       };
       $scope.menuToggle = function() {
-        //make sure this is used
+        //TODO ake sure this is used
         return $scope.toggle = !$scope.toggle;
       };
 
@@ -239,10 +241,13 @@
         $scope.showTab(template)
       };
 
-       //calls the function related to the tab
-      //if it is a function otherwise will
-      //not call a function (i.e. for edit and details).
       $scope.showTab = function(tab) {
+        //NOTE this is an important function
+        //It triggers the appropriate action for
+        //the tab in addition to making it visible
+        //calls the function related to the tab
+        //if it is a function otherwise will
+        //not call a function (i.e. for edit and details).
         var original;
         angular.forEach($scope.tabs, function(value, key){
           //resets all the tabs
@@ -410,6 +415,7 @@
 
       $scope.updateMarkers = function(coords) {
         var defer = $q.defer();
+        //TODO turn 15 into a variable
         var box = MapsService.getBoundingBox(coords, 15);
         $http({
           url: '/api/posts/geolocated',
@@ -466,14 +472,11 @@
         ImageService.addImageGroup(id, image)
       };
 
-
-
-
       var init = function() {
         UserService.check();
         setMenu();
         if ($routeParams.postId) {
-          //Works on init only .. otherwise routeparams inaccurate
+          //NOTE Works on initial page load only.. otherwise routeparams inaccurate
           $scope.getDetails($routeParams.postId);
         }
         loadCache();
@@ -503,6 +506,7 @@
       };     
 
       var setMenu = function() {
+        //NOTE Works on inital page load only
         if($routeParams.menuState){
           $scope.showTab($routeParams.menuState);
         } else if($location.url() == '/' ) {
