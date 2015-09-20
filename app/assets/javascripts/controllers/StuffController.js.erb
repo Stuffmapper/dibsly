@@ -5,11 +5,12 @@
 
   controllers.controller('StuffCtrl', [
     '$scope', '$timeout', '$location', '$routeParams', '$window', '$modal','$q',
-    '$resource','$route', 'ImageService','LocalService', 'LocationService','MapsService',
-     'MarkerService', 'UserService', 'AlertService','$rootScope', '$http',
-     function($scope, $timeout, $location, $routeParams, $window, $modal,$q,
-       $resource, $route, ImageService,LocalService, LocationService,MapsService,
-       MarkerService, UserService, AlertService, $rootScope, $http) {
+    '$resource','$route', 'ImageService','LocalService', 'LocationService',
+    'MapsService','MarkerService', 'UserService', 'AlertService','$rootScope',
+    '$http', function($scope, $timeout, $location, $routeParams, $window,
+      $modal,$q, $resource, $route, ImageService,LocalService, LocationService,
+      MapsService, MarkerService, UserService, AlertService, $rootScope,
+      $http) {
 
        // $SCOPE OBJECTS
 
@@ -87,10 +88,6 @@
         return $scope.current_image = $scope.editItem.image_url;
       };
 
-      $scope.giveState = function(state){ 
-        var current = innerState() || '1'; 
-        return current === String(state) 
-      };
 
       $scope.getDetails = function(id) {
         $rootScope.$broadcast('detailsWanted', {
@@ -113,28 +110,32 @@
       };
 
       $scope.giveNext = function(id) {
-        console.log('status')
         var stat = String(id);
         $scope.mapHeight = 'map-1-' + stat
         $scope.menuHeight = 'menu-1-' + stat;
         $location.path('menu/giveStuff/' + stat, false).search({gsp: stat});
-         MarkerService.clearMarkers('giveStuff');
         return MapsService.resizeMap() 
-        .then(function(){ MapsService.panToMarker(MarkerService.markers['giveStuff'].marker) })
+        .then(function(){ return $q.when( MapsService.panToMarker(
+          MarkerService.markers['giveStuff'].marker) ) })
+        .then(function(){  
+          return MarkerService.clearMarkers('giveStuff'); 
+        });
+      };
+
+      $scope.giveState = function(state){ 
+        var current = innerState() || '1'; 
+        return current === String(state) 
       };
 
       $scope.giveStuff = function() {
         var state = innerState() || '1';
         addImageGroup('giveStuff');
-        return getSetTemporary('giveStuff')
+        return MarkerService.getSetTemporary('giveStuff')
         .then( function(marker){ 
           marker.images = ImageService.images['giveStuff']
-          return MarkerService.setMarker(marker) })
-        .then( function(){ 
           $scope.post = MarkerService.markers['giveStuff'];
-          console.log($scope.post.images)
           return $scope.giveNext(state); 
-        });
+        })
       };
 
       $scope.markers = function(has, hasnot){
@@ -226,7 +227,8 @@
       };
 
       $scope.showDetails = function(id){
-        var template = $location.search().tab === 'ms' ? 'mydetails' : 'details' 
+        var template = ( $location.search().tab === 'ms' ?
+          'mydetails' : 'details'); 
         //TODO have the state use another service or write own solution
         //the current hack on $location and the $route is so that the page doesn't 
         //render the page and attempt to reload the google map
@@ -465,25 +467,7 @@
         ImageService.addImageGroup(id, image)
       };
 
-      var getSetTemporary = function(id){
-        // returns a promise
-        var markerSet = MarkerService.markers[id];
-        var marker = markerSet ? markerSet : {
-          id: id,
-          temporary:true,
-          updated_at: Date.now(),
-          icon: id,
-          draggable:true 
-        };
-        if (!markerSet){
-           return MapsService.getCenter()
-          .then( function(center){
-            marker.latitude = center.lat;
-            marker.longitude = center.lng;
-            return marker;
-          });
-        } else { return $q.when(marker); }
-      };
+
 
 
       var init = function() {

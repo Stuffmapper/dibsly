@@ -64,19 +64,19 @@ describe('StuffCtrl', function() {
       //  6:{ marker:gmarker}
       // };
       // MarkerService.markers = markers;
+      var fakeCoords = function(){ return $q.when({ lat:1, lng:2 } ) };
       mockMarkerService = MarkerService;
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
       spyOn(mockLocalService, 'get').and.returnValue(undefined)
       spyOn(mockMapsService, 'panTo').and.returnValue( $q.when({}) )
-      spyOn(mockMapsService, 'getCenter').and.callFake( function(){ 
-  
-          return $q.when({ lat:1, lng:2 })
-        });
+      spyOn(mockMapsService, 'getCenter').and.callFake(fakeCoords)
       spyOn(mockMapsService, 'getPosition').and.returnValue( { lat:1, lng:2 } );
       spyOn(mockMapsService, 'newMapMarker').and.returnValue( $q.when(gmarker) )
-      spyOn(mockMapsService, 'addMapListener').and.returnValue('');
-      spyOn(mockMapsService, 'addMarkerListener').and.returnValue(true);
+      spyOn(mockMapsService, 'resizeMap').and.returnValue($q.when({}));
+      spyOn(mockMapsService, 'setMapMarker').and.returnValue($q.when({}));
+      spyOn(mockMapsService, 'addMapListener').and.returnValue(true);
+      spyOn(mockMapsService, 'addMarkerListener').and.returnValue( $q.when() )
       controller = $controller('StuffCtrl', { $scope: $scope });
 
     });
@@ -126,7 +126,7 @@ describe('StuffCtrl', function() {
 
   });
 
-  describe('Give Stuff', function() {
+  describe('giveStuff', function() {
     it('opens up Give Stuff when in the routeParams ', function() {
       setupController();
       controller = $controller('StuffCtrl', {
@@ -136,16 +136,17 @@ describe('StuffCtrl', function() {
       expect($scope.tabs.giveStuff[0] ).toEqual(true)
 
     });
-    it('opens up Give Stuff and clears the markers when in the routeParams ', function() {
+    it('calls clearMarkers', function(done) {
       setupController();
-      spyOn( mockMarkerService, 'clearMarkers').and.returnValue('');
-      controller = $controller('StuffCtrl', {
-        $scope: $scope,
-        $routeParams: { menuState: 'giveStuff'}
+      spyOn( mockMarkerService, 'clearMarkers').and.returnValue($q.when())
+      spyOn($scope, 'giveStuff').and.callThrough();
+      expect(mockMarkerService.clearMarkers).not.toHaveBeenCalledWith('giveStuff');
+      $scope.giveStuff()
+      .then(function(){
+        expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff');
+        done();
       });
-      expect(mockMarkerService.clearMarkers).toHaveBeenCalledWith('giveStuff');
-      expect($scope.tabs.giveStuff[0] ).toEqual(true)
-
+      $rootScope.$digest();
     });
     it('sets the routeParams', function(done) {
       setupController();
@@ -159,14 +160,21 @@ describe('StuffCtrl', function() {
       });
       $rootScope.$digest()
 
-     
-
     });
 
-    it('sets the classes for the map and menu', function() {
-      setupController()
-      expect($scope.mapHeight).toBeDefined();
-      expect($scope.menuHeight).toBeDefined();
+    it('adds a Marker Listener', function(done) {
+      setupController();
+      mockMapsService.addMarkerListener.calls.reset();
+      expect(mockMapsService.addMarkerListener).not.toHaveBeenCalled()
+      $scope.giveStuff()
+      .then(function(){
+        var marker = mockMarkerService.markers.giveStuff;
+        var lastCallArgs = mockMapsService.addMarkerListener.calls.mostRecent().args;
+        expect(lastCallArgs[1]).toEqual('dragend')
+        expect(lastCallArgs[0]).toEqual(gmarker)
+        done();
+      })
+       $rootScope.$digest();
     });
 
     it('sets the classes for the map and menu', function(done) {
@@ -183,7 +191,7 @@ describe('StuffCtrl', function() {
     });
   });
 
-  describe('get markers', function() {
+  describe('markers', function() {
     it('is defined', function() {
       setupController()
       expect($scope.markers).toBeDefined();
@@ -191,13 +199,13 @@ describe('StuffCtrl', function() {
     it('sets the classes for the map and menu', function() {
       setupController();
       spyOn(mockMarkerService, 'where');
-      $scope.markers({visable:true})
+      $scope.markers({visible:true})
 
       expect(mockMarkerService.where).toHaveBeenCalled();
 
     });
   });
-  describe('mapChanged', function() {
+  describe('mapChanged event', function() {
     it('activates the updateMarkers', function() {
       setupController();
       spyOn($scope, 'updateMarkers');
@@ -210,11 +218,10 @@ describe('StuffCtrl', function() {
   });
 
 
- describe('get Stuff', function() {
+ describe('getStuff', function() {
     it('sets all the markers to the map', function(done) {
 
       setupController();
-      spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
 
       $scope.getStuff()
       $httpBackend.flush();
@@ -228,7 +235,6 @@ describe('StuffCtrl', function() {
     });
     it('sets the menu and map height', function() {
       setupController();
-      spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
       $scope.getStuff();
 
       $httpBackend.flush();
