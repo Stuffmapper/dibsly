@@ -10,6 +10,7 @@
       Marker = $resource('/api/posts/:id', {
         id: '@id'
       });
+      console.log('marker service line 10 ', Marker)
       Marker.prototype.showEdit = function() {
         var self = this
         return (self.creator && self.currentUser &&
