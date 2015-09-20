@@ -169,9 +169,21 @@ describe('StuffCtrl', function() {
       $scope.giveStuff()
       .then(function(){
         var marker = mockMarkerService.markers.giveStuff;
+         expect(mockMapsService.addMarkerListener.calls.count()).toEqual(1);
         var lastCallArgs = mockMapsService.addMarkerListener.calls.mostRecent().args;
         expect(lastCallArgs[1]).toEqual('dragend')
         expect(lastCallArgs[0]).toEqual(gmarker)
+        done();
+      })
+       $rootScope.$digest();
+    });
+    it('adds a map marker to the giveStuff marker', function(done) {
+      setupController();
+      $scope.giveStuff()
+      .then(function(){
+        var marker = mockMarkerService.markers.giveStuff;
+        expect(marker.marker).toEqual(gmarker);
+
         done();
       })
        $rootScope.$digest();

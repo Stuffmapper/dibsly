@@ -173,13 +173,17 @@
             })
             .then(function(gmarker){ 
               self.markers[marker.id].marker = gmarker;
-              MapsService.addMarkerListener(gmarker, 'click', function(){
-                $rootScope.$broadcast('detailsWanted', {
-                      markerId: marker.id
+              if (!marker.temporary){
+                MapsService.addMarkerListener(gmarker, 'click', function(){
+                  $rootScope.$broadcast('detailsWanted', {
+                        markerId: marker.id
+                  });
                 });
-              });
-              if (marker.draggable){
+              } else {
                 MapsService.addMarkerListener(gmarker, 'dragend', function(){
+                  //NOTE the standard is to keep functions specific to google
+                  //in the mapservice. Using MapsService.getPosition seems
+                  // to cause issues 
                   marker.latitude = gmarker.getPosition().lat();
                   marker.longitude = gmarker.getPosition().lng();
                 });
