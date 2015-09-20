@@ -64,6 +64,18 @@ class Api::PostsController < ApplicationController
     end
   end
 
+  #POST /posts/:id/remove
+
+  def remove 
+    @post = Post.find(params[:id])
+    render json: '[]', status: :ok
+     if (current_user) and @post.creator_id == current_user.id
+      @post.delete_post
+     else
+      render json: {error: 'not authorized '}, status: :unauthorized
+    end
+  end
+
   # POST /posts/dib/1
   # POST /posts/dib/1.json
   def dib

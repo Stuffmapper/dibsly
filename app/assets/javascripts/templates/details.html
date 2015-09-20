@@ -9,10 +9,10 @@
         <li class='settings-btn-wrapper'><button class='settings-btn'>Settings&nbsp;<span class='glyphicon glyphicon-cog'></span></button>
           <ul>
             <li ng-show='currentDib'><button class='setting-option-btn message'><span class='glyphicon glyphicon-pencil'></span>&nbsp;&gt;&gt;</button></li>
-            <li ng-show='currentDib'><button class='setting-option-btn mark-as-picked-up'>Mark As Picked Up</button></li>
-            <li ng-show='currentDib'><button class='setting-option-btn reject-dibs'>Reject Dibs</button></li>
-            <li><button class='setting-option-btn edit-item'>Edit Item</button></li>
-            <li ng-hide='currentDib'><button class='setting-option-btn delete-item'>Delete</button></li>
+            <li ng-show='currentDib'><button class='setting-option-btn mark-as-picked-up' ng-click="markGone(stuff.id)">Mark As Picked Up</button></li>
+            <li ng-show='currentDib'><button class='setting-option-btn reject-dibs' ng-click="removeDibber(stuff.id, 'cancel dibs', stuff.id)">Reject Dibs</button></li>
+            <li><button class='setting-option-btn edit-item' ng-click="edit(stuff.id)">Edit Item</button></li>
+            <li ng-hide='currentDib'><button class='setting-option-btn delete-item' ng-click='deletePost(stuff.id)'>Delete</button></li>
           </ul>
         </li>
         </ul>

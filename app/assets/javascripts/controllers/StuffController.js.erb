@@ -151,6 +151,7 @@
         $scope.mapHeight = 'map-4';
         $scope.stuff = MarkerService.markers[id];
         $location.path('/post/' + id, false);
+        console.log('details ', $scope.stuff)
         $scope.showTab('details')
       };
       $scope.markers = function(has, hasnot){
@@ -250,6 +251,17 @@
           report: report
         }).success($scope.mystuff.posts[postID]['dibbable'] = true);
       };
+
+      //TODO update to '$scope.stuff.delete'
+      $scope.deletePost = function(id) {
+        if ($scope.stuff.creator === $scope.currentUser) {
+          return $http.post('/api/posts/' + id + '/remove')
+            .success($scope.showTab('myStuff')) 
+        } else {
+          console.log($scope.stuff.creator, $scope.currentUser);
+          console.log('illegal deletion attempt: not correct user');
+        }
+      }
       $scope.giveStuff = function() {
         var defer = $q.defer();
         $scope.menuHeight = 'menu-1-1';
@@ -397,7 +409,7 @@
       })
 
       $scope.$on("fileSelected", function(event, args) {
-        console.log('a file is seleceted')
+        console.log('a file is selected')
         ImageService.createGroup(args)
         .then(function(){ $scope.giveNext(2); })
       });

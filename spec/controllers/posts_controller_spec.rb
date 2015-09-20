@@ -471,5 +471,44 @@ RSpec.describe Api::PostsController, :type => :controller do
 
 	end
 
+	describe "Remove post", :vcr => vcr_options do
+		before do
+			@user = create(:user)
+			@post = create(:post,
+				creator_id: @user.id,
+				longitude: '-122',
+				latitude: '-49' )
+
+		end
+
+		context "without login " do
+
+			it 'should 401' do
+				xhr :post, :update, :id => @post.id
+		     	expect(response.status).to eq(401)
+			end
+		end
+
+		context "with login", :vcr => { :cassette_name => "aws_update", :match_requests_on => [:method] } do
+			before do
+				shoes = File.read("spec/factories/shoes.png")
+				@file = "data:image/png;base64," + Base64.encode64(shoes)
+			end
+
+
+			it 'should 200 with complete data' do
+				sign_in(@user)
+				xhr :post, :remove, {id: @post.id}
+				expect(response.status).to eq(200)
+			end
+
+			it 'should update status' do
+				sign_in(@user)
+				xhr :post, :remove, {id: @post.id}
+				expect(Post.find(@post.id).status).to eq('deleted')
+			end
+		end
+	end
+
 
 end

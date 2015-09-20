@@ -89,6 +89,13 @@ class Post < ActiveRecord::Base
      self.save!
   end
 
+  def delete_post
+    self.update_attributes({
+      status: 'deleted'
+      })
+    self.save!
+  end  
+
   def available_to_dib?
     %w(dibbed claimed deleted).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
