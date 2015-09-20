@@ -4,7 +4,7 @@
   <div>
     <a href='#' ng-show="previous === 'myStuff'" ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
     <a href='#' ng-show="previous === 'getStuff'" ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
-    <div class='settings-group'>
+    <div class='settings-group' ng-show="stuff.currentUser === stuff.creator">
       <ul>
         <li class='settings-btn-wrapper'><button class='settings-btn'>Settings&nbsp;<span class='glyphicon glyphicon-cog'></span></button>
           <ul>

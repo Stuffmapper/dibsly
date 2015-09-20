@@ -29,7 +29,7 @@
   </div>
   <div ng-hide="stuff.creator === stuff.currentUser">
     
-    <dib post="stuff.id" ng-show="stuff.dibbable" ng-click=''></dib>
+    <dib post="stuff.id" ng-show="stuff.dibbable && stuff.currentUser" ng-click=''></dib>
 
   </div>
 
