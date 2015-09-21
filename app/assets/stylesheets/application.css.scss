@@ -15,6 +15,7 @@
 
 //Not for bootstrap media queries
 
+
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
@@ -34,6 +35,10 @@
 @import "partials/helpers";
 @import "menu/menu";
 
+button:focus {
+  border: none;
+  outline: none;
+}
 
 body{
   width: 100%;
@@ -338,12 +343,15 @@ nav{
   border: 1px solid darkgrey;
 }
 .stuff-view{
-  margin: 0px;
+  margin: auto;
+  width: 175px;
   padding:0;
   height: 170px;
   border: 1px solid grey;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
+
 }
 
 .stuff-description{
@@ -420,6 +428,10 @@ nav{
   padding-bottom: 10px;
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.dib-button.not-dibbed {
+  cursor: default;
 }
 
   .dib-button-details {
