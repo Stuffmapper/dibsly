@@ -1,7 +1,7 @@
 <div>
   <div ng-show='stuff.isCurrentDibber'>
     <button  class= "dib-button dib-button-send-message">Dibbed! Send a message to the lister! &gt;&gt;</button>
-    <a href='#' class='undib-link' ng-click="removeDibber(stuff.id, '', stuff.id)">Undib! I don't want this anymore</a>
+    <a href='#' class='undib-link' ng-click="removeDibber(stuff.dibs[stuff.dibs.length -1].id, '', stuff.id)">Undib! I don't want this anymore</a>
     <hr class='thin-hr'>
   </div>
 
