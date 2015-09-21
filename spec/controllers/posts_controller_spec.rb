@@ -121,7 +121,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 			end
 		end
 	end
-	describe "Post create post", :vcr => vcr_options do
+	describe "Create", :vcr => vcr_options do
 		before do
 			@user = create(:user)
 		end
@@ -163,19 +163,19 @@ RSpec.describe Api::PostsController, :type => :controller do
 			it 'should 422 with incomplete data' do
 				sign_in(@user)
 				xhr :post, :create, {title:''}
-				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
+				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
 		     	expect(response.status).to eq(422)
 			end
 
 			it 'should 422 with incomplete data' do
 				sign_in(@user)
 				xhr :post, :create, {title:'', image: 'null'}
-				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"image\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
+				expect(JSON.parse(response.body)).to eq(JSON.parse("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
 					expect(response.status).to eq(422)
 			end
 			it 'should 422 without location data' do
 				sign_in(@user)
-				xhr :post, :create, {title:'', image: @file }
+				xhr :post, :create, {title:'' }
 				expect(response.body).to eq("{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
 				expect(response.status).to eq(422)
 			end
@@ -185,6 +185,14 @@ RSpec.describe Api::PostsController, :type => :controller do
 				xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' }
 				expect(response.status).to eq(200)
 			end
+
+			it 'should set the post status to loading' do
+				sign_in(@user)
+				xhr :post, :create, {title:'', latitude:'47',longitude:'-122' }
+				expect(response.status).to eq(200)
+				expect(Post.last.status).to eq('loading')
+			end
+
 
 			it 'should update a description' do
 				sign_in(@user)

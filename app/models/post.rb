@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib
   has_many :reports, through: :dibs
+  has_many :pictures, as: :imageable
   belongs_to :current_dib, :class_name => Dib, :foreign_key => :current_dib_id
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => 'missing',

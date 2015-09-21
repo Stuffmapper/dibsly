@@ -1,5 +1,6 @@
 class Api::PostsController < ApplicationController
   require 'auth_token'
+  before_action :authorize, only: [:create]
 
   # GET /posts
   # GET /posts.json
@@ -38,34 +39,21 @@ class Api::PostsController < ApplicationController
   end
 
   def create
-    if (current_user)
-      cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined' || value == 'null' || key == 'image'
-      }
-      params = cleaned_params.merge(
-          :ip => request.remote_ip,
-          :status => 'loading',
-          :user => current_user,
-          :creator_id => current_user.id )
-      @post = Post.new(params)
+    cleaned_params = post_params.delete_if{
+      |key, value| value == 'undefined' || value == 'null' || key == 'image'
+    }
+    params = cleaned_params.merge(
+        :ip => request.remote_ip,
+        :status => 'loading',
+        :user => current_user,
+        :creator_id => current_user.id )
+    @post = Post.new(params)
 
-      if @post.valid? and ( 
-        post_params['image'] || 
-        post_params['image'] != 'null' || 
-        post_params['image'] != 'undefined'
-      )
-        @post.save
-        UploadImageJob.perform_later( @post, post_params['image'] )
-        render json: @post , status: :ok
-      else
-        if ( !post_params['image'] || post_params['image'] == 'null' ||
-         post_params['image'] == 'undefined')
-          @post.errors.add(:image, "can't be blank")
-        end
-        render json: @post.errors, status: :unprocessable_entity
-      end
+    if @post.valid? 
+      @post.save
+      render json: @post , status: :ok
     else
-      render json: {error: 'not authorized '}, status: :unauthorized
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
@@ -144,9 +132,13 @@ class Api::PostsController < ApplicationController
 
   private
 
-    def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb, :status )
-    end
+  def post_params
+    params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb, :status )
+  end
+
+  def authorize
+    render json: {message: 'User not logged in' }, status: :unauthorized unless current_user
+  end
 
 
 end
