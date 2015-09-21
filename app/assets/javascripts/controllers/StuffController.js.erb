@@ -249,7 +249,8 @@
         };
         return $http.post('/api/dibs/' + id + '/removedib', {
           report: report
-        }).success($scope.mystuff.posts[postID]['dibbable'] = true);
+        }).success(function() {$scope.mystuff.posts[postID]['dibbable'] = true})
+        .error(function(error){console.log('error removing dib', error)});
       };
 
       //TODO update to '$scope.stuff.delete'
