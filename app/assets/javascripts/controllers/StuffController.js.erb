@@ -77,7 +77,19 @@
 
            return MapsService.panTo(center);
          });
-      }
+      };
+
+         //TODO update to '$scope.stuff.delete'
+      $scope.deletePost = function(id) {
+        if ($scope.stuff.creator === $scope.currentUser) {
+          return $http.post('/api/posts/' + id + '/remove')
+            .success($scope.showTab('myStuff')) 
+        } else {
+          console.log($scope.stuff.creator, $scope.currentUser);
+          console.log('illegal deletion attempt: not correct user');
+        }
+      };
+
 
       $scope.edit = function(id) {
         //TODO -- this needs to be rewritten 
@@ -139,6 +151,7 @@
           return $scope.giveNext(state); 
         })
       };
+
 
       $scope.markers = function(has, hasnot){
         return MarkerService.where( has, hasnot );
@@ -228,9 +241,13 @@
         }).success($scope.mystuff.posts[postID]['dibbable'] = true);
       };
 
+
       $scope.showDetails = function(id){
-        var template = ( $location.search().tab === 'ms' ?
-          'mydetails' : 'details'); 
+        //TODO delete code and "mydetails.html" if it is never used
+        //var template = ( $location.search().tab === 'ms' ?
+        // 'mydetails' : 'details'); 
+        var template = 'details';
+        
         //TODO have the state use another service or write own solution
         //the current hack on $location and the $route is so that the page doesn't 
         //render the page and attempt to reload the google map
@@ -240,6 +257,8 @@
         $location.path('/post/' + id, false);
         $scope.showTab(template)
       };
+
+   
 
       $scope.showTab = function(tab) {
         //NOTE this is an important function

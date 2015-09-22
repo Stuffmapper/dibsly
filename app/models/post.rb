@@ -46,8 +46,6 @@ class Post < ActiveRecord::Base
     {'lat'=> self.latitude, 'lng'=> self.longitude }
   end
 
-
-
   def create_conversation
      self.conversation  = Mailboxer::ConversationBuilder.new({
           :subject    => "Your Latest Dib!",

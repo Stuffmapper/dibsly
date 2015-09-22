@@ -29,11 +29,9 @@ Dibsly::Application.routes.draw do
     post 'posts' => 'posts#create'
 
     get 'posts/geolocated' => 'posts#geolocated'
-    post 'posts/grid_mode' => 'posts#grid_mode'
     get 'search' => 'posts#search'
     get 'my-stuff' => 'posts#my_stuff'
     get 'my-dibs' => 'posts#my_dibs'
-    post 'feedbacks/create'
 
 
 
@@ -42,7 +40,7 @@ Dibsly::Application.routes.draw do
     end
     post 'posts/:id/undib' => 'dibs#undib'
     post 'posts/:id/update' => 'posts#update'
-
+    post 'posts/:id/remove' => 'posts#remove'
     post 'dibs/:id/removedib' => 'dibs#remove_dib'
 
 
