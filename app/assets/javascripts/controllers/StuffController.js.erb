@@ -254,9 +254,11 @@
 
       //TODO update to '$scope.stuff.delete'
       $scope.deletePost = function(id) {
-        if ($scope.stuff.creator === $scope.currentUser) {
+        //make markerservice function instead of doing logic here
+        //if isn't already
+        if (stuff.showEdit()) {
           return $http.post('/api/posts/' + id + '/remove')
-            .success($scope.showTab('myStuff')) 
+            .success($scope.showTab('myStuff'))
         } else {
           console.log($scope.stuff.creator, $scope.currentUser);
           console.log('illegal deletion attempt: not correct user');
