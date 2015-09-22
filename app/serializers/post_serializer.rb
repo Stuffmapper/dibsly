@@ -23,11 +23,6 @@ class PostSerializer < ActiveModel::Serializer
     object.image.url
   end
 
-  def image_url
-    object.image.url(:medium)
-  end
-
-
   def coords
     {'latitude'=> self.latitude, 'longitude'=> self.longitude }
   end

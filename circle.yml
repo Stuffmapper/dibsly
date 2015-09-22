@@ -8,5 +8,5 @@ deployment:
     heroku:
       appname: stuffmapper-usertest
 test:
-	post:
-	  -bundle exec teaspoon
+  post:
+    -bundle exec teaspoon
