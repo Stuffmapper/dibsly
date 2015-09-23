@@ -4,14 +4,14 @@
   <div>
     <a href='#' ng-show="previous === 'myStuff'" ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
     <a href='#' ng-show="previous === 'getStuff'" ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
-    <div class='settings-group' ng-show="stuff.currentUser === stuff.creator">
+    <div class='settings-group' ng-show="stuff.showEdit(stuff.id)">
       <ul>
         <li class='settings-btn-wrapper'><button class='settings-btn'>Settings&nbsp;<span class='glyphicon glyphicon-cog'></span></button>
           <ul>
             <li ng-show='currentDib'><button class='setting-option-btn message'><span class='glyphicon glyphicon-pencil'></span>&nbsp;&gt;&gt;</button></li>
             <li ng-show='currentDib'><button class='setting-option-btn mark-as-picked-up' ng-click="markGone(stuff.id)">Mark As Picked Up</button></li>
             <li ng-show='currentDib'><button class='setting-option-btn reject-dibs' ng-click="removeDibber(stuff.id, 'cancel dibs', stuff.id)">Reject Dibs</button></li>
-            <li><button class='setting-option-btn edit-item' ng-click="edit(stuff.id)">Edit Item</button></li>
+            <li><button class='setting-option-btn edit-item' ng-click="stuff.edit(stuff.id)">Edit Item</button></li>
             <li ng-hide='currentDib'><button class='setting-option-btn delete-item' ng-click='deletePost(stuff.id)'>Delete</button></li>
           </ul>
         </li>
