@@ -75,6 +75,8 @@ class Post < ActiveRecord::Base
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build( :ip => request_ip)
     dibber.dibs << dib
+    self.status = 'dibbed'
+    self.save
     set_dibbed_until dib if dib.save
     self.update_attribute(:current_dib, dib)
     dib

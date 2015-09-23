@@ -17,7 +17,6 @@ directives.directive('dib', function() {
           .then(
             function(user){
               $http.post(post_url, {}).success(function(results) {
-                console.log('dib sent');
                 return AlertService.add('success', "Dibbed your stuff");
               }).error(function(err) {
                 console.log('error from post req')

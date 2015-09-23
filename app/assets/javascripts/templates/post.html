@@ -5,7 +5,7 @@
     <hr class='thin-hr'>
   </div>
 
-  <div ng-if="stuff.creator === stuff.currentUser">
+  <div ng-if="stuff.showEdit()">
     <div ng-hide="currentDib">  
       <button class="dib-button not-dibbed">This stuff hasn't been dibbed yet...</button>
     </div>
@@ -27,7 +27,7 @@
   <div class='detail-description'>
     <span>{{stuff.description}}</span>
   </div>
-  <div ng-hide="stuff.creator === stuff.currentUser">
+  <div ng-hide="stuff.showEdit()">
     
     <dib post="stuff.id" ng-show="stuff.showDib()" ng-click=''></dib>
 

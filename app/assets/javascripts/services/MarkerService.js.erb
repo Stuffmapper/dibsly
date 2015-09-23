@@ -17,6 +17,7 @@
           self.creator === self.currentUser)};
       Marker.prototype.showDib = function() {
         var self = this
+        console.log('showDib', ( !self.showEdit() && !self.isCurrentDibber && self.dibbable ))
         return ( !self.showEdit() && !self.isCurrentDibber && self.dibbable )};
       Marker.prototype.showUnDib = function() {
         var self = this
