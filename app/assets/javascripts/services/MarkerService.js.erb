@@ -123,7 +123,6 @@
           angular.forEach( self.where(has, doesnot), function(marker){
             if(marker.marker){
               MapsService.setMapMarker(marker.marker)
-              marker.$save();
             }
           });
         },
