@@ -6,31 +6,7 @@
   factories.factory('MarkerService', [
     '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q',
      function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q) {
-//       var Marker;
-//       Marker = $resource('/api/posts/:id', {
-//         id: '@id'
-//       },
-// z
-//       );
-//       Marker.prototype.showEdit = function() {
-//         var self = this
-//         return (self.creator && self.currentUser &&
-//           self.creator === self.currentUser)};
-//       Marker.prototype.showDib = function() {
-//         var self = this
-//         return ( !self.showEdit() && !self.isCurrentDibber && self.dibbable )};
-//       Marker.prototype.showUnDib = function() {
-//         var self = this
-//         return self.isCurrentDibber ? true : false };
-//       Marker.prototype.editProperties = function(){
-//         return [  'category',
-//                   'description',
-//                   'latitude',
-//                   'longitude',
-//                   'published',
-//                   'title'
-//                 ];
-      // };
+// 
       return {
         editProperties: [
           'id',
@@ -146,6 +122,7 @@
           angular.forEach( self.where(has, doesnot), function(marker){
             if(marker.marker){
               MapsService.setMapMarker(marker.marker)
+              marker.$save();
             }
           });
         },

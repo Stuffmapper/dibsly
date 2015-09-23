@@ -7,14 +7,14 @@
     '$http','LocalService','$resource', 
      function($http,LocalService,$resource ) {
 
-      var MarkerResource = $resource('/api/posts/:id', {
+      var Marker = $resource('/api/posts/:id', {
         id: '@id'
       })
 
       var Marker = function(params){
-        self = this
+        if (!params.id){ throw new Error('id is required')}
+        var self = this;
         angular.extend(self, params);
-        self.routes = new MarkerResource({id: params.id});
       };
 
       var constructor = Marker.prototype;
@@ -28,9 +28,48 @@
         'published',
         'title'
       ];
+      //TODO make this work with angular resource
+      constructor.url = function(){
+        return '/api/posts/' + this.id
+      };
 
+      // create
+      constructor.save = function(){
+        throw new Error('function not yet implemented')
+        //updates the server
+
+      };
+
+      // read
+      constructor.get = function(){
+        //gets new data from 
+        throw new Error('function not yet implemented')
+        
+      };
+
+      // update
+      constructor.update = function(){
+        //updates this post
+        throw new Error('function not yet implemented')
+        
+      };
+
+      // delete
+      constructor.remove = function(){
+        //removes from local cache 
+        //deletes on the server
+        //does not delete itself .. will need to be handle else where
+        //should mark for deletion
+        throw new Error('function not yet implemented')
+        
+      };
+
+      //TODO - add a dib function?
+
+      //TODO crud routes
       constructor.saveLocal = function(){
-        if(!self.temporary){
+        var self = this;
+        if(!self.temporary && self.id){ //TODO and more validations
           var cached =  LocalService.getJSON('markers') || {};
           var data = {};
           angular.forEach(self.baseProperties, function(value){
@@ -39,22 +78,21 @@
             }
           });
           cached[self.id] = data;
-          console.log(self);
           LocalService.set('markers', JSON.stringify(cached))
         }
       };
 
       constructor.showEdit = function() {
-        return ( self.creator && self.currentUser &&
-          self.creator === self.currentUser);
+        return ( this.creator && this.currentUser &&
+          this.creator === this.currentUser);
       };
 
       constructor.showDib = function() {
-        return ( !self.showEdit() && !self.isCurrentDibber && self.dibbable );
+        return ( !this.showEdit() && !this.isCurrentDibber && this.dibbable );
       };
 
       constructor.showUnDib = function() {
-        return self.isCurrentDibber ? true : false 
+        return this.isCurrentDibber ? true : false 
       };
 
       return Marker;
