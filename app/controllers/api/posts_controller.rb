@@ -96,11 +96,13 @@ class Api::PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb, :status )
+    params.permit(:image,:category, :latitude, :longitude, :description,
+      :published, :on_the_curb, :status )
   end
 
   def authorize
-    render json: {message: 'User not logged in' }, status: :unauthorized unless current_user
+    render json: {message: 'User not logged in' }, 
+    status: :unauthorized unless current_user
   end
 
   def find_my_post
