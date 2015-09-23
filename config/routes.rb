@@ -33,20 +33,19 @@ Dibsly::Application.routes.draw do
     get 'my-stuff' => 'posts#my_stuff'
     get 'my-dibs' => 'posts#my_dibs'
 
-
-
-    resources :posts, only: [:create, :index] do
-      resources :dibs, only: [:create ]
-    end
     post 'posts/:id/undib' => 'dibs#undib'
-    post 'posts/:id/update' => 'posts#update'
+    # post 'posts/:id/update' => 'posts#update'
     post 'posts/:id/remove' => 'posts#remove'
     post 'dibs/:id/removedib' => 'dibs#remove_dib'
+
+    resources :posts, only: [:create, :index, :update, :show] do
+      resources :dibs, only: [:create ]
+    end
+
 
 
     resources :password_resets,  only: [:new, :create, :edit, :update]
 
-    get 'posts/:id' => 'posts#show'
   end
 
   root 'posts#index'

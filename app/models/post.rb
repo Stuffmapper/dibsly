@@ -42,9 +42,6 @@ class Post < ActiveRecord::Base
     %w(dibbed claimed deleted loading).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
 
-  def coords
-    {'lat'=> self.latitude, 'lng'=> self.longitude }
-  end
 
   def create_conversation
      self.conversation  = Mailboxer::ConversationBuilder.new({

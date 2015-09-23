@@ -9,9 +9,10 @@ RSpec.describe Api::PostsController, :type => :controller do
 
     before do
       @user = create(:user)
-        @post = build(:post, creator_id: @user.id )
+      @post = build(:post, creator_id: @user.id )
 
     end
+
     context "when there are far and near posts " do
       before do
          @post.latitude = '49'
