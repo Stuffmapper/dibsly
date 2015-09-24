@@ -77,9 +77,10 @@
              });
            });
          },
-         upload: function(image) {
+         upload: function(image,id,type) {
+          //TODO put this in it's own controller or create uploader
           var deferred = $q.defer();
-          $http.post('/api/images', {image: image } )
+          $http.post('/api/images', {image: image, id: id, type:type } )
           .success(function(results){ deferred.resolve(results) })
           .error(function(error){
             console.error(error)

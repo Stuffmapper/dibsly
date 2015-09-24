@@ -75,13 +75,13 @@
           return contains;
 
         },
-        delete: function(marker){
+        delete: function(id){
           //REVIEW is this being used anywhere?
           self = this;
-          var cached = JSON.parse( LocalService.get('markers')) || {};
-          delete cached[marker.id];
-          delete self.markers[marker.id];
-          LocalService.set('markers', JSON.stringify(cached) )
+          var marker = self.markers[id];
+          MapsService.clearMapMarker(marker.marker);
+          marker.deleteLocal();
+          delete self.markers[id];
         },
         getSetTemporary: function(id){
         // returns a promise

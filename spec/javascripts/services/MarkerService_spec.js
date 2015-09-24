@@ -109,83 +109,6 @@ describe('MarkerService', function() {
       )
       $rootScope.$digest();
     });
-
-    it('creates a marker with show dib and show edit functions', function() {
-      setupController();
-      var info = {
-        id:1,
-        url: 'this is a url',
-        creator: 'someGuy',
-        currentUser: 'someGuy'
-      };
-
-      expect(MarkerService.markers[1]).toBeUndefined();
-      MarkerService.setMarker(info);
-      expect(MarkerService.markers[1].id).toEqual(info.id);
-      expect(MarkerService.markers[1].showEdit()).toEqual(true);
-      expect(MarkerService.markers[1].showDib()).toEqual(false);
-      expect(MarkerService.markers[1].showUnDib()).toEqual(false)
-
-
-    });
-
-
-    it('creates a marker that does not show editing info for non creators', function() {
-      setupController();
-
-      var info2 = {
-         id:2,
-         url: 'this is a url',
-         creator: 'someOtherGuy',
-         currentUser: 'someGuy',
-         dibbable: true };
-
-      expect(MarkerService.markers[2]).toBeUndefined();
-      MarkerService.setMarker(info2);
-      expect(MarkerService.markers[2].id).toEqual(info2.id);
-      expect(MarkerService.markers[2].showEdit()).toEqual(false);
-      expect(MarkerService.markers[2].showDib()).toEqual(true);
-      expect(MarkerService.markers[2].showUnDib()).toEqual(false);
-
-
-    });
-
-    it('creates a marker with that shows undib for current dibbers', function() {
-
-     var info3 = {
-        id:3,
-        url: 'this is a url',
-        creator: 'someOtherGuy',
-        currentUser: 'someGuy',
-        dibber: 'someGuy',
-        isCurrentDibber: true };
-
-      expect(MarkerService.markers[3]).toBeUndefined();
-      MarkerService.setMarker(info3);
-      expect(MarkerService.markers[3].id).toEqual(info3.id);
-      expect(MarkerService.markers[3].showEdit()).toEqual(false);
-      expect(MarkerService.markers[3].showUnDib()).toEqual(true);
-
-    });
-
-    it('creates a marker that shows does not show dibs for the undibbable', function() {
-      setupController();
-
-      var info4 = {
-         id:4,
-         url: 'this is a url',
-         creator: 'someOtherGuy',
-         currentUser: 'someGuy',
-         dibbable: false };
-
-      expect(MarkerService.markers[4]).toBeUndefined();
-      MarkerService.setMarker(info4);
-      expect(MarkerService.markers[4].id).toEqual(info4.id);
-      expect(MarkerService.markers[4].showEdit()).toEqual(false);
-      expect(MarkerService.markers[4].showUnDib()).toEqual(false);
-      expect(MarkerService.markers[4].showDib()).toEqual(false);
-
-    });
   });
   describe('Marker properties categories', function() {
     it('is defined', function() {
@@ -381,26 +304,5 @@ describe('MarkerService', function() {
     });
 
   });
-  describe('saveLocal function', function() {
 
-    it('is defined', function() {
-      setupController();
-      expect(MarkerService.saveLocal ).toBeDefined
-    });
-    it('calls LocalService when a marker isn\'t temporary', function() {
-      setupController();
-      spyOn(mockLocalService, 'set' ).and.returnValue(true);
-       MarkerService.setMarker({id:1})
-      MarkerService.markers[1].saveLocal();
-      expect(mockLocalService.set ).toHaveBeenCalled();
-    });
-    it(' does\t call a LocalService when a marker is temporary', function() {
-      setupController();
-      spyOn(mockLocalService, 'set' ).and.returnValue(true);
-      MarkerService.setMarker({id:1, temporary:true})
-      MarkerService.markers[1].saveLocal();
-      expect(mockLocalService.set ).not.toHaveBeenCalled();
-    });
-
-  });
 });
