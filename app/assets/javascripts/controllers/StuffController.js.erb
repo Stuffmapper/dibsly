@@ -177,6 +177,8 @@
 
       $scope.myStuff = function() {
         MarkerService.setAll();
+        $scope.menuHeight = 'menu-0';
+        $scope.mapHeight = 'map-0';
         $location.path('/menu/myStuff', false).search({tab: 'ms'})
         //TODO refactor the search paramater 
        if ($scope.postMarker) {
