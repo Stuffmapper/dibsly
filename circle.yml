@@ -8,7 +8,7 @@ deployment:
     heroku:
       appname: stuffmapper-usertest
 test:
-  post:
+  override:
   - bundle exec teaspoon
   - bundle exec rspec
   - bundle exec cucumber
