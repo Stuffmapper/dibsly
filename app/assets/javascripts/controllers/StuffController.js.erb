@@ -41,7 +41,7 @@
         return $scope.currentUser = UserService.currentUser;
       });
       $scope.$watchCollection('MarkerService', function() {
-        return $scope.mapped = $scope.markers($scope.search)
+        return $scope.mapped = $scope.markers({status: 'new'});
       });
 
       // $SCOPE FUNCTIONS
@@ -117,7 +117,7 @@
           $scope.updateMarkers(center)
           .then(function(){
             MarkerService.setAll({}, {temporary:true});
-           $scope.mapped = $scope.markers();
+           // $scope.mapped = $scope.markers();
           });
         });
       };
@@ -153,8 +153,8 @@
       };
 
 
-      $scope.markers = function(has, hasnot){
-        return MarkerService.where( has, hasnot );
+      $scope.markers = function(hasAttribute, hasNoAttribute){
+        return MarkerService.where( hasAttribute, hasNoAttribute );
       };
 
       $scope.markGone = function(id) {
