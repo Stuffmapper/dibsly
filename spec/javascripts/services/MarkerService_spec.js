@@ -390,13 +390,15 @@ describe('MarkerService', function() {
     it('calls LocalService when a marker isn\'t temporary', function() {
       setupController();
       spyOn(mockLocalService, 'set' ).and.returnValue(true);
-      MarkerService.saveLocal({id:1});
+       MarkerService.setMarker({id:1})
+      MarkerService.markers[1].saveLocal();
       expect(mockLocalService.set ).toHaveBeenCalled();
     });
     it(' does\t call a LocalService when a marker is temporary', function() {
       setupController();
       spyOn(mockLocalService, 'set' ).and.returnValue(true);
-      MarkerService.saveLocal({id:1, temporary:true});
+      MarkerService.setMarker({id:1, temporary:true})
+      MarkerService.markers[1].saveLocal();
       expect(mockLocalService.set ).not.toHaveBeenCalled();
     });
 

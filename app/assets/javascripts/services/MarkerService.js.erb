@@ -4,32 +4,10 @@
   factories = angular.module('factories');
 
   factories.factory('MarkerService', [
-    '$http','LocalService','MapsService', '$resource', '$rootScope', '$q',
-     function($http,LocalService,MapsService,$resource, $rootScope, $q) {
-      var Marker;
-      Marker = $resource('/api/posts/:id', {
-        id: '@id'
-      });
-      console.log('marker service line 10 ', Marker)
-      Marker.prototype.showEdit = function() {
-        var self = this
-        return (self.creator && self.currentUser &&
-          self.creator === self.currentUser)};
-      Marker.prototype.showDib = function() {
-        var self = this
-        return ( !self.showEdit() && !self.isCurrentDibber && self.dibbable )};
-      Marker.prototype.showUnDib = function() {
-        var self = this
-        return self.isCurrentDibber ? true : false };
-      Marker.prototype.editProperties = function(){
-        return [  'category',
-                  'description',
-                  'latitude',
-                  'longitude',
-                  'published',
-                  'title'
-                ];
-      };
+    '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q',
+     function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q) {
+// 
+
       return {
         editProperties: [
           'id',
@@ -64,11 +42,13 @@
 
         clearMarkers: function( exception ){
           var self = this;
+          var promises = [];
           angular.forEach(self.markers, function(value, key) {
              if (key !== exception && value.marker ){
               MapsService.clearMapMarker(value.marker)
-             } else if (value.marker){  MapsService.setMapMarker(value.marker) }
+             } else if (value.marker){  promises.push(MapsService.setMapMarker(value.marker)) }
           });
+          return $q.all(promises);
         },
         clearWindows: function(exception, map){
           var self = this;
@@ -95,6 +75,35 @@
           return contains;
 
         },
+        delete: function(marker){
+          //REVIEW is this being used anywhere?
+          self = this;
+          var cached = JSON.parse( LocalService.get('markers')) || {};
+          delete cached[marker.id];
+          delete self.markers[marker.id];
+          LocalService.set('markers', JSON.stringify(cached) )
+        },
+        getSetTemporary: function(id){
+        // returns a promise
+          var self = this;
+          var markerSet = self.markers[id];
+          var marker = markerSet ? markerSet : {
+            id: id,
+            temporary:true,
+            updated_at: Date.now(),
+            icon: id,
+            draggable:true 
+          };
+          if (!markerSet){
+             return MapsService.getCenter()
+            .then( function(center){
+              marker.latitude = center.lat;
+              marker.longitude = center.lng;
+              return self.setMarker(marker);
+            })
+          } else { return $q.when(marker); }
+        },
+
         isEmpty: function(obj){
           // null and undefined are "empty"
           var self = this;
@@ -106,29 +115,9 @@
               if (hasOwnProperty.call(obj, key)) return false;
           }
           return true;
+
         },
-        saveLocal: function(marker){
-          var self = this;
-          if(!marker.temporary){
-            var cached =  LocalService.getJSON('markers') || {};
-            var data = {};
-            angular.forEach(self.editProperties, function(value){
-              if(marker[value]){
-                data[value] = marker[value]
-              }
-            });
-            cached[marker.id] = data;
-            LocalService.set('markers', JSON.stringify(cached))
-         }
-        },
-        delete: function(marker){
-          //REVIEW is this being used anywhere?
-          self = this;
-          var cached = JSON.parse( LocalService.get('markers')) || {};
-          delete cached[marker.id];
-          delete self.markers[marker.id];
-          LocalService.set('markers', JSON.stringify(cached) )
-        },
+
         setAll: function(has, doesnot){
           var self = this;
           angular.forEach( self.where(has, doesnot), function(marker){
@@ -147,17 +136,39 @@
               draggable: marker.draggable,
               position: { lat: marker.latitude, lng: marker.longitude },
               title: marker.description
-            }).then(function(gmarker){ 
-              self.markers[marker.id].marker = gmarker
-              MapsService.addMarkerListener(gmarker, 'click', function(){
-                $rootScope.$broadcast('detailsWanted', {
-                      markerId: marker.id
-                  });
-              } )
-              defer.resolve(gmarker);
             })
-          } else { defer.resolve(marker.marker) }
+            .then(function(gmarker){ 
+              self.markers[marker.id].marker = gmarker;
+              if (!marker.temporary){
+                MapsService.addMarkerListener(gmarker, 'click', function(){
+                  $rootScope.$broadcast('detailsWanted', {
+                        markerId: marker.id
+                  });
+                });
+              } else {
+                MapsService.addMarkerListener(gmarker, 'dragend', function(){
+                  //NOTE the standard is to keep functions specific to google
+                  //in the mapservice. Using MapsService.getPosition seems
+                  // to cause issues 
+                  marker.latitude = gmarker.getPosition().lat();
+                  marker.longitude = gmarker.getPosition().lng();
+                });
+               }
+              defer.resolve(marker);
+            })
+          } else { defer.resolve(marker) }
           return defer.promise; 
+        },
+
+        setMarker: function(marker){
+          var self = this;
+          marker.updated_at = new Date(marker.updated_at);
+          marker.locallyUpdated = Date.now();
+          if(!self.markers[marker.id]){
+            self.markers[marker.id] = new Marker(marker);
+          } else { angular.extend(self.markers[marker.id], marker ) }
+          self.markers[marker.id].saveLocal()
+          return self.setGoogleMarker(self.markers[marker.id]);
         },
 
         updateMarker: function(id,map) {
@@ -205,17 +216,6 @@
           }
         },
 
-
-        setMarker: function(marker){
-          var self = this;
-          marker.updated_at = new Date(marker.updated_at);
-          marker.locallyUpdated = Date.now();
-          if(!self.markers[marker.id]){
-            self.markers[marker.id] = new Marker(marker);
-          } else { angular.extend(self.markers[marker.id], marker ) }
-          self.saveLocal( self.markers[marker.id] )
-          return self.setGoogleMarker(self.markers[marker.id]);
-        },
 
         where: function(has, doesnot){
           var self = this;

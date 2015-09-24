@@ -1,12 +1,18 @@
  factories = angular.module('factories')
 
- factories.factory('ImageService',[ '$q','$http','AlertService', function($q,$http, AlertService){
+ factories.factory('ImageService',[ '$q','$http','$timeout','AlertService', function($q,$http,$timeout, AlertService){
 
         return {
           images: {},
-          convert: function( maxWidth, maxHeight, file ) {
+          addImageGroup:function (id, image ){
+            this.images[id] = { 
+              original: image,
+              thumbnail: image };
+
+          },
+          convert: function( maxWidth, maxHeight, file, img ) {
             var deferred = $q.defer();
-            setTimeout(function(){deferred.reject('Timeout try again') }, 10000);
+            $timeout( function(){ deferred.reject(new Error('Timeout try again')) }, 5000);
             var canvas, ctx, img, reader;
             img = document.createElement('img');
             canvas = document.createElement('canvas');
@@ -39,30 +45,35 @@
               img.src = reader.result;
             };
             reader.readAsDataURL(file);
+            console.log(reader.result)
             return deferred.promise;
          },
          createGroup: function(args){
-          console.log('line 45 of images', args)
            var self = this;
            return $q(function(resolve, reject){
              if(!self.images[args.origin]){
-               self.images[args.origin] = [];
-             } else if (self.images[args.origin].length >= 1) {
-               AlertService.add('warning', "Please only upload only one file");
-             }
-             var group = {};
+               self.addImageGroup(args.origin)
+             } 
+             var group = self.images[args.origin]
              self.convert(1000, 1000, args.file)
-             .then(function(original){
-               group.original = original;
-             })
+             .then(
+              function(original){
+               return group.original = original;
+              },
+              function(error){
+                reject(error);
+              }
+             )
              .then( function(){
                self.convert(300, 300, args.file)
                .then(function(thumbnail){
-                 group.thumbnail = thumbnail;
-                 self.images[args.origin].unshift(group);
-                 console.log('this is tha  line 63')
-                 resolve('images created');
-               })
+                  group.thumbnail = thumbnail;
+                  resolve(group);
+                },
+                function(error){
+                 reject(error);
+                }
+               );
              });
            });
          },

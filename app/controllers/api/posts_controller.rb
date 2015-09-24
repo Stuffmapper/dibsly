@@ -1,12 +1,41 @@
 class Api::PostsController < ApplicationController
   require 'auth_token'
+  before_action :authorize, only: [:create, :remove, :update, :my_stuff, :my_dibs]
+  before_action :find_my_post, only: [:remove, :update]
 
   # GET /posts
   # GET /posts.json
 
+
+  def create
+    cleaned_params = post_params.delete_if{
+      |key, value| value == 'undefined' || value == 'null' || key == 'image'
+    }
+    params = cleaned_params.merge(
+        :ip => request.remote_ip,
+        :status => 'loading',
+        :user => current_user,
+        :creator_id => current_user.id )
+    @post = Post.new(params)
+    if @post.valid? 
+      @post.save
+      render json: @post, status: :ok
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
+  end
+
+  def geolocated
+    @posts = Post.where(:latitude => params[:seLat]..params[:nwLat])
+                 .where(:longitude => params[:nwLng]..params[:seLng])
+                 .where(:published => true)
+                 .where(:status => 'new')
+                 .where("dibbed_until < ?", Time.now)
+    render json: @posts
+  end
+
   def index
     user_ip = request.location
-
     if user_ip && !user_ip.longitude == 0.0
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
     else
@@ -23,95 +52,26 @@ class Api::PostsController < ApplicationController
     end
   end
 
-  def update
-    @post = Post.find(params[:id])
-    if (current_user) and @post.creator_id == current_user.id
-        cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined' || value == 'null'
-      }
-      @post.update_attributes cleaned_params
-      @post.save!
-      render json: '[]', status: :ok
-    else
-      render json: {error: 'not authorized '}, status: :unauthorized
-    end
+  # GET /posts/my_stuff
+  def my_stuff
+    @posts = Post.where(:user => current_user)
+    render json:  @posts, each_serializer: PostSerializer, status: :ok
   end
 
-  def create
-    if (current_user)
-      cleaned_params = post_params.delete_if{
-          |key, value| value == 'undefined' || value == 'null' || key == 'image'
-      }
-      params = cleaned_params.merge(
-          :ip => request.remote_ip,
-          :status => 'new',
-          :user => current_user,
-          :creator_id => current_user.id )
-      @post = Post.new(params)
-
-      if @post.valid? and ( post_params['image'] || post_params['image'] != 'null' || post_params['image'] != 'undefined')
-        @post.save
-        UploadImageJob.perform_later( @post, post_params['image'] )
-        render json: @post , status: :ok
-      else
-        if ( !post_params['image'] || post_params['image'] == 'null' || post_params['image'] == 'undefined')
-          @post.errors.add(:image, "can't be blank")
-        end
-        render json: @post.errors, status: :unprocessable_entity
-      end
-    else
-      render json: {error: 'not authorized '}, status: :unauthorized
-    end
+  def my_dibs
+    @dibs = current_user.dib_posts
+    render json:  @dibs, each_serializer: PostSerializer, status: :ok
   end
 
   #POST /posts/:id/remove
-
   def remove 
-    @post = Post.find(params[:id])
+    @post.update_attribute(:status, 'deleted')
     render json: '[]', status: :ok
-     if (current_user) and @post.creator_id == current_user.id
-      @post.delete_post
-     else
-      render json: {error: 'not authorized '}, status: :unauthorized
-    end
   end
 
-  # POST /posts/dib/1
-  # POST /posts/dib/1.json
-  def dib
-    if current_user && dib_params[:id]
-
-      @post = Post.find(dib_params[:id])
-
-      if @post.available_to_dib?
-         @post.create_new_dib(current_user)
-         add_dib(@post, request, current_user)
-         render json: '[]', status: :ok
-      end
-    else
-      render json: '[]', status: :unprocessable_entity
-    end
-  end
-
-  # POST /posts/claim/1
-  # POST /posts/claim/1.json
-
-  def geolocated
-
-
-    @posts = Post.where(:latitude => params[:seLat]..params[:nwLat])
-                 .where(:longitude => params[:nwLng]..params[:seLng])
-                 .where(:published => true)
-                 .where(:status => 'new')
-                 .where("dibbed_until < ?", Time.now)
-
-    render json: @posts
-  end
-
-
-
-  # GET /posts/search
+    # GET /posts/search
   def search
+    #FIXME. Not used this way anymore
     @posts = Post.near([ params[:latitude],params[:longitude]], 10)
     if params[:on_the_curb] != nil
       @posts =  @posts.where(:on_the_curb => params[:on_the_curb])
@@ -120,40 +80,35 @@ class Api::PostsController < ApplicationController
     render json: @posts
   end
 
-  # GET /posts/my_stuff
-  def my_stuff
-    if (current_user)
-      @posts = Post.where(:user =>
-                 current_user)
-
-
-      render json:  @posts, each_serializer: PostSerializer, status: :ok
-    else
-      render json: {message: 'User not logged in' }, status: :unauthorized
-    end
-  end
-
-  def my_dibs
-    if (current_user)
-
-      @dibs = current_user.dib_posts
-      render json:  @dibs, each_serializer: PostSerializer, status: :ok
-    else
-      render json: {message: 'User not logged in' }, status: :unauthorized
-    end
-  end
-
   def show
     @post = Post.find(params[:id])
-   render json: @post
+    render json: @post
+  end
 
+  def update
+    cleaned_params = post_params.delete_if{
+      |key, value| value == 'undefined' || value == 'null'
+    }
+    @post.update_attributes cleaned_params
+    render json: '[]', status: :ok
   end
 
   private
 
-    def post_params
-      params.permit(:image,:category, :latitude, :longitude, :description, :published, :on_the_curb, :status )
-    end
+  def post_params
+    params.permit(:image,:category, :latitude, :longitude, :description,
+      :published, :on_the_curb, :status )
+  end
 
+  def authorize
+    render json: {message: 'User not logged in' }, 
+    status: :unauthorized unless current_user
+  end
+
+  def find_my_post
+    @post = Post.find(params[:id])
+    render json: {error: 'not authorized '}, status: :unauthorized unless ( 
+    current_user and  current_user == @post.creator )
+  end
 
 end
