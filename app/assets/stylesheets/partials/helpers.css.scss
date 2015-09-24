@@ -110,16 +110,20 @@
 @media (min-width:769px){
   /*** Map Heights ***/
   .map-0{
+    top: $navheight;
     height: 100% !important;
   }
   .map-1-1{
+    top: $navheight;
     height: 100% !important;
 
   }
   .map-1-2{
+    top: $navheight;
     height: 100% !important;
   }
   .map-2{
+    top: $navheight;
     height: 100% !important;
   }
   .btn-close-details {

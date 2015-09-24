@@ -2,8 +2,8 @@
 
 <div class="col-lg-12 col-md-12 col-xs-12 post-details">
   <div>
-    <a href='#' ng-show="previous === 'myStuff'" ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
-    <a href='#' ng-show="previous === 'getStuff'" ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
+    <a href='#' ng-show="stuff.last === 'myStuff'" ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
+    <a href='#' ng-show="stuff.last === 'getStuff'" ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
     <div class='settings-group' ng-show="stuff.showEdit(stuff.id)">
       <ul>
         <li class='settings-btn-wrapper'><button class='settings-btn'>Settings&nbsp;<span class='glyphicon glyphicon-cog'></span></button>

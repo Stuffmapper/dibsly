@@ -15,7 +15,7 @@
         if (!params.id){ throw new Error('id is required')}
         var self = this;
         angular.extend(self, params);
-        console.log('inside marker line 18');
+        console.log('');
       };
 
       var constructor = Marker.prototype;
@@ -27,7 +27,9 @@
         'latitude',
         'longitude',
         'published',
-        'title'
+        'title',
+        'status',
+        'image_url'
       ];
       //TODO make this work with angular resource
       constructor.url = function(){

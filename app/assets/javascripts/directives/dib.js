@@ -10,9 +10,10 @@ directives.directive('dib', function() {
     },
     controller: [
       '$scope', '$http', 'UserService', '$modal', 'AlertService', function($scope, $http, UserService, $modal, AlertService) {
-        return $scope.giveMe = function(post_id) {
+        return $scope.giveMe = function(post) {
+          console.log('dib directive give me scope', $scope)
           var post_url;
-          post_url = '/api/posts/' + post_id + '/dibs';
+          post_url = '/api/posts/' + post.id + '/dibs';
           return UserService.check()
           .then(
             function(user){
