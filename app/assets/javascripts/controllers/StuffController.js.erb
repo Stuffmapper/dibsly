@@ -253,6 +253,7 @@
         $scope.menuHeight = 'menu-details';
         $scope.mapHeight = 'map-4';
         $scope.stuff = MarkerService.markers[id];
+        console.log('stuff 256', $scope.stuff)
         $location.path('/post/' + id, false);
         $scope.showTab(template)
       };
@@ -445,6 +446,7 @@
           }
         })
         .success(function(data) {
+          console.log('data line 449 stuffctrl', data)
           var i, len, marker, ref, results;
           ref = data.posts;
           for (i = 0, len = ref.length; i < len; i++) {

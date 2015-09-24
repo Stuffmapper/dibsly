@@ -15,6 +15,7 @@
         if (!params.id){ throw new Error('id is required')}
         var self = this;
         angular.extend(self, params);
+        console.log('inside marker line 18');
       };
 
       var constructor = Marker.prototype;

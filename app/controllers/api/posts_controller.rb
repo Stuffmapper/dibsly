@@ -25,11 +25,11 @@ class Api::PostsController < ApplicationController
     end
   end
 
+  #temp removed where(status: 'new');
   def geolocated
     @posts = Post.where(:latitude => params[:seLat]..params[:nwLat])
                  .where(:longitude => params[:nwLng]..params[:seLng])
                  .where(:published => true)
-                 .where(:status => 'new')
                  .where("dibbed_until < ?", Time.now)
     render json: @posts
   end
