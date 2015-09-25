@@ -4,27 +4,23 @@
   ng-click="showSignin()" >Sign In</a>to view your stuff
 </div>
 
-<div id="my-stuff" class="col-lg-12 col-md-12 col-xs-12"
+<div id="my-stuff" class="col-lg-12 col-md-12 col-xs-12 to_edge"
  ng-controller='MyStuffCtrl' >
+  <h4 class ="col-md-6 col-lg-6 col-xs-6 to_edge">Want!ed</h4>
+  <h5 class ="col-md-6 col-lg-6 col-xs-6">
+    <a href='#' class="pull-right">Archived >> </a>
+  </h5>
+
+  <div class="col-lg-12 col-md-12 col-xs-12" ng-include src="'myStuff/mywants.html'"></div>
+
+  <h4 class ="col-md-6 col-lg-6 col-xs-6 to_edge">Giving</h4>
+  <h5 class ="col-md-6 col-lg-6 col-xs-6">
+    <a href='#' class="pull-right">Archived >> </a>
+  </h5>
+
+  <div class="col-lg-12 col-md-12 col-xs-12" ng-include src="'myStuff/myposts.html'"></div>
 
 
-    <div class="col-md-12 col-lg-12 col-xs-12"
-    active='tabs.myPosts'
-    ng-class="tabs.myPosts ?  'tab-clicked' : 'tab-unclicked'"
-    ng-click='showtab("myPosts")'>
-        <h4> My Posts</h4>
-
-    </div>
-    <div ng-include src="'myStuff/myposts.html'"></div>
-
-    <div class="col-md-12 col-lg-12 col-xs-12"
-    active='tabs.myPosts'
-    ng-class="tabs.myPosts ?  'tab-clicked' : 'tab-unclicked'"
-    ng-click='showtab("myPosts")'>
-        <h4> My Wants</h4>
-
-    </div>
-    <div ng-include src="'myStuff/mywants.html'"></div>
 
   <hr>
 </div>

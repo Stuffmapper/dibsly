@@ -1,3 +1,7 @@
+#STEPS COMMON TO THE ACTIVE MANAGEMENT FOLDER
+#IF YOU ARE GOING TO USE THESE IN OTHER LOCATIONS,
+#PLEASE MOVE THEM TO COMMON STEPS
+
 
 Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Jill is also a registered user\.$/) do
 
