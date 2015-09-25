@@ -21,22 +21,31 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def dibbable
-    object.available_to_dib?
+    object.available_to_dib? 
   end
-
-  # def dibs
-  #   scope[:current_user]  === object.user and obj.dibs
-  # end
 
   def isCurrentDibber
     #Later Move this logic to the front end.
     scope[:current_user] ?  object.current_dibber == scope[:current_user] : false
   end
 
+
   def originalImage
     object.pictures.last and object.pictures.last.image.url
   end
 
+  def status
+    #Status remains 'new' on object until dib is permeant
+    #needs test
+    status = object.status
+    if %w(claimed deleted loading).include?(status)
+      #do nothing
+    elsif !object.available_to_dib? and object.current_dibber
+      #checks
+      status = 'dibbed'
+    end
+    return status 
+  end
 
 
 end

@@ -5,6 +5,7 @@ FactoryGirl.define do
     status "new"
     ip ""
     description 'shoes'
+    title 'some title'
     latitude 0
     longitude 0
   end

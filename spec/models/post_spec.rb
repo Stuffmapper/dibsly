@@ -70,6 +70,24 @@ RSpec.describe Post, :type => :model do
 
   end
 
+  describe "Post validations", :vcr => vcr_options  do
+
+    before do
+      @user = create(:user)
+      @user2 = create(:user, {username: 'user2', email: 'anotherfake@email.com'})
+      @post = build(:post, creator_id: @user.id, longitude: 0, latitude:0, status: 'new'  )   
+    end
+
+    it "should require a title" do
+      @post.title = nil 
+      expect(@post.save).to eq false
+      @post.title = "some title"
+      expect(@post.save).to eq true
+    end
+
+  end
+
+
   describe "Post.create_new_dib", :vcr => vcr_options  do
 
     before do

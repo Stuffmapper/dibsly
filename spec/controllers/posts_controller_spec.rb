@@ -155,7 +155,7 @@ RSpec.describe Api::PostsController, :type => :controller do
       it 'should 422 ' do
         sign_in(@user)
         xhr :post, :create, 
-        {title:'', image: @file, latitude:'47',longitude:'-122' }
+        {title:'',  latitude:'47',longitude:'-122' }
         expect(response.status).to eq(422)
       end
 
@@ -175,34 +175,20 @@ RSpec.describe Api::PostsController, :type => :controller do
         sign_in(@user)
         xhr :post, :create, {title:''}
         expect(JSON.parse(response.body)).to eq(JSON.parse(
-          "{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
+          "{\"title\":[\"can't be blank\"],\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
           expect(response.status).to eq(422)
       end
 
-      it 'should 422 with incomplete data' do
-        sign_in(@user)
-        xhr :post, :create, {title:'', image: 'null'}
-        expect(JSON.parse(response.body)).to eq(JSON.parse(
-          "{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}"))
-          expect(response.status).to eq(422)
-      end
-      it 'should 422 without location data' do
-        sign_in(@user)
-        xhr :post, :create, {title:'' }
-        expect(response.body).to eq(
-          "{\"longitude\":[\"can't be blank\"],\"latitude\":[\"can't be blank\"]}")
-        expect(response.status).to eq(422)
-      end
 
       it 'should 200 with complete data' do
         sign_in(@user)
-        xhr :post, :create, {title:'', image: @file, latitude:'47',longitude:'-122' }
+        xhr :post, :create, {title:'old tux', latitude:'47',longitude:'-122' }
         expect(response.status).to eq(200)
       end
 
       it 'should set the post status to loading' do
         sign_in(@user)
-        xhr :post, :create, {title:'', latitude:'47',longitude:'-122' }
+        xhr :post, :create, {title:'new tux', latitude:'47',longitude:'-122' }
         expect(response.status).to eq(200)
         expect(Post.last.status).to eq('loading')
       end
@@ -210,7 +196,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 
       it 'should update a description' do
         sign_in(@user)
-        xhr :post, :create, {title:'', image: @file, latitude:'47',
+        xhr :post, :create, {title:'new tux', image: @file, latitude:'47',
           longitude:'-122', description: 'shoes' }
         expect(Post.last.description).to eq('shoes')
       end
@@ -218,8 +204,7 @@ RSpec.describe Api::PostsController, :type => :controller do
       it 'should update on the curb' do
         sign_in(@user)
         xhr :post,
-          :create, {title:'',
-            image: @file,
+          :create, {title:'new tux',
             latitude:'47',
             longitude:'-122',
             description: 'shoes',
@@ -230,8 +215,7 @@ RSpec.describe Api::PostsController, :type => :controller do
       it 'should return data about the post' do
         sign_in(@user)
         xhr :post,
-          :create, {title:'',
-            image: @file,
+          :create, {title:'new tux',
             latitude:'47',
             longitude:'-122',
             description: 'this is a description for returning data',
@@ -272,14 +256,14 @@ RSpec.describe Api::PostsController, :type => :controller do
 
       it 'should 200 with complete data' do
         sign_in(@user)
-        xhr :post, :update,{id: @post.id , title:'', image: @file,
+        xhr :post, :update,{id: @post.id , title:'new tux',
           latitude:'47',longitude:'-122' }
         expect(response.status).to eq(200)
       end
 
       it 'should update a description' do
         sign_in(@user)
-        xhr :post, :update, { id: @post.id ,title:'', image: @file, 
+        xhr :post, :update, { id: @post.id ,title:'new tux', image: @file, 
           latitude:'47',longitude:'-122', description: 'Update this' }
         expect(Post.find(@post.id).description).to eq('Update this')
       end
@@ -434,12 +418,12 @@ RSpec.describe Api::PostsController, :type => :controller do
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['post']['id']).to eq(@post.id)
     end
-    it "should an items dibbed status" do
+    it "should get an items dibbed status" do
       xhr :get, :show, :id => @post.id
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['post']['dibbable']).to eq(true)
     end
-    it "should an items dibbed status" do
+    it "should get an items dibbed status" do
       @post.dibbed_until = Time.now + 10.minutes
       @post.save!
       xhr :get, :show, :id => @post.id
@@ -452,6 +436,28 @@ RSpec.describe Api::PostsController, :type => :controller do
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['post']['status']).to eq("new")
     end
+
+    #TODO make new rspec for serializer - this is really only testing the serializer
+    it "should show  a status" do
+      @user2 = create(:user)
+      @post.create_new_dib @user2
+      @post.reload 
+      xhr :get, :show, :id => @post.id
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body)['post']['status']).to eq("dibbed")
+      expect(@post.status).to eq('new')
+    end
+
+    it "should show a deleted status" do
+      @post.updated_attribute( :status, 'deleted')
+      @post.reload 
+      xhr :get, :show, :id => @post.id
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body)['post']['status']).to eq("deleted")
+      expect(@post.status).to eq('deleted')
+    end
+
+
 
 
   end

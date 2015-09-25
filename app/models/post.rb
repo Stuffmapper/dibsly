@@ -30,6 +30,7 @@ class Post < ActiveRecord::Base
 
   validate :creator_must_be_allowed_to_post_and_dib
   validates_presence_of :user
+  validates_presence_of :title
   validates_presence_of :longitude, :latitude
   validates :status, inclusion: {in: STATUSES}
 

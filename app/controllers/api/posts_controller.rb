@@ -97,7 +97,7 @@ class Api::PostsController < ApplicationController
 
   def post_params
     params.permit(:image,:category, :latitude, :longitude, :description,
-      :published, :on_the_curb, :status )
+      :published, :on_the_curb, :status, :title )
   end
 
   def authorize
