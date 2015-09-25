@@ -2,13 +2,9 @@
 class PostSerializer < ActiveModel::Serializer
   #used for current user posts
   attributes :id, :isCurrentDibber,  :latitude, :longitude,
-  :coords, :image_url,:description, :dibbable,
+  :image_url,:description, :dibbable,
   :creator, :on_the_curb, :category, :published,
   :currentDib,:originalImage, :status, :updated_at, :title
-
-  def coords
-    {'latitude'=> self.latitude, 'longitude'=> self.longitude }
-  end
 
   def currentDib
     dibObject =  scope[:current_user] && object.current_dibber ?  {
@@ -36,7 +32,6 @@ class PostSerializer < ActiveModel::Serializer
 
   def status
     #Status remains 'new' on object until dib is permeant
-    #needs test
     status = object.status
     if %w(claimed deleted loading).include?(status)
       #do nothing
@@ -46,6 +41,5 @@ class PostSerializer < ActiveModel::Serializer
     end
     return status 
   end
-
 
 end
