@@ -22,6 +22,7 @@
         'description',
         'latitude',
         'longitude',
+        'locallyUpdated',
         'published',
         'title',
         'status',
@@ -67,11 +68,13 @@
           $http.get(self.getUrl())
           .success(function(data){
             angular.extend(self, data.post)
+            self.locallyUpdated = Date.now();
             self.saveLocal();
             resolve(self)
           })
           .error(function(err){
-            reject(error)
+            //TEST ME - REJECT NOT TESTED
+            reject(err)
           })
 
         });
@@ -124,6 +127,7 @@
         });
       };
 
+
       //TODO - add a dib function?
 
       constructor.saveLocal = function(){
@@ -157,13 +161,17 @@
       constructor.showDib = function() {
         return ( !this.showEdit() && !this.isCurrentDibber && this.dibbable );
       };
+      constructor.shouldDelete = function(){
+        //ensures it is unavailble - doesn't belong to or dibbed by user
+        return !this.dibbable && !this.showEdit() && !this.showUnDib();
+      };
+
 
       constructor.showUnDib = function() {
         return this.isCurrentDibber ? true : false 
       };
 
       constructor.showWanted = function() {
-        //TEST ME
         return ( this.showEdit() && this['status'] === 'dibbed' );
       };
 

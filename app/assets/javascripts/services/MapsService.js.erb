@@ -194,7 +194,14 @@
       triggerMarkerEvent: function(marker, event){
         google.maps.event.trigger(marker, event);
       },
-
+      updateMarker: function(marker){
+        //I HAVE NO TEST
+        var pos = marker.marker.getPosition() || {}; //hack for testing purposed
+        if(pos.lat() != marker.latitude ){
+          var latlng = this.newLatLng(marker.latitude, marker.longitude);
+          marker.marker.setPosition(latlng); 
+        }
+      }
     };
   }
 ]);

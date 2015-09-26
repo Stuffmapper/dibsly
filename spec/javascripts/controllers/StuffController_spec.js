@@ -77,6 +77,7 @@ describe('StuffCtrl', function() {
       spyOn(mockMapsService, 'setMapMarker').and.returnValue($q.when({}));
       spyOn(mockMapsService, 'addMapListener').and.returnValue(true);
       spyOn(mockMapsService, 'addMarkerListener').and.returnValue( $q.when() )
+      spyOn(mockMapsService,'updateMarker').and.returnValue( true )
       controller = $controller('StuffCtrl', { $scope: $scope });
 
     });

@@ -48,6 +48,7 @@ describe('MyStuffCtrl', function() {
       spyOn(mockMapsService,'loadMap').and.returnValue( $q( function(resolve, reject){ resolve(gmap); }) ) 
       spyOn(mockMapsService,'newMapMarker').and.returnValue( $q( function(resolve, reject){ resolve(gmarker); }) ) 
       spyOn(mockMapsService,'addMarkerListener').and.returnValue( true )
+      spyOn(mockMapsService,'updateMarker').and.returnValue( true )
       angular.forEach(markers, function(marker){
         mockMarkerService.setMarker(marker)
       });
@@ -58,16 +59,16 @@ describe('MyStuffCtrl', function() {
 
   };
 
-
-  describe('showtab', function() {
-    it('changes the tabs correctly ', function() {
-      setupController();
-      $scope.tabs = {posts: true, messages: false, profile: false};
-      $scope.showtab('messages');
-      expect($scope.tabs.messages).toEqual(true);
-      expect($scope.tabs.posts).toEqual(false);
-    });
-  });
+  //No more tabs
+  // describe('showtab', function() {
+  //   it('changes the tabs correctly ', function() {
+  //     setupController();
+  //     $scope.tabs = {posts: true, messages: false, profile: false};
+  //     $scope.showtab('messages');
+  //     expect($scope.tabs.messages).toEqual(true);
+  //     expect($scope.tabs.posts).toEqual(false);
+  //   });
+  // });
 
   describe('show dibs', function() {
     it('returns the markers that have been dibbed', function() {

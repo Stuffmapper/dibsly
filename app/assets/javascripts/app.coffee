@@ -80,7 +80,7 @@ stfmpr.config ($httpProvider) ->
   $httpProvider.interceptors.push('AuthInterceptor')
 
 
-stfmpr.run(['UserService','$location','$route','$rootScope', 'MapsService', (UserService, $location, $route, $rootScope, MapsService)->
+stfmpr.run(['UserService','$location','$route','$rootScope', 'MapsService', 'MarkerService', (UserService, $location, $route, $rootScope, MapsService, MarkerService)->
     original = $location.path
     $location.path = (path,reload)->
       if reload == false
@@ -91,5 +91,6 @@ stfmpr.run(['UserService','$location','$route','$rootScope', 'MapsService', (Use
         un()
       original.apply($location, [path])
     MapsService.loadMap();
+    MarkerService.expireMarkers();
     return UserService.check()
 ])

@@ -4,10 +4,11 @@
   factories = angular.module('factories');
 
   factories.factory('MarkerService', [
-    '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q',
-     function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q) {
+    '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q', '$timeout',
+     function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q, $timeout) {
      var self = this;
      self.markers = {}
+     self.toCheck = [];
 
       return {
         editProperties: [
@@ -82,8 +83,50 @@
             delete self.markers[id];
           } else { console.warn("marker not found %s not deleted", id)}
         },
-        getMarker: function(id){
+        expireMarkers: function(){
+          //sets a timeout, should be called only once
+          //NO TEST IN PLACE
+          var that = this;
+          $timeout(function(){
+            if(!self.updating){
+              var time = Date.now();
+              self.updating = true
+              angular.forEach(self.markers, function(marker, key){
+                if(marker.locallyUpdated  < time - 300000  ){ //BUGBUGS
+                  console.log('You have an old marker')
+                  var prom = marker.get()
+                  .then( function(){
+                    if(marker.shouldDelete()){ that.delete(marker.id) }
+                    else(that.setMarker(marker) )
+                  });
+                  self.toCheck.push(prom);
+                }
+              })
+              return $q.all(self.toCheck)
+              .then(function(){ 
+                console.log('Done checking for old makers ')
+                self.toCheck = [];
+                self.updating = false;
+                that.expireMarkers() } );
+            }  
+          }, 15000);
+        },
+        getMarker:function(id){
           return self.markers[id];
+        },
+        getMarkerAsync: function(id){
+          var that = this;
+          var defer = $q.defer();
+          var marker = self.markers[id] || new Marker({ id:id });
+          marker.get()
+          .then(
+            function(){
+              that.setMarker(marker)
+              .then(function(){ defer.resolve( self.markers[id] ) }); 
+            },
+            function(err){ defer.reject(err) }
+          );
+          return defer.promise;
         },
         getSetTemporary: function(id){
         // returns a promise
@@ -158,7 +201,11 @@
                }
               defer.resolve(marker);
             })
-          } else { defer.resolve(marker) }
+          } else { 
+            //needs to update lat lng
+            MapsService.updateMarker(marker);
+            //pretty important
+            defer.resolve(marker) }
           return defer.promise; 
         },
 
@@ -173,29 +220,6 @@
           return that.setGoogleMarker(self.markers[marker.id]);
         },
 
-        updateMarker: function(id,map) {
-          var defer = $q.defer();
-          setTimeout(function(){
-            $q.reject('timeout')
-          })
-          return Marker.get({
-            id: id
-          }).$promise.then(function(post) {
-            if (post.post.originalImage === 'missing') {
-              if (self.markers[id]) {
-                post.post.originalImage = self.markers[id].originalImage;
-                post.post.image_url = self.markers[id].image_url;
-              } else {
-                post.post.originalImage = '<%= asset_path('processing.png')%>';
-                post.post.image_url = '<%= asset_path('processing.png')%>';
-              }
-              defer.resolve('marker updated')
-            }
-            self.setMarker(post.post, map)
-            defer.resolve('marker updated')
-            return defer.promise;
-          });
-        },
         updateWindow: function(id) {
           var infowindow, innerContent, marker;
           marker = self.markers[id];
