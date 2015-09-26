@@ -3,7 +3,7 @@ Given(/^I'm a registered user and Jack has posted some shoes and Jill is another
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
     @user_jill = create(:user, :username => "Jill")
-    @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes' )
+    @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes', title: 'shoes'  )
     @shoes.save!
   end
 end
@@ -20,33 +20,16 @@ When(/^I log in and visit the map location where the shoes are\.$/) do
 
 end
 
-Then(/^I should see the shoes in the menu$/)  do
-  click_link 'Get Stuff'
-  click_button 'Details'
-  sleep(1)
-  within('.stuffmapper-menu') do
-    expect(page).to have_text("shoes")
-  end
-end
-
-Then(/^I should not see the shoes in the menu$/)  do
-  within('.stuffmapper-menu') do
-
-    expect(page).to_not have_text("shoes")
-  end
-end
 
 When(/^I hit dib$/) do
   click_link 'Get Stuff'
-  first(:button,'Dib').click
+  page.find('.stuff-view').click
+  first(:button,'I want').click
  end
 
 Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
   visit('/')
-  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
-  var map = angular.element('map').scope().map;
-  map.panTo(myLatLng);
-  map.setZoom(16);")
+  center_map_to_post @shoes
   sleep(1)
   within('.stuffmapper-menu') do
     expect(page).to_not have_text("shoes")

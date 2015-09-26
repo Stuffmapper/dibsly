@@ -109,6 +109,24 @@
         });
       };
 
+      constructor.dib = function(){
+        var self = this;
+        //removes from local cache 
+        //deletes on the server
+        //does not delete itself .. will need to be handle else where
+        //should mark for deletion
+        return $q(function(resolve, reject){
+          $http.post(self.getUrl() + '/dibs')
+          .then( function(data){
+            angular.extend(self, data.data.post)
+            resolve(self)
+          })
+          .error( function(error){
+            throw new Error( "can't dib this " + self )
+          })
+        });
+      };
+
       constructor.rejectDibber = function(){
         var self = this;
         //removes from local cache 
