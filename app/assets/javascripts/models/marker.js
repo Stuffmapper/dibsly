@@ -12,7 +12,6 @@
         if (!params.id){ throw new Error('id is required')}
         var self = this;
         angular.extend(self, params);
-        console.log('');
       };
 
       var constructor = Marker.prototype;
@@ -39,7 +38,6 @@
         //NOTE a controller will have to wrap this function to change
         //the key in the marker service and set the marker on success
         var self = this;
-        console.log(self, "line 39")
         var url = customURL || '/api/posts'
         var params = {};
         angular.forEach(self.baseProperties, function(property){
@@ -47,15 +45,15 @@
         })
         return $q(function(resolve, reject){
           $http.post(url, params)
-          .success( function(data){
+          .then( function(data){
             self.status = 'new'; //review
-            angular.extend(self, data.post)
+            var updated = data.data.post;
+            angular.extend(self, updated)
             self.saveLocal();
-            resolve(data.post) })
-          .error(
+            resolve(updated) },
             function(error){
               //TODO handle specific errors
-              resolve(error);
+              reject(error);
           }); 
         });
       };
@@ -65,16 +63,18 @@
         //gets new data from 
         //throw new Error('function not yet implemented')
         var self = this;
-        return $http.get(self.getUrl())
-        .then( function(data){
-          angular.extend(self, data.post)
-          self.saveLocal();
-          },
-          function(error){
-            //throw new Error( "can't get " + self )
-            return error;
-          }
-        );
+        return $q(function(resolve, reject){
+          $http.get(self.getUrl())
+          .success(function(data){
+            angular.extend(self, data.post)
+            self.saveLocal();
+            resolve(self)
+          })
+          .error(function(err){
+            reject(error)
+          })
+
+        });
       };
 
       // update
@@ -93,14 +93,35 @@
         //deletes on the server
         //does not delete itself .. will need to be handle else where
         //should mark for deletion
-        return $http.delete(self.getUrl() + '/remove')
-        .then( function(data){
+        return $q(function(resolve, reject){
+          $http.delete(self.getUrl() + '/remove')
+          .success( function(data){
+            angular.extend(self, data.post)
             self.deleteLocal();
-          },
-            function(error){
+            resolve(self)
+          })
+          .error( function(error){
             throw new Error( "can't delete " + self )
           })
-        
+        });
+      };
+
+      constructor.rejectDibber = function(){
+        var self = this;
+        //removes from local cache 
+        //deletes on the server
+        //does not delete itself .. will need to be handle else where
+        //should mark for deletion
+        return $q(function(resolve, reject){
+          $http.post(self.getUrl() + '/removecurrentdib')
+          .success( function(data){
+            angular.extend(self, data.post)
+            resolve(self)
+          })
+          .error( function(error){
+            throw new Error( "can't delete " + self )
+          })
+        });
       };
 
       //TODO - add a dib function?
@@ -139,6 +160,11 @@
 
       constructor.showUnDib = function() {
         return this.isCurrentDibber ? true : false 
+      };
+
+      constructor.showWanted = function() {
+        //TEST ME
+        return ( this.showEdit() && this['status'] === 'dibbed' );
       };
 
       return Marker;

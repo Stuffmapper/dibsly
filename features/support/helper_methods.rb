@@ -16,10 +16,8 @@ end
 
 module MapCenterHelpers
   def center_map_to_post post
-   	execute_script("var postLatLng = new google.maps.LatLng(#{post.latitude}, #{post.longitude});
-    	var map = angular.element('map').scope().map;
-    	map.panTo(postLatLng);
-      google.maps.event.trigger(map, 'dragend');")
+   	execute_script("localStorage.setItem('mapcenter', '{lat: #{post.latitude}, lng: #{post.longitude} }')")
+    visit('/')
 	end
 end
 

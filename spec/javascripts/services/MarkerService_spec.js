@@ -23,7 +23,7 @@ describe('MarkerService', function() {
       $rootScope = _$rootScope_;
       $q = _$q_;
     });
-    gmarker = jasmine.createSpyObj('gmarker',['setIcon' ]);
+    gmarker = jasmine.createSpyObj('gmarker',['setIcon', 'setMap' ]);
     gmap = jasmine.createSpyObj('gmap',['panTo' ]);
     markers = {
      1:{id:1, dibber:'Jack', updated_at: new Date('2012-11-25'), marker: gmarker },
@@ -51,11 +51,12 @@ describe('MarkerService', function() {
   describe('delete', function() {
     it('is defined', function() {
       setupController();
-      MarkerService.markers = markers;
+      MarkerService.setMarker(markers[1]);
+      $rootScope.$digest();
       expect(MarkerService.delete).toBeDefined();
-      expect(MarkerService.markers[1]).toBeDefined();
-      MarkerService.delete( MarkerService.markers[1] );
-      expect(MarkerService.markers[1]).toEqual(undefined);
+      expect(MarkerService.getMarker(1)).toBeDefined();
+      MarkerService.delete(1);
+      expect(MarkerService.getMarker(1)).toEqual(undefined);
 
     });
   });
@@ -77,33 +78,33 @@ describe('MarkerService', function() {
   describe('setMarker ', function() {
     it('sets a Marker', function() {
       setupController();
-      expect(MarkerService.markers[1]).toBeUndefined();
+      expect(MarkerService.getMarker(1)).toBeUndefined();
       MarkerService.setMarker(markers[1])
-      expect(MarkerService.markers[1].updated_at ).toEqual(markers[1].updated_at );
+      expect(MarkerService.getMarker(1).updated_at ).toEqual(markers[1].updated_at );
     });
     it('extends a Marker', function() {
       setupController();
       var info = {id:1, url: 'this is a url'}
       var newinfo = {id:1, url_image: 'this is a url'}
-      expect(MarkerService.markers[1]).toBeUndefined();
+      expect(MarkerService.getMarker(1)).toBeUndefined();
       MarkerService.setMarker(info);
-      expect(MarkerService.markers[1].id).toEqual(info.id);
+      expect(MarkerService.getMarker(1).id).toEqual(info.id);
       MarkerService.setMarker(newinfo);
-      expect(MarkerService.markers[1].url).toEqual(info.url);
-      expect(MarkerService.markers[1].url_image).toEqual(newinfo.url_image);
+      expect(MarkerService.getMarker(1).url).toEqual(info.url);
+      expect(MarkerService.getMarker(1).url_image).toEqual(newinfo.url_image);
     });
 
     it('creates a marker ', function(done) {
       setupController();
       var info = {id:1, url: 'this is a url'}
       var newinfo = {id:1, url_image: 'this is a url'}
-      expect(MarkerService.markers[1]).toBeUndefined();
+      expect(MarkerService.getMarker(1)).toBeUndefined();
       MarkerService.setMarker(info);
-      expect(MarkerService.markers[1].id).toEqual(info.id);
+      expect(MarkerService.getMarker(1).id).toEqual(info.id);
       MarkerService.setMarker(newinfo)
       .then(
         function(){
-          expect(MarkerService.markers[1].marker).not.toBeUndefined();
+          expect(MarkerService.getMarker(1).marker).not.toBeUndefined();
           done();
         }
       )

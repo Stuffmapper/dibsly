@@ -6,7 +6,8 @@
   factories.factory('MarkerService', [
     '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q',
      function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q) {
-// 
+     var self = this;
+     self.markers = {}
 
       return {
         editProperties: [
@@ -20,7 +21,6 @@
           'published',
           'title'
         ],
-        markers: {},
         icons: {
             standard:'<%= asset_path('blue-circle.png')%>',
             dibber: '<%= asset_path('my-want.png')%>',
@@ -41,7 +41,6 @@
         ],
 
         clearMarkers: function( exception ){
-          var self = this;
           var promises = [];
           angular.forEach(self.markers, function(value, key) {
              if (key !== exception && value.marker ){
@@ -51,7 +50,6 @@
           return $q.all(promises);
         },
         clearWindows: function(exception, map){
-          var self = this;
           angular.forEach(self.markers, function(value, key) {
             if (String(key) !== String(exception)) {
               if (value.infowindow && value.marker) {
@@ -77,15 +75,19 @@
         },
         delete: function(id){
           //REVIEW is this being used anywhere?
-          self = this;
           var marker = self.markers[id];
-          MapsService.clearMapMarker(marker.marker);
-          marker.deleteLocal();
-          delete self.markers[id];
+          if(marker){
+            MapsService.clearMapMarker(marker.marker);
+            marker.deleteLocal();
+            delete self.markers[id];
+          } else { console.warn("marker not found %s not deleted", id)}
+        },
+        getMarker: function(id){
+          return self.markers[id];
         },
         getSetTemporary: function(id){
         // returns a promise
-          var self = this;
+          var that = this;
           var markerSet = self.markers[id];
           var marker = markerSet ? markerSet : {
             id: id,
@@ -99,16 +101,16 @@
             .then( function(center){
               marker.latitude = center.lat;
               marker.longitude = center.lng;
-              return self.setMarker(marker);
+              return that.setMarker(marker);
             })
           } else { return $q.when(marker); }
         },
 
         isEmpty: function(obj){
           // null and undefined are "empty"
-          var self = this;
+          var that = this;
           if (!obj) return true;
-          if (obj.length === 1 && self.isEmpty(obj[0]) )   return true;
+          if (obj.length === 1 && that.isEmpty(obj[0]) )   return true;
           if (obj.length > 0 )    return false;
           if (obj.length === 0)  return true;
           for (var key in obj) {
@@ -119,8 +121,8 @@
         },
 
         setAll: function(has, doesnot){
-          var self = this;
-          angular.forEach( self.where(has, doesnot), function(marker){
+          var that = this;
+          angular.forEach( that.where(has, doesnot), function(marker){
             if(marker.marker){
               MapsService.setMapMarker(marker.marker)
             }
@@ -129,10 +131,10 @@
 
         setGoogleMarker: function(marker){
           var defer = $q.defer();
-          var self = this;
+          var that = this;
           if(!marker.marker ) {
             MapsService.newMapMarker({
-              icon: self.icons[marker.icon] || self.icons.standard,
+              icon: that.icons[marker.icon] || that.icons.standard,
               draggable: marker.draggable,
               position: { lat: marker.latitude, lng: marker.longitude },
               title: marker.description
@@ -161,14 +163,14 @@
         },
 
         setMarker: function(marker){
-          var self = this;
+          var that = this;
           marker.updated_at = new Date(marker.updated_at);
           marker.locallyUpdated = Date.now();
           if(!self.markers[marker.id]){
             self.markers[marker.id] = new Marker(marker);
           } else { angular.extend(self.markers[marker.id], marker ) }
           self.markers[marker.id].saveLocal()
-          return self.setGoogleMarker(self.markers[marker.id]);
+          return that.setGoogleMarker(self.markers[marker.id]);
         },
 
         updateMarker: function(id,map) {
@@ -176,8 +178,6 @@
           setTimeout(function(){
             $q.reject('timeout')
           })
-          var self;
-          self = this;
           return Marker.get({
             id: id
           }).$promise.then(function(post) {
@@ -197,8 +197,7 @@
           });
         },
         updateWindow: function(id) {
-          var infowindow, innerContent, marker, self;
-          self = this;
+          var infowindow, innerContent, marker;
           marker = self.markers[id];
           innerContent = "<div > <div id='siteNotice' class='stuff-map-image'></div> <img src=" +
            marker.image_url + " width='200px' ></img> <div id='bodyContent'> <p>" +
@@ -218,16 +217,16 @@
 
 
         where: function(has, doesnot){
-          var self = this;
+          var that = this;
           if (has && has.constructor  !== Array){
             var has = [has];
           }
           var results = [];
           angular.forEach(self.markers,
             function(value ){
-              if(self.contains(value,has) && !self.contains(value, doesnot)){
+              if(that.contains(value,has) && !that.contains(value, doesnot)){
                 results.push(value)
-              } else if ( !self.contains(value, doesnot) && self.isEmpty(has) ) {  //TOFIX
+              } else if ( !that.contains(value, doesnot) && that.isEmpty(has) ) {  //TOFIX
                 results.push(value);
               }
             }

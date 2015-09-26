@@ -17,46 +17,12 @@ Given(/^I'm a registered user I've posted some shoes that Jack has dibbed and Ji
 
 end
 
-When(/^I manage dibs for shoes in My Stuff$/) do
-  visit '/'
-  sign_in @current_user
-  click_link('My Stuff')
-  expect(page).to have_text 'My Posts'
-end
-
-Then(/^I should see "(.*?)" as the current dibber$/) do |arg1|
-   click_link('My Stuff')
-  expect(page).to have_text("Dibbed by: " + arg1)
-end
-
-When(/^I remove current dibber and select "(.*?)"$/) do |arg1|
-  select arg1, from: 'undibReason'
-  click_button 'Remove'
-end
 
 Then(/^I should not be able to see "(.*?)" as the current dibber\.$/) do |arg1|
   expect(page).to_not have_text("Dibbed by: " + arg1)
 end
 
 
-Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
-  expect(Dib.count).to eq 1
-  #expect(@shoes.available_to_dib?).to eq true
-  click_link 'Sign Out'
-  sign_in @user_jill
-  center_map_to_post @shoes
-  click_link "Get Stuff"
-  click_button 'Details'
-  expect(page).to have_text 'shoes'
-  first(:button, 'Dib').click
-  sleep(6)
-  expect(Dib.count).to eq 2
-  expect(@user_jill.dibs.first.post).to eq @shoes
-  @shoes.reload
-  expect(@shoes.available_to_dib?).to eq false
-  click_link 'Sign Out'
-
-end
 
 Then(/^I should be able to see "(.*?)" as the current dibber\.$/) do |arg1|
   sign_in @current_user

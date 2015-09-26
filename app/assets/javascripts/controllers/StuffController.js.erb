@@ -97,7 +97,7 @@
 
         $scope.showTab('editing');
         $scope.file = null;
-        $scope.editItem = MarkerService.markers[id];
+        $scope.editItem = MarkerService.getMarker(id);
         return $scope.current_image = $scope.editItem.image_url;
       };
 
@@ -130,7 +130,7 @@
         return MapsService.resizeMap() 
         .then(function(){ 
           return $q.when( MapsService.panToMarker(
-          MarkerService.markers['giveStuff'].marker) ) })
+          MarkerService.getMarker('giveStuff').marker) ) })
         .then(function(){  
           return MarkerService.clearMarkers('giveStuff'); 
         });
@@ -147,7 +147,7 @@
         return MarkerService.getSetTemporary('giveStuff')
         .then( function(marker){ 
           marker.images = ImageService.images['giveStuff']
-          $scope.post = MarkerService.markers['giveStuff'];
+          $scope.post = MarkerService.getMarker('giveStuff');
           return $scope.giveNext(state); 
         })
       };
@@ -256,7 +256,7 @@
         //render the page and attempt to reload the google map
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $scope.stuff = MarkerService.markers[id];
+        $scope.stuff = MarkerService.getMarker(id);
         console.log('stuff 256', $scope.stuff)
         $location.path('/post/' + id, false);
         $scope.showTab(template)
@@ -423,7 +423,6 @@
           }
         })
         .success(function(data) {
-          console.log('data line 449 stuffctrl', data)
           var i, len, marker, ref, results;
           ref = data.posts;
           for (i = 0, len = ref.length; i < len; i++) {
@@ -465,7 +464,7 @@
 
       //HELPER FUNCTIONS 
       var addImageGroup = function(id) {
-        var image = MarkerService.markers[id] && MarkerService.markers[id].image_url;
+        var image = MarkerService.getMarker(id) && MarkerService.getMarkers(id).image_url;
         ImageService.addImageGroup(id, image)
       };
 

@@ -105,6 +105,26 @@ describe('MarkerService', function() {
     });
   });
 
+  it('has a show wanted function', function() {
+
+     var info3 = {
+        id:3,
+        url: 'this is a url',
+        creator: 'someOtherGuy',
+        currentUser: 'someOtherGuy',
+        dibber: 'someGuy',
+        status: 'dibbed',
+        isCurrentDibber: false };
+      var testMarker = new Marker(info3);
+       expect(testMarker.showWanted).toBeDefined();
+
+      expect(testMarker.showWanted()).toEqual(true);
+      testMarker['status'] = 'new';
+      expect(testMarker.showWanted()).toEqual(false);
+
+    });
+
+
   describe('saveLocal function', function() {
 
     it('is defined', function() {
@@ -178,22 +198,33 @@ describe('MarkerService', function() {
     });
 
     it('creates', function() {
+      var createHandler = $httpBackend.whenPOST( /\/api\/posts.*/  )
+      createHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'reached the server' }});
       expect(testMarker.id ).toEqual('temporary')
       testMarker.create()
       $httpBackend.flush()
-      expect(testMarker.id ).toEqual('4')
+      expect(testMarker.id ).toEqual(4)
     });
 
-    it('gets', function(done) {
+    it('gets', function() {
       testMarker.id = 4;
       expect(testMarker.status ).toEqual('only local')
       testMarker.get()
-      .then(function(){ done() });
       $httpBackend.flush()
       expect(testMarker.status ).toEqual('reached the server')
     });
 
     it('updates', function() {
+      var updateHandler = $httpBackend.whenPOST( /\/api\/posts\/\d.*/  )
+      updateHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'reached the server' }});
       testMarker.id = 4;
       testMarker.status = "need to update"
       testMarker.updated_at = '1111'
@@ -203,11 +234,60 @@ describe('MarkerService', function() {
     });
 
     it('removes', function() {
+      var deleteHandler = $httpBackend.whenDELETE( /\/api\/posts\/\d.*/  )
+      deleteHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'deleted' }});
       testMarker.id = 4
       spyOn(mockLocalService, 'unset' ).and.returnValue(true);
       testMarker.remove()
       $httpBackend.flush()
       expect(testMarker.status ).toEqual('deleted');
+    });
+   
+  });
+  describe('additional restful calls', function() {
+    var testMarker;
+    beforeEach(function(){
+      setupController();
+      var info3 = {
+        id:3,
+        url: 'this is a url',
+        creator: 'someOtherGuy',
+        currentUser: 'someOtherGuy',
+        dibber: 'someGuy',
+        status: 'dibbed',
+        isCurrentDibber: false };
+     testMarker = new Marker(info3);
+     var getHandler = $httpBackend.whenGET( /\/api\/posts\/\d.*/ )
+     getHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'reached the server' }});
+    })
+
+    it(' exist', function() {
+  
+      expect(testMarker.rejectDibber ).toBeDefined
+
+    });
+
+    it('reject dibber', function() {
+      var deleteHandler = $httpBackend.whenPOST( /\/api\/posts\/\d\/removecurrentdib.*/  )
+      deleteHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'new' }});
+      testMarker.id = 4
+      spyOn(mockLocalService, 'unset' ).and.returnValue(true);
+      expect(testMarker.showWanted() ).toEqual(true);
+      testMarker.rejectDibber()
+      $httpBackend.flush()
+      expect(testMarker.showWanted() ).toEqual(false);
     });
    
   });

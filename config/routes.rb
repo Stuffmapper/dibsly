@@ -35,7 +35,12 @@ Dibsly::Application.routes.draw do
 
     post 'posts/:id/undib' => 'dibs#undib'
     # post 'posts/:id/update' => 'posts#update'
+    
+    #UNTESTED
+    post 'posts/:id/removecurrentdib' => 'posts#remove_dib'
+
     post 'posts/:id/remove' => 'posts#remove'
+
     post 'dibs/:id/removedib' => 'dibs#remove_dib'
 
     resources :posts, only: [:create, :index, :update, :show] do

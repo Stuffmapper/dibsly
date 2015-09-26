@@ -38,8 +38,8 @@ RSpec.describe Api::PostsController, :type => :controller do
            #ugly need to fix
            parsed_response = JSON.parse(response.body.as_json)
          expect(parsed_response['posts'][0]['id'] ).to eq @post.id
-         expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse(
-          '{"latitude":47.0, "longitude":-122.0}')
+        expect(parsed_response['posts'][0]['latitude']).to eq 47
+        expect(parsed_response['posts'][0]['longitude']).to eq -122
          expect(response.status).to eq(200)
       end
       it "does not return published posts" do
@@ -310,8 +310,8 @@ RSpec.describe Api::PostsController, :type => :controller do
         sign_in(@user)
         xhr :get, :my_stuff
         parsed_response = JSON.parse(response.body.as_json)
-        expect(parsed_response['posts'][0]['coords'] ).to eq JSON.parse(
-          '{"latitude":47.0, "longitude":-122.0}')
+        expect(parsed_response['posts'][0]['latitude'] ).to eq 47
+        expect(parsed_response['posts'][0]['longitude'] ).to eq -122
         expect(response.status).to eq(200)
 
       end
@@ -388,8 +388,8 @@ RSpec.describe Api::PostsController, :type => :controller do
         sign_in(@user2)
         xhr :get, :my_dibs
         parsed_response = JSON.parse(response.body.as_json)
-        expect(parsed_response['posts'][0]['coords']
-          ).to eq JSON.parse('{"latitude":47.0, "longitude":-122.0}')
+        expect(parsed_response['posts'][0]['latitude']).to eq 47
+        expect(parsed_response['posts'][0]['longitude']).to eq -122
         expect(parsed_response['posts'][0]['isCurrentDibber']
             ).to eq true
         expect(response.status).to eq(200)
@@ -449,7 +449,7 @@ RSpec.describe Api::PostsController, :type => :controller do
     end
 
     it "should show a deleted status" do
-      @post.updated_attribute( :status, 'deleted')
+      @post.update_attribute( :status, 'deleted')
       @post.reload 
       xhr :get, :show, :id => @post.id
       expect(response.status).to eq(200)
@@ -522,7 +522,7 @@ RSpec.describe Api::PostsController, :type => :controller do
     context "without login " do
 
       it 'should 401' do
-        xhr :post, :update, :id => @post.id
+        xhr :post, :remove, :id => @post.id
           expect(response.status).to eq(401)
       end
     end
@@ -544,6 +544,58 @@ RSpec.describe Api::PostsController, :type => :controller do
         sign_in(@user)
         xhr :post, :remove, {id: @post.id}
         expect(Post.find(@post.id).status).to eq('deleted')
+      end
+    end
+  end
+
+  describe "Remove current dib", :vcr => vcr_options do
+    before do
+      @user = create(:user)
+      @user2 = create(:user)
+      @post = create(:post,
+        creator_id: @user.id,
+        longitude: '-122',
+        latitude: '-49' )
+      @post.create_new_dib @user2
+
+    end
+
+    context "without login " do
+
+      it 'should 401' do
+        xhr :post, :remove_dib, :id => @post.id
+          expect(response.status).to eq(401)
+      end
+    end
+
+    context "with login"  do
+
+
+      it 'should 200 with complete data' do
+        sign_in(@user)
+        xhr :post, :remove_dib, {id: @post.id}
+        expect(response.status).to eq(200)
+      end
+
+      it 'should remove the dibber' do
+        sign_in(@user)
+        expect(@post.current_dibber).to eq @user2
+        xhr :post, :remove_dib, {id: @post.id}
+        @post.reload
+        expect(@post.current_dibber).to be_nil
+      end
+
+      it 'should return information about the post' do
+        sign_in(@user)
+        expect(@post.current_dibber).to eq @user2
+        xhr :post, :remove_dib, {id: @post.id}
+        parsed_response = JSON.parse(response.body.as_json)
+        @post.reload
+        expect(parsed_response['post']['currentDib']
+            ).to eq false
+        expect(parsed_response['post']['dibbable']
+            ).to eq true
+        expect(@post.current_dibber).to be_nil
       end
     end
   end

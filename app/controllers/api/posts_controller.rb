@@ -1,7 +1,7 @@
 class Api::PostsController < ApplicationController
   require 'auth_token'
   before_action :authorize, only: [:create, :remove, :update, :my_stuff, :my_dibs]
-  before_action :find_my_post, only: [:remove, :update]
+  before_action :find_my_post, only: [:remove, :remove_dib, :update]
 
   # GET /posts
   # GET /posts.json
@@ -68,6 +68,25 @@ class Api::PostsController < ApplicationController
     @post.update_attribute(:status, 'deleted')
     render json: '[]', status: :ok
   end
+
+
+  def remove_dib
+  #TEST ME 
+    dib = @post.current_dib
+
+    if dib and dib.post.user == current_user
+      dib.remove_as_dibber
+      #dib.report = Report.create(report_params)
+      #FIXME
+      dib.save
+      @post.reload
+      render json: @post , status: :ok
+    else
+        render json: [], status: :unauthorized
+    end
+
+   end
+
 
     # GET /posts/search
   def search

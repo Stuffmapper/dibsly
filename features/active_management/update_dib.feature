@@ -8,7 +8,7 @@ Background:
 Scenario: Remove a dib
 	When I manage dibs for shoes in My Stuff
 	Then "Jack" should be the  current dibber of "shoes" and they should display dibbed
-	When I reject current dibber and select "missed pickup"
+	When I reject current dibber and select "Reject"
 	Then "Jack" should not be the current dibber of "shoes" and they should not display dibbed
 	Then Jill should be able to see the item on the map and dib the item.
 	And "Jack" should be the  current dibber of "shoes" and they should display dibbed

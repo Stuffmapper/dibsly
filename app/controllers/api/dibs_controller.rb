@@ -28,8 +28,11 @@ def undib
   end
 
 end
+
 def remove_dib
+  #REVIEW ME - MAY USED A DIFFERENT STRATEGY
   dib = Dib.find(params[:id])
+
   if dib and dib.post.user == current_user
     dib.remove_as_dibber
     dib.report = Report.create(report_params)
