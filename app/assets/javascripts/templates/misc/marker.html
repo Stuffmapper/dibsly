@@ -1,4 +1,4 @@
-<div class="stuff-view col-lg-6 col-md-6 col-xs-3 "
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 stuff-view" ng-click='getDetails(item.id)' 
  title={{item.description}} ng-attr-id={{item.id + '-stuff'}} >
   <div class= "stuff-image-container clearfix" ng-click=getDetails(item.id)>
   <span>{{item.title}}</span>
@@ -7,6 +7,6 @@
   <div class='floating stuff-category'>{{item.category}}</div>
   <div class='floating stuff-status'>{{item.status}}</div>
     <img class="stuff-image img-responsive" ng-src={{item.image_url}}
-    ng-click='getDetails(item.id)' fallback-src ></img>
+    fallback-src ></img>
   </div>
 </div>

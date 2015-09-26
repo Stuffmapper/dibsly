@@ -16,7 +16,8 @@ end
 
 module MapCenterHelpers
   def center_map_to_post post
-   	execute_script("localStorage.setItem('mapcenter', '{lat: #{post.latitude}, lng: #{post.longitude} }')")
+    string = {lat: post.latitude, lng: post.longitude }.to_json
+   	execute_script("localStorage.setItem('mapcenter', #{string}); console.log('hello')")
     visit('/')
 	end
 end

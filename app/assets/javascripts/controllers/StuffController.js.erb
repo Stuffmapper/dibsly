@@ -79,17 +79,6 @@
          });
       };
 
-         //TODO update to '$scope.stuff.delete'
-      $scope.deletePost = function(id) {
-        if ($scope.stuff.creator === $scope.currentUser) {
-          return $http.post('/api/posts/' + id + '/remove')
-            .success($scope.showTab('myStuff')) 
-        } else {
-          console.log($scope.stuff.creator, $scope.currentUser);
-          console.log('illegal deletion attempt: not correct user');
-        }
-      };
-
 
       $scope.edit = function(id) {
         //TODO -- this needs to be rewritten 
@@ -117,7 +106,7 @@
           $scope.updateMarkers(center)
           .then(function(){
             MarkerService.setAll({}, {temporary:true});
-           // $scope.mapped = $scope.markers();
+           $scope.mapped = MarkerService.where();
           });
         });
       };
@@ -467,7 +456,7 @@
 
       //HELPER FUNCTIONS 
       var addImageGroup = function(id) {
-        var image = MarkerService.getMarker(id) && MarkerService.getMarkers(id).image_url;
+        var image = MarkerService.getMarker(id) && MarkerService.getMarker(id).image_url;
         ImageService.addImageGroup(id, image)
       };
 
@@ -482,12 +471,14 @@
         var getPosition = function(){
           MapsService.getCenter()
           .then( function(center){
+            console.log('line 485')
             $scope.$emit( 'mapChanged', center )
           }); 
         };
         $scope.centerMap().then(
           function(){
             MapsService.addMapListener('dragend', getPosition );
+            getPosition();
         })
       };
 

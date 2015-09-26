@@ -14,6 +14,7 @@ factories.factory('LocalService', [
         item = self.get(key);
         try{
           result = item ? JSON.parse(item) : item;
+          console.log(item, "line 17")
           return result;
         } catch(err){
         return false; }

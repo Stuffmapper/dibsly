@@ -25,15 +25,18 @@
       return deferred.promise;
     };
     self.initializeOrGetMap = function(){
+      var coords = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
+
       if(self.map){
         emptyQueue(self.map);
       } else {
         self.mapStatus = 'loading';
-        var center = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
         google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
           callback: function(){
+            
+            center = new google.maps.LatLng(coords.lat, coords.lng);
             map = new google.maps.Map(document.getElementById('google-map'), {
-              center: center ,
+              center: center,
               zoom: 15
             }),
             self.map = map;

@@ -11,7 +11,7 @@ Scenario: Remove a dib
 	When I reject current dibber and select "Reject"
 	Then "Jack" should not be the current dibber of "shoes" and they should not display dibbed
 	Then Jill should be able to see the item on the map and dib the item.
-	And "Jack" should be the  current dibber of "shoes" and they should display dibbed
+	And "Jill" should be the  current dibber of "shoes" and they should display dibbed
 
 @javascript
 Scenario: Mark as Gone

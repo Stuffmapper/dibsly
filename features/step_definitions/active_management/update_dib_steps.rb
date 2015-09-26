@@ -17,6 +17,8 @@ end
 Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display dibbed$/) do |username, item_description|
   post = Post.find_by_description(item_description)
   expect(post.current_dibber.username).to eq username
+  sign_in post.creator
+  click_link "My Stuff"
   within('#my-stuff') do
   	expect(page.body).to have_text "Wanted!"
     expect(page.find('button', :text=> 'Wanted', :visible => true)).to_not eq nil
@@ -46,9 +48,10 @@ Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
   sign_in @user_jill
   center_map_to_post @shoes
   click_link "Get Stuff"
-  expect(page).to have_text 'shoes'
-  first(:button, 'Dib').click
-  sleep(6)
+  expect(page).to have_text 'some title'
+  page.find('.stuff-view').click
+  page.find('button', :text=>"I want this stuff!").click
+  sleep(2)
   expect(Dib.count).to eq 2
   expect(@user_jill.dibs.first.post).to eq @shoes
   @shoes.reload
