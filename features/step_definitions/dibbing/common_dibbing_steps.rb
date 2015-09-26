@@ -13,8 +13,6 @@ When(/^I log in and visit the map location where the shoes are\.$/) do
   visit('/')
   sign_in(@current_user)
   sleep(1)
-
-  #bad practice but working this will have to change if we switch to different directive
   center_map_to_post @shoes
   sleep(1)
 
@@ -25,10 +23,12 @@ When(/^I hit dib$/) do
   click_link 'Get Stuff'
   page.find('.stuff-view').click
   first(:button,'I want').click
+  sleep(5)
  end
 
 Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
   visit('/')
+  sign_in @user_jill
   center_map_to_post @shoes
   sleep(1)
   within('.stuffmapper-menu') do

@@ -119,6 +119,7 @@
           $http.post(self.getUrl() + '/dibs')
           .then( function(data){
             angular.extend(self, data.data.post)
+            console.log(data)
             resolve(self)
           })
           .error( function(error){

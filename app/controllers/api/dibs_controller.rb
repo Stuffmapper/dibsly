@@ -7,7 +7,7 @@ def create
     @post = Post.find(params[:post_id])
     dib = @post.create_new_dib(current_user, request.remote_ip)
     if dib.valid?
-       render json: '[]', status: :ok
+       render json: @post, status: :ok
     else
       render json: dib.errors , status: :unprocessable_entity
     end

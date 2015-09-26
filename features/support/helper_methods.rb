@@ -4,6 +4,8 @@ module FormSubmissionHelpers
     if first(:link, 'Sign Out') != nil
       first(:link, 'Sign Out').click
     end
+    execute_script("window.localStorage.removeItem('markers'); console.log('hello');")
+    visit('/')
     allow(ApplicationController).to receive(:current_user){ user }
     first(:link,'Sign In').click
     fill_in 'username', with: user.username
