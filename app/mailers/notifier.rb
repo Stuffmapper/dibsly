@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  default from: "<no reply>support@stuffmapper.com"
+  default from: "support@stuffmapper.com"
 
 	def password_reset(user)
 		@user = user
