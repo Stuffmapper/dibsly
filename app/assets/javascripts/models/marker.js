@@ -49,6 +49,7 @@
           .then( function(data){
             self.status = 'new'; //review
             var updated = data.data.post;
+            updated.locallyUpdated = Date.now();
             angular.extend(self, updated)
             self.saveLocal();
             resolve(updated) },

@@ -306,7 +306,7 @@
 
             return MarkerService.setMarker(post)
             .then( function(){
-              MarkerService.markers[post.id].image_url = image;
+              MarkerService.getMarker(post.id).image_url = image;
               $scope.showDetails(post.id);
             })
             .then(
