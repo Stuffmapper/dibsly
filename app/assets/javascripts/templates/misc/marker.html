@@ -1,6 +1,6 @@
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 stuff-view" ng-click='getDetails(item.id)' 
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 stuff-view" ng-click='item.goToDetails()' 
  title={{item.description}} ng-attr-id={{item.id + '-stuff'}} >
-  <div class= "stuff-image-container clearfix" ng-click=getDetails(item.id)>
+  <div class= "stuff-image-container clearfix" >
   <span>{{item.title}}</span>
 
   <br>

@@ -24,6 +24,8 @@ When(/^I hit dib$/) do
   page.find('.stuff-view').click
   first(:button,'I want').click
   sleep(5)
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq false
  end
 
 Then(/^I should not see the shoes in the menu when I visit the map\.$/) do
@@ -77,12 +79,7 @@ Given(/^I'm a registered user and I've dibbed Jack's shoes$/) do
   end
 end
 
-When(/^I go to my stuff and undibs Jack's shoes$/) do
-  click_link('My Stuff')
-  within('#mystuff-' + @shoes.id.to_s ) do
-    click_button('unDib')
-  end
-end
+
 Then(/^I should not see the shoes in the get stuff menu$/) do
   click_link('Get Stuff')
   within('#get-stuff') do
@@ -90,25 +87,13 @@ Then(/^I should not see the shoes in the get stuff menu$/) do
   end
 end
 Then(/^I should see the shoes in the get stuff  menu$/) do
-  click_link('Get Stuff')
-  within find('#get-stuff') do
-    click_button "Details"
-  end
-  within('.content') do
-    expect(page).to have_text("shoes")
-  end
-
+ click_link('Get Stuff')
+ page.find('.stuff-view').click
+ expect(page).to have_text("shoes")
+ 
 end
 
 
-
-When(/^I visit the map location where the shoes are\.$/) do
-    execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
-  var map = angular.element('map').scope().map;
-  map.panTo(myLatLng);
-  map.setZoom(16);")
-    sleep(1)
-end
 
 Then(/^Jack should have been notified of my unDib\.$/) do
   open_email(@user_jack.email)

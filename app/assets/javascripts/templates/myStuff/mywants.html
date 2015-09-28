@@ -1,6 +1,18 @@
-<div  class="row" ng-repeat="item in show('dibber') track by $index" >
-   <div >Put something here </div>
-<!--    description  details link
-   message details// -->
+<div class="row to_edge" ng-repeat="item in show('dibber') | orderObjectBy:'updated_at':true track by $index" >
+  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mystuff-row">
+    <img class="img-responsive" ng-src={{item.image_url}}></img>
+  </div>
+  <div class="col-lg-8 col-md-8 col-sm-8">
+    <div class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row">
+     <div class='pull-left'>{{item.description}}</div>
+      <a href="#" ng-click='item.goToDetails()' class='pull-right' >
+      Item details
+      </a>
+    </div>
+        
+    <button ng-show='item.showWanted()' class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row">
+    Wanted!(Waiting for messages)
+    </button>
+  </div>
 
 </div>

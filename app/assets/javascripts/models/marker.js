@@ -4,8 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('Marker', [
-    '$http','LocalService','$resource', '$q', 
-     function($http,LocalService,$resource, $q ) {
+    '$http','LocalService','$resource', '$q', '$rootScope', 
+     function($http,LocalService,$resource, $q, $rootScope ) {
 
 
       var Marker = function(params){
@@ -159,6 +159,24 @@
         });
       };
 
+       constructor.unDib = function(){
+        var self = this;
+        //removes from local cache 
+        //deletes on the server
+        //does not delete itself .. will need to be handle else where
+        //should mark for deletion
+        return $q(function(resolve, reject){
+          $http.post(self.getUrl() + '/undib')
+          .success( function(data){
+            angular.extend(self, data.post)
+            resolve(self)
+          })
+          .error( function(error){
+            throw new Error( "can't delete " + self )
+          })
+        });
+      };
+
       // update
       constructor.update = function(){
         //updates this post
@@ -194,6 +212,12 @@
          delete cached[self.id];
         }
         LocalService.set('markers', JSON.stringify(cached))
+      };
+      constructor.goToDetails = function() {
+        var self = this;
+        $rootScope.$broadcast('detailsWanted', {
+          markerId: self.id
+        });
       };
 
       //VISUALIZATION BOOLEANS
