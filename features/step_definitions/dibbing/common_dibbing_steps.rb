@@ -63,13 +63,7 @@ end
 Given(/^I'm logged out$/) do
    # express the regexp above with the code you wish you had
 end
-Then(/^I should not be able to dib the item by pressing dib\.$/) do
-  within('.post-details') do
-    page.execute_script "window.scrollBy(0,10000)"
-    find(:button, 'Dib').click
-    expect(@shoes.available_to_dib?).to eq true # express the regexp above with the code you wish you had
-  end
-end
+
 
 ##UNDIB
 

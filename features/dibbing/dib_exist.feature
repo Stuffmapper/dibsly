@@ -25,5 +25,5 @@ Feature: Dib Exists
   Scenario: Unsuccessfully dib item
     Given I'm logged out
     When I visit the shoes permalink page
-    Then I should not be able to dib the item by pressing dib.
+    Then I should not be able to dib the "shoes"
 
