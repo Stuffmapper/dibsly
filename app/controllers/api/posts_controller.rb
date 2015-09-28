@@ -109,7 +109,7 @@ class Api::PostsController < ApplicationController
       |key, value| value == 'undefined' || value == 'null'
     }
     @post.update_attributes cleaned_params
-    render json: '[]', status: :ok
+    render json: @post, status: :ok
   end
 
   private

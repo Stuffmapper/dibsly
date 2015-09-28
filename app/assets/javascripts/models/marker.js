@@ -60,6 +60,26 @@
         });
       };
 
+      constructor.dib = function(){
+        var self = this;
+        //removes from local cache 
+        //deletes on the server
+        //does not delete itself .. will need to be handle else where
+        //should mark for deletion
+        return $q(function(resolve, reject){
+          $http.post(self.getUrl() + '/dibs')
+          .then( function(data){
+            angular.extend(self, data.data.post)
+            console.log(data)
+            resolve(self)
+          })
+          .error( function(error){
+            throw new Error( "can't dib this " + self )
+          })
+        });
+      };
+
+
       // read
       constructor.get = function(){
         //gets new data from 
@@ -81,14 +101,24 @@
         });
       };
 
-      // update
-      constructor.update = function(){
-        //updates this post
-        // new images should be handled seperately
+      constructor.markGone = function(){
         var self = this;
-        return self.create(self.getUrl())
-        
+        console.log('106 in marker')
+        var params = {status: 'gone'};
+        return $q(function(resolve, reject){
+          $http.patch(self.getUrl(), params)
+          .then( function(data){
+            var updated = data.data.post;
+            updated.locallyUpdated = Date.now();
+            angular.extend(self, updated)
+            self.saveLocal();
+            resolve(updated) },
+            function(error){
+              reject(error);
+          }); 
+        });       
       };
+
 
       // delete
       constructor.remove = function(){
@@ -110,24 +140,6 @@
         });
       };
 
-      constructor.dib = function(){
-        var self = this;
-        //removes from local cache 
-        //deletes on the server
-        //does not delete itself .. will need to be handle else where
-        //should mark for deletion
-        return $q(function(resolve, reject){
-          $http.post(self.getUrl() + '/dibs')
-          .then( function(data){
-            angular.extend(self, data.data.post)
-            console.log(data)
-            resolve(self)
-          })
-          .error( function(error){
-            throw new Error( "can't dib this " + self )
-          })
-        });
-      };
 
       constructor.rejectDibber = function(){
         var self = this;
@@ -147,8 +159,19 @@
         });
       };
 
+      // update
+      constructor.update = function(){
+        //updates this post
+        // new images should be handled seperately
+        var self = this;
+        return self.create(self.getUrl())
+        
+      }; 
+
 
       //TODO - add a dib function?
+
+      //LOCAL ONLY
 
       constructor.saveLocal = function(){
         var self = this;
@@ -172,6 +195,8 @@
         }
         LocalService.set('markers', JSON.stringify(cached))
       };
+
+      //VISUALIZATION BOOLEANS
 
       constructor.showEdit = function() {
         return ( this.creator && this.currentUser &&

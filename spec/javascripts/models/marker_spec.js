@@ -272,6 +272,7 @@ describe('MarkerService', function() {
     it(' exist', function() {
   
       expect(testMarker.rejectDibber ).toBeDefined
+      expect(testMarker.markGone ).toBeDefined
 
     });
 
@@ -288,6 +289,21 @@ describe('MarkerService', function() {
       testMarker.rejectDibber()
       $httpBackend.flush()
       expect(testMarker.showWanted() ).toEqual(false);
+    });
+
+    it('marks gone', function() {
+      var updateHandler = $httpBackend.whenPOST( /\/api\/posts\/\d.*/  )
+      updateHandler.respond({ post: {
+      id:4,
+      dibber:'Jack',
+      updated_at:'2222',
+      status:'it is gone' }});
+      testMarker.id = 4;
+      testMarker.status = "need to update"
+      testMarker.updated_at = '1111'
+      testMarker.markGone();
+      $httpBackend.flush();
+      expect(testMarker.status ).toEqual('it is gone');
     });
    
   });

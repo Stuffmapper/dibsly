@@ -33,7 +33,7 @@ class PostSerializer < ActiveModel::Serializer
   def status
     #Status remains 'new' on object until dib is permeant
     status = object.status
-    if %w(claimed deleted loading).include?(status)
+    if %w(claimed deleted loading gone).include?(status)
       #do nothing
     elsif !object.available_to_dib? and object.current_dibber
       #checks

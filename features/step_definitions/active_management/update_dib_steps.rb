@@ -40,22 +40,24 @@ Then(/^"(.*?)" should not be the current dibber of "(.*?)" and they should not d
   end
 end
 
-Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
-  expect(Dib.count).to eq 1
-  @shoes.reload
-  expect(@shoes.available_to_dib?).to eq true
-  click_link 'Sign Out'
-  sign_in @user_jill
-  center_map_to_post @shoes
-  click_link "Get Stuff"
-  expect(page).to have_text 'some title'
-  page.find('.stuff-view').click
-  page.find('button', :text=>"I want this stuff!").click
-  sleep(2)
-  expect(Dib.count).to eq 2
-  expect(@user_jill.dibs.first.post).to eq @shoes
-  @shoes.reload
-  expect(@shoes.available_to_dib?).to eq false
-  click_link 'Sign Out'
 
+When(/^I click "(.*?)" in the settings$/) do |arg1|
+  page.find('button', :text => "Settings").click
+  page.find('button', :text =>  arg1).click
 end
+
+
+
+When(/^the details of "(.*?)" should still be viewable$/)  do |description|
+
+  post = Post.find_by_description(description)
+  visit(post.permalink)
+  expect(page.body).to have_text(post.description)
+  expect(page.body).to have_text(post.status) 
+end
+
+When(/^the status of "(.*?)" should have changed to "(.*?)"$/) do |description, status|
+  post = Post.find_by_description(description)
+  expect(post.status).to eq(status)
+end
+

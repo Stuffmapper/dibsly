@@ -17,9 +17,8 @@ Scenario: Remove a dib
 Scenario: Mark as Gone
 	When I manage dibs for shoes in My Stuff
 	Then "Jack" should be the  current dibber of "shoes" and they should display dibbed
-	When I mark as gone and select "Mark as picked up"
+	When I click "Mark As Picked Up" in the settings
 	And It should not be on the map and Jill should not be able to dib it.
-	And the edit button shouldn't be viewable
-	And it should be archived
-	And the status should in the details
-	And the details should still be viewable
+	And the status of "shoes" should have changed to "gone"
+	And the details of "shoes" should still be viewable
+

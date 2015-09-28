@@ -29,11 +29,6 @@ Then(/^I should be able to see "(.*?)" as the current dibber\.$/) do |arg1|
   expect(page).to have_text("Dibbed by: " + arg1)
 end
 
-When(/^I mark as gone and select "(.*?)"$/) do |arg1|
-  select arg1, from: 'goneReason'
-  click_button 'Update'
-end
-
 
 Then(/^It should not be on the map and Jill should not be able to dib it\.$/) do
   center_map_to_post @shoes
