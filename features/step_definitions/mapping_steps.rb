@@ -17,7 +17,7 @@ When(/^I visit the home page$/) do
 end
 
 Then(/^I should see a map$/) do
-  expect(page.body).to have_selector('#google-map-container')
+  expect(page.body).to have_selector('#google-map')
 
 end
 
