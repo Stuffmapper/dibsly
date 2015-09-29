@@ -80,18 +80,10 @@
       };
 
 
-      $scope.edit = function(id) {
-        //TODO -- this needs to be rewritten 
-        //TODO --- move to Marker Resource
 
-        $scope.showTab('editing');
-        $scope.file = null;
-        $scope.editItem = MarkerService.getMarker(id);
-        return $scope.current_image = $scope.editItem.image_url;
-      };
-
-
+      //This is in the model now
       $scope.getDetails = function(id) {
+        //TODO - move men
         $rootScope.$broadcast('detailsWanted', {
           markerId: id
         });
@@ -105,7 +97,7 @@
         .then(function(center){
           $scope.updateMarkers(center)
           .then(function(){
-            MarkerService.setAll({}, {temporary:true});
+            MarkerService.setAll({}, {temporary:true});//
            $scope.mapped = MarkerService.where();
           });
         });
@@ -146,19 +138,6 @@
         return MarkerService.where( hasAttribute, hasNoAttribute );
       };
 
-      $scope.markGone = function(id) {
-        //TODO Move into Marker model
-        var post;
-        post = {
-          status: 'gone'
-        };
-        return $http.post("/api/posts/" + id + "/update",
-          post).success(function() {
-          return AlertService.add('success', "Marked as gone");
-        }).error(function() {
-          return AlertService.add('warning', "Something went wrong");
-        });
-      };
 
       $scope.menuToggle = function() {
         //TODO ake sure this is used
@@ -256,6 +235,30 @@
         }
       };
 
+      $scope.showEdit = function(id){
+        $location.path('/menu/edit', false);
+        var template = 'editing';
+        $scope.mapHeight = 'map-1-2';
+        $scope.menuHeight = 'menu-1-2';
+        $scope.editItem = MarkerService.getMarker(id);
+          if (!$scope.editItem ){
+            MarkerService.getMarkerAsync(id)
+            .then( function(){ 
+              //NOT TESTED TEST ME
+                $scope.editItem = MarkerService.getMarker(id);
+                $scope.showTab(template)
+              },
+              function(){ 
+                console.log("this is not found")
+                alert('404 Marker not found') 
+              }
+          );
+        } else {
+          $scope.showTab(template);
+        }
+      };
+
+   
    
 
       $scope.showTab = function(tab) {
@@ -438,15 +441,21 @@
       $rootScope.$on("detailsWanted", function(event, args) {
           var id = args.markerId;
           $scope.showDetails(id);
-          // $scope.$apply( function(){
-          //   $scope.showDetails(id);
-          // })
-        });
+      });
+
+      $rootScope.$on("editWanted", function(event, args) {
+          var id = args.markerId;
+          $scope.showEdit(id);
+      });
       
       $scope.$on("fileSelected", function(event, args) {
         args.origin = args.location.split('/')[2]
         ImageService.createGroup(args)
-        .then(function(){ $scope.giveNext(2); })
+        .then(function(){
+          if (args.origin === 'giveStuff'){
+            $scope.giveNext(2);
+          } 
+        })
       });
 
       $scope.$on('mapChanged', function(evt, args) {

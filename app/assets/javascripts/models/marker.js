@@ -62,10 +62,6 @@
 
       constructor.dib = function(){
         var self = this;
-        //removes from local cache 
-        //deletes on the server
-        //does not delete itself .. will need to be handle else where
-        //should mark for deletion
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/dibs')
           .then( function(data){
@@ -216,6 +212,13 @@
       constructor.goToDetails = function() {
         var self = this;
         $rootScope.$broadcast('detailsWanted', {
+          markerId: self.id
+        });
+      };
+
+      constructor.goToEdit = function() {
+        var self = this;
+        $rootScope.$broadcast('editWanted', {
           markerId: self.id
         });
       };

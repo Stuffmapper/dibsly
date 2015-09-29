@@ -154,12 +154,13 @@ When(/^I log in and go to my stuff$/) do
 end
 
 Then(/^I should have an edit option$/) do
-  within('#my-stuff') do
-    expect(page).to have_button("Edit")
-  end   # express the regexp above with the code you wish you had
+  click_button "Settings"
+  expect(page).to have_button("Edit")
+  
 end
 
 Then(/^I should be able to click edit and change the details$/) do
+  byebug
   click_button 'Edit'
   fill_in 'description', with: "I have changed the details"
   page.execute_script "window.scrollBy(0,10000)"
