@@ -39,11 +39,11 @@
           aria-hidden="true"></span><span> Find my Location</span>
       </div>
 
-      <div class='btn col-lg-8 col-md-12 col-xs-12 col-sm-bottom stuff-btn
+      <button class='btn col-lg-8 col-md-12 col-xs-12 col-sm-bottom stuff-btn
         green-btn' >
            <span>It's correct! Let's add a photo >> </span>
-           <input class='file-btn' type="file" file-upload accept="image/*">
-      </div>
+           <input class='file-btn' id="give-stuff-file-1" type="file" file-upload accept="image/*">
+      </button>
 
      </div>
 
@@ -67,7 +67,7 @@
 
       <div class="col-lg-12 col-md-12 col-xs-12 ">
         <div class="form-group">
-          <input type="text" class="form-control" id="description"
+          <input type="text" class="form-control" id="title"
           placeholder="Title" ng-model="post.title">
         </div>
 

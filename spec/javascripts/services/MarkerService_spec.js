@@ -215,7 +215,7 @@ describe('MarkerService', function() {
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{ dibber:'john' }]);
+      var results = MarkerService.where({ dibber:'john' });
       expect(results.length ).toEqual(1)
       expect(results[0].id ).toEqual(3)
 
@@ -229,21 +229,21 @@ describe('MarkerService', function() {
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{ fake:true }]);
+      var results = MarkerService.where({ fake:true });
       expect(results.length ).toEqual(5)
       expect(results[0].id ).toEqual(5)
       expect(results[1].id ).toEqual(2)
       expect(results[3].id ).toEqual(1)
 
     });
+
     it('takes a single object or an array', function() {
       setupController();
-
 
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{ fake:true }]);
+      var results = MarkerService.where({ fake:true });
       expect(results.length ).toEqual(5)
       expect(results[0].id ).toEqual(5)
       expect(results[1].id ).toEqual(2)
@@ -253,22 +253,6 @@ describe('MarkerService', function() {
       expect(results[0].id ).toEqual(5)
       expect(results[1].id ).toEqual(2)
       expect(results[3].id ).toEqual(1)
-
-
-    });
-
-
-    it('returns items with multiple values for the same attributes', function() {
-      setupController();
-
-
-      angular.forEach(testMarkers, function(value){
-        MarkerService.setMarker(value)
-      })
-      var results = MarkerService.where([{ id:5 }, {id:2 }]);
-      expect(results.length ).toEqual(2)
-      expect(results[0].id ).toEqual(5)
-      expect(results[1].id ).toEqual(2)
 
 
     });
@@ -288,10 +272,21 @@ describe('MarkerService', function() {
       angular.forEach(markers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{ dibber: 'Jack' }], [{ category: 'books'}]);
+      var results = MarkerService.where([{ dibber: 'Jack' }, [{ category: 'books'}]);
       expect(results.length ).toEqual(2)
       expect(results[1].id ).toEqual(1)
     });
+
+    it('is doesn\'t return results in the negative', function() {
+      setupController();
+      angular.forEach(markers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where([{}, [{ category: true}]);
+      expect(results.length ).toEqual(2)
+      expect(results[1].id ).toEqual(1)
+    });
+
     it('is returns everything with an empty object' , function() {
       setupController();
       angular.forEach(markers, function(value){
