@@ -59,9 +59,7 @@ Given(/^I visit the page for shoes$/) do
 end
 
 Then(/^I should see the description$/) do
-  within('#show-post') do
-    expect(page).to have_text(@post.description)
-  end # express the regexp above with the code you wish you had
+  expect(page).to have_text(@post.description)
 end
 #
 #
