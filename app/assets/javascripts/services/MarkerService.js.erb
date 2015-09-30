@@ -240,17 +240,20 @@
         },
 
 
-        where: function(has, doesnot){
+        where: function(hasAttrs, hasNotAttrs){
           var that = this;
-          if (has && has.constructor  !== Array){
-            var has = [has];
+          if (hasAttrs && hasAttrs.constructor  !== Array){
+            var hasAttrs = [hasAttrs];
+          }
+          if (hasNotAttrs && hasNotAttrs.constructor  !== Array){
+            var hasNotAttrs = [hasNotAttrs];
           }
           var results = [];
           angular.forEach(self.markers,
             function(value ){
-              if(that.contains(value,has) && !that.contains(value, doesnot)){
+              if(that.contains(value,hasAttrs) && !that.contains(value, hasNotAttrs)){
                 results.push(value)
-              } else if ( !that.contains(value, doesnot) && that.isEmpty(has) ) {  //TOFIX
+              } else if ( !that.contains(value, hasNotAttrs) && that.isEmpty(hasAttrs) ) { 
                 results.push(value);
               }
             }

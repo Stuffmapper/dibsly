@@ -16,6 +16,11 @@ describe('MyStuffCtrl', function() {
   $rootScope,
   $scope,
   UserService;
+    window.google = { 
+    load: function(){ }// todo ..beter mocking
+  };
+
+
 
 
 
@@ -59,16 +64,6 @@ describe('MyStuffCtrl', function() {
 
   };
 
-  //No more tabs
-  // describe('showtab', function() {
-  //   it('changes the tabs correctly ', function() {
-  //     setupController();
-  //     $scope.tabs = {posts: true, messages: false, profile: false};
-  //     $scope.showtab('messages');
-  //     expect($scope.tabs.messages).toEqual(true);
-  //     expect($scope.tabs.posts).toEqual(false);
-  //   });
-  // });
 
   describe('show dibs', function() {
     it('returns the markers that have been dibbed', function() {

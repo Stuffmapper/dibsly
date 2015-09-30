@@ -158,6 +158,7 @@ describe('MarkerService', function() {
       'Recreation'] );
     });
   });
+
   describe('Where function', function() {
     var testMarkers;
     beforeEach( function(){
@@ -167,7 +168,7 @@ describe('MarkerService', function() {
           dibber:'Jack',
           updated_at: new Date('2012-11-25'),//4
           marker: gmarker,
-          fake:true
+          'fake':true
         },
         {
           id: 2,
@@ -175,7 +176,7 @@ describe('MarkerService', function() {
           updated_at: new Date('2014-11-22'),//2
           marker: gmarker,
           category: 'books',
-          fake:true
+          'fake':true
         },
         {
           id:3,
@@ -183,7 +184,7 @@ describe('MarkerService', function() {
           creator:'Jack',
           updated_at: new Date('2012-11-24'),//5
           marker: gmarker,
-          fake:true
+          'fake':true
         },
         {
           id:4,
@@ -191,7 +192,7 @@ describe('MarkerService', function() {
           creator:'Jack',
           updated_at: new Date('2012-11-26'),//3
           marker: gmarker,
-          fake:true
+          'fake':true
 
         },
         {
@@ -199,7 +200,7 @@ describe('MarkerService', function() {
           dibber:'Jack',
           updated_at: new Date('2014-11-23'),//1
           marker: gmarker,
-          fake:true
+          'fake':true
         },
         {id:6, marker:gmarker}
       ];
@@ -269,22 +270,21 @@ describe('MarkerService', function() {
 
     it('is doesn\'t return results in the negative', function() {
       setupController();
-      angular.forEach(markers, function(value){
+      angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{ dibber: 'Jack' }, [{ category: 'books'}]);
+      var results = MarkerService.where([{ dibber: 'Jack' }], [{ category: 'books'}]);
       expect(results.length ).toEqual(2)
       expect(results[1].id ).toEqual(1)
     });
 
-    it('is doesn\'t return results in the negative', function() {
+    it('is doesn\'t return results in the negative when the first is field empty', function() {
       setupController();
-      angular.forEach(markers, function(value){
+      angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
       })
-      var results = MarkerService.where([{}, [{ category: true}]);
-      expect(results.length ).toEqual(2)
-      expect(results[1].id ).toEqual(1)
+      var results = MarkerService.where([{}], [{fake:true}]);
+      expect(results.length ).toEqual(1)
     });
 
     it('is returns everything with an empty object' , function() {
