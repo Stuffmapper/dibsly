@@ -9,6 +9,7 @@
      var self = this;
      self.markers = {}
      self.toCheck = [];
+     self.interval = 15000;
 
       return {
         editProperties: [
@@ -68,7 +69,7 @@
             angular.forEach(attribute, function(value, attr){
               if(object.hasOwnProperty(attr) && object[attr] === value){
                contains = true;
-              }
+              } else { contains = false}
             });
           });
           return contains;
@@ -88,6 +89,8 @@
           //NO TEST IN PLACE
           var that = this;
           //get bounds
+          self.interval += 100;
+          //so that it checks less and less
           var bounds;
           return MapsService.getBounds()
           .then(function(box){ 
@@ -116,7 +119,7 @@
                   self.updating = false;
                   that.expireMarkers() } );
               }  
-            }, 15000);
+            }, self.interval );
           });
         },
         getMarker:function(id){
@@ -248,11 +251,12 @@
 
 
         where: function(hasAttrs, hasNotAttrs, options){
+          // hasAttrs and hasNotAttrs can be a single object or an array of objects
           //options - if all is specified it returns all the markers in an array [[wanted][unwanted]]
-          //unwanted is unsorted
-          //options = {posFn: a function to applied to wanted values,
+          // unwanted is unsorted
+          // options = {posFn: a function to applied to wanted values,
           // negFn: a Fn to be applied to unwanted value 
-          // all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
+          //all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
           var that = this;
           if (hasAttrs && hasAttrs.constructor  !== Array){
             var hasAttrs = [hasAttrs];
@@ -262,23 +266,29 @@
           }
           var wanted = [];
           var unwanted = [];
-          angular.forEach(self.markers,
-            function(value ){
-              if(that.contains(value,hasAttrs) && !that.contains(value, hasNotAttrs)){
-                wanted.push(value)
-                if (options && options.posFn ){ options.posFn(value) } 
-              } else if ( !that.contains(value, hasNotAttrs) && that.isEmpty(hasAttrs) ) { 
-                wanted.push(value);
-                if (options && options.posFn ){ options.posFn(value) } 
-              } else { 
-                unwanted.push(value)
-                if ( options && options.negFn ){ options.negFn(value) } 
+          var empty1 = that.isEmpty(hasAttrs);
+          var empty2 = that.isEmpty(hasNotAttrs);
+          if(empty1 && empty2){
+            wanted =  _.values(self.markers);
+          } else {
+            angular.forEach(self.markers,
+              function(value){
+                var pushMe = empty1;
+                if(that.contains(value,hasAttrs) ) {  pushMe = true }
+                if(that.contains(value,hasNotAttrs) ){ pushMe = false }
+                if(pushMe){
+                  wanted.push(value);
+                  return options && options.posFn && options.posFn(value);
+                } else {
+                  unwanted.push(value);
+                  return options && options.negFn && options.negFn(value);
+                }
               }
-            }
-          );
+            ); 
+          }       
           wanted.sort(function (a, b) {
+            //TODO include a sort option in function
             return (a['updated_at'] < b['updated_at'] ? 1 : -1);
-
           });
 
           var results = (options && options.all ? [wanted, unwanted] : wanted);
