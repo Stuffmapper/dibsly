@@ -41,7 +41,7 @@
         return $scope.currentUser = UserService.currentUser;
       });
       $scope.$watchCollection('MarkerService', function() {
-        return $scope.mapped = $scope.markers({status: 'new'});
+        return $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
       });
 
       // $SCOPE FUNCTIONS
@@ -97,8 +97,7 @@
         .then(function(center){
           $scope.updateMarkers(center)
           .then(function(){
-            MarkerService.setAll({}, {temporary:true});//
-           $scope.mapped = MarkerService.where();
+            MarkerService.setAll({status:'new'}, {temporary:true});//
           });
         });
       };
@@ -192,15 +191,15 @@
       }
       
 
-      $scope.publish = function(status) {
-        //TODO move to Marker Resource
-        if (UserService.currentUser) {
-          return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
-            published: status
-          }).success( console.log('success') )
-          .error(console.log);
-        }
-      };
+      // $scope.publish = function(status) {
+      //   //TODO move to Marker Resource
+      //   if (UserService.currentUser) {
+      //     return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
+      //       published: status
+      //     }).success( console.log('success') )
+      //     .error(console.log);
+      //   }
+      // };
 
 
       $scope.showDetails = function(id){

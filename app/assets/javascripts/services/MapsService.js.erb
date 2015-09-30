@@ -92,6 +92,29 @@
         return {nw: getCoords(coords,-45, distance), se: getCoords(coords,135, distance)};
 
       },
+      getBounds: function(){
+        //  return four mile bounding box from map 
+        // center if map not initialized
+        var that = this;
+        return self.getMap()
+        .then(
+          function(map){
+            var bounds =  map.getBounds() 
+            if(!bounds){ 
+              return that.getCenter()
+              .then(function(coords){
+                return that.getBoundingBox(coords,4)
+              })
+            } else {
+              var ne = bounds.getNorthEast();
+              var sw = bounds.getSouthWest();
+              //coords written this way to match pattern in createBox
+              //too much work to refactor to sync with google 
+              return {nw: {lat:ne.lat(), lng: sw.lng() }, se:{ lat: sw.lat(), lng: ne.lng() } };
+            }
+          }
+        );
+      },
       getCenter: function(){
         return self.getMap()
         .then(
@@ -105,11 +128,8 @@
         //distancs in miles
         //coords {lat:1, lng:1}
         var that = this;
-        var within = function(box, coords){
-         return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&
-         box.nw.lng  <=  coords.lng && coords.lng <= box.se.lng );
-        };
-        if(self.boundingBox && !within(self.boundingBox, coords)){
+
+        if(self.boundingBox && !that.within(self.boundingBox, coords)){
           that.setBoundingBox(that.createBox(coords, distance));
         } else if(!self.boundingBox){ that.setBoundingBox(that.createBox(coords, distance)); }
         return self.boundingBox ;
@@ -204,7 +224,13 @@
           var latlng = this.newLatLng(marker.latitude, marker.longitude);
           marker.marker.setPosition(latlng); 
         }
+      },
+
+      within: function(box, coords){
+         return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&
+         box.nw.lng  <=  coords.lng && coords.lng <= box.se.lng );
       }
+
     };
   }
 ]);

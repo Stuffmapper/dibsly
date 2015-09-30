@@ -47,11 +47,11 @@ describe('StuffCtrl', function() {
       //
       authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
       authHandler.respond({ posts: [
-                                {id:1, dibber:'Jack', updated_at:'2012-11-25' },
-                                {id:2, dibber:'Jack', updated_at: '2014-11-22'},
-                                {id:3, dibber: 'john', creator:'Jack', updated_at: '2012-11-24'},
-                                {id:4, dibber:'Jackie', creator:'Jack', updated_at:'2012-11-25'},
-                                {id:5, dibber:'Jack', updated_at:'2014-11-23' }
+                                {id:1, dibber:'Jack', updated_at:'2012-11-25', status: 'new' },
+                                {id:2, dibber:'Jack', updated_at: '2014-11-22', status: 'new'},
+                                {id:3, dibber: 'john', creator:'Jack', updated_at: '2012-11-24', status: 'new'},
+                                {id:4, dibber:'Jackie', creator:'Jack', updated_at:'2012-11-25', status: 'new'},
+                                {id:5, dibber:'Jack', updated_at:'2014-11-23' , status: 'new'}
                             ]
                            });
 

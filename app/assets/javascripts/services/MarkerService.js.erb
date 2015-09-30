@@ -87,29 +87,37 @@
           //sets a timeout, should be called only once
           //NO TEST IN PLACE
           var that = this;
-          $timeout(function(){
-            if(!self.updating){
-              var time = Date.now();
-              self.updating = true
-              angular.forEach(self.markers, function(marker, key){
-                if(marker.locallyUpdated  < time - 300000  ){ //BUGBUGS
-                  console.log('You have an old marker')
-                  var prom = marker.get()
-                  .then( function(){
-                    if(marker.shouldDelete()){ that.delete(marker.id) }
-                    else(that.setMarker(marker) )
-                  });
-                  self.toCheck.push(prom);
-                }
-              })
-              return $q.all(self.toCheck)
-              .then(function(){ 
-                console.log('Done checking for old makers ')
-                self.toCheck = [];
-                self.updating = false;
-                that.expireMarkers() } );
-            }  
-          }, 15000);
+          //get bounds
+          var bounds;
+          return MapsService.getBounds()
+          .then(function(box){ 
+            bounds = box;
+            $timeout(function(){
+              if(!self.updating){
+                var time = Date.now();
+                self.updating = true
+                angular.forEach(self.markers, function(marker, key){
+                  var coords = {lat: marker.latitude, lng: marker.longitude }
+                  if(!marker.temporary && marker.locallyUpdated  < time - 300000 && 
+                  MapsService.within(bounds, coords) ){ //BUGBUGS
+                    console.log('You have an old marker')
+                    var prom = marker.get()
+                    .then( function(){
+                      if(marker.shouldDelete()){ that.delete(marker.id) }
+                      else(that.setMarker(marker) )
+                    });
+                    self.toCheck.push(prom);
+                  }
+                })
+                return $q.all(self.toCheck)
+                .then(function(){ 
+                  console.log('Done checking for old makers ')
+                  self.toCheck = [];
+                  self.updating = false;
+                  that.expireMarkers() } );
+              }  
+            }, 15000);
+          });
         },
         getMarker:function(id){
           return self.markers[id];
@@ -165,11 +173,10 @@
 
         setAll: function(has, doesnot){
           var that = this;
-          angular.forEach( that.where(has, doesnot), function(marker){
-            if(marker.marker){
-              MapsService.setMapMarker(marker.marker)
-            }
-          });
+          that.where(has, doesnot, { 
+            posFn: function(marker){ MapsService.setMapMarker(marker.marker) },
+            negFn: function(marker){ MapsService.clearMapMarker(marker.marker) }
+          } );
         },
 
         setGoogleMarker: function(marker){
@@ -240,7 +247,12 @@
         },
 
 
-        where: function(hasAttrs, hasNotAttrs){
+        where: function(hasAttrs, hasNotAttrs, options){
+          //options - if all is specified it returns all the markers in an array [[wanted][unwanted]]
+          //unwanted is unsorted
+          //options = {posFn: a function to applied to wanted values,
+          // negFn: a Fn to be applied to unwanted value 
+          // all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
           var that = this;
           if (hasAttrs && hasAttrs.constructor  !== Array){
             var hasAttrs = [hasAttrs];
@@ -248,20 +260,28 @@
           if (hasNotAttrs && hasNotAttrs.constructor  !== Array){
             var hasNotAttrs = [hasNotAttrs];
           }
-          var results = [];
+          var wanted = [];
+          var unwanted = [];
           angular.forEach(self.markers,
             function(value ){
               if(that.contains(value,hasAttrs) && !that.contains(value, hasNotAttrs)){
-                results.push(value)
+                wanted.push(value)
+                if (options && options.posFn ){ options.posFn(value) } 
               } else if ( !that.contains(value, hasNotAttrs) && that.isEmpty(hasAttrs) ) { 
-                results.push(value);
+                wanted.push(value);
+                if (options && options.posFn ){ options.posFn(value) } 
+              } else { 
+                unwanted.push(value)
+                if ( options && options.negFn ){ options.negFn(value) } 
               }
             }
           );
-          results.sort(function (a, b) {
+          wanted.sort(function (a, b) {
             return (a['updated_at'] < b['updated_at'] ? 1 : -1);
 
           });
+
+          var results = (options && options.all ? [wanted, unwanted] : wanted);
           return results;
         }
       };

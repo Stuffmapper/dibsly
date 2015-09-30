@@ -79,8 +79,8 @@
       // read
       constructor.get = function(){
         //gets new data from 
-        //throw new Error('function not yet implemented')
         var self = this;
+        if(self.temporary ){ throw new Error('cant get a temporary marker') }
         return $q(function(resolve, reject){
           $http.get(self.getUrl())
           .success(function(data){
@@ -141,7 +141,7 @@
         var self = this;
         //removes from local cache 
         //deletes on the server
-        //does not delete itself .. will need to be handle else where
+        //does not delete itself .. will need to be handled else where
         //should mark for deletion
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/removecurrentdib')

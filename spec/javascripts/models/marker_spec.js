@@ -292,7 +292,7 @@ describe('MarkerService', function() {
     });
 
     it('marks gone', function() {
-      var updateHandler = $httpBackend.whenPOST( /\/api\/posts\/\d.*/  )
+      var updateHandler = $httpBackend.whenPATCH( /\/api\/posts\/\d.*/  )
       updateHandler.respond({ post: {
       id:4,
       dibber:'Jack',
