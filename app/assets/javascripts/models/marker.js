@@ -244,6 +244,17 @@
         return ( this.showEdit() && this['status'] === 'dibbed' );
       };
 
+      //returns true if there are no messages associated with the
+      //post
+      constructor.noMessages = function() {
+        return false;
+      }
+
+      //returns true if there is a new message
+      constructor.newMessage = function() {
+        return true;
+      }
+
       return Marker;
   }]);
 
