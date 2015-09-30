@@ -266,6 +266,7 @@
           }
           var wanted = [];
           var unwanted = [];
+          //TODO - refactor out isEmpty and contains to lodash functions
           var empty1 = that.isEmpty(hasAttrs);
           var empty2 = that.isEmpty(hasNotAttrs);
           if(empty1 && empty2){
@@ -287,7 +288,7 @@
             ); 
           }       
           wanted.sort(function (a, b) {
-            //TODO include a sort option in function
+            //TODO include a sort option in options
             return (a['updated_at'] < b['updated_at'] ? 1 : -1);
           });
 
