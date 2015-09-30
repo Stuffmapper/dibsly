@@ -267,6 +267,22 @@ describe('MarkerService', function() {
       expect(results.length ).toEqual(6)
 
     });
+    
+    it('returns items with multiple values for the same attributes', function() {
+      setupController();
+
+
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where([{ id:5 }, {id:2 }]);
+      expect(results.length ).toEqual(2)
+      expect(results[0].id ).toEqual(5)
+      expect(results[1].id ).toEqual(2)
+
+
+    });
+
 
     it('is doesn\'t return results in the negative', function() {
       setupController();
