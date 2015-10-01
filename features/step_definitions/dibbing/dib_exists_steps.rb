@@ -1,6 +1,7 @@
 
 Then(/^I should see the shoes in the menu$/)  do
   click_link 'Get Stuff'
+  sleep(5)
   page.find(".stuff-view").click
   sleep(1)
   within('.stuffmapper-menu') do

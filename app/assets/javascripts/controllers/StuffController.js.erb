@@ -40,9 +40,9 @@
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
-      $scope.$watchCollection('MarkerService', function() {
-        return $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
-      });
+      // $scope.$watchCollection('MarkerService', function() {
+      //   return $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
+      // });
 
       // $SCOPE FUNCTIONS
 
@@ -98,6 +98,7 @@
           $scope.updateMarkers(center)
           .then(function(){
             MarkerService.setAll({status:'new'}, {temporary:true});//
+            $scope.$emit('markersUpdated', function(){})
           });
         });
       };
@@ -460,8 +461,9 @@
       $scope.$on('mapChanged', function(evt, args) {
         $scope.updateMarkers(args);
       });
-
-
+      $scope.$on('markersUpdated', function(){
+        $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
+      });
       //HELPER FUNCTIONS 
       var addImageGroup = function(id) {
         var image = MarkerService.getMarker(id) && MarkerService.getMarker(id).image_url;
@@ -501,6 +503,7 @@
         angular.forEach(markers, function(marker, key){
             MarkerService.setMarker(marker)
         })
+        $scope.$emit('markersUpdated', function(){})
       };     
 
       var setMenu = function() {
