@@ -5,6 +5,7 @@
   text-align: center;
   border: none;
   color: white;
+  z-index: 0;
 }
 
 /** Button Directive background colors **/
@@ -100,4 +101,11 @@
   font-size: 20px;
   border: 1px solid gray;
   color: gray;
+}
+
+/*** Chat styles **/
+.chat {
+  height: 300px;
+  width: 100%;
+  overflow-y: auto;
 }

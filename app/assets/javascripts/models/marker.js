@@ -26,7 +26,9 @@
         'published',
         'title',
         'status',
-        'image_url'
+        'image_url',
+        'chat',
+        'showChat'
       ];
       //TODO make this work with angular resource
       //Read the source code for angular resource to confirm  
@@ -253,6 +255,10 @@
       //returns true if there is a new message
       constructor.newMessage = function() {
         return true;
+      }
+
+      constructor.showChat = function(){
+
       }
 
       return Marker;
