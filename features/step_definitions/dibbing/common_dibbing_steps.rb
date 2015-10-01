@@ -73,7 +73,7 @@ Given(/^I'm a registered user and I've dibbed Jack's shoes$/) do
   VCR.use_cassette('dibbing1', :match_requests_on => [:method] ) do
     @current_user = create(:user)
     @user_jack = create(:user, :username => "Jack")
-    @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes' )
+    @shoes = build(:post, creator_id: @user_jack.id, latitude: "47", longitude: '-122', description: 'shoes', title:'shoes' )
     @shoes.save!
     @shoes.create_new_dib(@current_user )
   end
