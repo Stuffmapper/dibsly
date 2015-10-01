@@ -1,3 +1,7 @@
+/*** Padding ***/
+.no-padding {
+  padding: 0;
+}
 /*** Margins ***/
 
 .add-margin-top-15{
@@ -20,6 +24,11 @@
   padding-right: 1px;
 }
 
+.center-y {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
 /*** HEIGHTS ***/
 
 

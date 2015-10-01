@@ -1,4 +1,25 @@
 /*** Button ***/
+.my-stuff-btn {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  border: none;
+  color: white;
+}
+
+/** Button Directive background colors **/
+
+.blue {
+  background-color: $blue;
+}
+
+.green {
+  background-color: $green;
+}
+
+.grey{
+  background-color: $grey;
+}
 
 .stuff-btn{
   padding:4px;

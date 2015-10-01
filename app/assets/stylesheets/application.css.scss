@@ -277,11 +277,12 @@ nav{
 }
 
 .stuffmapper-menu{
-    border-radius: 5px;
-    font-size: 1.2em;
-    margin-top: $navheight;
-    overflow: auto;
-    overflow-x: hidden;
+  padding: 0;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin-top: $navheight;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 .toggle{
@@ -472,12 +473,20 @@ nav{
 }
 
 /*My Details*/
+.item-details-link {
+  font-size: 14px;
+}
 .settings-btn {
   background-color: #FFFFFF;
   font-size: 16px;
   border: none;
   float: right;
   color: #337ab7;
+}
+
+.settings-btn.my-stuff {
+  color: $grey;
+  font-size: 14px;
 }
 
 .settings-btn:focus{
