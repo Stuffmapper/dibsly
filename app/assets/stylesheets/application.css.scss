@@ -35,6 +35,9 @@
 @import "partials/helpers";
 @import "menu/menu";
 @import "menu/my_stuff";
+@import "menu/give_stuff";
+
+/*//TODO -REMOVE ALL BELOW TO APPROPRIATE FOLDER*/
 
 button:focus {
   border: none;
@@ -240,14 +243,14 @@ nav{
   padding:0;
   width:100%;
   list-style: none;
-  background: lightgrey;
+  background: lightgrey;/*move me to vari */
   text-align: center;
   h4{
     font-size: 1.5rem;
   }
   li {
   padding: 1px;
-  border: 1px solid grey;
+  border: 1px solid grey; /*move me to vari */
   border-bottom: 0;
   }
 }
@@ -255,7 +258,7 @@ nav{
   margin-top: 39px;
   background: none;
   .tab-unclicked{
-    background-color: darkgrey;
+    background-color: darkgrey; /*move me to vari */
   }
 }
 .tab-clicked{
@@ -369,33 +372,6 @@ nav{
 }
 .edit-stuff{
   clear:both;
-}
-
-/*** GIVE STUFF ***/
-
-
-.give-stuff{
-  height:100%;
-}
-.attached-text h4{
-  margin-top: 0;
-}
-
-.overlay-active{
-  position: absolute;
-  background-color: rgba(255,255,255,.8);
-  height: 100%;
-  z-index: 5;
-}
-.overlay-info{
-  position: relative;
-  z-index: 6;
-  background: #EEFAFC;
-  padding: 10px;
-  display: block;
-  text-align: center;
-  border-radius: 5px;
-  border: lightgrey 1px solid;
 }
 
 @media (min-width: 1000px) {
