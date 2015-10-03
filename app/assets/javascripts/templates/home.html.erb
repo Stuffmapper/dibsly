@@ -1,69 +1,56 @@
-<div  ng-include src="'navbar.html'"></div>
+<div class="full-height" >
+  <div  ng-include src="'navbar.html'"></div>
+  <div class="col-md-4 col-lg-4
+  col-sm-4 col-xs-12 pull-right
+  stuffmapper-menu"
+  ng-class="menuHeight "
+  >
+    <ul class="sm-tabs">
+      <li class="col-md-4 col-lg-4 col-xs-4 "
+      active='tabs.getStuff'
+      ng-class="tabs.getStuff[1] ?  'tab-clicked' : 'tab-unclicked'">
+        <a href='#' ng-click="showTab('getStuff')">
+          <h4>Get Stuff</h4>
+        </a>
+      </li>
 
+      <li class="col-md-4 col-lg-4 col-xs-4 "
+      active='tabs.giveStuff'
+      ng-class="tabs.giveStuff[1] ?  'tab-clicked' : 'tab-unclicked'">
+        <a href= '#' ng-click="showTab('giveStuff')">
+          <h4>Give Stuff</h4>
+        </a>
+      </li>
+      <li class="col-md-4 col-lg-4 col-xs-4 "
+      ng-class="tabs.myStuff[1] ?  'tab-clicked' : 'tab-unclicked'" >
+        <a href="#" ng-click="showTab('myStuff')">
+          <h4>My Stuff</h4>
+        </a>
+      </li>
+      <alerts></alerts>
+    </ul>
 
-<div >
-  <div class="overlap full-height" >
-
-
-
-    <div class="col-md-4 col-lg-4
-    col-sm-4 col-xs-12 pull-right
-    stuffmapper-menu"
-    ng-class="menuHeight "
-    >
-      <ul class="sm-tabs">
-
-        <li class="col-md-4 col-lg-4 col-xs-4 "
-        active='tabs.getStuff'
-        ng-class="tabs.getStuff[1] ?  'tab-clicked' : 'tab-unclicked'">
-          <a href='#' ng-click="showTab('getStuff')">
-            <h4>Get Stuff</h4>
-          </a>
-        </li>
-
-        <li class="col-md-4 col-lg-4 col-xs-4 "
-        active='tabs.giveStuff'
-        ng-class="tabs.giveStuff[1] ?  'tab-clicked' : 'tab-unclicked'">
-          <a href= '#' ng-click="showTab('giveStuff')">
-            <h4>Give Stuff</h4>
-          </a>
-        </li>
-        <li class="col-md-4 col-lg-4 col-xs-4 "
-        ng-class="tabs.myStuff[1] ?  'tab-clicked' : 'tab-unclicked'" >
-          <a href="#" ng-click="showTab('myStuff')">
-            <h4>My Stuff</h4>
-          </a>
-        </li>
-        <alerts></alerts>
-      </ul>
-
-
-
-      <div ng-show='tabs.getStuff[0]'
-      class='content scroll-y to-edge' ng-include src="'menu/getstuff.html'"></div>
-      <div ng-show='tabs.giveStuff[0]'
-       class='content give-content scroll-y to-edge' ng-include src="'menu/givestuff.html'"></div>
-      <div ng-show='tabs.myStuff[0]'
-      class='content scroll-y' ng-include src="'myStuff/myindex.html'"></div>
-      <div ng-show='tabs.details[0]'
-      class='content scroll-y' ng-include src="'details.html'">
-      </div>
-      <div ng-show='tabs.editing[0]' ng-include src="'edit.html'">
-      </div>
-
-
-  	</div>
-    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12 pull-left
-    google-map-container" ng-class='mapHeight'>
-      <span class="glyphicon glyphicon-screenshot center-map"
-        ng-click='centerMap()'
-        aria-hidden="true">
-      </span>
-      <div class='btn sm-abs-button'ng-click='giveNext(1)'>Change Location</div>
-      <div id="google-map">
-      </div>
+    <div ng-show='tabs.getStuff[0]'
+    class='content scroll-y to-edge' ng-include src="'menu/getstuff.html'"></div>
+    <div ng-show='tabs.giveStuff[0]'
+     class='content give-content scroll-y to-edge' ng-include src="'menu/givestuff.html'"></div>
+    <div ng-show='tabs.myStuff[0]'
+    class='content scroll-y' ng-include src="'myStuff/myindex.html'"></div>
+    <div ng-show='tabs.details[0]'
+    class='content scroll-y' ng-include src="'details.html'">
+    </div>
+    <div ng-show='tabs.editing[0]' ng-include src="'edit.html'">
     </div>
 
-  </div>
 
+	</div>
+  <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12 pull-left" ng-class='mapHeight'>
+    <span class="glyphicon glyphicon-screenshot center-map"
+      ng-click='centerMap()'
+      aria-hidden="true">
+    </span>
+    <div class='btn sm-abs-button'ng-click='giveNext(1)'>Change Location</div>
+    <div id="google-map">
+    </div>
+  </div>
 </div>

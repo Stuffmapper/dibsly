@@ -123,21 +123,28 @@
 @media (min-width:769px){
   /*** Map Heights ***/
   .map-0{
-    top: $navheight;
-    height: 100% !important;
+/*    odd margin and padding setup allows the 100% to be used and map will always stay with in visible screen
+if the navheight is set. Allows the map to change size  depending on user's screen because
+it is bassing the 100% on the 100vh in the full-height class*/
+    margin-top: $navheight;
+    padding: 0 0 $navheight 0;
+    height: 100%;
   }
-  .map-1-1{
-    top: $navheight;
-    height: 100% !important;
 
+  .map-1-1{
+    margin-top: $navheight;
+    padding: 0 0 $navheight 0;
+    height: 100%;
   }
   .map-1-2{
-    top: $navheight;
-    height: 100% !important;
+    margin-top: $navheight;
+    padding: 0 0 $navheight 0;
+    height: 100%;
   }
   .map-2{
-    top: $navheight;
-    height: 100% !important;
+    margin-top: $navheight;
+    padding: 0 0 $navheight 0;
+    height: 100%;
   }
   .btn-close-details {
     display:none; 

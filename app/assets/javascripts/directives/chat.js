@@ -23,7 +23,7 @@ directives.directive('chat', function() {
         ]
 
       $scope.getSenderColor = function(messageSender, currentUser) {
-        console.log('scope line 26 ', $scope)
+        // console.log('scope line 26 ', $scope)
         if (currentUser === messageSender) {
           return 'blue';
         } else if ('admin' === messageSender) {
