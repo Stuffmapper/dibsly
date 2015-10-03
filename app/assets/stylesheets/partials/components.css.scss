@@ -5,6 +5,7 @@
   text-align: center;
   border: none;
   color: white;
+  z-index: 0;
 }
 
 /** Button Directive background colors **/
@@ -100,4 +101,24 @@
   font-size: 20px;
   border: 1px solid gray;
   color: gray;
+}
+
+/*** Chat styles **/
+.chat {
+  height: $chat-container-height;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom: $chat-send-bar-height;
+}
+
+.chat-send-bar {
+  width: 100%;
+  height: $chat-send-bar-height;
+  position: absolute;
+}
+
+.chat-box {
+  height: $chat-container-height - $chat-send-bar-height;
+  margin-bottom: $chat-send-bar-height;
+  width: 100%;
 }

@@ -1,0 +1,14 @@
+<div class="col-lg-3 col-md-3 col-xs-3 "
+ title={{item.description}} ng-attr-id={{item.id + '-stuff'}} >
+    <img class="myStuff-image img-responsive" ng-src={{item.image_url}}
+    ng-click='markerWindow(item.id)' fallback-src ></img>
+</div>
+<div class="col-lg-9 col-md-9 col-xs-9">
+  <div>
+    {{item.title}}
+    <settings></settings>
+  </div>
+  <div>
+    <button>wanted</button>
+  </div>
+</div>
