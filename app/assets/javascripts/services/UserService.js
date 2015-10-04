@@ -48,6 +48,14 @@
         },
         check: function(){
           var that = this;
+          var rejectAll = function(){
+            that.currentUser = false;
+            while(self.checkingQueue.length > 0){
+              var prom = self.checkingQueue.pop();
+              prom.reject(self.currentUser)
+            }
+            that.checking = false;
+          };
           user = LocalService.getJSON('sMToken');
           var defer = $q.defer();
           self.checkingQueue.push(defer)
@@ -64,23 +72,16 @@
                 that.checking = false;
               })
               .error(function(err) {
-                that.currentUser = false;
-                while(self.checkingQueue.length > 0){
-                  var prom = self.checkingQueue.pop();
-                  prom.reject(self.currentUser)
-                }
+                rejectAll();
               });
             } else {
-              that.currentUser = false;
-              console.warn('user not valid')
-              reject(that.currentUser);
+              rejectAll();
             }
           } 
           return defer.promise;
         },
 
         getCurrentUser: function(){
-          //I'm not used or tested
           var that = this;
           if( that.currentUser ){
             return $q.when(that.currentUser)
