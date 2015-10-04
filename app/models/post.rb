@@ -75,7 +75,7 @@ class Post < ActiveRecord::Base
   end
 
   def current_dibber
-    self.current_dib.user unless !self.current_dib 
+    self.current_dib.user if  !self.available_to_dib? and self.current_dib 
   end
 
   def details

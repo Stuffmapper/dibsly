@@ -109,7 +109,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 
         #xhr :get, :geolocated, :nwLat => 48, :nwLng => -121, :seLat => 46, :seLng => -123
           #ugly need to fix
-          parsed_response = JSON.parse(response.body.as_json)
+        parsed_response = JSON.parse(response.body.as_json)
         expect(parsed_response['posts'][0]['id'] ).to eq @post.id
         expect(parsed_response['posts'][0]['title'] ).to eq @post.title
         expect(parsed_response['posts'][0]['category'] ).to eq @post.category
@@ -394,8 +394,25 @@ RSpec.describe Api::PostsController, :type => :controller do
             ).to eq true
         expect(response.status).to eq(200)
       end
+
+      it 'should return my  expired dibs' do
+        Timecop.travel(3600000)
+        @post.reload
+        expect(@post.available_to_dib?).to eq true 
+        sign_in(@user2)
+        xhr :get, :my_dibs
+        parsed_response = JSON.parse(response.body.as_json)
+        expect(parsed_response['posts'][0]['latitude']).to eq 47
+        expect(parsed_response['posts'][0]['longitude']).to eq -122
+        expect(parsed_response['posts'][0]['isCurrentDibber']
+            ).to eq false
+        expect(response.status).to eq(200)
+        Timecop.return
+      end
     end
   end
+
+
   describe "Get show", :vcr => vcr_options do
     before do
       @user = create(:user)
@@ -462,7 +479,7 @@ RSpec.describe Api::PostsController, :type => :controller do
 
   end
 
-  describe "Get show", :vcr => { :cassette_name => "Get_show_post_controller", :match_requests_on => [:method] }do
+  describe "Get search", :vcr => { :cassette_name => "Get_show_post_controller", :match_requests_on => [:method] }do
 
     before do
       @user = create(:user)

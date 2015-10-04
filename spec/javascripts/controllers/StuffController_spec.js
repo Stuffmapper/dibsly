@@ -258,18 +258,43 @@ describe('StuffCtrl', function() {
       expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
     });
   });
-  //TODO -mock httpBackend for mystuff and flush
-  // describe('My Stuff', function() {
-  //   it('sets all the markers to the map', function() {
-  //     setupController();
-  //     spyOn(mockMapsService, 'setMapMarker').and.returnValue('none');
-  //     $scope.myStuff();
-      
-  //     expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
 
-  //   });
-  // });
 
+
+ describe('myStuff', function() {
+    it('calls server with current user', function() {
+      setupController();
+      throw new Error("not implemented yet");
+      //mock current user
+      //mock appropriately  
+    
+    });
+
+    it('sets the menu and map height', function() {
+      setupController();
+      throw new Error("not implemented yet");
+      //call mystuff
+      //digest 
+
+      //check heights etc
+
+    });
+
+    it('sets the correct types', function() {
+      setupController();
+      throw new Error("not implemented yet");
+      //call check the types
+
+    });
+
+    it('sets all the marker', function() {
+      setupController();
+      throw new Error("not implemented yet");
+
+
+    });
+
+  });
 
 
 });

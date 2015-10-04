@@ -19,11 +19,13 @@
       $scope.menuHeight = 'menu-0';
       $scope.mapHeight = 'map-0'
       $scope.post = {};
+      $scope.myPosts = [];
+      $scope.myWants = [];
 
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
 
-      $scope.search = {};
+      $scope.search = {};//NOTE am I used yet?
       $scope.stuff = {};
 
       $scope.tabs = {
@@ -40,9 +42,6 @@
       $scope.$watchCollection('UserService', function() {
         return $scope.currentUser = UserService.currentUser;
       });
-      // $scope.$watchCollection('MarkerService', function() {
-      //   return $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
-      // });
 
       // $SCOPE FUNCTIONS
 
@@ -81,9 +80,9 @@
 
 
 
-      //This is in the model now
+      //This is in the model now -TODO// make sure it is needed here
       $scope.getDetails = function(id) {
-        //TODO - move men
+        //TODO - 
         $rootScope.$broadcast('detailsWanted', {
           markerId: id
         });
@@ -145,52 +144,27 @@
       };
 
       $scope.myStuff = function() {
-        MarkerService.setAll();
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $location.path('/menu/myStuff', false).search({tab: 'ms'})
-        //TODO refactor the search paramater 
-       if ($scope.postMarker) {
-          $scope.postMarker.setMap(null);
-        }
-        if ($scope.editMarker) {
-          $scope.editMarker.setMap(null);
-        }
-        $scope.toggle = false;
-        return UserService.check()
+        $location.path('/menu/myStuff', false).search({tab: 'ms'});
+        return UserService.getCurrentUser()
         .then(
-          function (data){
-            return $http.get('/api/my-stuff')
-              .success(function(data) {
-                angular.forEach(data.posts, function(marker) {
-                  marker.currentUser = UserService.currentUser;
-                  MarkerService.setMarker(marker);
-                });
-              })
-              .error( function(err){ console.log(' Could not get my-stuff')})
+          function(user){
+            return loadMyStuff(user)
           },
           function(err){
-            console.log('User not logged in');
+            console.warn('user not signed in')
+            return
           }
         )
-        .then( function(){
-          if (UserService.currentUser) {
-              return $http.get('/api/my-dibs').success(function(data) {
-                var i, len, marker, ref, results;
-                ref = data.posts;
-                results = [];
-                for (i = 0, len = ref.length; i < len; i++) {
-                  marker = ref[i];
-                  marker.currentUser = UserService.currentUser;
-                  marker.dibber = UserService.currentUser;
-                  MarkerService.setMarker(marker);
-                }
-                return results;
-              });
-            }
+        .then(function(){
+          MarkerService.setAll([
+            { type:'want' },
+            { type: 'myPost' }
+          ]);
         })
-      }
-      
+      };
+
 
       // $scope.publish = function(status) {
       //   //TODO move to Marker Resource
@@ -504,7 +478,68 @@
             MarkerService.setMarker(marker)
         })
         $scope.$emit('markersUpdated', function(){})
-      };     
+      };
+
+      var loadMyStuff  = function(currentUser){
+        if(!currentUser){ throw new Error('currentUser must be defined') };
+        var defer = $q.defer();
+        throw new Error('not implemented yet')
+
+        //gets myposts
+        //sets markers and icon
+        //assigns type -"myWant"
+        //sets the icon type 
+
+        //needs a trigger on the marker service to push a must update
+
+        //sets marker
+        //pushes into an array
+
+        //if sorted on the server then no neeed to sort
+
+        //gets mydibs
+        //assigns type as dib
+        //pushed inton an array
+
+      
+
+      }
+            //  if currentUser
+      //    loadmystuff
+      //   return UserService.check()
+      //   .then(
+      //     function (data){
+      //       return $http.get('/api/my-stuff')
+      //         .success(function(data) {
+      //           angular.forEach(data.posts, function(marker) {
+      //             marker.currentUser = UserService.currentUser;
+      //             MarkerService.setMarker(marker);
+      //           });
+      //         })
+      //         .error( function(err){ console.log(' Could not get my-stuff')})
+      //     },
+      //     function(err){
+      //       console.log('User not logged in');
+      //     }
+      //   )
+      //   .then( function(){
+      //     if (UserService.currentUser) {
+      //         return $http.get('/api/my-dibs').success(function(data) {
+      //           var i, len, marker, ref, results;
+      //           ref = data.posts;
+      //           results = [];
+      //           for (i = 0, len = ref.length; i < len; i++) {
+      //             marker = ref[i];
+      //             marker.currentUser = UserService.currentUser;
+      //             marker.dibber = UserService.currentUser;
+      //             MarkerService.setMarker(marker);
+      //           }
+      //           return results;
+      //         });
+      //       }
+      //   })
+      // }
+          
 
       var setMenu = function() {
         //NOTE Works on inital page load only
