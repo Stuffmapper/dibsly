@@ -36,6 +36,7 @@
 @import "menu/menu";
 @import "menu/my_stuff";
 @import "menu/give_stuff";
+@import "menu/navbar";
 
 /*//TODO -REMOVE ALL BELOW TO APPROPRIATE FOLDER*/
 
@@ -57,6 +58,8 @@ body{
 .full-height{
   height: 100vh;
 }
+
+/*always 100%  */
 #google-map{
   height:100%;
 }
@@ -112,7 +115,7 @@ body{
 .close-x{
   position: relative;
   display:block;
-  z-index: 500;
+  z-index: $z-8;
   margin-right: -15px;
   margin-top: -20px;
   font-size: 2.5em;
@@ -129,106 +132,6 @@ body{
   margin-right:10px;
 }
 
-/**** Navbar ****/
-
-nav{
-  z-index: 3;
-}
-
-
-#main-navbar{
-  background: $darkblue;
-  height:$navheight;
-  position: fixed;
-  top:0px;
-}
-
-#main-navbar-right{
-  float:right;
-  list-style:none;
-  li{
-    display:inline-block;
-    float:right;
-    margin-right:10px;
-    a{
-      display: block;
-      margin-top:8px;
-      style:none;
-      color: $white;
-      font-size:1.3em;
-    }
-  }
-  .collapse-nav-item{
-    display:none;
-  }
-  #main-nav-toggle{
-    color:$white;
-    font-size:1.3em;
-    margin:5px;
-    display:none;
-    }
-  #inbox{
-    width:28px;
-    height:28px;
-    margin:5px 80px 0 0;
-    padding:5px 4px 4px 4px;
-    border-radius:100%;
-    position: relative;
-
-    color: $green;
-      .glyphicon{
-        background:$purple-button;
-      }
-    }
-  .inbox-count{
-    padding:1px;
-    padding-bottom: 2px;
-    height: 12px;
-    background-color: white;
-    font-size: 8px;
-    font-weight: 900;
-    color: red;
-    position: absolute;
-    bottom: -1px;
-    left: 0px;
-    border-radius: 100%;
-    border: 2px solid red;
-    line-height: 0.7;
-
-  }
-}
-
-
-/* Small devices (tablets, 768px and up) */
-@media (max-width: 768px) {
-  #main-navbar-right{
-    #main-nav-toggle{
-      display:inline-block;
-    }
-    .full-nav-item{
-      display:none;
-
-    }
-    .collapse-nav-item{
-      width:100%;
-      padding:5px 15px 5px 15px;
-      border-top: $black solid 2px;
-      display:inline-block;
-      clear:both;
-      background: $darkblue;
-      height:40px;
-      a{
-        margin-top:auto;
-        display:block;
-        style:none;
-        color: $white;
-        font-size:1.3em;
-      }
-    }
-  }
-}
-
-
 
 /**** STUFFMAPPER ****/
 
@@ -238,7 +141,7 @@ nav{
 }
 .sm-tabs{
   position: absolute;
-  z-index: 8;
+  z-index: $z-8;
   margin:0;
   padding:0;
   width:100%;
@@ -321,7 +224,7 @@ nav{
 }
 .get-stuff-view{
   border-radius: 5px;
-  z-index: 2;
+  z-index: $z-2;
   font-size: 1.2em;
   padding:0 0 15px 0;
   margin-bottom: 50px;
@@ -333,9 +236,6 @@ nav{
   height: 100%;
   background-color: $white;
   padding: 50px 10px 200px 10px;
-}
-.give-content{
-  padding-bottom:0;
 }
 
 .menu-toggle span{
@@ -365,7 +265,7 @@ nav{
   max-height: 90px;
   padding:5px;
   position:relative;
-  z-index: 4;
+  z-index: $z-4;
   color:white;
   background:rgba(0,0,0,.5);
   overflow:hidden;
@@ -501,7 +401,7 @@ nav{
     display: block;
     float: right;
     margin-top: 22px;
-    z-index: 2;
+    z-index: $z-2;
     background-color: #FFFFFF;
   }
 }
@@ -515,7 +415,7 @@ nav{
   font-size: 14px;
   margin-left: 3px;
   margin-right: 3px;
-  z-index: 99999;
+  z-index: $z-9;
 }
 
 .setting-option-btn.message{
@@ -557,7 +457,7 @@ nav{
 
 .alert{
   position:relative;
-  z-index:6;
+  z-index:$z-6;
 }
 
 /*** validator ***/
@@ -569,7 +469,6 @@ nav{
 #option {
   color: gray;
 }
-
 
 
 /*** POST ***/
@@ -646,7 +545,7 @@ nav{
 
   .panel-heading{
     position:relative;
-    z-index:7;
+    z-index:$z-7;
     overflow:auto;
     background-color: $white;
     -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);

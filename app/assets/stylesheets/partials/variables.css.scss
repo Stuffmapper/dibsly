@@ -30,13 +30,15 @@ $chat-send-bar-height: 34px;
 
 /*** Z-INDEXS ***/
 
-$z-0: 0;
-$z-1: 10;
-$z-2: 20;
-$z-3: 30;
-$z-4: 40;
-$z-5: 50;
-$z-6: 60;
-$z-7: 70;
-$z-8: 80;
-$z-9: 90
+/*** please track changes to make this easy to maintain ***/
+
+$z-0: 0;   /*used by: .mystuff button */
+$z-1: 10;  /*used by: */
+$z-2: 20;  /*used by: .get-stuff-view , settings-groupli:hover/active */
+$z-3: 30;  /*used by: nav */
+$z-4: 40;  /*used by: .stuff-description */
+$z-5: 50;  /*used by: */
+$z-6: 60;  /*used by: .alert */
+$z-7: 70;  /*used by: .file btn .center-map .panel-heading*/
+$z-8: 80;  /*used by: .close-x , .sm-tabs */
+$z-9: 90;  /*used by: .setting-option-btn .on-top */
