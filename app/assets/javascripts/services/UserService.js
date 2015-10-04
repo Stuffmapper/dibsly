@@ -54,8 +54,17 @@
               var prom = self.checkingQueue.pop();
               prom.reject(self.currentUser)
             }
-            that.checking = false;
+            self.checking = false;
           };
+          var resolveAll = function(user){
+            that.currentUser = user;
+            while(self.checkingQueue.length > 0){
+              var prom = self.checkingQueue.pop();
+              prom.resolve(self.currentUser)
+            }
+            self.checking = false;
+          };
+
           user = LocalService.getJSON('sMToken');
           var defer = $q.defer();
           self.checkingQueue.push(defer)
@@ -64,12 +73,7 @@
             if (user) {
               $http.get('/api/auth/check?token=' + user.token)
               .success(function(data) {
-                that.currentUser = user.user;
-                while(self.checkingQueue.length > 0){
-                  var prom = self.checkingQueue.pop();
-                  prom.resolve(that.currentUser);
-                };
-                that.checking = false;
+                resolveAll(user.user);
               })
               .error(function(err) {
                 rejectAll();
