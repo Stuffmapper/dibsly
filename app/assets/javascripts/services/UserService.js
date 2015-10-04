@@ -77,12 +77,14 @@
             }
           } 
           return defer.promise;
-
         },
-        getCurrentUser: function(){
-          // var that = this;
-          // if( ) 
 
+        getCurrentUser: function(){
+          //I'm not used or tested
+          var that = this;
+          if( that.currentUser ){
+            return $q.when(that.currentUser)
+          } else { return that.check() }
         }
       };
     }
