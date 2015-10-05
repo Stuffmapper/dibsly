@@ -485,13 +485,15 @@
         return $http.get('/api/my-dibs')
         .then( 
           function(data){ 
+            var promises = [] 
             angular.forEach(data.data.posts, function(marker) {
-              marker.icon = 'dibber'
+              marker.icon = 'dibber';//TODO not working 
               marker.currentUser = UserService.currentUser;
               marker.dibber = UserService.currentUser;
-              MarkerService.setMarker(marker)
-              .then(function(marker){ $scope.myWants.push(marker) });
+              promises.push( MarkerService.setMarker(marker)
+                .then(function(marker){ $scope.myWants.push(marker) }) );
             });
+            return $q.all(promises)
           },
           function(err){
             return err
@@ -501,12 +503,14 @@
           function(){
             return $http.get('/api/my-stuff')
             .then(function(data){
+              var promises = [] 
               angular.forEach(data.data.posts, function(marker) {
-                marker.icon = 'creator';
+                marker.icon = 'creator'; //TODO not working
                 marker.currentUser = UserService.currentUser;
-                MarkerService.setMarker(marker)
-                .then( function(marker){  $scope.myPosts.push(marker) });
+                promises.push( MarkerService.setMarker(marker)
+                  .then(function(marker){ $scope.myPosts.push(marker) }) );
               });
+              return $q.all(promises)
             })
 
           },
@@ -514,63 +518,8 @@
             return err
           }
         )
-        //.then( defer.resolve, defer.reject )
-        //return defer.promise;
-
-
-        //gets myposts
-        //sets markers and icon
-        //assigns type -"myWant"
-        //sets the icon type 
-
-        //needs a trigger on the marker service to push a must update
-
-        //sets marker
-        //pushes into an array
-
-        //if sorted on the server then no neeed to sort
-
-        //gets mydibs
-        //assigns type as dib
-        //pushed inton an array
-
-      
-
       }
-            //  if currentUser
-      //    loadmystuff
-      //   return UserService.check()
-      //   .then(
-      //     function (data){
-      //       return $http.get('/api/my-stuff')
-      //         .success(function(data) {
-      //           angular.forEach(data.posts, function(marker) {
-      //             marker.currentUser = UserService.currentUser;
-      //             MarkerService.setMarker(marker);
-      //           });
-      //         })
-      //         .error( function(err){ console.log(' Could not get my-stuff')})
-      //     },
-      //     function(err){
-      //       console.log('User not logged in');
-      //     }
-      //   )
-      //   .then( function(){
-      //     if (UserService.currentUser) {
-      //         return $http.get('/api/my-dibs').success(function(data) {
-      //           var i, len, marker, ref, results;
-      //           ref = data.posts;
-      //           results = [];
-      //           for (i = 0, len = ref.length; i < len; i++) {
-      //             marker = ref[i];
 
-      //           }
-      //           return results;
-      //         });
-      //       }
-      //   })
-      // }
-          
 
       var setMenu = function() {
         //NOTE Works on inital page load only
