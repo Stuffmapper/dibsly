@@ -224,6 +224,7 @@
           var latlng = this.newLatLng(marker.latitude, marker.longitude);
           marker.marker.setPosition(latlng); 
         }
+        marker.marker.setIcon(marker.icon );
       },
 
       within: function(box, coords){

@@ -285,6 +285,7 @@ describe('StuffCtrl', function() {
       ]});
       $httpBackend.expectGET('/api\/my-dibs');
       $httpBackend.expectGET('/api\/my-stuff' );
+      spyOn( mockUserService, 'getCurrentUser').and.returnValue($q.when('Jack'))
     });
     afterEach(function() {
       $timeout( function(){
@@ -295,45 +296,49 @@ describe('StuffCtrl', function() {
 
     it('calls server with current user', function(done) {
       
-      spyOn( mockUserService, 'getCurrentUser').and.returnValue($q.when('Jack'))
       $scope.myStuff()
       .then(function(data){ 
-        console.log(data, '298 in test')
         expect(mockUserService.getCurrentUser).toHaveBeenCalled();
         done();
       })
       $httpBackend.flush();
-      
-      
-      //throw new Error("not implemented yet");
-      //mock current user
-      //mock appropriately  
 
     });
 
-    it('sets the menu and map height', function() {
-       //$httpBackend.flush();
-
-      throw new Error("not implemented yet");
-      //call mystuff
-      //digest 
-
-      //check heights etc
-
+    it('sets the menu and map height', function(done) {
+      expect($scope.mapHeight).toEqual('map-0');
+      expect($scope.menuHeight).toEqual('menu-0');
+      $scope.myStuff()
+      .then(function(data){ 
+        expect($scope.mapHeight).toEqual('map-2');
+        expect($scope.menuHeight).toEqual('menu-2');
+        done();
+      })
+      $httpBackend.flush();
     });
 
-    it('sets the correct types', function() {
-      //$httpBackend.flush();
-
-      throw new Error("not implemented yet");
-      //call check the types
-
+    it('sets the correct types', function(done) {
+      expect($scope.myPosts).toEqual({});
+      expect($scope.myWants).toEqual({});
+      $scope.myStuff()
+      .then(function(data){ 
+        expect($scope.myPosts[6].type ).toEqual('myPost');
+        expect($scope.myWants[1].type ).toEqual('want');
+        expect(mockMarkerService.getMarker(6) ).toEqual( $scope.myPosts[6] );
+        expect(mockMarkerService.getMarker(1) ).toEqual( $scope.myWants[1] );
+        done();
+      })
+      $httpBackend.flush();
     });
 
-    it('sets all the marker', function() {
-       //$httpBackend.flush();
-      throw new Error("not implemented yet");
-
+    it('sets all the marker', function(done) {
+      expect(mockMapsService.newMapMarker).not.toHaveBeenCalled();
+      $scope.myStuff()
+      .then(function(data){ 
+        expect(mockMapsService.newMapMarker ).toHaveBeenCalled();
+        done();
+      })
+      $httpBackend.flush();
     });
 
   });

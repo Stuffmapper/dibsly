@@ -144,8 +144,8 @@
       };
 
       $scope.myStuff = function() {
-        $scope.menuHeight = 'menu-0';
-        $scope.mapHeight = 'map-0';
+        $scope.menuHeight = 'menu-2';
+        $scope.mapHeight = 'map-2';
         $location.path('/menu/myStuff', false).search({tab: 'ms'});
         return UserService.getCurrentUser()
         .then(
