@@ -176,6 +176,7 @@
 
         setAll: function(has, doesnot){
           var that = this;
+          console.log(has)
           that.where(has, doesnot, { 
             posFn: function(marker){ MapsService.setMapMarker(marker.marker) },
             negFn: function(marker){ MapsService.clearMapMarker(marker.marker) }
