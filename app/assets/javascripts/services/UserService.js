@@ -52,7 +52,7 @@
             that.currentUser = false;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.reject(self.currentUser)
+              prom.reject(that.currentUser)
             }
             self.checking = false;
           };
@@ -60,7 +60,7 @@
             that.currentUser = user;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.resolve(self.currentUser)
+              prom.resolve(that.currentUser)
             }
             self.checking = false;
           };

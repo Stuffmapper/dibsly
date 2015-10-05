@@ -455,7 +455,6 @@
         var getPosition = function(){
           MapsService.getCenter()
           .then( function(center){
-            console.log('line 485')
             $scope.$emit( 'mapChanged', center )
           }); 
         };
@@ -482,8 +481,42 @@
 
       var loadMyStuff  = function(currentUser){
         if(!currentUser){ throw new Error('currentUser must be defined') };
-        var defer = $q.defer();
-        throw new Error('not implemented yet')
+       // var defer = $q.defer();
+        return $http.get('/api/my-dibs')
+        .then( 
+          function(data){ 
+            angular.forEach(data.data.posts, function(marker) {
+              marker.icon = 'dibber'
+              marker.currentUser = UserService.currentUser;
+              marker.dibber = UserService.currentUser;
+              MarkerService.setMarker(marker)
+              .then(function(marker){ $scope.myWants.push(marker) });
+            });
+          },
+          function(err){
+            return err
+          }
+        )
+        .then(
+          function(){
+            return $http.get('/api/my-stuff')
+            .then(function(data){
+              angular.forEach(data.data.posts, function(marker) {
+                marker.icon = 'creator';
+                marker.currentUser = UserService.currentUser;
+                MarkerService.setMarker(marker)
+                .then( function(marker){  $scope.myPosts.push(marker) });
+              });
+            })
+
+          },
+          function(err){
+            return err
+          }
+        )
+        //.then( defer.resolve, defer.reject )
+        //return defer.promise;
+
 
         //gets myposts
         //sets markers and icon
@@ -530,9 +563,7 @@
       //           results = [];
       //           for (i = 0, len = ref.length; i < len; i++) {
       //             marker = ref[i];
-      //             marker.currentUser = UserService.currentUser;
-      //             marker.dibber = UserService.currentUser;
-      //             MarkerService.setMarker(marker);
+
       //           }
       //           return results;
       //         });

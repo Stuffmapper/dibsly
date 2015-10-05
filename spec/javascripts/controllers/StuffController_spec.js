@@ -10,6 +10,7 @@ describe('StuffCtrl', function() {
   LocationService,
   mockLocalService,
   mockMapsService,
+  mockUserService,
   MarkerService,
   mockMarkerService,
   $routeParams,
@@ -37,6 +38,7 @@ describe('StuffCtrl', function() {
       $routeParams = _$routeParams_;
       $httpBackend = _$httpBackend_;
       mockLocalService = LocalService;
+      mockUserService = UserService;
       LocationService = LocationService;
       $scope.currentUser = 'Jack';
       $scope.map = jasmine.createSpyObj('map',['new', 'panTo']);
@@ -45,8 +47,8 @@ describe('StuffCtrl', function() {
       // //TODO make this work
 
       //
-      authHandler = $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
-      authHandler.respond({ posts: [
+      getPostsHandler= $httpBackend.whenGET( /\/api\/posts\/geolocated.*/ )
+      getPostsHandler.respond({ posts: [
                                 {id:1, dibber:'Jack', updated_at:'2012-11-25', status: 'new' },
                                 {id:2, dibber:'Jack', updated_at: '2014-11-22', status: 'new'},
                                 {id:3, dibber: 'john', creator:'Jack', updated_at: '2012-11-24', status: 'new'},
@@ -262,16 +264,56 @@ describe('StuffCtrl', function() {
 
 
  describe('myStuff', function() {
-    it('calls server with current user', function() {
+    beforeEach( function(){
       setupController();
-      throw new Error("not implemented yet");
+      var getMyDibsHandler= $httpBackend.whenGET( /\/api\/my-dibs.*/ )
+      getMyDibsHandler.respond({ posts: [
+        {id:1, dibber:'Jack', updated_at:'2012-11-25', status: 'new' },
+        {id:2, dibber:'Jack', updated_at: '2014-11-22', status: 'new'},
+        {id:3, dibber: 'john', creator:'Jack', updated_at: '2012-11-24', status: 'new'},
+        {id:4, dibber:'Jackie', creator:'Jack', updated_at:'2012-11-25', status: 'new'},
+        {id:5, dibber:'Jack', updated_at:'2014-11-23' , status: 'new'}
+      ]});
+
+      var getMyPostsHandler= $httpBackend.whenGET( /\/api\/my-stuff.*/ )
+      getMyPostsHandler.respond({ posts: [
+        {id:6, dibber:'Jack', updated_at:'2012-11-25', status: 'new' },
+        {id:7, dibber:'Jack', updated_at: '2014-11-22', status: 'new'},
+        {id:8, dibber: 'john', creator:'Jack', updated_at: '2012-11-24', status: 'new'},
+        {id:9, dibber:'Jackie', creator:'Jack', updated_at:'2012-11-25', status: 'new'},
+        {id:10, dibber:'Jack', updated_at:'2014-11-23' , status: 'new'}
+      ]});
+      $httpBackend.expectGET('/api\/my-dibs');
+      $httpBackend.expectGET('/api\/my-stuff' );
+    });
+    afterEach(function() {
+      $timeout( function(){
+        $httpBackend.verifyNoOutstandingRequest();
+        $httpBackend.verifyNoOutstandingExpectation();
+      },0);
+    });
+
+    it('calls server with current user', function(done) {
+      
+      spyOn( mockUserService, 'getCurrentUser').and.returnValue($q.when('Jack'))
+      $scope.myStuff()
+      .then(function(data){ 
+        console.log(data, '298 in test')
+        expect(mockUserService.getCurrentUser).toHaveBeenCalled();
+        done();
+      })
+      $httpBackend.flush();
+      
+      
+      //throw new Error("not implemented yet");
       //mock current user
       //mock appropriately  
-    
+
     });
 
     it('sets the menu and map height', function() {
-      setupController();
+       //$httpBackend.flush();
+
       throw new Error("not implemented yet");
       //call mystuff
       //digest 
@@ -281,16 +323,16 @@ describe('StuffCtrl', function() {
     });
 
     it('sets the correct types', function() {
-      setupController();
+      //$httpBackend.flush();
+
       throw new Error("not implemented yet");
       //call check the types
 
     });
 
     it('sets all the marker', function() {
-      setupController();
+       //$httpBackend.flush();
       throw new Error("not implemented yet");
-
 
     });
 
