@@ -20,13 +20,14 @@
         'id', 
         'category',
         'description',
+        'image_url',
         'latitude',
         'longitude',
         'locallyUpdated',
         'published',
         'title',
+        'type',
         'status',
-        'image_url',
         'chat',
         'showChat'
       ];

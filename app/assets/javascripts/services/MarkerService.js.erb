@@ -145,6 +145,7 @@
           var markerSet = self.markers[id];
           var marker = markerSet ? markerSet : {
             id: id,
+            type: id,
             temporary:true,
             updated_at: Date.now(),
             icon: id,
@@ -229,7 +230,6 @@
             self.markers[marker.id] = new Marker(marker);
           } else { 
             var existing = self.markers[marker.id];
-            console.log('line 231 in set marker', existing.icon, marker.icon)
             angular.extend(existing, marker ) }
           self.markers[marker.id].saveLocal()
 

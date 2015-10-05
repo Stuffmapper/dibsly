@@ -1,10 +1,12 @@
-<div class="row to_edge" ng-repeat="item in myPosts | orderObjectBy:'updated_at':true track by $index" >
+
+<div>
   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mystuff-row" style='border: solid'>
-    <img class="img-responsive center-y" ng-src={{item.image_url}}></img>
+    <img class="img-responsive center-y" ng-src={{post.image_url}}></img>
   </div>
+
   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding">
     <div class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row no-padding on-top">
-      <div class="center-y pull-left">{{item.title}}</div>
+      <div class="center-y pull-left">{{post.title}}</div>
       <div class='settings-group center-y' ng-show="true" >
         <ul>
           <li class='settings-btn-wrapper'>
@@ -17,27 +19,27 @@
                   <span class='glyphicon glyphicon-pencil'></span>&nbsp;&gt;&gt;
                 </button>
               </li>
-              <li ng-show='item.showEdit()' ng-click="item.markGone()">
+              <li ng-show='post.showEdit()' ng-click="post.markGone()">
                 <button class='setting-option-btn mark-as-picked-up' 
-                ng-click='item.markGone()'>
+                ng-click='post.markGone()'>
                   Mark As Picked Up
                 </button>
               </li>
-              <li ng-show='item.showWanted()'>
+              <li ng-show='post.showWanted()'>
                 <button class='setting-option-btn reject-dibs'
-                ng-click="item.rejectDibber()">
+                ng-click="post.rejectDibber()">
                   Reject Dibs
                 </button>
               </li>
               <li>
                 <button class='setting-option-btn edit-item'
-                ng-click="item.goToEdit()">
+                ng-click="post.goToEdit()">
                   Edit Item
                 </button>
               </li>
               <li ng-hide='currentDib'>
                 <button class='setting-option-btn delete-item' 
-                ng-click='deletePost(stuff.id)'>
+                ng-click='post.remove()'>
                 <!-- consider putting deletPost into a directive that has this function in lieu of relying on the stuffctrl -->
                   Delete
                 </button>
@@ -47,7 +49,5 @@
         </ul>
       </div>
     </div>
-    <mystuffbtn post="item"></my-stuff-btn>
   </div>
-
 </div>
