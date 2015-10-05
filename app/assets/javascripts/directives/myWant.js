@@ -7,9 +7,7 @@ directives = angular.module('directives');
 //need to link to function the changes the color
 
 directives.directive('mywant', function() {
-  console.log('do I print');
   function link(scope, element) {
-    element.css('background-color', '#ff0000');
   }
   return {
     restrict: 'E',
@@ -17,20 +15,17 @@ directives.directive('mywant', function() {
       post: '='
     },
     controller: [
-      '$scope', function($scope) {
-        $scope.msg = function(post) {
-          //console.log(post);
-          // if (post.noMessages()){
-          //   $scope.color = 'green';
-          //   return 'Send a message! (20min remaining)';
-          // } else if (post.newMessage()){
-          //   $scope.color = 'blue'
-          //   return "New Messages";
-          // } else {
-          //   $scope.color = 'grey';
-          //   return "Messages";
-          // }
+      '$scope', 'MessageService', function($scope, MessageService) {
+        var getColor = function(){
+
         };
+        $scope.msg= 'Wanted';
+        $scope.btnClass = 'green';
+        $scope.btnAction = function(){
+          throw new Error('not implemented')
+        }
+
+
       }
     ],
     replace: true,

@@ -12,6 +12,8 @@
         Item details &gt;&gt;
       </a>
     </div>
+    <button ng-show='post.showWanted()' ng-class="btnClass" ng-click='btnAction' >{{msg}}</button>
+    <button ng-hide='post.showWanted()' ng-class="btnClass" ng-click='btnAction' >{{msg}}</button>
   </div>
 </div>
 

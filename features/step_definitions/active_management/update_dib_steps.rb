@@ -20,7 +20,7 @@ Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display 
   sign_in post.creator
   click_link "My Stuff"
   within('#my-stuff') do
-  	expect(page.body).to have_text "Wanted!"
+  	expect(page.body).to have_text "Want!ed"
     expect(page.find('button', :text=> 'Wanted', :visible => true)).to_not eq nil
   end
 end
