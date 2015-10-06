@@ -37,6 +37,7 @@
 @import "menu/my_stuff";
 @import "menu/give_stuff";
 @import "menu/navbar";
+@import "menu/details";
 
 /*//TODO -REMOVE ALL BELOW TO APPROPRIATE FOLDER*/
 
@@ -337,20 +338,6 @@ body{
   font-size: 12px;
 }
 
-/*Details*/
-.detail-description {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.details-view {
-  padding: 0px;
-}
-
-/*My Details*/
-.item-details-link {
-  font-size: 14px;
-}
 .settings-btn {
   background-color: #FFFFFF;
   font-size: 16px;
@@ -451,7 +438,7 @@ body{
 
 .stuff-map-image{
   width:200px;
-}
+} /** is this used ** /
 /*** ALERTS ***/
 
 .alert{
