@@ -160,7 +160,6 @@ Then(/^I should have an edit option$/) do
 end
 
 Then(/^I should be able to click edit and change the details$/) do
-  byebug
   click_button 'Edit'
   fill_in 'description', with: "I have changed the details"
   page.execute_script "window.scrollBy(0,10000)"

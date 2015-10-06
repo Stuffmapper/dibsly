@@ -22,8 +22,12 @@ end
 When(/^I hit dib$/) do
   click_link 'Get Stuff'
   page.find('.stuff-view').click
-  first(:button,'I want').click
-  sleep(5)
+  sleep(2)
+  within('.post-details') do 
+    page.execute_script "window.scrollBy(0,10000)"
+    page.find(:button, "I want").click
+    sleep(5)
+  end
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq false
  end
