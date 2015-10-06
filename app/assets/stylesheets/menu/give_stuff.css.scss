@@ -1,3 +1,31 @@
+
 #give-1{
-	padding-top:$tabheight;
+}
+#give-2{
+  positon:absolute;
+  top:0;
+  left:0;
+  right:0;
+  overflow:auto;
+  margin-bottom:$tabheight;
+}
+.give-container{
+	position:absolute;
+	top: $tabheight;
+	left:0;
+	right:0;
+	bottom: 0;
+	overflow:auto;
+}
+.give-stuff{
+	height:inherit;
+	overflow:hidden;
+}
+@media (max-width:768px){
+  #give-2{
+    padding-top: $navheight + $map-1-2-height;
+    margin-bottom:0;
+    padding-bottom: $tabheight;
+    overflow-x:hidden;
+  }
 }
