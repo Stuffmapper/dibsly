@@ -122,3 +122,92 @@
   margin-bottom: $chat-send-bar-height;
   width: 100%;
 }
+
+/*** SETTINGS ***/
+
+/*.settings-btn {
+  background-color: #FFFFFF;
+  font-size: 16px;
+  border: none;
+  float: right;
+  color: #337ab7;
+}
+
+.settings-btn.my-stuff {
+  color: $grey;
+  font-size: 14px;
+}
+
+.settings-btn:focus{
+  border:none;
+  outline: 0;
+}
+
+
+.settings-group {
+  display: inline;
+}
+
+.settings-group ul {
+  list-style: none;
+  position: relative;
+  float: right;
+  padding-left: 0;
+  margin-bottom: 0;
+  li {
+    position: relative;
+  }
+}
+.settings-group ul li ul{
+  display: none;
+  position: absolute;
+  right: 0px;
+  width: 10em;
+:last-child {
+    margin-bottom: 2px;
+  }
+}
+
+.settings-group li:hover,
+.settings-group li:active {
+  ul {
+    display: block;
+    float: right;
+    margin-top: 22px;
+    z-index: $z-2;
+    background-color: #FFFFFF;
+  }
+}
+.setting-option-btn {
+  outline: 0;
+  color: #FFFFFF;
+  text-align: center;
+  width: 100%;
+  margin-top: 2px;
+  border: none;
+  font-size: 14px;
+  margin-left: 3px;
+  margin-right: 3px;
+  z-index: $z-9;
+}
+
+.setting-option-btn.message{
+  background-color: #3BE073;
+}
+
+.setting-option-btn.mark-as-picked-up{
+  background-color: #545454;
+}
+
+.setting-option-btn.reject-dibs{
+  background-color: #E45B5A;
+}
+
+.setting-option-btn.edit-item{
+  background-color: #0078BE;
+}
+
+.setting-option-btn.delete-item{
+  background-color: #E45B5A;
+}
+*/

@@ -8,6 +8,7 @@ stfmpr = angular.module('stfmpr',[
         'ngRoute',
         'ngResource',
         'dcbImgFallback',
+        'ngAnimate',
         'ui.bootstrap',
         'angular-flash.service',
         'angular-flash.flash-alert-directive',

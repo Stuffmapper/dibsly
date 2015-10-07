@@ -7,47 +7,7 @@
   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding">
     <div class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row no-padding on-top">
       <div class="center-y pull-left">{{post.title}}</div>
-      <div class='settings-group center-y' ng-show="true" >
-        <ul>
-          <li class='settings-btn-wrapper'>
-            <button class='my-stuff settings-btn'>
-              Settings&nbsp;<span class='glyphicon glyphicon-cog'></span>
-            </button>
-            <ul>
-              <li ng-show='currentDib'>
-                <button class='setting-option-btn message'>
-                  <span class='glyphicon glyphicon-pencil'></span>&nbsp;&gt;&gt;
-                </button>
-              </li>
-              <li ng-show='post.showEdit()' ng-click="post.markGone()">
-                <button class='setting-option-btn mark-as-picked-up' 
-                ng-click='post.markGone()'>
-                  Mark As Picked Up
-                </button>
-              </li>
-              <li ng-show='post.showWanted()'>
-                <button class='setting-option-btn reject-dibs'
-                ng-click="post.rejectDibber()">
-                  Reject Dibs
-                </button>
-              </li>
-              <li>
-                <button class='setting-option-btn edit-item'
-                ng-click="post.goToEdit()">
-                  Edit Item
-                </button>
-              </li>
-              <li ng-hide='currentDib'>
-                <button class='setting-option-btn delete-item' 
-                ng-click='post.remove()'>
-                <!-- consider putting deletPost into a directive that has this function in lieu of relying on the stuffctrl -->
-                  Delete
-                </button>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+      <settings></settings>
     </div>
     <button  ng-class="btnClass()" ng-click='btnAction' >{{msg()}}</button>
   </div>

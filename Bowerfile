@@ -7,5 +7,6 @@ asset 'angular-flash'
 asset 'ngmap'
 asset 'angular-timeago'
 asset 'angular-img-fallback'
-asset 'angular-bootstrap', "git@github.com:angular-ui/bootstrap-bower.git"
+asset 'angular-animate'
+asset 'angular-bootstrap'
 # vim: ft=ruby

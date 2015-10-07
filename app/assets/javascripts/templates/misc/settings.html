@@ -1,0 +1,33 @@
+<div class="btn-group pull-right" dropdown is-open="status.isopen">
+ 
+  <button id="settings-dropdown" type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
+    Settings 
+  </button>
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="settings-dropdown">
+    <li role="menuitem" ng-if='post.showEdit()' >
+      <button class='setting-option-btn mark-as-picked-up' 
+       ng-click='post.markGone()'>
+        Mark As Picked Up
+      </button>
+    </li>
+    <li role="menuitem" ng-if='post.showWanted()'>
+      <button class='setting-option-btn reject-dibs'
+      ng-click="post.rejectDibber()">
+        Reject Dibs
+      </button>
+    </li>
+    <li role="menuitem" ng-if='post.showEdit()'>
+      <button class='setting-option-btn edit-item'
+      ng-click="post.goToEdit()">
+        Edit Item
+      </button>
+    </li>
+    <li role="menuitem" ng-if='post.showEdit()'>
+      <button class='setting-option-btn delete-item' 
+      ng-click='post.remove()'>
+        Delete
+      </button>
+    </li>
+  </ul>
+</div>
