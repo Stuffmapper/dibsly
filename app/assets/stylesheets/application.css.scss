@@ -8,7 +8,6 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  */
 
 /* html labels */
@@ -28,8 +27,8 @@
 // /* Large devices (large desktops, 1200px and up) */
 // @media (min-width: @screen-lg-min) { ... }
 
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap-sprockets";
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap";
+@import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
 @import "partials/variables";
 @import "partials/components";
 @import "partials/helpers";

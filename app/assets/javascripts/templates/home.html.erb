@@ -36,9 +36,17 @@
      class='to-edge give-container' ng-include src="'menu/givestuff.html'"></div>
     <div ng-show='tabs.myStuff[0]'
     class='content scroll-y' ng-include src="'myStuff/myindex.html'"></div>
-    <div ng-show='tabs.details[0]'
-    class='details-container' ng-include src="'details.html'">
+
+    <div ng-show='tabs.details[0]'class='details-container' >
+      <div class="col-lg-12 col-md-12 col-xs-12 post-details" >
+        <a href='#' ng-show="stuff.last === 'myStuff'" 
+        ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
+        <a href='#' ng-show="stuff.last === 'getStuff'" 
+        ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
+        <smdetails post='stuff' ></smdetails>
+      </div>
     </div>
+
     <div ng-show='tabs.editing[0]' ng-include src="'edit.html'">
     </div>
 

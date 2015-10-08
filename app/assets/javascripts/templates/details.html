@@ -1,62 +1,18 @@
 
 
-<div class="col-lg-12 col-md-12 col-xs-12 post-details" >
-  <a href='#' ng-show="stuff.last === 'myStuff'" 
-  ng-click="showTab('myStuff')">&lt;&lt; Back to My Stuff</a>
-  <a href='#' ng-show="stuff.last === 'getStuff'" 
-  ng-click="showTab('getStuff')">&lt;&lt; Back to Stuff</a>
-  <div class='settings-group center-y' ng-show="true" >
-    <ul>
-      <li class='settings-btn-wrapper'>
-        <button class='my-stuff settings-btn'>
-          Settings&nbsp;<span class='glyphicon glyphicon-cog'></span>
-        </button>
-        <ul>
-          <li ng-show='currentDib'>
-            <button class='setting-option-btn message'>
-              <span class='glyphicon glyphicon-pencil'></span>&nbsp;&gt;&gt;
-            </button>
-          </li>
-          <li ng-show='post.showEdit()' ng-click="post.markGone()">
-            <button class='setting-option-btn mark-as-picked-up' 
-            ng-click='post.markGone()'>
-              Mark As Picked Up
-            </button>
-          </li>
-          <li ng-show='post.showWanted()'>
-            <button class='setting-option-btn reject-dibs'
-            ng-click="post.rejectDibber()">
-              Reject Dibs
-            </button>
-          </li>
-          <li>
-            <button class='setting-option-btn edit-item'
-            ng-click="post.goToEdit()">
-              Edit Item
-            </button>
-          </li>
-          <li ng-hide='currentDib'>
-            <button class='setting-option-btn delete-item' 
-            ng-click='post.remove()'>
-            <!-- consider putting deletPost into a directive that has this function in lieu of relying on the stuffctrl -->
-              Delete
-            </button>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+<div>
+  <settings></settings>
 
   <hr class='thin-hr'>
-  <div ng-show='stuff.isCurrentDibber'>
+  <div ng-show='post.isCurrentDibber'>
     <button  class= "dib-button dib-button-send-message"
     >Dibbed! Send a message to the lister! &gt;&gt;</button>
-    <a href='#' class='undib-link' ng-click="stuff.unDib()"
+    <a href='#' class='undib-link' ng-click="post.unDib()"
     >Undib! I don't want this anymore</a>
     <hr class='thin-hr'>
   </div>
 
-  <div ng-if="stuff.showEdit()">
+  <div ng-if="post.showEdit()">
     <div ng-hide="currentDib">  
       <button class="dib-button not-dibbed"
       >This stuff hasn't been dibbed yet...</button>
@@ -70,28 +26,28 @@
     </div>
   </div>
 
-  <span>{{stuff.title}}</span>
+  <span>{{post.title}}</span>
 
   <br>
   <div class='floating stuff-category'>
-    {{stuff.category}}
+    {{post.category}}
   </div>
 
   <div class='floating stuff-status'>
-    {{stuff.status}}
+    {{post.status}}
   </div>
-  <a ng-href="{{stuff.originalImage}}" >
+  <a ng-href="{{post.originalImage}}" >
     <img class="img-responsive img-detail" 
-    ng-src={{stuff.image_url}} fallback-src >
+    ng-src={{post.image_url}} fallback-src >
     </img>
   </a>
 
   <div class='col-lg-12 col-md-12 col-xs-12 detail-description'>
-    <span>{{stuff.description}}</span>
+    <span>{{post.description}}</span>
   </div>
 
-  <div ng-hide="stuff.showEdit()">
-    <dib post="stuff" ng-show="stuff.showDib()" ng-click=''></dib>
+  <div ng-hide="post.showEdit()">
+    <dib post="post" ng-show="post.showDib()" ng-click=''></dib>
   </div>
 
   <button class="btn-close-details glyphicon glyphicon-triangle-top"></button>
