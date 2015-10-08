@@ -77,6 +77,11 @@
            return MapsService.panTo(center);
          });
       };
+      $scope.edit = function(){
+        if($routeParams.next){
+          $scope.showEdit($routeParams.next);
+        } 
+      }
 
 
 
@@ -210,7 +215,7 @@
       };
 
       $scope.showEdit = function(id){
-        $location.path('/menu/edit', false);
+        $location.path('/menu/editing' +'/' + id, false);
         var template = 'editing';
         $scope.mapHeight = 'map-1-2';
         $scope.menuHeight = 'menu-1-2';
@@ -450,7 +455,10 @@
         if ($routeParams.postId) {
           //NOTE Works on initial page load only.. otherwise routeparams inaccurate
           $scope.getDetails($routeParams.postId);
-        }
+        } if ( $routeParams.menuState == 'editing' && $routeParams.next ){
+          //TODO use a better router
+          $scope.showEdit($routeParams.next);
+        }   
         loadCache();
         var getPosition = function(){
           MapsService.getCenter()

@@ -1,10 +1,10 @@
-<div class="btn-group pull-right" dropdown is-open="status.isopen">
+<div ng-show='post.showEdit()' class="btn-group pull-right settings" dropdown is-open="status.isopen">
  
-  <button id="settings-dropdown" type="button" class="btn btn-primary" dropdown-toggle ng-disabled="disabled">
-    Settings 
+  <button id="settings-dropdown" type="button" class="btn settings-btn" dropdown-toggle ng-disabled="disabled">
+    Settings&nbsp;&nbsp;<span class="glyphicon glyphicon-cog"></span>
   </button>
 
-  <ul class="dropdown-menu" role="menu" aria-labelledby="settings-dropdown">
+  <ul class="dropdown-menu settings-dropdown" role="menu" aria-labelledby="settings-dropdown">
     <li role="menuitem" ng-if='post.showEdit()' >
       <button class='setting-option-btn mark-as-picked-up' 
        ng-click='post.markGone()'>

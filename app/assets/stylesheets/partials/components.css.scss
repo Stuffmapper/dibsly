@@ -125,12 +125,18 @@
 
 /*** SETTINGS ***/
 
-/*.settings-btn {
+.settings{
+  position:relative;
+}
+.settings-dropdown{
+  z-index: $z-9;
+}
+
+.settings-btn{
   background-color: #FFFFFF;
-  font-size: 16px;
-  border: none;
-  float: right;
+  font-size: 12px;
   color: #337ab7;
+  z-index:$z-0;
 }
 
 .settings-btn.my-stuff {
@@ -138,57 +144,13 @@
   font-size: 14px;
 }
 
-.settings-btn:focus{
-  border:none;
-  outline: 0;
-}
 
-
-.settings-group {
-  display: inline;
-}
-
-.settings-group ul {
-  list-style: none;
-  position: relative;
-  float: right;
-  padding-left: 0;
-  margin-bottom: 0;
-  li {
-    position: relative;
-  }
-}
-.settings-group ul li ul{
-  display: none;
-  position: absolute;
-  right: 0px;
-  width: 10em;
-:last-child {
-    margin-bottom: 2px;
-  }
-}
-
-.settings-group li:hover,
-.settings-group li:active {
-  ul {
-    display: block;
-    float: right;
-    margin-top: 22px;
-    z-index: $z-2;
-    background-color: #FFFFFF;
-  }
-}
 .setting-option-btn {
   outline: 0;
   color: #FFFFFF;
   text-align: center;
   width: 100%;
-  margin-top: 2px;
-  border: none;
-  font-size: 14px;
-  margin-left: 3px;
-  margin-right: 3px;
-  z-index: $z-9;
+  padding:2px;
 }
 
 .setting-option-btn.message{
@@ -210,4 +172,3 @@
 .setting-option-btn.delete-item{
   background-color: #E45B5A;
 }
-*/

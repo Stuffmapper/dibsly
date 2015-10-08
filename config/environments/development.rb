@@ -28,7 +28,7 @@ Dibsly::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
   config.paperclip_defaults = {
   :s3_host_name => 's3-us-west-2.amazonaws.com',
   :storage => :s3,
