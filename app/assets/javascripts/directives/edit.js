@@ -9,14 +9,19 @@ directives.directive('edit', function() {
       post: '='
     },
     controller: [
-      '$scope', 'UserService','AlertService', 
-      function($scope, UserService, AlertService) {
+      '$scope', 'UserService','AlertService', 'MarkerService', 
+      function($scope, UserService, AlertService, MarkerService ) {
+        var imageChanged = false;
+        $scope.categories = MarkerService.categories;
         $scope.editPost = function(){
-          throw new Error('not implemented yet')
+          console.log($scope.post.latitude )
+          //throw new Error('not implemented yet')
           //this submits the post
           //two part
           
           //sends then new details
+          return $scope.post.update()
+          .then( function(){ $scope.post.unSetEditState() })
 
           //then 
           //sends the new image and
@@ -30,6 +35,7 @@ directives.directive('edit', function() {
           //should remove the image object
         };
         $scope.changeImage = function(){
+          imageChanged = true;
           //need to change to an on event
 
           //then attached to the post

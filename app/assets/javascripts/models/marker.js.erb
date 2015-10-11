@@ -4,8 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('Marker', [
-    '$http','LocalService','$resource', '$q', '$rootScope', 
-     function($http,LocalService,$resource, $q, $rootScope ) {
+    '$http','LocalService','$resource', '$q', '$rootScope', 'MapsService',
+     function($http, LocalService,$resource, $q, $rootScope, MapsService ) {
 
 
       var Marker = function(params){
@@ -180,9 +180,27 @@
         //updates this post
         // new images should be handled seperately
         var self = this;
-        return self.create(self.getUrl())
+        var url = self.getUrl()
+        var params = {};
+        angular.forEach(self.baseProperties, function(property){
+          params[property] =  self[property];
+        })
+        return $q(function(resolve, reject){
+          $http.put(url, params)
+          .then( function(data){
+            self.status = 'new'; //review
+            var updated = data.data.post;
+            updated.locallyUpdated = Date.now();
+            angular.extend(self, updated)
+            self.saveLocal();
+            resolve(updated) },
+            function(error){
+              //TODO handle specific errors
+              reject(error);
+          }); 
+        });
+      };
         
-      }; 
 
       //LOCAL ONLY
 
@@ -200,6 +218,37 @@
           LocalService.set('markers', JSON.stringify(cached))
         }
       };
+      constructor.setEditState = function(){
+        var self = this;
+        self.state = 'editing';
+        self.temporary = true;
+        if (self.marker){
+          //TODO -get this functionality to take advantage 
+          //of the mapsService
+          self.marker.setDraggable(true);
+          self.marker.setIcon('<%= asset_path('green-pin.svg')%>');
+          return MapsService.setMapMarker(self.marker )
+
+        } else { 
+          throw new Error("marker can\'t be edited - no marker set") 
+        }
+      };
+
+      constructor.unSetEditState = function(){
+        var self = this;
+        self.state = 'static';
+        if (self.marker){
+          //TODO -get this functionality to take advantage 
+          //of the mapsService
+          self.marker.setDraggable(false);
+          self.marker.setIcon('<%= asset_path('blue-pin.svg')%>');
+          MapsService.setMapMarker(self.marker )
+        } else { 
+          throw new Error("marker can\'t be edited - no marker set") 
+        }
+
+      };
+
       constructor.deleteLocal = function(){
         var self = this;
         var cached =  LocalService.getJSON('markers') || {};

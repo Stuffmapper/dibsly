@@ -101,7 +101,7 @@
         .then(function(center){
           $scope.updateMarkers(center)
           .then(function(){
-            MarkerService.setAll({status:'new'}, {temporary:true});//
+            MarkerService.setAll({status:'new', state:'editing'}, {temporary:true});//
             $scope.$emit('markersUpdated', function(){})
           });
         });
@@ -216,25 +216,27 @@
 
       $scope.showEdit = function(id){
         $location.path('/menu/editing' +'/' + id, false);
-        var template = 'editing';
         $scope.mapHeight = 'map-1-2';
         $scope.menuHeight = 'menu-1-2';
         $scope.editItem = MarkerService.getMarker(id);
-          if (!$scope.editItem ){
-            MarkerService.getMarkerAsync(id)
-            .then( function(){ 
-              //NOT TESTED TEST ME
-                $scope.editItem = MarkerService.getMarker(id);
-                $scope.showTab(template)
-              },
-              function(){ 
-                console.log("this is not found")
-                alert('404 Marker not found') 
-              }
-          );
-        } else {
-          $scope.showTab(template);
-        }
+        return $q( function(resolve, reject){
+          var editItem = MarkerService.getMarker(id);
+          if( editItem ){ resolve( editItem) }
+          else { resolve(MarkerService.getMarkerAsync(id)) };
+        })
+        .then(
+          function(marker) {
+            console.log('line 229', marker)
+            $scope.editItem = marker;
+            $scope.showTab('editing');
+            return $scope.editItem.setEditState()
+            .then(function(){ MapsService.panToMarker($scope.editItem.marker) })
+
+          }, 
+          function(err){
+           console.warn('marker not found')
+          } 
+        ); 
       };
 
    

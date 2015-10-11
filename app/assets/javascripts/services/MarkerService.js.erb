@@ -133,7 +133,8 @@
           .then(
             function(){
               that.setMarker(marker)
-              .then(function(){ defer.resolve( self.markers[id] ) }); 
+              .then(function(){ 
+                defer.resolve( self.markers[id] ) }); 
             },
             function(err){ defer.reject(err) }
           );
@@ -203,15 +204,15 @@
                         markerId: marker.id
                   });
                 });
-              } else {
-                MapsService.addMarkerListener(gmarker, 'dragend', function(){
-                  //NOTE the standard is to keep functions specific to google
-                  //in the mapservice. Using MapsService.getPosition seems
-                  // to cause issues 
-                  marker.latitude = gmarker.getPosition().lat();
-                  marker.longitude = gmarker.getPosition().lng();
-                });
-               }
+              } 
+              MapsService.addMarkerListener(gmarker, 'dragend', function(){
+                //NOTE the standard is to keep functions specific to google
+                //in the mapservice. Using MapsService.getPosition seems
+                // to cause issues 
+                marker.latitude = gmarker.getPosition().lat();
+                marker.longitude = gmarker.getPosition().lng();
+              });
+               
               defer.resolve(marker);
             })
           } else { 
@@ -226,9 +227,11 @@
           var that = this;
           marker.updated_at = new Date(marker.updated_at);
           marker.locallyUpdated = Date.now();
-          if(!self.markers[marker.id]){
+          var exists = self.markers[marker.id];
+          if(!exists){
             self.markers[marker.id] = new Marker(marker);
-          } else { 
+          } else if (exists.state !== 'editing') { 
+            console.log('line 234 ', exists.state );
             var existing = self.markers[marker.id];
             angular.extend(existing, marker ) }
           self.markers[marker.id].saveLocal()

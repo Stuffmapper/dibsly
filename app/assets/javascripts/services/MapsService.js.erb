@@ -208,10 +208,10 @@
         throw new Error('not implemented')
       },
       setMapMarker: function(marker){
+        console.log('line 211')
         return self.getMap()
         .then( function(map){
           marker.setMap(map); 
-          return $q.when()
         });
       },
       triggerMarkerEvent: function(marker, event){
@@ -219,14 +219,15 @@
       },
       updateMarker: function(marker){
         //I HAVE NO TEST
-        var pos = marker.marker.getPosition() || {}; //hack for testing purposed
-        if(pos.lat() != marker.latitude ){
-          var latlng = this.newLatLng(marker.latitude, marker.longitude);
-          marker.marker.setPosition(latlng); 
+        if (marker.state !== 'editing'){
+          var pos = marker.marker.getPosition() || {}; //hack for testing purposed
+          if(pos.lat() != marker.latitude ){
+            var latlng = this.newLatLng(marker.latitude, marker.longitude);
+            marker.marker.setPosition(latlng); 
+          }
+          marker.marker.setIcon(marker.icon );
         }
-        marker.marker.setIcon(marker.icon );
       },
-
       within: function(box, coords){
          return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&
          box.nw.lng  <=  coords.lng && coords.lng <= box.se.lng );
