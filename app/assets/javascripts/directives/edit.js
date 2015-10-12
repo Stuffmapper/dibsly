@@ -9,41 +9,41 @@ directives.directive('edit', function() {
       post: '='
     },
     controller: [
-      '$scope', 'UserService','AlertService', 'MarkerService', 
-      function($scope, UserService, AlertService, MarkerService ) {
-        var imageChanged = false;
+      '$scope', 'UserService','AlertService', 'ImageService', 'MarkerService',
+      function($scope, UserService, AlertService, ImageService, MarkerService ) {
+        var images = {};
         $scope.categories = MarkerService.categories;
         $scope.editPost = function(){
           console.log($scope.post.latitude )
-          //throw new Error('not implemented yet')
-          //this submits the post
-          //two part
-          
+
           //sends then new details
           return $scope.post.update()
-          .then( function(){ $scope.post.unSetEditState() })
-
-          //then 
-          //sends the new image and
-
-          //activates the alert serivice
-
-          //changes the marker back to draggable
-
-          //clears the listeners from the object
-
-          //should remove the image object
+          .then(function(){
+            if($scope.post.imageChanged){
+               return ImageService.upload($scope.editingImage , $scope.post.id, 'post' );
+            }
+          })
+          .then( function(){ 
+            console.log('thsi is so cool')
+            return $scope.post.unSetEditState(); })
+          .then(function() {
+            return $scope.post.goToDetails() 
+          })
+          .then(function(){ 
+            AlertService.add('success', "Your post has been updated");
+          })
         };
-        $scope.changeImage = function(){
-          imageChanged = true;
-          //need to change to an on event
 
-          //then attached to the post
+        $scope.$on("fileSelected", function(event, args) {
+          args.origin = args.location.split('/')[2]
+          ImageService.createGroup(args)
+          .then(function(group){
+            $scope.post.imageChanged = true;
+            $scope.editingImage = group.original;
+            $scope.post.image_url = group.original;
 
-          throw new Error('not implemented yet')
-          //uses the imageservice to make a new image
-          //should attach an image group
-        },
+          })
+        });
 
 
         $scope.cancelEdit = function(){

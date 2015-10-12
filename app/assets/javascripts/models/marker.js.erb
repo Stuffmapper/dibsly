@@ -237,12 +237,13 @@
       constructor.unSetEditState = function(){
         var self = this;
         self.state = 'static';
+        self.imageChanged = false;
         if (self.marker){
           //TODO -get this functionality to take advantage 
           //of the mapsService
           self.marker.setDraggable(false);
           self.marker.setIcon('<%= asset_path('blue-pin.svg')%>');
-          MapsService.setMapMarker(self.marker )
+          return MapsService.setMapMarker(self.marker )
         } else { 
           throw new Error("marker can\'t be edited - no marker set") 
         }
