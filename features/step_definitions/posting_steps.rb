@@ -79,10 +79,9 @@ end
 
 When(/^I try to dib an item$/) do
   visit('/post/' + @post.id.to_s )
-  within('.post-details') do
-    page.execute_script "window.scrollBy(0,10000)"
-    find(:button, 'Dib').click
-  end
+  page.execute_script "window.scrollBy(0,10000)"
+  byebug
+  find(:button, 'I want').click
 
 
 end
