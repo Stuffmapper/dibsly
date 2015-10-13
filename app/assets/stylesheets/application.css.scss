@@ -28,7 +28,8 @@
 // @media (min-width: @screen-lg-min) { ... }
 
 
-
+@import "bootstrap-sprockets";
+@import "bootstrap";
 @import "partials/variables";
 @import "partials/components";
 @import "partials/helpers";

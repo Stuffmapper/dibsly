@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
+//= require bootstrap-sprockets
 //= require angular/angular
 //= require angular-animate/angular-animate
 //= require angular-route/angular-route
