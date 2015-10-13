@@ -172,3 +172,15 @@
 .setting-option-btn.delete-item{
   background-color: #E45B5A;
 }
+
+
+.overlay-info{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    background-color: $white;
+    z-index: $z-9;
+    text-align: center;
+    padding: 10px;
+}
