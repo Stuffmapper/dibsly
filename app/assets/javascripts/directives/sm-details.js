@@ -22,15 +22,13 @@ directives.directive('smdetails', function() {
               return $scope.post.dib()
               .then(
                 function(results) {
+                  console.log('line 25 ', results)
                   return AlertService.add('success', "Dibbed your stuff");
                 },
                 function(err) {
-                  var key, results1, value;
-                  results1 = [];
-                  for (key in err) {
-                    value = err[key];
-                    results1.push(AlertService.add('danger', key + ' ' + value));
-                  };
+                  angular.forEach(err, function(value, key){
+                    AlertService.add('danger', value);
+                  });
                 }
               )
             },

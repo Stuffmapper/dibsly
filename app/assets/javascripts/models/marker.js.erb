@@ -67,12 +67,12 @@
         var self = this;
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/dibs')
-          .then( function(data){
+          .success( function(data){
             angular.extend(self, data.data.post)
             resolve(self)
           })
           .error( function(error){
-            throw new Error( "can't dib this " + self )
+            reject(error)
           })
         });
       };

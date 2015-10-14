@@ -256,7 +256,8 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
     within('#give-stuff') do
       expect(page).to have_field 'description'
       fill_in 'description', with: "okkk"
-      click_button 'Give this stuff!'
+      fill_in 'title', with: "okkk"
+      click_button 'Map'
     end
   sleep(2)
   expect(page).to have_text('Please verify your email to give stuff')
@@ -264,9 +265,16 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   @shoes = Post.first
   steps %{
     When I log in and visit the map location where the shoes are.
-    When I hit dib
   }
+  click_link 'Get Stuff'
+  page.find('.stuff-view').click
   sleep(2)
+  within('.post-details') do 
+    page.execute_script "window.scrollBy(0,10000)"
+    page.find(:button, "I want").click
+  end
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq true
   expect(page).to have_text('Please verify your email to dib')
 
 end

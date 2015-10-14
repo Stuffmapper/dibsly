@@ -301,7 +301,9 @@
           },
           function(error){
             console.log(error);
-            AlertService.add('danger', "Something went wrong");
+            angular.forEach(error.data, function(value, key){
+              AlertService.add('danger', value);
+            })
           }
         );
  
