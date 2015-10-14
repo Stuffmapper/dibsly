@@ -222,16 +222,14 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
 
   }
   @shoes = Post.first
-  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
-    var map = angular.element('map').scope().map;
-    map.panTo(myLatLng);
-    map.setZoom(24);")
+  center_map_to_post @shoes 
 
   click_link 'Get Stuff'
-
-  page.all(:button, "Dib")[0].click
+  page.all(".stuff-view")[1].click
+   page.execute_script "window.scrollBy(0,10000)"
+  page.first(:button, "I want").click
   sleep(1)
-  expect(page).to have_text('Dibbed your stuff')
+  expect(page).to have_text('Dibbed')
 
  end
 
