@@ -122,13 +122,13 @@ end
 
 When(/^click on an item on in stuff$/) do
   click_link 'Get Stuff'
-  first(:button, 'Details').click
+  page.first('.stuff-view').click
  #express the regexp above with the code you wish you had
 end
 
 Then(/^I should see a photo of the stuff$/) do
 
-  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
+  expect(page).to have_xpath("//img[contains(@src,'pin.svg')]", :visible => false)
 
 end
 
