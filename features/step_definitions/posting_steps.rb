@@ -258,10 +258,13 @@ When(/^I try to give stuff after logging in$/) do
 end
 
 Then(/^I should be able to change my photo before submitting$/) do
-  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
-  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/free_smiles.png"))
-  click_button "Give this stuff!"
+  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
+  page.attach_file('give-stuff-file-2', Rails.root.join("spec/factories/free_smiles.png"), :visible=>false)
+  fill_in 'title', with: 'this is a title'
+  page.execute_script "window.scrollBy(0,10000)"
+  click_button "Map"
   sleep(3)
   expect(Post.count).to eq 1
+  expect(Image.count).to eq 1
 
 end
