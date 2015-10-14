@@ -92,8 +92,10 @@ Given(/^that I already have an account$/) do
 end
 
 Then(/^I should expect to see a "(.*?)"$/) do |policy|
-  click_link(policy)
-   expect(page.body).to have_text(policy)
+  within('.sign-up') do 
+    click_link(policy)
+    expect(page.body).to have_text(policy)
+  end
 end
 
 
