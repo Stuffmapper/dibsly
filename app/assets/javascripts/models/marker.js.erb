@@ -68,7 +68,7 @@
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/dibs')
           .success( function(data){
-            angular.extend(self, data.data.post)
+            angular.extend(self, data.post)
             resolve(self)
           })
           .error( function(error){

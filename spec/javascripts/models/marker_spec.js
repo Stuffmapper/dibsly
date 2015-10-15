@@ -1,5 +1,5 @@
 
-describe('MarkerService', function() {
+describe('Marker', function() {
 
 
   var mockMapsService,MarkerService, gmarker,gmap, markers, mockLocalService, $q, $rootScope;
@@ -219,7 +219,7 @@ describe('MarkerService', function() {
     });
 
     it('updates', function() {
-      var updateHandler = $httpBackend.whenPOST( /\/api\/posts\/\d.*/  )
+      var updateHandler = $httpBackend.whenPUT( /\/api\/posts\/\d.*/  )
       updateHandler.respond({ post: {
       id:4,
       dibber:'Jack',

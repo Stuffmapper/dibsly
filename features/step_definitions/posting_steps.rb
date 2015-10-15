@@ -19,6 +19,7 @@ expect(@current_user.posts.count).to eq 0
  		click_button 'Map my stuff'
   end
   sleep(6)
+  @current_user.reload
   expect(@current_user.posts.count).to eq 1
   expect(@current_user.posts.first.description).to eq arg1
 end

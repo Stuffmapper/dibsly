@@ -228,7 +228,7 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
   page.all(".stuff-view")[1].click
    page.execute_script "window.scrollBy(0,10000)"
   page.first(:button, "I want").click
-  sleep(1)
+  sleep(2)
   expect(page).to have_text('Dibbed')
 
  end
