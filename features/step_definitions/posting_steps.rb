@@ -79,6 +79,7 @@ Given(/^that I am not logged in and can see some there is an item I want to dib$
 end
 
 When(/^I try to dib an item$/) do
+  center_map_to_post @post 
   visit('/post/' + @post.id.to_s )
   page.execute_script "window.scrollBy(0,10000)"
   find(:button, 'I want').click
@@ -170,6 +171,7 @@ Then(/^I should be able to click edit and change the details$/) do
   steps %{
     When I visit the shoes permalink page
   }
+  sleep(3)
   expect(page.body).to have_text("I have changed the details") # express the regexp above with the code you wish you had
 
 end
