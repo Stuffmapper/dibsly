@@ -3,7 +3,7 @@
 
   factories = angular.module('factories');
 
-  factories.factory('MapsService',[ '$timeout', '$q','LocalService', function($timeout, $q, LocalService) {
+  factories.factory('MapsService',[ '$timeout', '$q','LocalService', 'LocationService', function($timeout, $q, LocalService, LocationService) {
     var self = this;
     self.mapStatus = 'new';
     self.queue = [];
@@ -24,28 +24,55 @@
       }
       return deferred.promise;
     };
+    var getCenterLoc = function(){
+      var deferred = $q.defer()
+      var center =  LocalService.getJSON('mapcenter');
+      if(center){
+        deferred.resolve(center);      
+      } else {
+        LocationService.get()
+        .then(
+          function(position){
+            center = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            LocalService.setJSON('mapcenter', center);
+            deferred.resolve(center);
+          },
+          //resolves to the center of the universe if all else fails
+          function(err){ deferred.resolve({lat: '47.650421', lng: '-122.350938' }) }
+        );
+      }
+      return deferred.promise;
+    };
+
     self.initializeOrGetMap = function(){
-      var coords = LocalService.getJSON('mapcenter') ||  {lat: '47.6097' , lng: '-122.3331' };
 
       if(self.map){
         emptyQueue(self.map);
       } else {
         self.mapStatus = 'loading';
-        google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
-          callback: function(){
+        getCenterLoc()
+        .then(
+          function(coords){
+            google.load("maps", "3.21", {other_params:'key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
+              callback: function(){
             
-            center = new google.maps.LatLng(coords.lat, coords.lng);
-            map = new google.maps.Map(document.getElementById('google-map'), {
-              center: center,
-              zoom: 15
-            }),
-            self.map = map;
-            self.mapStatus = 'loaded'
-            emptyQueue(map);
+                center = new google.maps.LatLng(coords.lat, coords.lng);
+                map = new google.maps.Map(document.getElementById('google-map'), {
+                  center: center,
+                  zoom: 15
+                }),
+                self.map = map;
+                self.mapStatus = 'loaded'
+                emptyQueue(map);
+              }
+            });
           }
-        });
+        )
       }
-    }
+    };
 
     return {
 
@@ -142,7 +169,7 @@
 
       },
       loadMap: function(){
-        self.initializeOrGetMap()
+        return self.getMap()
       },
 
       newInfoWindow: function(options){

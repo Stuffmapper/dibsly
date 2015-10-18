@@ -21,6 +21,9 @@ factories.factory('LocalService', [
       set: function(key, value) {
         return localStorage.setItem(key, value);
       },
+      setJSON: function(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      },
       unset: function(key) {
         return localStorage.removeItem(key);
       }

@@ -109,10 +109,13 @@
 
       $scope.giveNext = function(id) {
         var stat = String(id);
-        $scope.mapHeight = 'map-1-' + stat
-        $scope.menuHeight = 'menu-1-' + stat;
-        $location.path('menu/giveStuff/' + stat, false).search({gsp: stat});
-        return MapsService.resizeMap() 
+        return MapsService.loadMap()
+        .then( function(){
+          $scope.mapHeight = 'map-1-' + stat
+          $scope.menuHeight = 'menu-1-' + stat;
+          $location.path('menu/giveStuff/' + stat, false).search({gsp: stat});
+          return MapsService.resizeMap();
+        })
         .then(function(){ 
           return $q.when( MapsService.panToMarker(
           MarkerService.getMarker('giveStuff').marker) ) })
@@ -470,11 +473,8 @@
             $scope.$emit( 'mapChanged', center )
           }); 
         };
-        $scope.centerMap().then(
-          function(){
-            MapsService.addMapListener('dragend', getPosition );
-            getPosition();
-        })
+        MapsService.addMapListener('dragend', getPosition );
+        getPosition();
       };
 
       //TODO remove this and use ui-router
