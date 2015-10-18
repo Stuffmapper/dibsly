@@ -4,7 +4,7 @@ When(/^I log in and give stuff$/) do
   visit ('/')
   sign_in @current_user
   visit ('/menu/giveStuff')
-  sleep(2)
+  sleep(5)
   page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
  end
 

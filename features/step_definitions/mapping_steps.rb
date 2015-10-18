@@ -14,7 +14,9 @@ end
 
 
 When(/^I visit the home page$/) do
-   visit('/')
+  center_map_to_post Post.last
+  visit('/')
+
 end
 
 Then(/^I should see a map$/) do
