@@ -58,6 +58,7 @@ end
 
 
 When(/^I visit the shoes permalink page$/) do
+  center_map_to_post @shoes
   visit('/post/' + @shoes.id.to_s )
 end
 
