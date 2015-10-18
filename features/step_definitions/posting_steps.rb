@@ -56,6 +56,7 @@ Given(/^that Jack is is a registered user and posted shoes with the description 
 end
 
 Given(/^I visit the page for shoes$/) do
+  center_map_to_post @post
   visit('/post/' + @post.id.to_s )
 end
 
