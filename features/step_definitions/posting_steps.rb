@@ -123,6 +123,7 @@ end
 
 When(/^click on an item on in stuff$/) do
   click_link 'Get Stuff'
+  sleep(3)
   page.first('.stuff-view').click
  #express the regexp above with the code you wish you had
 end
