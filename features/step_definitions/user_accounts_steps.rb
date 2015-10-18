@@ -215,9 +215,12 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
   if first(:link, 'Sign Out') != nil
     first(:link, 'Sign Out').click
   end
-
+  sign_in @current_user
+  center_map_to_post Post.last 
+  visit('/menu/giveStuff')
+  sleep(2)
+  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
   steps %{
-    When I log in and give stuff
     Then I should be able to put  "These are some awesome kicks" in the description field
 
   }
