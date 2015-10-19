@@ -27,6 +27,6 @@ end
 Then(/^I should see some items on the map$/) do
   #driver.findElement(By.cssSelector("div[title='shoes']")).click()
 
-  expect(page.body).to have_selector(".stuff-image", :count=> 10 )
+  expect(page.body).to have_selector(".stuff-md-image", :count=> 10 )
 
 end
