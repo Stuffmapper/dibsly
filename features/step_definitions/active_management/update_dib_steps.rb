@@ -61,3 +61,15 @@ When(/^the status of "(.*?)" should have changed to "(.*?)"$/) do |description, 
   expect(post.status).to eq(status)
 end
 
+Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
+  jill = User.find_by_username "Jill"
+  sign_in jill
+  center_map_to_post @shoes
+  visit @shoes.permalink
+  page.execute_script "window.scrollBy(0,10000)"
+  find(:button, 'I want').click
+  sleep(3)
+  @shoes.reload
+  expect(@shoes.current_dibber).to eq jill 
+
+end
