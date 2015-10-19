@@ -17,3 +17,6 @@ Then(/^I should not be able to dib the "(.*?)"$/) do |description|
   expect(post.available_to_dib?).to eq true 
 end
 
+Then(/^I should not see the shoes in the menu$/) do
+  expect(page).to_not have_text "shoes"
+end

@@ -64,7 +64,7 @@ end
 
 Then(/^I should not be able to dib the item\.$/) do
   sleep(3)
-  expect(page).to_not have_text 'Dib'# express the regexp above with the code you wish you had
+  expect(page).to_not have_text 'I want'# express the regexp above with the code you wish you had
 end
 
 Given(/^I'm logged out$/) do

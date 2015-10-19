@@ -1,0 +1,44 @@
+.stuff-md-status{
+	
+
+}
+
+.stuff-image-md-container{
+	position:absolute;
+	z-index: $z-3;
+}
+.stuff-md-status{
+	position:absolute;
+	z-index: $z-4;
+	left: 0px;
+	color: $white;
+	top: 111px;
+	font-size:12px;
+	display:block;
+	padding: 2px;
+	background-color: $purple-button;
+}
+.stuff-md-info{
+	position:absolute;
+	top:130px;
+	left:0px;
+	right:0px;
+	padding:3px;
+	background-color:$lightgray;
+	display:block;
+	font-size: 10px;
+	z-index: $z-4;
+}
+.stuff-md-category{
+	position:absolute;
+	z-index: $z-4;
+	left:2px;
+	top: 2px;
+	display:block;
+	padding: 3px;
+	background-color:$lightgray;
+	font-size:9px;
+}
+.stuff-md-image{
+
+}

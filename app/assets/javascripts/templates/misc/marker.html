@@ -1,12 +1,15 @@
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 stuff-view" ng-click='item.goToDetails()' 
  title={{item.description}} ng-attr-id={{item.id + '-stuff'}} >
-  <div class= "stuff-image-container clearfix" >
-  <span>{{item.title}}</span>
+  <div class="stuff-image-md-container clearfix" >
 
-  <br>
-  <div class='floating stuff-category'>{{item.category}}</div>
-  <div class='floating stuff-status'>{{item.status}}</div>
-    <img class="stuff-image img-responsive" ng-src={{item.image_url}}
+   <img class="img-responsive stuff-md-image" ng-src={{item.image_url}}
     fallback-src ></img>
+  </div>
+  <div class='stuff-md-category'><strong>{{item.category}}</strong></div>
+  <div class='stuff-md-status'>{{item.status}}</div>
+  <div class='stuff-md-info'>
+  	<strong>{{item.title}}</strong>
+  	<br>
+  	<span>{{item.description}}</span>
   </div>
 </div>
