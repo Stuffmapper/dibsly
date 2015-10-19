@@ -70,7 +70,8 @@ describe('StuffCtrl', function() {
       mockMarkerService = MarkerService;
       mockMapsService = MapsService;
       spyOn(mockMapsService, 'newLatLng').and.returnValue('none')
-      spyOn(mockLocalService, 'get').and.returnValue(undefined)
+      spyOn(mockLocalService, 'get').and.returnValue(undefined);
+      spyOn(mockMapsService, 'loadMap').and.returnValue( $q.when({}) )
       spyOn(mockMapsService, 'panTo').and.returnValue( $q.when({}) )
       spyOn(mockMapsService, 'getCenter').and.callFake(fakeCoords)
       spyOn(mockMapsService, 'getPosition').and.returnValue( { lat:1, lng:2 } );
