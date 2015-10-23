@@ -43,6 +43,13 @@ Dibsly::Application.routes.draw do
 
     post 'dibs/:id/removedib' => 'dibs#remove_dib'
 
+    post 'dibs/:dib_id/messages' => 'dibs#send_message'
+    get 'dibs/:dib_id/messages' => 'dibs#messages'
+    post 'dibs/:dib_id/markread' => 'dibs#mark_read'
+    get 'dibs/:dib_id/unread' => 'dibs#unread'
+
+
+
     resources :posts, only: [:create, :index, :update, :show] do
       resources :dibs, only: [:create ]
     end

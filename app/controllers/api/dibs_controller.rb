@@ -1,5 +1,6 @@
 class Api::DibsController < ApplicationController
   before_action :authorize
+  before_action :authorize_message, only: [:send_message, :messages, :mark_read, :unread ]
 
 def create
   if params[:post_id] and current_user
@@ -44,6 +45,31 @@ def remove_dib
 
 end
 
+  def send_message
+    @dib.contact_other_party(current_user, message_params[:message] )
+    @messages = (@dib.conversation.receipts_for current_user).sort
+    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+  end
+  
+  def messages
+    @messages = (@dib.conversation.receipts_for current_user).sort
+    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+  
+  end
+  
+  def mark_read
+    get_messages_from_conversation(conversation)
+    @messages = conversation.receipts_for current_user
+    @messages.each  do |receipt|
+      receipt.mark_as_read
+    end
+  end
+  
+  def unread
+    #authorizes
+    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+  end
+
 
 
   private
@@ -51,9 +77,25 @@ end
   def report_params
       params.require(:report).permit(:rating, :description)
   end
+  
+
+  def message_params
+    params.require(:message).permit(:message)
+  end
+
+
 
   def authorize
     render json: {message: 'User not logged in' }, status: :unauthorized unless current_user
+  end
+
+  def authorize_message
+    @dib = Dib.find(params[:dib_id])
+    if not @dib
+      render json: {message: "Dib not found"}, status: :unprocessable_entity
+    elsif @dib.user != current_user and @dib.post.creator != current_user
+      render json: {message: 'unauthorized user ' }, status: :unauthorized
+    end
   end
 
 end
