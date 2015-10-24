@@ -218,8 +218,6 @@ RSpec.describe Api::DibsController, type: :controller do
 			it 'should 200' do
 				xhr :get, :messages, :dib_id => @dib.id
 		  		expect(response.status).to eq(200)
-		  		byebug
-
 			end
 		end
 
@@ -245,8 +243,8 @@ RSpec.describe Api::DibsController, type: :controller do
 		context "without login " do
 
 			it 'should 401' do
-				xhr :post, :messages, :dib_id => @dib.id
-		  		expect(response.status).to eq(401)
+				xhr :post, :send_message, :dib_id => @dib.id
+				expect(response.status).to eq(401)
 			end
 		end
 		context "with login of a related user " do
@@ -255,10 +253,9 @@ RSpec.describe Api::DibsController, type: :controller do
 			end
 
 			it 'should 200' do
-				# xhr :post, :remove_dib, :id => @dib.id, :report =>
-				# { :rating => '6', :description => 'user confused about description'}
-		  #    	expect(response.status).to eq(200)
-		  expect(1).to eq(401)
+				xhr :post, :send_message, :dib_id => @dib.id, :message =>{:body => "hey!!!" }
+				parsed = JSON.parse(response.body)['dibs']
+		  		expect(parsed[1]['body']).to eq("hey!!!")
 			end
 
 		end
@@ -285,8 +282,6 @@ RSpec.describe Api::DibsController, type: :controller do
 		context "without login " do
 
 			it 'should 401' do
-				# xhr :post, :remove_dib, :id => @dib.id
-		  #    	expect(response.status).to eq(401)
 		  		xhr :post, :mark_read, :dib_id => @dib.id
 		  		expect(response.status).to eq(401)
 			end
@@ -297,10 +292,13 @@ RSpec.describe Api::DibsController, type: :controller do
 			end
 
 			it 'should 200' do
-				# xhr :post, :remove_dib, :id => @dib.id, :report =>
-				# { :rating => '6', :description => 'user confused about description'}
-		  #    	expect(response.status).to eq(200)
-		  expect(1).to eq(401)
+
+				expect((@user.mailbox.inbox.unread @user).count).to eq 1
+				xhr :post, :mark_read, :dib_id => @dib.id
+				@user.reload
+				expect((@user.mailbox.inbox.unread @user).count).to eq 0
+
+
 			end
 		end
 
@@ -337,10 +335,11 @@ RSpec.describe Api::DibsController, type: :controller do
 			end
 
 			it 'should 200' do
-				# xhr :post, :remove_dib, :id => @dib.id, :report =>
-				# { :rating => '6', :description => 'user confused about description'}
-		  		#expect(response.status).to eq(200)
-		  	expect(1).to eq(401)
+
+		  		xhr :get, :unread, :dib_id => @dib.id
+		  		expect(response.status).to eq(200)
+				parsed = JSON.parse(response.body)['dibs']
+		  		expect( parsed.length ).to eq(1)
 			end
 		end
 

@@ -46,7 +46,7 @@ def remove_dib
 end
 
   def send_message
-    @dib.contact_other_party(current_user, message_params[:message] )
+    @dib.contact_other_party(current_user, message_params[:body] )
     @messages = (@dib.conversation.receipts_for current_user).sort
     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
   end
@@ -54,19 +54,20 @@ end
   def messages
     @messages = (@dib.conversation.receipts_for current_user).sort
     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
-  
   end
   
   def mark_read
-    get_messages_from_conversation(conversation)
-    @messages = conversation.receipts_for current_user
+    @messages = @dib.conversation.receipts_for current_user
     @messages.each  do |receipt|
       receipt.mark_as_read
     end
+    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+
   end
   
   def unread
     #authorizes
+    @messages = (@dib.conversation.receipts_for current_user).where(:is_read=>false)
     render json: @messages, each_serializer: ReceiptSerializer, status: :ok
   end
 
@@ -80,7 +81,7 @@ end
   
 
   def message_params
-    params.require(:message).permit(:message)
+    params.require(:message).permit(:body)
   end
 
 
