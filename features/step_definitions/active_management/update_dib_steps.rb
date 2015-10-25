@@ -56,6 +56,7 @@ When(/^the details of "(.*?)" should still be viewable$/)  do |description|
 
   post = Post.find_by_description(description)
   visit(post.permalink)
+  sleep(3)
   expect(page.body).to have_text(post.description)
   expect(page.body).to have_text(post.status) 
 end
