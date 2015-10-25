@@ -1,0 +1,14 @@
+
+<div class="my-post">
+  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mystuff-row" style='border: solid'>
+    <img class="img-responsive center-y" ng-src={{post.image_url}}></img>
+  </div>
+
+  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding">
+    <div class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row no-padding on-top">
+      <div class="center-y pull-left">{{post.title}}</div>
+      <settings></settings>
+    </div>
+    <button  ng-class="btnClass()" ng-click='btnAction' >{{msg()}}</button>
+  </div>
+</div>

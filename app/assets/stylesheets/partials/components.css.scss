@@ -1,0 +1,199 @@
+/*** Button ***/
+.my-stuff-btn {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  border: none;
+  color: white;
+  z-index: $z-0;
+}
+
+/** Button Directive background colors **/
+
+.blue {
+  background-color: $blue;
+}
+
+.green {
+  background-color: $green;
+}
+
+.grey{
+  background-color: $grey;
+}
+
+.stuff-btn{
+  padding:4px;
+  text-align: center;
+  position: relative;
+  margin-top: 5px;
+  border:3px solid $white;
+  border-radius: 5px;
+  color: $white;
+  font-size: 1.2rem;
+  background-color: $lightgray;
+  span{
+    vertical-align: middle;
+  }
+}
+
+.file-btn{
+  position: absolute;
+  z-index: $z-7;
+  top:0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+}
+.green-btn{
+  background-color: $green;
+}
+.gray-btn{
+  background-color: $lightgray;
+  color:$black;
+  &:hover{
+    color: $white;
+  }
+
+}
+.sm-abs-button{
+  display: none;
+
+}
+
+@media (max-width:768px) {
+  .map-1-2, .menu-1-2{
+    .sm-abs-button{
+      position: absolute;
+      bottom: 10px;
+      right:10px;
+      min-height:33px;
+      background-color: $lightgray;
+      display:inline-block;
+    }
+  }
+}
+@media (min-width:768px) {
+  .map-1-2, .menu-1-2{
+    .md-abs-button{
+      position: absolute;
+      top: 10px;
+      right:10px;
+      min-height:33px;
+      background-color: $lightgray;
+      display:inline-block;
+    }
+  }
+}
+
+
+
+/*** TEXT STYLES ***/
+.text-0{
+  font-size: 12px;
+}
+.text-0-bold{
+ font-size: 12px;
+ font-weight: 800;
+}
+.text-1{
+  font-size: 12px;
+  color:blue;
+}
+
+
+/*** Cross hair marker on map  ***/
+
+.center-map{
+  position: absolute;
+  z-index: $z-7;
+  top: 50px;
+  right: 20px;
+  background-color: lightgrey;
+  padding: 8px;
+  font-size: 20px;
+  border: 1px solid gray;
+  color: gray;
+}
+
+/*** Chat styles **/
+.chat {
+  height: $chat-container-height;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom: $chat-send-bar-height;
+}
+
+.chat-send-bar {
+  width: 100%;
+  height: $chat-send-bar-height;
+  position: absolute;
+}
+
+.chat-box {
+  height: $chat-container-height - $chat-send-bar-height;
+  margin-bottom: $chat-send-bar-height;
+  width: 100%;
+}
+
+/*** SETTINGS ***/
+
+.settings{
+  position:relative;
+}
+.settings-dropdown{
+  z-index: $z-9;
+}
+
+.settings-btn{
+  background-color: #FFFFFF;
+  font-size: 12px;
+  color: #337ab7;
+  z-index:$z-0;
+}
+
+.settings-btn.my-stuff {
+  color: $grey;
+  font-size: 14px;
+}
+
+
+.setting-option-btn {
+  outline: 0;
+  color: #FFFFFF;
+  text-align: center;
+  width: 100%;
+  padding:2px;
+}
+
+.setting-option-btn.message{
+  background-color: #3BE073;
+}
+
+.setting-option-btn.mark-as-picked-up{
+  background-color: #545454;
+}
+
+.setting-option-btn.reject-dibs{
+  background-color: #E45B5A;
+}
+
+.setting-option-btn.edit-item{
+  background-color: #0078BE;
+}
+
+.setting-option-btn.delete-item{
+  background-color: #E45B5A;
+}
+
+
+.overlay-info{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    background-color: $white;
+    z-index: $z-9;
+    text-align: center;
+    padding: 10px;
+}

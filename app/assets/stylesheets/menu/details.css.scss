@@ -1,0 +1,41 @@
+
+/*Details*/
+.details-container{
+  position:absolute;
+  top: $tabheight;
+  left:0;
+  right:0;
+  bottom: 0;
+  overflow:auto;
+
+}
+
+.detail-description {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.details-view {
+  padding: 0px;
+}
+
+/*My Details*/
+.item-details-link {
+  font-size: 14px;
+}
+
+/*My Details*/
+.item-details-link {
+  font-size: 14px;
+}
+
+
+.post-details{
+  background: $white;
+  positon:absolute;
+  top:0;
+  left:0;
+  right:0;
+  overflow:auto;
+  margin-bottom:$tabheight;
+}

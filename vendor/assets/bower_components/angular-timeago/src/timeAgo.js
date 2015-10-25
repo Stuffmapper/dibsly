@@ -5,20 +5,19 @@
 angular.module('yaru22.angular-timeago', [
 ]).directive('timeAgo', ['timeAgo', 'nowTime', function (timeAgo, nowTime) {
   return {
+    scope : {
+      fromTime : '@',
+      format : '@'
+    },
     restrict: 'EA',
-    link: function(scope, elem, attrs) {
-      var fromTime;
-
-      // Track the fromTime attribute
-      attrs.$observe('fromTime', function (value) {
-        fromTime = timeAgo.parse(value);
-      });
+    link: function(scope, elem) {
+      var fromTime = timeAgo.parse(scope.fromTime);
 
       // Track changes to time difference
       scope.$watch(function () {
         return nowTime() - fromTime;
       }, function(value) {
-        angular.element(elem).text(timeAgo.inWords(value));
+        angular.element(elem).text(timeAgo.inWords(value, fromTime, scope.format));
       });
     }
   };
@@ -36,13 +35,33 @@ angular.module('yaru22.angular-timeago', [
   return function() {
     return nowTime;
   };
-}]).factory('timeAgo', function () {
+}]).factory('timeAgo', ['$filter', function ($filter) {
   var service = {};
 
   service.settings = {
     refreshMillis: 60000,
     allowFuture: false,
+    overrideLang : null,
+    fullDateAfterSeconds : null,
     strings: {
+      'it_IT': {
+        prefixAgo: null,
+        prefixFromNow: null,
+        suffixAgo: 'fa',
+        suffixFromNow: 'da ora',
+        seconds: 'meno di un minuto',
+        minute: 'circa un minuto',
+        minutes: '%d minuti',
+        hour: 'circa un\' ora',
+        hours: 'circa %d ore',
+        day: 'un giorno',
+        days: '%d giorni',
+        month: 'circa un mese',
+        months: '%d mesi',
+        year: 'circa un anno',
+        years: '%d anni',
+        numbers: []
+      },
       'en_US': {
         prefixAgo: null,
         prefixFromNow: null,
@@ -63,9 +82,9 @@ angular.module('yaru22.angular-timeago', [
       },
       'de_DE': {
         prefixAgo: 'vor',
-        prefixFromNow: null,
+        prefixFromNow: 'in',
         suffixAgo: null,
-        suffixFromNow: 'from now',
+        suffixFromNow: null,
         seconds: 'weniger als einer Minute',
         minute: 'ca. einer Minute',
         minutes: '%d Minuten',
@@ -115,11 +134,29 @@ angular.module('yaru22.angular-timeago', [
         years: '%d anos',
         numbers: []
       },
+      'ca_ES': {
+        prefixAgo: 'fa',
+        prefixFromNow: 'd\'aquí',
+        suffixAgo: null,
+        suffixFromNow: null,
+        seconds: 'menys d\'un minut',
+        minute: 'prop d\'un minut',
+        minutes: '%d minuts',
+        hour: 'prop d\'una hora',
+        hours: 'prop de %d hores',
+        day: 'un dia',
+        days: '%d dies',
+        month: 'prop d\'un mes',
+        months: '%d mesos',
+        year: 'prop d\'un any',
+        years: '%d anys',
+        numbers: []
+      },
       'fr_FR': {
         prefixAgo: 'il y a',
-        prefixFromNow: null,
+        prefixFromNow: 'dans',
         suffixAgo: null,
-        suffixFromNow: 'from now',
+        suffixFromNow: null,
         seconds: 'moins d\'une minute',
         minute: 'environ une minute',
         minutes: '%d minutes',
@@ -135,31 +172,74 @@ angular.module('yaru22.angular-timeago', [
       },
       'es_LA': {
         prefixAgo: 'hace',
-        prefixFromNow: null,
+        prefixFromNow: 'en',
         suffixAgo: null,
-        suffixFromNow: 'apartir de ahora',
+        suffixFromNow: null,
         seconds: 'menos de un minuto',
         minute: 'un minuto',
         minutes: '%d minutos',
         hour: 'una hora',
         hours: '%d horas',
-        day: 'un dia',
-        days: '%d dias',
+        day: 'un día',
+        days: '%d días',
         month: 'un mes',
         months: '%d meses',
         year: 'un año',
         years: '%d años',
         numbers: []
+      },
+      'nl_NL': {
+        prefixAgo: null,
+        prefixFromNow: 'over',
+        suffixAgo: 'geleden',
+        suffixFromNow: 'vanaf nu',
+        seconds: 'een paar seconden',
+        minute: 'ongeveer een minuut',
+        minutes: '%d minuten',
+        hour: 'een uur',
+        hours: '%d uur',
+        day: 'een dag',
+        days: '%d dagen',
+        month: 'een maand',
+        months: '%d maanden',
+        year: 'een jaar',
+        years: '%d jaar',
+        numbers: []
       }
     }
   };
 
-  service.inWords = function (distanceMillis) {
-    var lang = document.documentElement.lang;
-    var $l = service.settings.strings[lang];
-    if (typeof $l === 'undefined') {
-      $l = service.settings.strings['en_US'];
+  service.inWords = function (distanceMillis, fromTime, format, timezone) {
+
+    var fullDateAfterSeconds = parseInt(service.settings.fullDateAfterSeconds, 10);
+
+    if (!isNaN(fullDateAfterSeconds)) {
+      var fullDateAfterMillis = fullDateAfterSeconds * 1000;
+      if ((distanceMillis >= 0 && fullDateAfterMillis <= distanceMillis) ||
+          (distanceMillis < 0 && fullDateAfterMillis >= distanceMillis)) {
+        if (format) {
+          return $filter('date')(fromTime, format, timezone);
+        }
+        return fromTime;
+      }
     }
+
+    var overrideLang = service.settings.overrideLang;
+    var documentLang = document.documentElement.lang;
+    var sstrings = service.settings.strings;
+    var lang, $l;
+
+    if (typeof sstrings[overrideLang] !== 'undefined') {
+      lang = overrideLang;
+      $l = sstrings[overrideLang];
+    } else if (typeof sstrings[documentLang] !== 'undefined') {
+      lang = documentLang;
+      $l = sstrings[documentLang];
+    } else {
+      lang = 'en_US';
+      $l = sstrings[lang];
+    }
+
     var prefix = $l.prefixAgo;
     var suffix = $l.suffixAgo;
     if (service.settings.allowFuture) {
@@ -202,26 +282,28 @@ angular.module('yaru22.angular-timeago', [
     }
   };
 
-  service.parse = function (iso8601) {
-    if (angular.isNumber(iso8601)) {
-      return parseInt(iso8601, 10);
+  service.parse = function (input) {
+    if (input instanceof Date){
+      return input;
+    } else if (angular.isNumber(input)) {
+      return new Date(input);
+    } else if (/^\d+$/.test(input)) {
+      return new Date(parseInt(input, 10));
+    } else {
+      var s = (input || '').trim();
+      s = s.replace(/\.\d+/, ''); // remove milliseconds
+      s = s.replace(/-/, '/').replace(/-/, '/');
+      s = s.replace(/T/, ' ').replace(/Z/, ' UTC');
+      s = s.replace(/([\+\-]\d\d)\:?(\d\d)/, ' $1$2'); // -04:00 -> -0400
+      return new Date(s);
     }
-    if (iso8601 instanceof Date){
-      return iso8601;
-    }
-    var s = (iso8601 || '').trim();
-    s = s.replace(/\.\d+/, ''); // remove milliseconds
-    s = s.replace(/-/, '/').replace(/-/, '/');
-    s = s.replace(/T/, ' ').replace(/Z/, ' UTC');
-    s = s.replace(/([\+\-]\d\d)\:?(\d\d)/, ' $1$2'); // -04:00 -> -0400
-    return new Date(s);
   };
 
   return service;
-}).filter('timeAgo', ['nowTime', 'timeAgo', function (nowTime, timeAgo) {
-  return function (value) {
+}]).filter('timeAgo', ['nowTime', 'timeAgo', function (nowTime, timeAgo) {
+  return function (value, format, timezone) {
     var fromTime = timeAgo.parse(value);
     var diff = nowTime() - fromTime;
-    return timeAgo.inWords(diff);
+    return timeAgo.inWords(diff, fromTime, format, timezone);
   };
 }]);

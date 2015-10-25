@@ -12,15 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require angular/angular
-//= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets.js
+//= require angular-animate/angular-animate
 //= require angular-route/angular-route
 //= require angular-rails-templates
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/dist/lodash.min.js
 //= require angular-timeago/src/timeAgo.js
-//= require ngmap/build/scripts/ng-map.min.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require angular-img-fallback/angular.dcb-img-fallback.min.js
 //= require_tree .

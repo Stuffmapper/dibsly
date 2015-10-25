@@ -60,6 +60,20 @@ describe('Attr2Options', function() {
       attrs = {MapTypeId:'HYBRID'};
       expect(parser.getOptions(attrs, scope).MapTypeId).toEqual(google.maps.MapTypeId.HYBRID);
     });
+    it('should convert ISO date strings to Date objects', function() {
+      var attrs = {a:'2015-08-13T04:11:23.005Z'};
+      expect(parser.getOptions(attrs, scope).a instanceof Date).toBe(true);
+    });
+    it('should convert nested date to Date object', function() {
+      var attrs = {a: '{"departureTime":"2015-08-13T18:00:21.846Z"}'};
+      expect(typeof parser.getOptions(attrs, scope).a).toEqual('object');
+      expect(parser.getOptions(attrs, scope).a.departureTime instanceof Date).toEqual(true);
+    });
+    it('should convert nested value to google object', function() {
+      var attrs = {circleOptions: '{"center": "LatLng(80,-49)"}'};
+      expect(parser.getOptions(attrs, scope).circleOptions.center.lat()).toEqual(80);
+      expect(parser.getOptions(attrs, scope).circleOptions.center.lng()).toEqual(-49);
+    });
   });
 
   describe("#getControlOptions", function() {
@@ -100,13 +114,34 @@ describe('Attr2Options', function() {
       var events = parser.getEvents(scope, attrs);
       expect(typeof events.click).toEqual('function');
     });
+    it('should pass arguments to callback', function() {
+      scope.name = 'dave';
+      scope.scopeFunc = function() {}
+      var attrs ={onClick:'scopeFunc(name)'};
+      var events = parser.getEvents(scope, attrs);
+      var event = {};
+      spyOn(scope, 'scopeFunc');
+      events.click(event);
+      expect(scope.scopeFunc).toHaveBeenCalledWith(event, scope.name);
+    });
+    it('should respond to scope model changes', function() {
+      scope.name = 'dave';
+      scope.scopeFunc = function() {};
+      var attrs ={onClick:'scopeFunc(name)'};
+      var events = parser.getEvents(scope, attrs);
+      var event;
+      spyOn(scope, 'scopeFunc');
+      scope.name = 'george';
+      events.click(event);
+      expect(scope.scopeFunc).toHaveBeenCalledWith(event, scope.name);
+    });
   });
 
   describe("#getAttrsToObserve", function() {
-    it('should return no attributes to observe with ng-repeat', function() {
-      var attrs ={a:"1", b:"{{foo}}", 'ng-repeat': "bar"};
-      expect([]).toEqual(parser.getAttrsToObserve(attrs));
-    });
+    //it('should return no attributes to observe with ng-repeat', function() {
+    //  var attrs ={a:"1", b:"{{foo}}", 'ng-repeat': "bar"};
+    //  expect([]).toEqual(parser.getAttrsToObserve(attrs));
+    //});
     it('should return attributes to observe', function() {
       var attrs ={a:"1", b:"{{foo}}", c:"{{bar}}"};
       expect(['b', 'c']).toEqual(parser.getAttrsToObserve(attrs));

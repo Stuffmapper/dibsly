@@ -52,6 +52,7 @@ Given(/^I signup with a username password email and phone$/) do
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
+  sleep(1)
   user = User.find_by_username('fakeuser')
   sign_in user
   expect(page).to have_text('Sign Out')
@@ -92,12 +93,15 @@ Given(/^that I already have an account$/) do
 end
 
 Then(/^I should expect to see a "(.*?)"$/) do |policy|
-  click_link(policy)
-   expect(page.body).to have_text(policy)
+  within('.sign-up') do 
+    click_link(policy)
+    expect(page.body).to have_text(policy)
+  end
 end
 
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
+  sleep(1)
   expect(page.body).to have_text(arg1)
 end
 
@@ -140,6 +144,7 @@ When(/^I follow the forgot password link and enter my email$/) do
 end
 
 Then(/^I should receive an email with a link to reset my password$/) do
+  sleep(1)
   open_email(@user.email)
   expect(ActionMailer::Base.deliveries.empty?).to be(false)
   expect(current_email.body).to have_text(   'user/reset/' + User.find_by_email(@user.email).password_reset_token )
@@ -213,23 +218,24 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
   if first(:link, 'Sign Out') != nil
     first(:link, 'Sign Out').click
   end
-
+  sign_in @current_user
+  center_map_to_post Post.last 
+  visit('/menu/giveStuff')
+  sleep(2)
+  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
   steps %{
-    When I log in and give stuff
     Then I should be able to put  "These are some awesome kicks" in the description field
 
   }
   @shoes = Post.first
-  execute_script("var myLatLng = new google.maps.LatLng(#{@shoes.latitude}, #{@shoes.longitude});
-    var map = angular.element('map').scope().map;
-    map.panTo(myLatLng);
-    map.setZoom(24);")
+  center_map_to_post @shoes 
 
   click_link 'Get Stuff'
-
-  page.all(:button, "Dib")[0].click
-  sleep(1)
-  expect(page).to have_text('Dibbed your stuff')
+  page.all(".stuff-view")[1].click
+   page.execute_script "window.scrollBy(0,10000)"
+  page.first(:button, "I want").click
+  sleep(2)
+  expect(page).to have_text('Dibbed')
 
  end
 
@@ -241,22 +247,23 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   if first(:link, 'Sign Out') != nil
     first(:link, 'Sign Out').click
   end
-
   @current_user = User.last
-  steps %{
-    When I log in and give stuff
-  }
+  sign_in @current_user
   allow( Post ).to receive( :has_attached_file ).and_return false
   VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do
       @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: "okkk" )
    end
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_call_original
-
+   center_map_to_post @post 
+   visit ('/menu/giveStuff')
+   sleep(2)
+   page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
     within('#give-stuff') do
       expect(page).to have_field 'description'
       fill_in 'description', with: "okkk"
-      click_button 'Give this stuff!'
+      fill_in 'title', with: "okkk"
+      click_button 'Map'
     end
   sleep(2)
   expect(page).to have_text('Please verify your email to give stuff')
@@ -264,9 +271,16 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   @shoes = Post.first
   steps %{
     When I log in and visit the map location where the shoes are.
-    When I hit dib
   }
+  click_link 'Get Stuff'
+  page.find('.stuff-view').click
   sleep(2)
+  within('.post-details') do 
+    page.execute_script "window.scrollBy(0,10000)"
+    page.find(:button, "I want").click
+  end
+  @shoes.reload
+  expect(@shoes.available_to_dib?).to eq true
   expect(page).to have_text('Please verify your email to dib')
 
 end

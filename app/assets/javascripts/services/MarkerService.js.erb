@@ -1,0 +1,311 @@
+(function() {
+  var factories;
+
+  factories = angular.module('factories');
+
+  factories.factory('MarkerService', [
+    '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q', '$timeout',
+     function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q, $timeout) {
+     var self = this;
+     self.markers = {}
+     self.toCheck = [];
+     self.interval = 15000;
+
+      return {
+        editProperties: [
+          'id',
+          'category',
+          'description',
+          'image_url',
+          'latitude',
+          'longitude',
+          'on_the_curb',
+          'published',
+          'title'
+        ],
+        icons: {
+            standard:'<%= asset_path('salmon-pin.svg')%>',
+            want: '<%= asset_path('yellow-pin.svg')%>',
+            myPost:'<%= asset_path('darkblue-pin.svg')%>',
+            moving: '<%= asset_path('green-pin.svg')%>',
+            giveStuff: '<%= asset_path('pin.svg')%>'
+          },
+        categories:[
+          'Arts & Crafts',
+          'Books, Games, Media',
+          'Building & Garden Materials',
+          'Clothing & Accessories',
+          'Electronics',
+          'Furniture & Household',
+          'General',
+          'Kids & Babies',
+          'Recreation'
+        ],
+
+        clearMarkers: function( exception ){
+          var promises = [];
+          angular.forEach(self.markers, function(value, key) {
+             if (key !== exception && value.marker ){
+              MapsService.clearMapMarker(value.marker)
+             } else if (value.marker){  promises.push(MapsService.setMapMarker(value.marker)) }
+          });
+          return $q.all(promises);
+        },
+        clearWindows: function(exception, map){
+          angular.forEach(self.markers, function(value, key) {
+            if (String(key) !== String(exception)) {
+              if (value.infowindow && value.marker) {
+                return MapsService.closeInfoWindow(value.infowindow, value.marker);
+              }
+            } else {
+              return MapsService.openInfoWindow(value.infowindow, value.marker);
+            }
+          });
+        },
+
+        contains: function(object, attributes){
+          var contains = false;
+          angular.forEach(attributes, function(attribute){
+            angular.forEach(attribute, function(value, attr){
+              if(object.hasOwnProperty(attr) && object[attr] === value){
+               contains = true;
+              }
+            });
+          });
+          return contains;
+
+        },
+        delete: function(id){
+          //REVIEW is this being used anywhere?
+          var marker = self.markers[id];
+          if(marker){
+            MapsService.clearMapMarker(marker.marker);
+            marker.deleteLocal();
+            delete self.markers[id];
+          } else { console.warn("marker not found %s not deleted", id)}
+        },
+        expireMarkers: function(){
+          //sets a timeout, should be called only once
+          //NO TEST IN PLACE
+          var that = this;
+          //get bounds
+          self.interval += 100;
+          //so that it checks less and less
+          var bounds;
+          return MapsService.getBounds()
+          .then(function(box){ 
+            bounds = box;
+            $timeout(function(){
+              if(!self.updating){
+                var time = Date.now();
+                self.updating = true
+                angular.forEach(self.markers, function(marker, key){
+                  var coords = {lat: marker.latitude, lng: marker.longitude }
+                  if(!marker.temporary && marker.locallyUpdated  < time - 300000 && 
+                  MapsService.within(bounds, coords) ){ //BUGBUGS
+                    console.log('You have an old marker')
+                    var prom = marker.get()
+                    .then( function(){
+                      if(marker.shouldDelete()){ that.delete(marker.id) }
+                      else(that.setMarker(marker) )
+                    });
+                    self.toCheck.push(prom);
+                  }
+                })
+                return $q.all(self.toCheck)
+                .then(function(){ 
+                  console.log('Done checking for old makers ')
+                  self.toCheck = [];
+                  self.updating = false;
+                  that.expireMarkers() } );
+              }  
+            }, self.interval );
+          });
+        },
+        getMarker:function(id){
+          return self.markers[id];
+        },
+        getMarkerAsync: function(id){
+          var that = this;
+          var defer = $q.defer();
+          var marker = self.markers[id] || new Marker({ id:id });
+          marker.get()
+          .then(
+            function(){
+              that.setMarker(marker)
+              .then(function(){ 
+                defer.resolve( self.markers[id] ) }); 
+            },
+            function(err){ defer.reject(err) }
+          );
+          return defer.promise;
+        },
+        getSetTemporary: function(id){
+        // returns a promise
+          var that = this;
+          var markerSet = self.markers[id];
+          var marker = markerSet ? markerSet : {
+            id: id,
+            type: id,
+            temporary:true,
+            updated_at: Date.now(),
+            icon: id,
+            draggable:true 
+          };
+          if (!markerSet){
+             return MapsService.getCenter()
+            .then( function(center){
+              marker.latitude = center.lat;
+              marker.longitude = center.lng;
+              return that.setMarker(marker);
+            })
+          } else { return $q.when(marker); }
+        },
+
+        isEmpty: function(obj){
+          // null and undefined are "empty"
+          var that = this;
+          if (!obj) return true;
+          if (obj.length === 1 && that.isEmpty(obj[0]) )   return true;
+          if (obj.length > 0 )    return false;
+          if (obj.length === 0)  return true;
+          for (var key in obj) {
+              if (hasOwnProperty.call(obj, key)) return false;
+          }
+          return true;
+
+        },
+
+        setAll: function(has, doesnot){
+          var that = this;
+          that.where(has, doesnot, { 
+            posFn: function(marker){ MapsService.setMapMarker(marker.marker) },
+            negFn: function(marker){ MapsService.clearMapMarker(marker.marker) }
+          } );
+        },
+
+        setGoogleMarker: function(marker){
+          var defer = $q.defer();
+          var that = this;
+          var icon = that.icons[marker.type] || that.icons.standard;
+          marker.icon = icon;
+          if(!marker.marker ) {
+            MapsService.newMapMarker({
+              icon: marker.icon,
+              draggable: marker.draggable,
+              position: { lat: marker.latitude, lng: marker.longitude },
+              title: marker.description
+            })
+            .then(function(gmarker){ 
+              self.markers[marker.id].marker = gmarker;
+              if (!marker.temporary){
+                MapsService.addMarkerListener(gmarker, 'click', function(){
+                  $rootScope.$broadcast('detailsWanted', {
+                        markerId: marker.id
+                  });
+                });
+              } 
+              MapsService.addMarkerListener(gmarker, 'dragend', function(){
+                //NOTE the standard is to keep functions specific to google
+                //in the mapservice. Using MapsService.getPosition seems
+                // to cause issues 
+                marker.latitude = gmarker.getPosition().lat();
+                marker.longitude = gmarker.getPosition().lng();
+              });
+               
+              defer.resolve(marker);
+            })
+          } else { 
+            //needs to update lat lng
+            MapsService.updateMarker(marker);
+            //pretty important
+            defer.resolve(marker) }
+          return defer.promise; 
+        },
+
+        setMarker: function(marker){
+          var that = this;
+          marker.updated_at = new Date(marker.updated_at);
+          marker.locallyUpdated = Date.now();
+          var exists = self.markers[marker.id];
+          if(!exists){
+            self.markers[marker.id] = new Marker(marker);
+          } else if (exists.state !== 'editing') { 
+            console.log('line 234 ', exists.state );
+            var existing = self.markers[marker.id];
+            angular.extend(existing, marker ) }
+          self.markers[marker.id].saveLocal()
+
+          return that.setGoogleMarker(self.markers[marker.id]);
+        },
+
+        updateWindow: function(id) {
+          var infowindow, innerContent, marker;
+          marker = self.markers[id];
+          innerContent = "<div > <div id='siteNotice' class='stuff-map-image'></div> <img src=" +
+           marker.image_url + " width='200px' ></img> <div id='bodyContent'> <p>" +
+           marker.description + "</p> </div> </div> </div>";
+          if (!marker.description) {
+            marker.description = "";
+          }
+          if (!marker.infowindow) {
+            infowindow = MapsService.newInfoWindow({
+              content: innerContent
+            });
+            return marker.infowindow = infowindow;
+          } else {
+            return MapsService.setInfoContent(marker, innerContent);
+          }
+        },
+
+
+        where: function(hasAttrs, hasNotAttrs, options){
+          // hasAttrs and hasNotAttrs can be a single object or an array of objects
+          //options - if all is specified it returns all the markers in an array [[wanted][unwanted]]
+          // unwanted is unsorted
+          // options = {posFn: a function to applied to wanted values,
+          // negFn: a Fn to be applied to unwanted value 
+          //all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
+          var that = this;
+          if (hasAttrs && hasAttrs.constructor  !== Array){
+            var hasAttrs = [hasAttrs];
+          }
+          if (hasNotAttrs && hasNotAttrs.constructor  !== Array){
+            var hasNotAttrs = [hasNotAttrs];
+          }
+          var wanted = [];
+          var unwanted = [];
+          //TODO - refactor out isEmpty and contains to lodash functions
+          var empty1 = that.isEmpty(hasAttrs);
+          var empty2 = that.isEmpty(hasNotAttrs);
+          if(empty1 && empty2){
+            wanted =  _.values(self.markers);
+          } else {
+            angular.forEach(self.markers,
+              function(value){
+                var pushMe = empty1;
+                if(that.contains(value,hasAttrs) ) {  pushMe = true }
+                if(that.contains(value,hasNotAttrs) ){ pushMe = false }
+                if(pushMe){
+                  wanted.push(value);
+                  return options && options.posFn && options.posFn(value);
+                } else {
+                  unwanted.push(value);
+                  return options && options.negFn && options.negFn(value);
+                }
+              }
+            ); 
+          }       
+          wanted.sort(function (a, b) {
+            //TODO include a sort option in options
+            return (a['updated_at'] < b['updated_at'] ? 1 : -1);
+          });
+
+          var results = (options && options.all ? [wanted, unwanted] : wanted);
+          return results;
+        }
+      };
+    }
+  ]);
+
+}).call(this);

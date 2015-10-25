@@ -17,6 +17,7 @@ var shell = require('gulp-shell');
 var karma = require('karma').server;
 var connect = require('gulp-connect');
 var gulpProtractor = require("gulp-protractor").protractor;
+var angularJsdoc = require('angular-jsdoc');
 var bumpVersion = function(type) {
   type = type || 'patch';
   var version = '';
@@ -40,15 +41,15 @@ var bumpVersion = function(type) {
 };
 
 gulp.task('clean', function() {
-  return gulp.src('bulid')
+  return gulp.src('build')
     .pipe(clean({force: true}));
 });
 
 gulp.task('build-js', function() {
   return gulp.src([
-      'app/scripts/app.js',
-      'app/scripts/services/*.js',
-      'app/scripts/directives/*.js'
+      'app.js',
+      'services/*.js',
+      'directives/*.js'
     ])
     .pipe(concat('ng-map.debug.js'))
     .pipe(gulp.dest('build/scripts'))
@@ -61,19 +62,21 @@ gulp.task('build-js', function() {
     .on('error', gutil.log);
 });
 
-gulp.task('docs', shell.task([
-  'node_modules/jsdoc/jsdoc.js '+
-    '-c node_modules/angular-jsdoc/conf.json '+
-    '-t node_modules/angular-jsdoc/template '+ 
-    '-d build/docs '+ 
-    './README.md ' +
-    '-r app/scripts' 
-]));
+gulp.task('docs', function() {
+  gulp.task('docs', shell.task([ 
+    'node_modules/jsdoc/jsdoc.js '+ 
+      '-c node_modules/angular-jsdoc/common/conf.json '+   // config file
+      '-t node_modules/angular-jsdoc/angular-template '+   // template file
+      '-d build/docs '+                           // output directory
+      './README.md ' +                            // to include README.md as index contents
+      '-r directives services'                    // source code directory
+  ])); 
+});
 
-gulp.task('bump', ['build'], function() { bumpVersion('patch'); });
-gulp.task('bump:patch', ['build'], function() { bumpVersion('patch'); });
-gulp.task('bump:minor', ['build'], function() { bumpVersion('minor'); });
-gulp.task('bump:major', ['build'], function() { bumpVersion('major'); });
+gulp.task('bump', function() { bumpVersion('patch'); });
+gulp.task('bump:patch', function() { bumpVersion('patch'); });
+gulp.task('bump:minor', function() { bumpVersion('minor'); });
+gulp.task('bump:major', function() { bumpVersion('major'); });
 
 gulp.task('build', function(callback) {
   runSequence('clean', 'build-js', 'test', 'docs', callback);
@@ -93,11 +96,7 @@ gulp.task('testapp-server',  function() {
   });
 });
 
-/**
- * For first-time user, we need to update webdrivers
- * $ node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update
- */
-gulp.task('e2e-test', ['testapp-server'], function() {
+gulp.task('test-e2e', ['testapp-server'], function() {
   gulp.src([__dirname + "/spec/e2e/*_spec.js"])  
     .pipe(gulpProtractor({
       configFile: __dirname + "/config/protractor.conf.js",
@@ -106,6 +105,12 @@ gulp.task('e2e-test', ['testapp-server'], function() {
       ]
     })) 
     .on('error', function(e) { 
+      console.log([
+        '------------------------------------------------------------------------------------',
+        'For first-time user, we need to update webdrivers', 
+        '$ node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update',
+        '------------------------------------------------------------------------------------'
+      ].join('\n'));
       throw e;
     })
     .on('end', function() { // when process exits:

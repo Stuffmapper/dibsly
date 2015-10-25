@@ -1,40 +1,32 @@
 
 When(/^I log in and give stuff$/) do
+  
   visit ('/')
-
   sign_in @current_user
-  click_link('Give Stuff')
-  execute_script("$(document.elementFromPoint(100, 100)).click()")
-  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
+  visit ('/menu/giveStuff')
+  sleep(5)
+  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
  end
 
 
 Then(/^I should be able to put  "(.*?)" in the description field$/) do |arg1|
-	expect(@current_user.posts.count).to eq 0
-  #because this is an upload -  needs a better solution
-  #this may be a mock train wreck I need to get paperclip mocking
-  #to work and to remove the VCR calls
-   VCR.use_cassette('aws_cucumber', :match_requests_on => [:method] ) do
-      @post = build(:post, creator_id: @current_user.id, latitude: "47.6097", longitude: '-122.3331', description: arg1 )
-      @post.save!
-   end
-   allow(Post).to receive( :new ).and_return( @post )
-   allow(Post).to receive( :save ).and_return( true )
-
-		within('#give-stuff') do
-	 		expect(page).to have_field 'description'
-	 		fill_in 'description', with: arg1
-	 		click_button 'Give this stuff!'
-	  end
-    sleep(6)
-    expect(@current_user.posts.last).to eq @post
-    expect(@current_user.posts.count).to eq 1
+expect(@current_user.posts.count).to eq 0
+	within('#give-stuff') do
+ 		expect(page).to have_field 'description'
+    expect(page).to have_field 'title'
+ 		fill_in 'description', with: arg1
+    fill_in 'title', with: arg1
+ 		click_button 'Map my stuff'
+  end
+  sleep(6)
+  @current_user.reload
+  expect(@current_user.posts.count).to eq 1
+  expect(@current_user.posts.first.description).to eq arg1
 end
 
 Then(/^I should see my post in my stuff with the description "(.*?)"$/) do |arg1|
   click_link "My Stuff"
   sleep(2)
-  first(:button, 'Details').click
   expect(page).to have_text(arg1)
 end
 #
@@ -64,13 +56,12 @@ Given(/^that Jack is is a registered user and posted shoes with the description 
 end
 
 Given(/^I visit the page for shoes$/) do
+  center_map_to_post @post
   visit('/post/' + @post.id.to_s )
 end
 
 Then(/^I should see the description$/) do
-  within('#show-post') do
-    expect(page).to have_text(@post.description)
-  end # express the regexp above with the code you wish you had
+  expect(page).to have_text(@post.description)
 end
 #
 #
@@ -89,11 +80,10 @@ Given(/^that I am not logged in and can see some there is an item I want to dib$
 end
 
 When(/^I try to dib an item$/) do
+  center_map_to_post @post 
   visit('/post/' + @post.id.to_s )
-  within('.post-details') do
-    page.execute_script "window.scrollBy(0,10000)"
-    find(:button, 'Dib').click
-  end
+  page.execute_script "window.scrollBy(0,10000)"
+  find(:button, 'I want').click
 
 
 end
@@ -122,26 +112,27 @@ end
 
 ### VIEW PHOTO
 When(/^click on an item's description on the map$/) do
- expect(page.body).to have_selector('#google-map-container')
+ expect(page.body).to have_selector('#google-map')
       #this is a hack - still not sure how to test google marker photos
- expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
+ expect(page).to have_xpath("//img[contains(@src,'pin.svg')]", :visible => false)
 
 
 end
 
 Then(/^I should see a photo$/) do
-  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
+  expect(page).to have_xpath("//img[contains(@src,'pin.svg')]", :visible => false)
 end
 
 When(/^click on an item on in stuff$/) do
   click_link 'Get Stuff'
-  first(:button, 'Details').click
+  sleep(3)
+  page.first('.stuff-view').click
  #express the regexp above with the code you wish you had
 end
 
 Then(/^I should see a photo of the stuff$/) do
 
-  expect(page).to have_xpath("//img[contains(@src,'shoes.png')]", :visible => false)
+  expect(page).to have_xpath("//img[contains(@src,'pin.svg')]", :visible => false)
 
 end
 
@@ -165,9 +156,11 @@ When(/^I log in and go to my stuff$/) do
 end
 
 Then(/^I should have an edit option$/) do
-  within('#my-stuff') do
-    expect(page).to have_button("Edit")
-  end   # express the regexp above with the code you wish you had
+  sleep 2
+  click_button "Settings"
+  sleep 1
+  expect(page).to have_button("Edit")
+  
 end
 
 Then(/^I should be able to click edit and change the details$/) do
@@ -181,6 +174,7 @@ Then(/^I should be able to click edit and change the details$/) do
   steps %{
     When I visit the shoes permalink page
   }
+  sleep(3)
   expect(page.body).to have_text("I have changed the details") # express the regexp above with the code you wish you had
 
 end
@@ -271,10 +265,21 @@ When(/^I try to give stuff after logging in$/) do
 end
 
 Then(/^I should be able to change my photo before submitting$/) do
-  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/shoes.png"))
-  page.attach_file('give-stuff-file', Rails.root.join("spec/factories/free_smiles.png"))
-  click_button "Give this stuff!"
+  sleep(2)
+  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
+  sleep(2)
+  puts "this is line 271"
+  page.attach_file('give-stuff-file-2', Rails.root.join("spec/factories/free_smiles.png"), :visible=>false)
+  sleep(1)
+  puts "this is line 274"
+  fill_in 'title', with: 'this is a title'
+  puts "this is line 276"
+  page.execute_script( "window.$('.give-container').scrollTop(200)")  
+  sleep(2)
+
+  click_button "Map"
   sleep(3)
   expect(Post.count).to eq 1
+  expect(Image.count).to eq 1
 
 end

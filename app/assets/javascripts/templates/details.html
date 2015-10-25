@@ -1,4 +1,56 @@
-<hr>
 
-<a href='#' ng-click='getStuff()' class="col-lg-12 col-md-12 col-xs-12">Back to results</a>
-<div ng-include src="'post.html'"></div>
+
+<div>
+  <settings></settings>
+
+  <hr class='thin-hr'>
+  <div ng-show='post.isCurrentDibber'>
+    <button  class= "dib-button dib-button-send-message"
+    >Dibbed! Send a message to the lister! &gt;&gt;</button>
+    <a href='#' class='undib-link' ng-click="post.unDib()"
+    >Undib! I don't want this anymore</a>
+    <hr class='thin-hr'>
+  </div>
+
+  <div ng-if="post.showEdit()">
+    <div ng-hide="currentDib">  
+      <button class="dib-button not-dibbed"
+      >This stuff hasn't been dibbed yet...</button>
+    </div>
+    <div ng-show="currentDib">
+      <button class="dib-button dibbed">
+        <span class="glyphicon glyphicon-message">
+        </span>
+        &nbsp;&gt;&gt;
+      </button>
+    </div>
+  </div>
+
+  <span>{{post.title}}</span>
+
+  <br>
+  <div class='floating stuff-category'>
+    {{post.category}}
+  </div>
+
+  <div class='floating stuff-status'>
+    {{post.status}}
+  </div>
+  <a ng-href="{{post.originalImage}}" >
+    <img class="img-responsive img-detail" 
+    ng-src={{post.image_url}} fallback-src >
+    </img>
+  </a>
+
+  <div class='col-lg-12 col-md-12 col-xs-12 detail-description'>
+    <span>{{post.description}}</span>
+  </div>
+
+  <div ng-hide="post.showEdit()">
+    <button ng-show="post.showDib()" class= 'dib-button dib-button-details' ng-click='giveMe()'>I want this stuff! &gt;&gt;</button>"
+
+  </div>
+
+  <button class="btn-close-details glyphicon glyphicon-triangle-top"></button>
+  <button class="btn-close-details glyphicon glyphicon-triangle-bottom"></button>
+</div>

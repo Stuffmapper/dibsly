@@ -11,12 +11,4 @@ Feature: Listing management
     Then I should have an edit option
     And I should be able to click edit and change the details
 
-  @javascript
-  Scenario: Successfully depublish item
-    When I edit my stuff 
-    Then I should also be able to depublish it
-    And it should not be viewable
-
-
-
 

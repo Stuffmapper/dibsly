@@ -7,3 +7,8 @@ deployment:
     branch: user-testing
     heroku:
       appname: stuffmapper-usertest
+test:
+  override:
+  - bundle exec teaspoon
+  - bundle exec rspec
+  - bundle exec cucumber

@@ -196,5 +196,174 @@ RSpec.describe Api::DibsController, type: :controller do
 
 
 	end
+	
+	describe "Get message", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+		before do
+			two_users_post_dib
+		end
+
+		context "without login " do
+
+			it 'should 401' do
+				xhr :get, :messages, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+			end
+		end
+
+		context "with login of a related user" do
+			before do
+				sign_in(@user)
+			end
+
+			it 'should 200' do
+				xhr :get, :messages, :dib_id => @dib.id
+		  		expect(response.status).to eq(200)
+			end
+		end
+
+		context "with login of an unrelated user" do
+			before do
+				new_user = create(:user)
+				sign_in(new_user)
+			end
+
+			it 'should 401' do
+				xhr :get, :messages, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+
+			end
+		end		
+	end
+	
+	describe "Post send message", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+		before do
+			two_users_post_dib
+		end
+
+		context "without login " do
+
+			it 'should 401' do
+				xhr :post, :send_message, :dib_id => @dib.id
+				expect(response.status).to eq(401)
+			end
+		end
+		context "with login of a related user " do
+			before do
+				sign_in(@user)
+			end
+
+			it 'should 200' do
+				xhr :post, :send_message, :dib_id => @dib.id, :message =>{:body => "hey!!!" }
+				parsed = JSON.parse(response.body)['dibs']
+		  		expect(parsed[1]['body']).to eq("hey!!!")
+			end
+
+		end
+
+		context "with login of a unrelated user" do
+			before do
+				new_user = create(:user)
+				sign_in(new_user)
+			end
+
+			it 'should 401' do
+				xhr :post, :messages, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+			end
+		end				
+
+	end
+
+	describe "Post mark read", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+		before do
+			two_users_post_dib
+		end
+
+		context "without login " do
+
+			it 'should 401' do
+		  		xhr :post, :mark_read, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+			end
+		end
+		context "with login of a related user " do
+			before do
+				sign_in(@user)
+			end
+
+			it 'should 200' do
+
+				expect((@user.mailbox.inbox.unread @user).count).to eq 1
+				xhr :post, :mark_read, :dib_id => @dib.id
+				@user.reload
+				expect((@user.mailbox.inbox.unread @user).count).to eq 0
+
+
+			end
+		end
+
+		context "with login of a unrelated user" do
+			before do
+				new_user = create(:user)
+				sign_in(new_user)
+			end
+
+			it 'should 401' do
+				xhr :post, :mark_read, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+			end
+		end			
+
+	end
+
+	describe "Get check unread", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+		before do
+			two_users_post_dib
+		end
+
+		context "without login " do
+
+			it 'should 401' do
+				# xhr :post, :remove_dib, :id => @dib.id
+		     	#expect(response.status).to eq(401)
+		  		xhr :get, :unread, :dib_id => @dib.id
+			end
+		end
+		context "with login of a related user" do
+			before do
+				sign_in(@user)
+			end
+
+			it 'should 200' do
+
+		  		xhr :get, :unread, :dib_id => @dib.id
+		  		expect(response.status).to eq(200)
+				parsed = JSON.parse(response.body)['dibs']
+		  		expect( parsed.length ).to eq(1)
+			end
+		end
+
+		context "with login of a unrelated user" do
+			before do
+				new_user = create(:user)
+				sign_in(new_user)
+			end
+
+			it 'should 401' do
+				xhr :get, :unread, :dib_id => @dib.id
+		  		expect(response.status).to eq(401)
+
+			end
+		end			
+
+	end
+
+ 
+
+ #    post 'dibs/:id/messages' => 'dibs#send_message'
+ #    get 'dibs/:id/messages' => 'dibs#messages'
+ #    post 'dibs/:id/markread' => 'dibs#mark_read'
+ #    get 'dibs/:id/unread' => 'dibs#check_unread'
+
 
 end

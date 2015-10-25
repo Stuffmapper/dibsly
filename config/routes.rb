@@ -13,41 +13,51 @@ Dibsly::Application.routes.draw do
     get 'log_out' => 'sessions#destroy', :as => 'log_out'
     get '/auth/check' => 'sessions#check'
 
-    post 'users' => 'users#create'
     post 'users/email/:confirmation' => 'users#confirm_email'
 
     post 'users/:id', :to => 'users#show', :as => :user
-    post 'presets' => 'users#presets'
+    resources :users, only: [:show, :create, :update]
 
     get  'messages/status', :to => 'messages#inbox_status'
     post 'messages/:id', :to => 'messages#reply'
     get  'chat/:id', :to => 'messages#dib_or_post_chat'
     resources :messages, only: [:show, :create, :index]
+    resources :images, only: [:create ]
+
 
     get 'posts' => 'posts#index'
     post 'posts' => 'posts#create'
 
     get 'posts/geolocated' => 'posts#geolocated'
-    post 'posts/grid_mode' => 'posts#grid_mode'
     get 'search' => 'posts#search'
     get 'my-stuff' => 'posts#my_stuff'
     get 'my-dibs' => 'posts#my_dibs'
-    post 'feedbacks/create'
 
-
-
-    resources :posts, only: [:create, :index] do
-      resources :dibs, only: [:create ]
-    end
     post 'posts/:id/undib' => 'dibs#undib'
-    post 'posts/:id/update' => 'posts#update'
+    # post 'posts/:id/update' => 'posts#update'
+    
+    #UNTESTED
+    post 'posts/:id/removecurrentdib' => 'posts#remove_dib'
+
+    post 'posts/:id/remove' => 'posts#remove'
 
     post 'dibs/:id/removedib' => 'dibs#remove_dib'
+
+    post 'dibs/:dib_id/messages' => 'dibs#send_message'
+    get 'dibs/:dib_id/messages' => 'dibs#messages'
+    post 'dibs/:dib_id/markread' => 'dibs#mark_read'
+    get 'dibs/:dib_id/unread' => 'dibs#unread'
+
+
+
+    resources :posts, only: [:create, :index, :update, :show] do
+      resources :dibs, only: [:create ]
+    end
+
 
 
     resources :password_resets,  only: [:new, :create, :edit, :update]
 
-    get 'posts/:id' => 'posts#show'
   end
 
   root 'posts#index'

@@ -67,17 +67,12 @@ ActionController::Base.allow_rescue = false
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 
-DatabaseCleaner.strategy = :truncation
-
-
-
-Before do
-  DatabaseCleaner.start
-end
+#see file #database cleaner
 
 After do |scenario|
-  execute_script("localStorage.clear()")
-  DatabaseCleaner.clean
+  begin 
+  	execute_script("localStorage.clear()")
+  end
 end
 
 # Possible values are :truncation and :transaction

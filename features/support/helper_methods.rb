@@ -4,6 +4,8 @@ module FormSubmissionHelpers
     if first(:link, 'Sign Out') != nil
       first(:link, 'Sign Out').click
     end
+    execute_script("window.localStorage.removeItem('markers'); console.log('hello');")
+    visit('/')
     allow(ApplicationController).to receive(:current_user){ user }
     first(:link,'Sign In').click
     fill_in 'username', with: user.username
@@ -16,10 +18,10 @@ end
 
 module MapCenterHelpers
   def center_map_to_post post
-   	execute_script("var postLatLng = new google.maps.LatLng(#{post.latitude}, #{post.longitude});
-    	var map = angular.element('map').scope().map;
-    	map.panTo(postLatLng);
-      google.maps.event.trigger(map, 'dragend');")
+    visit('/')
+    string = {lat: post.latitude, lng: post.longitude }.to_json
+   	execute_script("window.localStorage.setItem('mapcenter', '#{string}'); console.log('hello');")
+    visit('/')
 	end
 end
 

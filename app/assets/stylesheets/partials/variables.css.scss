@@ -1,0 +1,44 @@
+$darkblue: #445d75; /* navbar */
+$black: #5e5e5e; /* stuff header background */
+$purple-button: #784b87; /* give stuff button */
+$turquoise: #a7e3ee; /* camera button */
+$turqblue: #6b8598; /* camera outline */
+$bluedot: #037fc2; /* blue dot */
+$green: #4fd67b; /* letter */
+$white: white; /* letter */
+$lightgray: #D3D3D3;
+
+$green: #4Ab29C;
+$grey: #555;
+$blue: #0077BA;
+
+/*** heights ***/
+
+$navheight: 40px;
+$map-1-2-height:100px;
+
+$menu-0-height:375px;
+$menu-1-height:200px;
+$menu-2-height:160px;
+
+$mystuff-row:120px;
+
+$tabheight:40px;
+
+$chat-container-height: 300px;
+$chat-send-bar-height: 34px;
+
+/*** Z-INDEXS ***/
+
+/*** please track changes to make this easy to maintain ***/
+
+$z-0: 0;   /*used by: .mystuff button */
+$z-1: 10;  /*used by: */
+$z-2: 20;  /*used by: .get-stuff-view , settings-groupli:hover/active */
+$z-3: 30;  /*used by: nav .stuff-image-md-container */
+$z-4: 40;  /*used by: .stuff-description */
+$z-5: 50;  /*used by: */
+$z-6: 60;  /*used by: .alert */
+$z-7: 70;  /*used by: .file btn .center-map .panel-heading*/
+$z-8: 80;  /*used by: .close-x , .sm-tabs */
+$z-9: 90;  /*used by: .setting-option-btn .on-top */

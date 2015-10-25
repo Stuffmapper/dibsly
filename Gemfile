@@ -7,7 +7,8 @@ gem 'rails', '4.2.1'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
+
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -34,9 +35,11 @@ gem 'kaminari'
 gem 'mandrill-api'
 gem 'newrelic_rpm'
 
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
+
 #for using angular
 gem 'active_model_serializers'
-gem 'sass', '3.2.19'
 gem 'angular-rails-templates'
 
 # for FB

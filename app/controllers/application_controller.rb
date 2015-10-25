@@ -42,4 +42,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  def serialization_scope
+    { :current_user => current_user }
+  end
 end

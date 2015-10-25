@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-
+  before_action :correct_user, only: [:update ]
   # GET /users/1"111"
   # GET /users/1.json
   def show
@@ -30,7 +30,14 @@ class Api::UsersController < ApplicationController
     end
   end
 
-
+  def update
+    current_user.update_attributes user_params
+    if current_user.valid?
+      render json: '[]', status: :ok
+    else
+      render json: current_user.errors, status: :unprocessable_entity
+    end
+  end
 
 
   private
@@ -52,5 +59,12 @@ class Api::UsersController < ApplicationController
           :on_the_curb,
           :phone_number,
           :anonymous)
+    end
+
+    def correct_user
+      if !current_user || current_user.id != params['id'].to_i
+        render json: {error: 'not authorized '}, status: :unauthorized
+      end
+
     end
 end
