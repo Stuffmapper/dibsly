@@ -268,11 +268,15 @@ Then(/^I should be able to change my photo before submitting$/) do
   sleep(2)
   page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
   sleep(2)
+  puts "this is line 271"
   page.attach_file('give-stuff-file-2', Rails.root.join("spec/factories/free_smiles.png"), :visible=>false)
   sleep(1)
+  puts "this is line 274"
   fill_in 'title', with: 'this is a title'
-  page.execute_script "window.scrollBy(0,10000)"
+  puts "this is line 276"
+  page.execute_script( "window.$('.give-container').scrollTop(200)")  
   sleep(2)
+
   click_button "Map"
   sleep(3)
   expect(Post.count).to eq 1
