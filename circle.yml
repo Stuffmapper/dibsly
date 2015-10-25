@@ -7,6 +7,3 @@ deployment:
     branch: user-testing
     heroku:
       appname: stuffmapper-usertest
-test:
-  override:
-  - bundle exec rspec
