@@ -267,7 +267,7 @@ end
 Then(/^I should be able to change my photo before submitting$/) do
   sleep(2)
   page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
-  sleep(2)
+  sleep(3)
   puts "this is line 271"
   page.attach_file('give-stuff-file-2', Rails.root.join("spec/factories/free_smiles.png"), :visible=>false)
   sleep(1)
