@@ -24,6 +24,7 @@ Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display 
   sleep(1)
   within('#my-stuff') do
   	expect(page.body).to have_text "Want!ed"
+    sleep(2)
     expect(page.find('button', :text=> 'Wanted', :visible => true)).to_not eq nil
   end
 end
