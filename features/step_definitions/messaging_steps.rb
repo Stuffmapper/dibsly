@@ -17,6 +17,7 @@ When(/^"(.*?)" logs in$/) do |arg1|
 end
 
 Then(/^"(.*?)" should be visible in the inbox$/) do |arg1|
+  sleep 2
   click_button "inbox"
   find('.get-messages').click
   sleep 2

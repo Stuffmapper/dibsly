@@ -52,6 +52,7 @@ Given(/^I signup with a username password email and phone$/) do
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
+  sleep(1)
   user = User.find_by_username('fakeuser')
   sign_in user
   expect(page).to have_text('Sign Out')
@@ -100,6 +101,7 @@ end
 
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
+  sleep(1)
   expect(page.body).to have_text(arg1)
 end
 
@@ -142,6 +144,7 @@ When(/^I follow the forgot password link and enter my email$/) do
 end
 
 Then(/^I should receive an email with a link to reset my password$/) do
+  sleep(1)
   open_email(@user.email)
   expect(ActionMailer::Base.deliveries.empty?).to be(false)
   expect(current_email.body).to have_text(   'user/reset/' + User.find_by_email(@user.email).password_reset_token )

@@ -8,7 +8,9 @@ end
 
 
 When(/^I reject current dibber and select "(.*?)"$/) do |arg1|
+  sleep(1)
   page.find('button', :text => "Settings").click
+  sleep(1)
   page.find('button', :text =>  arg1).click
   sleep(1)
 end
@@ -19,6 +21,7 @@ Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display 
   expect(post.current_dibber.username).to eq username
   sign_in post.creator
   click_link "My Stuff"
+  sleep(1)
   within('#my-stuff') do
   	expect(page.body).to have_text "Want!ed"
     expect(page.find('button', :text=> 'Wanted', :visible => true)).to_not eq nil
