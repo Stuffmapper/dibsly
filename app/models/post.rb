@@ -40,7 +40,7 @@ class Post < ActiveRecord::Base
   end
 
   def available_to_dib?
-    %w(dibbed claimed deleted loading).include?(self.status)  ? false : self.dibbed_until <= Time.now
+    %w(dibbed claimed deleted loading gone).include?(self.status)  ? false : self.dibbed_until <= Time.now
   end
 
 
