@@ -120,6 +120,7 @@ RSpec.describe Api::PostsController, :type => :controller do
       it "does not return a dibbed item  " do
          @post.latitude = '47'
          @post.longitude = '-122'
+
          @post.dibbed_until = Time.now + 10.minutes
          @post.save!
          expect(@post.available_to_dib?).to eq(false)
@@ -316,16 +317,32 @@ RSpec.describe Api::PostsController, :type => :controller do
 
       end
 
-      it 'should return my stuff with a description' do
-
+      it 'should return my stuff with correct attributes' do
+        @user3 = create(:user)
         @post.description = "awesome kicks"
         @post.save
+        @post.create_new_dib @user3
         sign_in(@user)
         xhr :get, :my_stuff
         parsed_response = JSON.parse(response.body.as_json)
         expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
+        expect(parsed_response['posts'][0]['dibbable'] ).to eq false
 
       end
+      it 'should return my stuff with correct attributes in the future' do
+        @user3 = create(:user)
+        @post.description = "awesome kicks"
+        @post.save
+        @post.create_new_dib @user3
+        sign_in(@user)
+        Timecop.travel(2000)
+          xhr :get, :my_stuff
+          parsed_response = JSON.parse(response.body.as_json)
+          expect(parsed_response['posts'][0]['description'] ).to eq 'awesome kicks'
+          expect(parsed_response['posts'][0]['dibbable'] ).to eq true
+        Timecop.return
+      end
+
       it 'should return my stuff with a creator username' do
 
         @post.description = "awesome kicks"
@@ -392,11 +409,13 @@ RSpec.describe Api::PostsController, :type => :controller do
         expect(parsed_response['posts'][0]['longitude']).to eq -122
         expect(parsed_response['posts'][0]['isCurrentDibber']
             ).to eq true
+        expect(parsed_response['posts'][0]['dibbable']
+            ).to eq false
         expect(response.status).to eq(200)
       end
 
       it 'should return my  expired dibs' do
-        Timecop.travel(3600000)
+        Timecop.travel(1810)
         @post.reload
         expect(@post.available_to_dib?).to eq true 
         sign_in(@user2)
@@ -406,6 +425,8 @@ RSpec.describe Api::PostsController, :type => :controller do
         expect(parsed_response['posts'][0]['longitude']).to eq -122
         expect(parsed_response['posts'][0]['isCurrentDibber']
             ).to eq false
+        expect(parsed_response['posts'][0]['dibbable']
+            ).to eq true
         expect(response.status).to eq(200)
         Timecop.return
       end
@@ -446,6 +467,19 @@ RSpec.describe Api::PostsController, :type => :controller do
       xhr :get, :show, :id => @post.id
       expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['post']['dibbable']).to eq(false)
+    end
+    it "should get an items dibbed status change depending on the time" do
+
+      @user3 = create(:user)
+      @post.create_new_dib @user3
+      xhr :get, :show, :id => @post.id
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body)['post']['dibbable']).to eq(false)
+      Timecop.travel(1810)
+        xhr :get, :show, :id => @post.id
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)['post']['dibbable']).to eq(true)
+      Timecop.return
     end
 
     it "should show  a status" do
