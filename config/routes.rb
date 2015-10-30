@@ -48,6 +48,9 @@ Dibsly::Application.routes.draw do
     post 'dibs/:dib_id/markread' => 'dibs#mark_read'
     get 'dibs/:dib_id/unread' => 'dibs#unread'
 
+    get 'policies/termsofuse' => 'policies#terms_of_use'
+    get 'policies/privacy' => 'policies#privacy'
+
 
 
     resources :posts, only: [:create, :index, :update, :show] do
