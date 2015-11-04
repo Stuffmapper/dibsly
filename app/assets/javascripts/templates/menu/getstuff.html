@@ -1,7 +1,10 @@
 <div id="get-stuff"  >
   <div class='col-lg-6 col-md-6 col-xs-6 to-edge'>
-    <select class="form-control" id="category" placeholder="Category"
-    ng-model="search.category" >
+    <select 
+      class="form-control" id="category" placeholder="Category"
+      ng-model="search.category"
+      ng-change="updateGetStuff()"
+     >
       <option ng-repeat="category in categories">{{category}}</option>
     </select>
   </div>

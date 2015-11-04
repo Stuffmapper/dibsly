@@ -25,7 +25,8 @@
       $scope.UserService = UserService;
       $scope.MarkerService = MarkerService;
 
-      $scope.search = {};//NOTE am I used yet?
+      $scope.search = { category : 'Books, Games, Media'};//NOTE am I used yet?
+
       $scope.stuff = {};
 
       $scope.tabs = {
@@ -311,6 +312,11 @@
         );
  
       };
+      $scope.updateGetStuff = function(){    
+        if($scope.search.category === 'All'){ $scope.search = {} };
+        MarkerService.setAll($scope.search, {temporary:true})
+        $scope.mapped = MarkerService.where([$scope.search ], {temporary:true});
+      };
       $scope.updateStuff = function() {
         //TODO move to marker servicee
         return UserService.check()
@@ -362,35 +368,6 @@
       };
 
 
-      //calls the function related to the tab
-      //if it is a function otherwise will
-      //not call a function (i.e. for edit and details).
-      $scope.showTab = function(tab) {
-        var original;
-        angular.forEach($scope.tabs, function(value, key){
-          //resets all the tabs
-          if(value[1]){
-            original = key;
-          }
-          $scope.tabs[key][1] = false;
-          $scope.tabs[key][0] = false;
-        });
-        //sets correct states
-        $scope.tabs[tab][1] = true;
-        $scope.tabs[tab][0] = true;
-        if (tab === 'details' || tab === 'mydetails') {
-          //TODO make this cleaner
-          $scope.tabs['details'][1] = false;
-          $scope.tabs['mydetails'][1] = false;
-          $scope.tabs[original][1] = true;
-        }
-        //calls corresponding function if exists
-        $scope.stuff.last = original;
-        //TODO store this state elsewhere
-
-        if(typeof $scope[tab] === 'function'){ $scope[tab]() }
-        MapsService.resizeMap();
-      };
 
       $scope.updateMarkers = function(coords) {
         var defer = $q.defer();
@@ -448,7 +425,7 @@
         $scope.updateMarkers(args);
       });
       $scope.$on('markersUpdated', function(){
-        $scope.mapped = MarkerService.where({status: 'new'}, {temporary:true});
+        $scope.mapped = MarkerService.where([$scope.search, {status: 'new'} ], {temporary:true});
       });
       //HELPER FUNCTIONS 
       var addImageGroup = function(id) {

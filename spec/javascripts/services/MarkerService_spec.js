@@ -147,7 +147,9 @@ describe('MarkerService', function() {
     it('has a list of categories', function(){
       setupController();
       expect(MarkerService.categories ).toEqual(
-      ['Arts & Crafts',
+      [
+      'All',
+      'Arts & Crafts',
       'Books, Games, Media',
       'Building & Garden Materials',
       'Clothing & Accessories',

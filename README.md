@@ -195,6 +195,7 @@ The code for creating the boundingbox in map service for points was adapted from
 ### JWT storage
 
 https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage/
+https://blog.whitehatsec.com/web-storage-security/
 
 ### colors
 
