@@ -181,12 +181,21 @@
       newMapMarker: function(options){
         var that = this;
         var position = options.position;
+
         return self.getMap()
         .then( function(map){
-          options.map = map;
           var latlng = that.newLatLng( position.lat, position.lng );
           options.position = latlng; 
-          return new google.maps.Marker(options);
+          return new google.maps.Circle({
+            strokeColor: 'blue',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: 'lightblue',
+            fillOpacity: 0.35,
+            map: map,
+            center: latlng,
+            radius: 100
+          });
         });
       },
       openInfoWindow: function(infoWindow,marker){
@@ -201,6 +210,7 @@
         return self.getMap()
         .then(function(map){ 
           map.panTo(that.newLatLng(latlng.lat, latlng.lng ));})  
+
       },
 
       panToMarker: function( marker ){
