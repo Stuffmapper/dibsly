@@ -245,7 +245,7 @@
       setMapMarker: function(marker){
         return self.getMap()
         .then( function(map){
-          marker.setMap(map); 
+          self.markerClusterer.addMarker(marker)
         });
       },
       triggerMarkerEvent: function(marker, event){
