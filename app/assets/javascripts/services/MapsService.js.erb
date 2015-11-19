@@ -66,7 +66,16 @@
                 }),
                 self.map = map;
                 self.mapStatus = 'loaded';
-                self.markerClusterer = new MarkerClusterer(map, [], {gridSize: 50, maxZoom: 15});
+                self.markerClusterer = new MarkerClusterer(map, [], {
+                  gridSize: 50,
+                  maxZoom: 15, 
+                  styles:[{
+                    url: "<%= asset_path('circle.png')%>",
+                    height: 102,
+                    width: 102,
+                    textColor: 'black'
+                  }]
+                });
                 emptyQueue(map);
               }
             });
