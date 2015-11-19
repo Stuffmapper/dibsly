@@ -193,29 +193,31 @@
         // MarkerService.updateWindow(id);
         // MarkerService.clearWindows(id, $scope.ma)
         var template = 'details';
-        
         //TODO have the state use another service or write own solution
         //the current hack on $location and the $route is so that the page doesn't 
         //render the page and attempt to reload the google map
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        $scope.stuff = MarkerService.getMarker(id);
-        if (!$scope.stuff ){
-          MarkerService.getMarkerAsync(id)
-          .then( function(){ 
-              //NOT TESTED TEST ME
-              $scope.stuff = MarkerService.getMarker(id);
-              $location.path('/post/' + id, false);
-              $scope.showTab(template)
-            },
-              function(){ 
-                console.log("this is not found")
-                alert('404 Marker not found') }
-          );
-        } else {
-          $location.path('/post/' + id, false);
-          $scope.showTab(template);
-        }
+        return $q.when( MarkerService.getMarker(id) || MarkerService.getMarkerAsync(id))
+        .then(
+          function(){
+            $scope.stuff = MarkerService.getMarker(id);
+            $location.path('/post/' + id, false);
+            $scope.showTab(template)
+            return $scope.stuff;
+          },
+           function(err){ 
+              return new Error('404 Marker not found') 
+          }
+        )
+        .then(
+          function(stuff){
+            return MapsService.panToMarker($scope.stuff.marker)
+          },
+          function(err){
+            throw err
+          }
+        );
       };
 
       $scope.showEdit = function(id){
@@ -230,7 +232,6 @@
         })
         .then(
           function(marker) {
-            console.log('line 229', marker)
             $scope.editItem = marker;
             $scope.showTab('editing');
             return $scope.editItem.setEditState()
@@ -295,7 +296,7 @@
             return MarkerService.setMarker(post)
             .then( function(){
               MarkerService.getMarker(post.id).image_url = image;
-              $scope.showDetails(post.id);
+              return $scope.showDetails(post.id);
             })
             .then(
               function(){

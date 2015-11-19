@@ -184,6 +184,8 @@
 
         return self.getMap()
         .then( function(map){
+          console.log(options);
+          options.map = map;
           var latlng = that.newLatLng( position.lat, position.lng );
           options.position = latlng; 
           return new google.maps.Circle({
@@ -245,7 +247,6 @@
         throw new Error('not implemented')
       },
       setMapMarker: function(marker){
-        console.log('line 211')
         return self.getMap()
         .then( function(map){
           marker.setMap(map); 
