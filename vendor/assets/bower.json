@@ -2,6 +2,7 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "angular": "latest",
+    "bootstrap-sass": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
     "angular-mocks": "latest",
@@ -9,6 +10,7 @@
     "angular-timeago": "latest",
     "angular-img-fallback": "latest",
     "angular-animate": "latest",
-    "angular-bootstrap": "latest"
+    "angular-bootstrap": "latest",
+    "js-marker-clusterer": "git@github.com:OrangeLibrary/js-marker-clusterer.git"
   }
 }

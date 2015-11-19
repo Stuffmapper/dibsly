@@ -65,7 +65,8 @@
                   zoom: 15
                 }),
                 self.map = map;
-                self.mapStatus = 'loaded'
+                self.mapStatus = 'loaded';
+                self.markerClusterer = new MarkerClusterer(map, [], {gridSize: 50, maxZoom: 15});
                 emptyQueue(map);
               }
             });
@@ -161,6 +162,10 @@
         } else if(!self.boundingBox){ that.setBoundingBox(that.createBox(coords, distance)); }
         return self.boundingBox ;
       },
+      getMarkerClusterer: function(){
+        return self.getMap()
+        .then(function(){ return self.markerClusterer })
+      },
       getPosition: function(marker){
         return {
           lat: marker.getPosition().lat(),
@@ -178,26 +183,17 @@
       newLatLng: function(latitude, longitude){ 
         return new google.maps.LatLng(latitude, longitude)
       },
+
       newMapMarker: function(options){
         var that = this;
         var position = options.position;
-
         return self.getMap()
         .then( function(map){
           console.log(options);
           options.map = map;
           var latlng = that.newLatLng( position.lat, position.lng );
           options.position = latlng; 
-          return new google.maps.Circle({
-            strokeColor: 'blue',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: 'lightblue',
-            fillOpacity: 0.35,
-            map: map,
-            center: latlng,
-            radius: 100
-          });
+          return new google.maps.Marker(options);
         });
       },
       openInfoWindow: function(infoWindow,marker){

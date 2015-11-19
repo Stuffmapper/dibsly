@@ -23,4 +23,5 @@
 //= require angular-timeago/src/timeAgo.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require angular-img-fallback/angular.dcb-img-fallback.min.js
+//= require js-marker-clusterer/src/markerclusterer_compiled.js
 //= require_tree .

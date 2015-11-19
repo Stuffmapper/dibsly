@@ -8,4 +8,5 @@ asset 'angular-timeago'
 asset 'angular-img-fallback'
 asset 'angular-animate'
 asset 'angular-bootstrap'
+asset 'js-marker-clusterer', 'git@github.com:OrangeLibrary/js-marker-clusterer.git'
 # vim: ft=ruby

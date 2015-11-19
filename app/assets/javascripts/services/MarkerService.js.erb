@@ -26,11 +26,11 @@
         icons: {
           standard: { 
             path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
-            fillColor: 'blue',
+            fillColor: '#62a9c4',//lightblue
             fillOpacity: 0.4,
-            scale:  1,
-            strokeColor: 'gold',
-            strokeWeight: 3
+            scale:  0.9,
+            strokeColor: '#0388ba',
+            strokeWeight: 1.5
           },
           want: { 
             path: "M 100 100 L 300 100 L 200 300 z",
@@ -211,10 +211,13 @@
 
         setAll: function(has, doesnot){
           var that = this;
-          that.where(has, doesnot, { 
-            posFn: function(marker){ MapsService.setMapMarker(marker.marker) },
-            negFn: function(marker){ MapsService.clearMapMarker(marker.marker) }
-          } );
+          MapsService.getMarkerClusterer()
+          .then(function(clusterer){
+            that.where(has, doesnot, { 
+             posFn: function(marker){ clusterer.addMarker(marker.marker) },
+             negFn: function(marker){ clusterer.removeMarker(marker.marker)}
+            });
+          });
         },
 
         setGoogleMarker: function(marker){
