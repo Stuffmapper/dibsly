@@ -46,7 +46,7 @@ gem 'angular-rails-templates'
 gem 'omniauth-facebook'
 
 #for google
-gem 'omniauth-google-oauth2'
+gem 'omniauth-google-oauth2','~> 0.2.6'
 
 
 #for Auth

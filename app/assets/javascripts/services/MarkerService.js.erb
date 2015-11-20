@@ -33,37 +33,23 @@
             strokeWeight: 1.5
           },
           want: { 
-            path: "M 100 100 L 300 100 L 200 300 z",
+            path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
             fillColor: 'yellow',
-            fillOpacity: 0.8,
-            scale: 0.25,
-            strokeColor: 'gold',
-            strokeWeight: 14
+            fillOpacity: 0.4,
+            scale:  0.9,
+            strokeColor: 'yellow',
+            strokeWeight: 1.5
           },
-          myPost:{
-            path: "M 100 100 A 48 48 0 0 1 98 50 L 300 100 L 200 300 z",
-            fillColor: 'blue',
-            fillOpacity: 0.8,
-            scale:  0.25,
-            strokeColor: 'gold',
-            strokeWeight: 14
+          myPost:{ 
+            path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
+            fillColor: 'brown',
+            fillOpacity: 0.4,
+            scale:  0.9,
+            strokeColor: 'brown',
+            strokeWeight: 1.5
           },
-          moving: {
-            path: "M 100 100 L 300 100 L 200 300 z",
-            fillColor: 'yellow',
-            fillOpacity: 0.8,
-            scale:  0.25,
-            strokeColor: 'gold',
-            strokeWeight: 14
-          },
-          giveStuff:{ 
-            path: "M 100 100 L 300 100 L 200 300 z",
-            fillColor: 'yellow',
-            fillOpacity: 0.8,
-            scale: 0.25,
-            strokeColor: 'gold',
-            strokeWeight: 14
-          } 
+          moving: "<%= asset_path('green-pin.png')%>",
+          giveStuff:"<%= asset_path('pin.png')%>"
         },
         categories:[
           'All',
