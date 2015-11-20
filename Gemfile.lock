@@ -472,7 +472,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    teaspoon (1.1.1)
+    teaspoon (1.0.2)
       railties (>= 3.2.5, < 5)
     teaspoon-jasmine (2.3.4)
       teaspoon (>= 1.0.0)
@@ -565,7 +565,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.4.0)
   simplecov
   spring
-  teaspoon
+  teaspoon (<= 1.0.2)
   teaspoon-jasmine
   timecop (~> 0.7.3)
   uglifier (>= 1.3.0)

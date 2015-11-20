@@ -89,7 +89,7 @@ group :development, :test do
   gem "rspec-rails"
   gem 'jasmine'
   gem 'factory_girl_rails'
-  gem 'teaspoon'
+  gem 'teaspoon','<= 1.0.2'
   gem 'teaspoon-jasmine'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'cucumber-rails', require: false
