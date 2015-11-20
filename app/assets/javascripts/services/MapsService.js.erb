@@ -90,13 +90,17 @@
         google.maps.event.addListener(marker, event, fn )
       },
       addMapListener: function(event, fn){
-
-        self.getMap()
+        return self.getMap()
         .then(
           function(map){
             google.maps.event.addListener(map, event, fn )
           }
         )
+      },
+      clearCluster: function(){
+        return self.getMap()
+        .then(function(){ self.markerClusterer.clearMarkers() });
+
       },
       clearMapMarker: function(marker){
         marker.setMap(null);  
@@ -198,7 +202,6 @@
         var position = options.position;
         return self.getMap()
         .then( function(map){
-          console.log(options);
           options.map = map;
           var latlng = that.newLatLng( position.lat, position.lng );
           options.position = latlng; 
@@ -238,8 +241,11 @@
           });
         });
       },
-      removeMapListener: function(){
-        throw new Error('not implemented')
+      removeMapListeners: function(){
+        return self.getMap()
+        .then(function(map){ 
+          google.maps.event.clearInstanceListeners(map);
+        })
       },
       setBoundingBox: function(box){
         self.boundingBox = box;

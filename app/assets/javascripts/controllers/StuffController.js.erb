@@ -37,6 +37,7 @@
         mydetails: [ false,  false],
         editing: [ false, false]
       };
+      var state = 'listening'; //PLACEHOLDER FIXME
 
       //WATCHES
 
@@ -98,18 +99,22 @@
         $location.path('/menu/getStuff', false).search({tab: 'gs'})
         $scope.menuHeight = 'menu-0';
         $scope.mapHeight = 'map-0';
-        return MapsService.getCenter()
-        .then(function(center){
-          $scope.updateMarkers(center)
-          .then(function(){
-            MarkerService.setAll({status:'new', state:'editing'}, {temporary:true});//
-            $scope.$emit('markersUpdated', function(){})
+        return $q.when(state !== 'listening' ? addMapListeners() : state )
+        .then(function(){
+          return MapsService.getCenter()
+          .then(function(center){
+            $scope.updateMarkers(center)
+            .then(function(){
+              MarkerService.setAll({status:'new', state:'editing'}, {temporary:true});//
+              $scope.$emit('markersUpdated', function(){})
+            });
           });
         });
       };
 
       $scope.giveNext = function(id) {
         var stat = String(id);
+
         return MapsService.loadMap()
         .then( function(){
           $scope.mapHeight = 'map-1-' + stat
@@ -131,13 +136,17 @@
       };
 
       $scope.giveStuff = function() {
-        var state = innerState() || '1';
+        var gState = innerState() || '1';
         addImageGroup('giveStuff');
+        //clear and turn off listener
+        state = 'notlistening'; //TEMP FIXME
+        MapsService.removeMapListeners();
+        MapsService.clearCluster();
         return MarkerService.getSetTemporary('giveStuff')
         .then( function(marker){ 
           marker.images = ImageService.images['giveStuff']
           $scope.post = MarkerService.getMarker('giveStuff');
-          return $scope.giveNext(state); 
+          return $scope.giveNext(gState); 
         })
       };
 
@@ -156,6 +165,9 @@
         $scope.menuHeight = 'menu-2';
         $scope.mapHeight = 'map-2';
         $location.path('/menu/myStuff', false).search({tab: 'ms'});
+        state = 'notlistening'; //TEMP FIXME
+        MapsService.removeMapListeners();
+        MapsService.clearCluster();
         return UserService.getCurrentUser()
         .then(
           function(user){
@@ -174,16 +186,6 @@
         })
       };
 
-
-      // $scope.publish = function(status) {
-      //   //TODO move to Marker Resource
-      //   if (UserService.currentUser) {
-      //     return $http.post("/api/posts/" + $scope.editItem.id + "/update", {
-      //       published: status
-      //     }).success( console.log('success') )
-      //     .error(console.log);
-      //   }
-      // };
 
 
       $scope.showDetails = function(id){
@@ -433,6 +435,17 @@
         var image = MarkerService.getMarker(id) && MarkerService.getMarker(id).image_url;
         ImageService.addImageGroup(id, image)
       };
+      var addMapListeners = function(){
+        state = 'listening';
+        return MapsService.addMapListener('dragend', getPosition );
+      };
+
+      var getPosition = function(){
+        MapsService.getCenter()
+        .then( function(center){
+          $scope.$emit( 'mapChanged', center )
+        }); 
+      };
 
       var init = function() {
         UserService.check();
@@ -445,14 +458,10 @@
           $scope.showEdit($routeParams.next);
         }   
         loadCache();
-        var getPosition = function(){
-          MapsService.getCenter()
-          .then( function(center){
-            $scope.$emit( 'mapChanged', center )
-          }); 
-        };
-        MapsService.addMapListener('dragend', getPosition );
-        getPosition();
+        addMapListeners();
+        if(state === 'listening'){
+          getPosition();
+        }
       };
 
       //TODO remove this and use ui-router

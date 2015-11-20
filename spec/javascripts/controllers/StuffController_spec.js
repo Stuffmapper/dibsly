@@ -258,7 +258,7 @@ describe('StuffCtrl', function() {
 
       expect($scope.mapHeight).toEqual('map-0');
       expect($scope.menuHeight).toEqual('menu-0');
-      expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
+      //using cluterer now expect(mockMapsService.setMapMarker ).toHaveBeenCalled();
     });
   });
 

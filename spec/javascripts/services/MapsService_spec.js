@@ -43,7 +43,7 @@ describe('MapsService', function() {
     it('defines map functions', function() {
       setupController()
       expect(MapsService.addMapListener).toBeDefined();
-      expect(MapsService.removeMapListener).toBeDefined();
+      expect(MapsService.removeMapListeners).toBeDefined();
       expect(MapsService.getPosition).toBeDefined();
       expect(MapsService.panTo).toBeDefined();
       expect(MapsService.panToMarker).toBeDefined();
