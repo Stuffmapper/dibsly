@@ -61,8 +61,19 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
     }) 
     .state( 'singlepost', {
       url:'/post/:postId',
-      templateUrl: "home.html",
-      controller: 'MenuCtrl'
+      template: "<smdetails post='post'>></smdetails>",
+      controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
+        function($scope,$stateParams,$q,MarkerService,MapsService){
+          var id = $stateParams.postId;
+          $scope.post = {};
+          $q.when( MarkerService.getMarker(id) || MarkerService.getMarkerAsync(id))
+          .then(function(marker){ 
+            $scope.post = marker;
+            $scope.post.get()
+            .then(function(){ MapsService.panToMarker( $scope.post.marker )} );
+           }, function(){ }  )//todo add 404; 
+      }],
+      parent:'menu'
     })
     .state( 'giveStuff', {
       url:'/givestuff',

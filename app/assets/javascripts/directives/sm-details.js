@@ -22,7 +22,6 @@ directives.directive('smdetails', function() {
               return $scope.post.dib()
               .then(
                 function(results) {
-                  console.log('line 25 ', results)
                   return AlertService.add('success', "Dibbed your stuff");
                 },
                 function(err) {

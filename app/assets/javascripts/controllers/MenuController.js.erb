@@ -81,6 +81,10 @@
         function(event, toState, toParams, fromState, fromParams){ 
           setHeights(toState.name);
       });
+    $rootScope.$on('detailsWanted', 
+        function(event, args){ 
+          $state.go('singlepost', {postId: args.markerId});
+      });
       setHeights($state.$current.name);
 
     }

@@ -4,8 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('Marker', [
-    '$http','LocalService','$resource', '$q', '$rootScope', 'MapsService',
-     function($http, LocalService,$resource, $q, $rootScope, MapsService ) {
+    '$http','LocalService','$resource', '$q', '$rootScope','$state', 'MapsService',
+     function($http, LocalService,$resource, $q, $rootScope,$state, MapsService ) {
 
 
       var Marker = function(params){
@@ -124,7 +124,7 @@
         //does not delete itself .. will need to be handle else where
         //should mark for deletion
         return $q(function(resolve, reject){
-          $http.delete(self.getUrl() + '/remove')
+          $http.post(self.getUrl() + '/remove')
           .success( function(data){
             angular.extend(self, data.post)
             self.deleteLocal();
@@ -258,9 +258,7 @@
       };
       constructor.goToDetails = function() {
         var self = this;
-        $rootScope.$broadcast('detailsWanted', {
-          markerId: self.id
-        });
+        $state.go('singlepost', {postId: this.id });
       };
 
       constructor.goToEdit = function() {
