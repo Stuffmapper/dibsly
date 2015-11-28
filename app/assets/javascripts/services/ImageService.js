@@ -51,10 +51,7 @@
          createGroup: function(args){
            var self = this;
            return $q(function(resolve, reject){
-             if(!self.images[args.origin]){
-               self.addImageGroup(args.origin)
-             } 
-             var group = self.images[args.origin]
+             var group = {};
              self.convert(1000, 1000, args.file)
              .then(
               function(original){

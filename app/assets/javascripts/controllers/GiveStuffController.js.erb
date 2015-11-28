@@ -1,0 +1,90 @@
+(function() {
+  var controllers;
+
+  controllers = angular.module('controllers');
+
+  controllers.controller('GiveStuffCtrl', [
+    '$scope', '$timeout', '$location', '$window', '$modal','$q',
+    '$state', '$stateParams','ImageService','LocalService', 'LocationService',
+    'MapsService','MarkerService', 'UserService', 'AlertService','$rootScope',
+    '$http', function($scope, $timeout, $location, $window,
+      $modal,$q, $state,$stateParams,ImageService, LocalService, LocationService,
+      MapsService, MarkerService, UserService, AlertService, $rootScope,
+      $http) {
+
+       // $SCOPE OBJECTS
+
+      $scope.categories = MarkerService.categories;
+      $scope.images = ImageService.newest || {};
+      MapsService.removeMapListeners()
+      .then( function() { return MarkerService.clearMarkers('giveStuff'); })
+      .then( function() { return MarkerService.getSetTemporary('giveStuff'); })
+      .then( function(marker){ $scope.post = marker; 
+        MarkerService.setAll({temporary:true});
+      })
+
+
+      // $SCOPE FUNCTIONS
+      $scope.cancel = function(){
+        MarkerService['delete']('giveStuff');
+        ImageService.newest = {};
+        $scope.images = {};
+        $state.go('giveStuffOne');
+      }
+
+      $scope.submitPost = function() {
+        //TODO move this into marker service resource
+        if(!$scope.images.original){
+          AlertService.add('warning', "Please add a photo");
+        }
+        var image = $scope.images.original;
+        return $scope.post.create()
+        .then(
+          function(post){
+            AlertService.add('success', "Your post has been added");
+            MarkerService['delete']('giveStuff');
+            ImageService.newest = {};
+            $scope.images = {};
+            return MarkerService.setMarker(post)
+            .then( function(){
+              var newPost = MarkerService.getMarker(post.id);
+              newPost.image_url = image;
+              newPost.goToDetails();
+              
+            })
+            .then(
+              function(){
+                return ImageService.upload(image,post.id,'post')
+              }
+            )
+            .then(function(){ })
+          },
+          function(error){
+            console.log(error);
+            angular.forEach(error.data, function(value, key){
+              AlertService.add('danger', value);
+            })
+          }
+        );
+ 
+      };
+
+
+      //LISTENERS
+      
+      $scope.$on("fileSelected", function(event, args) {
+        args.origin = args.location.split('/')[2]
+        ImageService.createGroup(args)
+        .then(function(images){
+          ImageService.newest = images;
+          $state.go('giveStuffTwo');
+        })
+      });
+
+      MapsService.loadMap();
+
+
+    }
+  ]);
+
+}).call(this);

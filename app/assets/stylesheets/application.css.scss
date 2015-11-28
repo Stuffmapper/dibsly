@@ -167,14 +167,6 @@ body{
     background-color: darkgrey; /*move me to vari */
   }
 }
-.tab-clicked{
-  background-color: $white;
-  color:$black;
-  a{
-    text-decoration: none;
-    color: $black;
-  }
-}
 .tab-unclicked{
   background-color: $black;
   color:$white;
@@ -184,6 +176,15 @@ body{
   }
 
 }
+.tab-clicked{
+  background-color: $white;
+  color:$black;
+  a{
+    text-decoration: none;
+    color: $black;
+  }
+}
+
 
 .stuffmapper-menu{
   padding: 0;

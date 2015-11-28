@@ -7,6 +7,8 @@
     var self = this;
     self.mapStatus = 'new';
     self.queue = [];
+    var gMap = document.createElement('DIV');
+
 
     var emptyQueue = function(map){
       //resolves the queue of promises with the map object
@@ -60,6 +62,7 @@
               callback: function(){
             
                 center = new google.maps.LatLng(coords.lat, coords.lng);
+                console.log("this is line 64")
                 map = new google.maps.Map(document.getElementById('google-map'), {
                   center: center,
                   zoom: 15
@@ -260,7 +263,7 @@
       setMapMarker: function(marker){
         return self.getMap()
         .then( function(map){
-          self.markerClusterer.addMarker(marker)
+          marker.setMap(map);
         });
       },
       triggerMarkerEvent: function(marker, event){

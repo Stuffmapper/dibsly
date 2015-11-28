@@ -10,57 +10,59 @@
       self.checking = false;
       self.checkingQueue = [];
       return {
+        currentUser: function(){
+          return self.user;
+        },
         login: function(username, password, callback) {
           //TODO switch to promises for consistency
-          var that = this;
           loginData = {
             username: username,
             password: password
           };
-          return $http.post('/api/sessions/create', loginData).success(function(data) {
+          return $http.post('/api/sessions/create', loginData)
+          .success(function(data) {
             if (data && data.user) {
-              that.currentUser = data.user;
+              self.user = data.user;
               that.token = data.token;
               LocalService.set('sMToken', JSON.stringify(data));
             } else {
               console.log(data);
               LocalService.unset('sMToken');
-              that.currentUser = false;
+              self.user = false;
             }
             return callback(null, data);
-          }).error(function(err) {
+          })
+          .error(function(err) {
             console.log(err);
-            that.currentUser = false;
+            self.user = false;
             return callback(err);
           });
         },
         logout: function(callback) {
           //TODO switch to promises for consistency
-          var that = this;
           localStorage.clear();
           //should this passed into LocalService?
           return $http.get('/api/log_out').success(function(data) {
-            that.currentUser = false;
+            self.user = false;
             return callback(null, data);
           }).error(function(err) {
             return callback(err);
           });
         },
         check: function(){
-          var that = this;
           var rejectAll = function(){
-            that.currentUser = false;
+            self.user = false;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.reject(that.currentUser)
+              prom.reject(self.user)
             }
             self.checking = false;
           };
           var resolveAll = function(user){
-            that.currentUser = user;
+            self.user = user;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.resolve(that.currentUser)
+              prom.resolve(self.user)
             }
             self.checking = false;
           };
@@ -87,8 +89,8 @@
 
         getCurrentUser: function(){
           var that = this;
-          if( that.currentUser ){
-            return $q.when(that.currentUser)
+          if( self.user ){
+            return $q.when(self.user)
           } else { return that.check() }
         }
       };

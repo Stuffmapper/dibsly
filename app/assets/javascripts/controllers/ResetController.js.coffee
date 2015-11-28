@@ -4,8 +4,8 @@ controllers = angular.module('controllers')
 
 
 
-controllers.controller('ResetCtrl', [ '$scope','$window', '$http','$routeParams','$resource','$modalInstance','AlertService',
- ($scope,$window,$http,$routeParams,$resource,$modalInstance, AlertService ) ->
+controllers.controller('ResetCtrl', [ '$scope','$window', '$http','$resource','$modalInstance','AlertService',
+ ($scope,$window,$http,$resource,$modalInstance, AlertService ) ->
 
 
         $scope.cancel = ->
@@ -19,7 +19,7 @@ controllers.controller('ResetCtrl', [ '$scope','$window', '$http','$routeParams'
           else if $scope.password.length < 6
             AlertService.add('danger', "Passwords must be longer than 6 characters")
           else
-          	$http.patch( '/api/password_resets/' + $routeParams.user,
+          	$http.patch( '/api/password_resets/' #+ $routeParams.user,
           		{user: pw})
               .success(
                 (data)->

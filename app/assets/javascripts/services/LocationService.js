@@ -6,8 +6,12 @@
 
           get: function() {
             var deferred = $q.defer();
-            var success = function(position){ deferred.resolve( position )};
+            deferred.hasBeenReturned = false;
+            var success = function(position){ 
+              deferred.hasBeenReturned = true;
+              deferred.resolve( position )};
             var error =  function(err){ 
+              deferred.hasBeenReturned = true;
               if(!deferred.somethingWentWrong){
                 console.log(err); 
                 deferred.somethingWentWrong = true;
@@ -20,7 +24,10 @@
                timeout: 3000 };
            if (navigator.geolocation){
             //because firefox doesn't call the error callback when you hit not now
-            $timeout( function(){ error(new Error('geolocation is not available')) },4200  );
+            $timeout( function(){
+             if(!deferred.hasBeenReturned){ 
+              error(new Error('geolocation is not available')) }
+            },4200  );
              navigator.geolocation.getCurrentPosition(success, error, geoOptions)
 
            } else { 

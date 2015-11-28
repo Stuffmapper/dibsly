@@ -1,0 +1,116 @@
+(function() {
+  var controllers;
+
+  controllers = angular.module('controllers');
+
+  controllers.controller('GetStuffCtrl', [
+    '$scope', '$timeout', '$location', '$window', '$modal','$q',
+    '$resource', '$stateParams','ImageService','LocalService', 'LocationService',
+    'MapsService','MarkerService', 'UserService', 'AlertService','$rootScope',
+    '$http', function($scope, $timeout, $location, $window,
+      $modal,$q, $resource,$stateParams,ImageService,LocalService, LocationService,
+      MapsService, MarkerService, UserService, AlertService, $rootScope,
+      $http) {
+
+       // $SCOPE OBJECTS
+
+      $scope.categories = MarkerService.categories;
+      $scope.loading = false;
+      $scope.menuHeight = 'menu-0';
+      $scope.mapHeight = 'map-0';
+
+      MarkerService.loadCache()
+      .then( function(){
+        addMapListeners();
+        $scope.mapped = MarkerService.where({status:'new'});
+       return  MarkerService.setAll({},{temporary:true}); })
+      .then(function(){ return  MarkerService.expireMarkers() })
+ 
+
+      // $SCOPE FUNCTIONS
+
+
+
+      
+      $scope.getStuff = function() {
+        return $q.when(state !== 'listening' ? addMapListeners() : state )
+        .then(function(){
+          return MapsService.getCenter()
+          .then(function(center){
+            $scope.updateMarkers(center)
+            .then(function(){
+              MarkerService.setAll({status:'new', state:'editing'}, {temporary:true});//
+              $scope.$emit('markersUpdated', function(){})
+            });
+          });
+        });
+      };
+
+
+
+      $scope.markers = function(hasAttribute, hasNoAttribute){
+        return MarkerService.where( hasAttribute, hasNoAttribute );
+      };
+
+      $scope.updateGetStuff = function(){    
+        if($scope.search.category === 'All'){ $scope.search = {} };
+        MarkerService.setAll($scope.search, {temporary:true})
+        $scope.mapped = MarkerService.where([$scope.search ], {temporary:true});
+      };
+
+
+
+      $scope.updateMarkers = function(coords) {
+        var defer = $q.defer();
+        //TODO turn 15 into a variable
+        var box = MapsService.getBoundingBox(coords, 15);
+        $http({
+          url: '/api/posts/geolocated',
+          params: {
+            nwLat: box.nw.lat,
+            seLat: box.se.lat,
+            nwLng: box.nw.lng,
+            seLng: box.se.lng
+          }
+        })
+        .success(function(data) {
+          var i, len, marker, ref, results;
+          ref = data.posts;
+          for (i = 0, len = ref.length; i < len; i++) {
+            marker = ref[i];
+            if (marker.originalImage === 'missing') {
+              marker.originalImage = '<%= asset_path('processing.png')%>';
+              marker.image_url = '<%= asset_path('processing.png')%>';
+            }
+            marker.currentUser = UserService.currentUser;
+            MarkerService.setMarker(marker);
+          };
+          defer.resolve('markers updated')
+        });
+        return defer.promise;
+      };
+
+      //LISTENERS
+
+
+
+      $scope.$on('mapChanged', function(evt, args) {
+        $scope.updateMarkers(args).then(function(){ $scope.mapped = MarkerService.where({status:'new'}); })
+      });
+
+      //HELPER FUNCTIONS 
+
+      var addMapListeners = function(){
+        return MapsService.addMapListener('dragend', getPosition );
+      };
+
+      var getPosition = function(){
+        MapsService.getCenter()
+        .then( function(center){
+          $scope.$emit( 'mapChanged', center )
+        }); 
+      };
+    }
+  ]);
+
+}).call(this);

@@ -1,0 +1,76 @@
+(function() {
+  var controllers;
+
+  controllers = angular.module('controllers');
+
+  controllers.controller('MyStuffCtrl', [
+    '$scope','$q','MapsService','MarkerService','UserService','$http',
+    function($scope,$q, MapsService, MarkerService, UserService, $http) {
+      $scope.UserService = UserService;
+      $scope.myWants = {};
+      $scope.myPosts ={};
+      //TODO clear Markeres
+
+
+      //HELPERS
+
+      var loadMyStuff  = function(){
+        console.log("line 18")
+        var currentUser;
+        UserService.getCurrentUser()
+        .then(
+          function(user) {
+            currentUser = user;
+            return $http.get('/api/my-dibs')
+            .then( 
+              function(data){ 
+                var promises = [] 
+                angular.forEach(data.data.posts, function(marker) {
+                  marker.type = 'want';
+                  marker.icon = 'dibber';
+                  marker.currentUser = currentUser;
+                  marker.dibber = currentUser;
+                  promises.push( MarkerService.setMarker(marker)
+                    .then(function(marker){ $scope.myWants[marker.id] = marker }) );
+                });
+                return $q.all(promises)
+              },
+              function(err){
+                return err
+              }
+            )
+            .then(
+              function(){
+                return $http.get('/api/my-stuff')
+                .then(function(data){
+                  var promises = [] 
+                  angular.forEach(data.data.posts, function(marker) {
+                    marker.type = 'myPost'; 
+                    marker.icon = 'creator'; //TODO not working
+                    marker.currentUser = currentUser;
+                    promises.push( MarkerService.setMarker(marker)
+                      .then(function(marker){ $scope.myPosts[marker.id]  = marker }) );
+                  });
+                  return $q.all(promises)
+                })
+
+              },
+              function(err){
+                return err
+              }
+            )
+          },
+          function(err){console.warn(err)}
+        );
+        //TODO -SET ALL THE MARKERS ON THE MAP
+      };
+
+      //MAIN
+
+      MapsService.loadMap()
+      .then(function(){ loadMyStuff(); })
+
+    }
+  ]);
+
+}).call(this);

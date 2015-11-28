@@ -20,8 +20,8 @@
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/dist/lodash.min.js
-//= require angular-timeago/src/timeAgo.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require angular-img-fallback/angular.dcb-img-fallback.min.js
+//= require angular-ui-router/release/angular-ui-router.min.js
 //= require js-marker-clusterer/src/markerclusterer_compiled.js
 //= require_tree .

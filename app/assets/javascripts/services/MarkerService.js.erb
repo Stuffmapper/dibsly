@@ -171,6 +171,7 @@
             icon: id,
             draggable:true 
           };
+          console.log('ok line 174')
           if (!markerSet){
              return MapsService.getCenter()
             .then( function(center){
@@ -178,7 +179,7 @@
               marker.longitude = center.lng;
               return that.setMarker(marker);
             })
-          } else { return $q.when(marker); }
+          } else { return that.setMarker(marker); }
         },
 
         isEmpty: function(obj){
@@ -194,14 +195,23 @@
           return true;
 
         },
+        loadCache: function(){ 
+          var that = this;
+          var promises = [];
+          var markers = LocalService.getJSON('markers'); 
+          angular.forEach(markers, function(marker, key){
+            promises.push(that.setMarker(marker))
+          });
+          return $q.all(promises);
+        },
 
         setAll: function(has, doesnot){
           var that = this;
           MapsService.getMarkerClusterer()
           .then(function(clusterer){
             that.where(has, doesnot, { 
-             posFn: function(marker){ clusterer.addMarker(marker.marker) },
-             negFn: function(marker){ clusterer.removeMarker(marker.marker)}
+             posFn: function(marker){ that.setMarker(marker) },
+             negFn: function(marker){ MapsService.clearMapMarker(marker.marker)}
             });
           });
         },
@@ -222,19 +232,12 @@
               self.markers[marker.id].marker = gmarker;
               if (!marker.temporary){
                 MapsService.addMarkerListener(gmarker, 'click', function(){
+                  //TODO change to state call
                   $rootScope.$broadcast('detailsWanted', {
                         markerId: marker.id
                   });
                 });
               } 
-              MapsService.addMarkerListener(gmarker, 'dragend', function(){
-                //NOTE the standard is to keep functions specific to google
-                //in the mapservice. Using MapsService.getPosition seems
-                // to cause issues 
-                marker.latitude = gmarker.getPosition().lat();
-                marker.longitude = gmarker.getPosition().lng();
-              });
-               
               defer.resolve(marker);
             })
           } else { 

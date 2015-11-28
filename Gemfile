@@ -33,7 +33,6 @@ gem 'paperclip', '~> 4.2.1'
 gem 'aws-sdk', '< 2.0'
 gem 'kaminari'
 gem 'mandrill-api'
-gem 'newrelic_rpm'
 
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'

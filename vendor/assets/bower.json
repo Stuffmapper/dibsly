@@ -11,6 +11,7 @@
     "angular-img-fallback": "latest",
     "angular-animate": "latest",
     "angular-bootstrap": "latest",
+    "angular-ui-router": "latest",
     "js-marker-clusterer": "git@github.com:OrangeLibrary/js-marker-clusterer.git"
   }
 }
