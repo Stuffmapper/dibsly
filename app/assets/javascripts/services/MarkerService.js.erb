@@ -105,6 +105,15 @@
             delete self.markers[id];
           } else { console.warn("marker not found %s not deleted", id)}
         },
+        deleteAll:function(){
+          var that = this;
+          angular.forEach(self.markers,function(marker, key){ 
+              that['delete'](key);
+            }
+          )
+          console.log('line 115')
+          self.markers ={};
+        },
         expireMarkers: function(){
           //sets a timeout, should be called only once
           //NO TEST IN PLACE
@@ -218,12 +227,9 @@
 
         setAll: function(has, doesnot){
           var that = this;
-          MapsService.getMarkerClusterer()
-          .then(function(clusterer){
-            that.where(has, doesnot, { 
-             posFn: function(marker){ that.setMarker(marker) },
-             negFn: function(marker){ MapsService.clearMapMarker(marker.marker)}
-            });
+          that.where(has, doesnot, { 
+            posFn: function(marker){ that.setMarker(marker) },
+            negFn: function(marker){ MapsService.clearMapMarker(marker.marker)}
           });
         },
 

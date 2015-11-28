@@ -38,7 +38,8 @@
          )
          .then( function(){
            $rootScope.$broadcast('mapCentered', center );
-           return MapsService.panTo(center);
+           return MapsService.resizeMap()
+           .then(function(){ MapsService.panTo(center); });
          })
       };
       //HELPERS
@@ -52,10 +53,12 @@
             case 'giveStuffOne':
               $scope.menuHeight = 'menu-1-1';
               $scope.mapHeight = 'map-1-1';
+              MapsService.resizeMap()
               break;
             case 'giveStuffTwo':
               $scope.menuHeight = 'menu-1-2';
               $scope.mapHeight = 'map-1-2';
+              MapsService.resizeMap()
               break;
             case 'myStuff':
               $scope.menuHeight = 'menu-2';

@@ -18,12 +18,14 @@
       $scope.loading = false;
       $scope.menuHeight = 'menu-0';
       $scope.mapHeight = 'map-0';
+      var boundingBox;
+      var updated = Date.now();
 
       MarkerService.loadCache()
       .then( function(){
         addMapListeners();
         $scope.mapped = MarkerService.where({status:'new'});
-       return  MarkerService.setAll({},{temporary:true}); })
+       return  MarkerService.setAll({},{id:'giveStuff'}); })
       .then(function(){ return  MarkerService.expireMarkers() })
  
 
@@ -62,31 +64,35 @@
 
       $scope.updateMarkers = function(coords) {
         var defer = $q.defer();
-        //TODO turn 15 into a variable
+        //TODO turn 15 into a variable in search
         var box = MapsService.getBoundingBox(coords, 15);
-        $http({
-          url: '/api/posts/geolocated',
-          params: {
-            nwLat: box.nw.lat,
-            seLat: box.se.lat,
-            nwLng: box.nw.lng,
-            seLng: box.se.lng
-          }
-        })
-        .success(function(data) {
-          var i, len, marker, ref, results;
-          ref = data.posts;
-          for (i = 0, len = ref.length; i < len; i++) {
-            marker = ref[i];
-            if (marker.originalImage === 'missing') {
-              marker.originalImage = '<%= asset_path('processing.png')%>';
-              marker.image_url = '<%= asset_path('processing.png')%>';
+        if (!_.isEqual(boundingBox, box) || Date.now() - updated >= 120000 ){
+          updated = Date.now();
+          boundingBox = box;
+          $http({
+            url: '/api/posts/geolocated',
+            params: {
+              nwLat: box.nw.lat,
+              seLat: box.se.lat,
+              nwLng: box.nw.lng,
+              seLng: box.se.lng
             }
-            marker.currentUser = UserService.currentUser;
-            MarkerService.setMarker(marker);
-          };
-          defer.resolve('markers updated')
-        });
+          })
+          .success(function(data) {
+            var i, len, marker, ref, results;
+            ref = data.posts;
+            for (i = 0, len = ref.length; i < len; i++) {
+              marker = ref[i];
+              if (marker.originalImage === 'missing') {
+                marker.originalImage = '<%= asset_path('processing.png')%>';
+                marker.image_url = '<%= asset_path('processing.png')%>';
+              }
+              marker.currentUser = UserService.currentUser;
+              MarkerService.setMarker(marker);
+            };
+            defer.resolve('markers updated')
+          });
+        } else { defer.resolve('markers not updated') }
         return defer.promise;
       };
 
@@ -95,13 +101,17 @@
 
 
       $scope.$on('mapChanged', function(evt, args) {
+        //
+
         $scope.updateMarkers(args).then(function(){ $scope.mapped = MarkerService.where({status:'new'}); })
       });
 
       //HELPER FUNCTIONS 
 
       var addMapListeners = function(){
-        return MapsService.addMapListener('dragend', getPosition );
+        return MapsService.addMapListener('dragend', getPosition )
+        .then( MapsService.addMapListener('idle', getPosition ))
+        .then( MapsService.addMapListener('zoom', getPosition )) 
       };
 
       var getPosition = function(){

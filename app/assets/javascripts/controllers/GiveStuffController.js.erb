@@ -23,9 +23,13 @@
         $scope.post = marker; 
         console.log(marker);
         MarkerService.setAll({temporary:true});
-        MapsService.resizeMap()
-        .then(function(){ MapsService.panToMarker(marker.marker); })
-      })
+        $timeout(MapsService.resizeMap()
+        .then(function(){ 
+          $timeout(function(){
+            MapsService.panToMarker(marker.marker); 
+          },0);
+        }),0)
+      });
 
 
       // $SCOPE FUNCTIONS
@@ -34,7 +38,11 @@
         ImageService.newest = {};
         $scope.images = {};
         $state.go('giveStuffOne');
-      }
+      };
+      $scope.centerToPin = function(){
+        MapsService.panToMarker(marker.marker);
+
+      };
 
       $scope.submitPost = function() {
         //TODO move this into marker service resource

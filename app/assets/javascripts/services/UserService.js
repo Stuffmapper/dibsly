@@ -4,7 +4,7 @@
   factories = angular.module('factories');
 
   factories.factory('UserService', [
-    '$http', '$q', 'LocalService', function($http, $q, LocalService) {
+    '$http', '$q', 'LocalService', 'MarkerService', function($http, $q, LocalService, MarkerService) {
 
       var self = this;
       self.checking = false;
@@ -40,10 +40,11 @@
         },
         logout: function(callback) {
           //TODO switch to promises for consistency
-          localStorage.clear();
           //should this passed into LocalService?
           return $http.get('/api/log_out').success(function(data) {
             self.user = false;
+            MarkerService.deleteAll();
+            localStorage.clear();
             return callback(null, data);
           }).error(function(err) {
             return callback(err);

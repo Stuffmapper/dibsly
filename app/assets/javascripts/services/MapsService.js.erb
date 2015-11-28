@@ -203,6 +203,15 @@
       newMapMarker: function(options){
         var that = this;
         var position = options.position;
+        if(options.draggable){
+          var url = options.icon;
+          options.icon = { 
+            url:url,
+            origin: new google.maps.Point(0, 0),
+            size: new google.maps.Size(36, 68),
+            anchor: new google.maps.Point(16, 60)
+          };
+        }
         return self.getMap()
         .then( function(map){
           options.map = map;
@@ -228,6 +237,7 @@
 
       panToMarker: function( marker ){
         var that = this;    
+        var latlng = that.getPosition(marker);
         return that.panTo( that.getPosition(marker) ) 
       },
 
@@ -271,14 +281,25 @@
       },
       updateMarker: function(marker){
         //I HAVE NO TEST
+        var image = marker.icon;
+        if(marker.temporary){
+          image = { 
+            url:marker.icon,
+            anchor: new google.maps.Point(16, 60),
+            origin: new google.maps.Point(0, 0),
+            size: new google.maps.Size(36, 68),
+          };
+        }
         if (marker.state !== 'editing'){
           var pos = marker.marker.getPosition() || {}; //hack for testing purposed
           if(pos.lat() != marker.latitude ){
             var latlng = this.newLatLng(marker.latitude, marker.longitude);
             marker.marker.setPosition(latlng); 
           }
-          marker.marker.setIcon(marker.icon );
+          marker.marker.setIcon(image);
         }
+        return self.getMap()
+        .then(function(map){ marker.marker.setMap(map) })
       },
       within: function(box, coords){
          return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&

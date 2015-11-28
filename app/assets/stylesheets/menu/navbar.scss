@@ -8,9 +8,11 @@ nav{
   height:$navheight;
   position: fixed;
   top:0px;
+  z-index:$z-9;
 }
 
 #main-navbar-right{
+
   float:right;
   list-style:none;
   li{
@@ -34,35 +36,6 @@ nav{
     margin:5px;
     display:none;
     }
-  #inbox{
-    width:28px;
-    height:28px;
-    margin:5px 80px 0 0;
-    padding:5px 4px 4px 4px;
-    border-radius:100%;
-    position: relative;
-
-    color: $green;
-      .glyphicon{
-        background:$purple-button;
-      }
-    }
-  .inbox-count{
-    padding:1px;
-    padding-bottom: 2px;
-    height: 12px;
-    background-color: white;
-    font-size: 8px;
-    font-weight: 900;
-    color: red;
-    position: absolute;
-    bottom: -1px;
-    left: 0px;
-    border-radius: 100%;
-    border: 2px solid red;
-    line-height: 0.7;
-
-  }
 }
 
 
