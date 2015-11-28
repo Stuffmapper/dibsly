@@ -171,15 +171,26 @@
             icon: id,
             draggable:true 
           };
-          console.log('ok line 174')
-          if (!markerSet){
-             return MapsService.getCenter()
+          var set = function(){
+            return MapsService.getCenter()
             .then( function(center){
               marker.latitude = center.lat;
               marker.longitude = center.lng;
-              return that.setMarker(marker);
+              return that.setMarker(marker)
             })
-          } else { return that.setMarker(marker); }
+            .then(function(gmarker){
+              console.log(gmarker)
+              return MapsService.addMarkerListener(gmarker.marker, 'dragend', 
+                function(event){
+                  gmarker.latitude = event.latLng.lat();
+                  gmarker.longitude = event.latLng.lng()
+                  gmarker.marker.setPosition(event.latLng); 
+                } 
+              );
+            })
+          };
+          return $q.when( markerSet || set() )
+          .then(function(){ return that.getMarker(id) });
         },
 
         isEmpty: function(obj){

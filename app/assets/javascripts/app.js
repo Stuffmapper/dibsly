@@ -37,6 +37,7 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
     });  
 
   // For any unmatched url, redirect to /state1
+  $urlRouterProvider.when("/givestuff", 'giveStuffOne');
   $urlRouterProvider.otherwise("/menu/getstuff");
 
   $stateProvider
@@ -66,16 +67,18 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
     .state( 'giveStuff', {
       url:'/givestuff',
       template: "<div ui-view></div>",
-      controller: ['$state', function($state){$state.go('giveStuffOne');}],
+      controller: ['$state', function($state){ 
+        if($state.$current.name === 'giveStuff'){
+          $state.go('giveStuffOne');
+        }
+      }],
       parent: 'menu'
     })
     .state( 'giveStuffOne', {
       url:'/1',
       templateUrl: "menu/givestuff.one.html",
       controller: 'GiveStuffCtrl',
-      parent: 'giveStuff',
-      // resolve:{ marker: function(MarkerService){ 
-      //   return MarkerService.getSetTempory('getStuff')} }
+      parent: 'giveStuff'
     })
     .state( 'giveStuffTwo', {
       url:'/2',

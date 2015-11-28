@@ -3,9 +3,9 @@
 
   controllers = angular.module('controllers');
 
-  controllers.controller('MenuCtrl', ['$scope','$q','$stateParams','LocalService',
+  controllers.controller('MenuCtrl', ['$scope','$q','$state','$stateParams','LocalService',
    'LocationService','MapsService','MarkerService','UserService', 'AlertService','$rootScope',
-    function($scope,$q,$stateParams,LocalService, 
+    function($scope,$q,$state,$stateParams,LocalService, 
       LocationService, MapsService, MarkerService, UserService, AlertService, $rootScope) {
       //TODO - clean up 
 
@@ -37,57 +37,25 @@
           }
          )
          .then( function(){
-
+           $rootScope.$broadcast('mapCentered', center );
            return MapsService.panTo(center);
-         });
+         })
       };
-
-
-
-      // $scope.updateMarkers = function(coords) {
-      //   var defer = $q.defer();
-      //   //TODO turn 15 into a variable
-      //   var box = MapsService.getBoundingBox(coords, 15);
-      //   $http({
-      //     url: '/api/posts/geolocated',
-      //     params: {
-      //       nwLat: box.nw.lat,
-      //       seLat: box.se.lat,
-      //       nwLng: box.nw.lng,
-      //       seLng: box.se.lng
-      //     }
-      //   })
-      //   .success(function(data) {
-      //     var i, len, marker, ref, results;
-      //     ref = data.posts;
-      //     for (i = 0, len = ref.length; i < len; i++) {
-      //       marker = ref[i];
-      //       if (marker.originalImage === 'missing') {
-      //         marker.originalImage = '<%= asset_path('processing.png')%>';
-      //         marker.image_url = '<%= asset_path('processing.png')%>';
-      //       }
-      //       marker.currentUser = UserService.currentUser;
-      //       MarkerService.setMarker(marker);
-      //     };
-      //     defer.resolve('markers updated')
-      //   });
-      //   return defer.promise;
-      // };
-
-      //LISTENERS
-
-      $rootScope.$on('$stateChangeSuccess', 
-        function(event, toState, toParams, fromState, fromParams){ 
-          switch(toState.name) {
+      //HELPERS
+      var setHeights = function(stateName){
+          switch(stateName) {
             case 'getStuff':
               $scope.menuHeight = 'menu-0';
               $scope.mapHeight = 'map-0';
               MapsService.resizeMap()
               break;
-            case 'giveStuff':
+            case 'giveStuffOne':
               $scope.menuHeight = 'menu-1-1';
               $scope.mapHeight = 'map-1-1';
-              MapsService.resizeMap()
+              break;
+            case 'giveStuffTwo':
+              $scope.menuHeight = 'menu-1-2';
+              $scope.mapHeight = 'map-1-2';
               break;
             case 'myStuff':
               $scope.menuHeight = 'menu-2';
@@ -99,7 +67,18 @@
               $scope.mapHeight = 'map-0';
               MapsService.resizeMap()
         }
-      })
+
+      };
+
+
+      //LISTENERS
+
+
+      $rootScope.$on('$stateChangeSuccess', 
+        function(event, toState, toParams, fromState, fromParams){ 
+          setHeights(toState.name);
+      });
+      setHeights($state.$current.name);
 
     }
   ]);

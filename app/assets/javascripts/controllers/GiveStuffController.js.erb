@@ -19,8 +19,12 @@
       MapsService.removeMapListeners()
       .then( function() { return MarkerService.clearMarkers('giveStuff'); })
       .then( function() { return MarkerService.getSetTemporary('giveStuff'); })
-      .then( function(marker){ $scope.post = marker; 
+      .then( function(marker){ 
+        $scope.post = marker; 
+        console.log(marker);
         MarkerService.setAll({temporary:true});
+        MapsService.resizeMap()
+        .then(function(){ MapsService.panToMarker(marker.marker); })
       })
 
 
@@ -73,12 +77,16 @@
       //LISTENERS
       
       $scope.$on("fileSelected", function(event, args) {
-        args.origin = args.location.split('/')[2]
         ImageService.createGroup(args)
         .then(function(images){
           ImageService.newest = images;
           $state.go('giveStuffTwo');
         })
+      });
+     $rootScope.$on('mapCentered', function(event, center) {
+        $scope.post.latitude = center.lat;
+        $scope.post.longitude = center.lng;
+        MapsService.updateMarker($scope.post)
       });
 
       MapsService.loadMap();
