@@ -88,7 +88,8 @@
         ImageService.createGroup(args)
         .then(function(images){
           ImageService.newest = images;
-          $state.go('giveStuffTwo');
+          $scope.images = images;
+          if($state.$current.name !== 'giveStuffTwo')$state.go('giveStuffTwo');
         })
       });
      $rootScope.$on('mapCentered', function(event, center) {
