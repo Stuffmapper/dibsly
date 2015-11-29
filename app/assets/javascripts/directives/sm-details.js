@@ -12,9 +12,12 @@ directives.directive('smdetails', function() {
     scope: {
       post: '='
     },
-    controller: ['$scope', '$modal', 'UserService', 'AlertService', 
-    function($scope,$modal, UserService, AlertService) {
+    controller: ['$scope','$state', '$modal', 'UserService', 'AlertService', 
+    function($scope,$state,$modal, UserService, AlertService) {
       //add details specific functions here
+      $scope.back = function(){
+        $state.go($state.lastState);
+      }
       $scope.giveMe = function() {
           UserService.getCurrentUser()
           .then( 

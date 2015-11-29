@@ -25,11 +25,23 @@
         'latitude',
         'longitude',
         'locallyUpdated',
+        'on_the_curb',
         'published',
         'title',
         'type',
         'status',
       ];
+
+      constructor.editProperties = [ 
+        'category',
+        'description',
+        'latitude',
+        'longitude',
+        'published',
+        'title',
+        'on_the_curb'
+      ];
+
       //TODO make this work with angular resource
       //Read the source code for angular resource to confirm  
       constructor.getUrl = function(){
@@ -43,7 +55,7 @@
         var self = this;
         var url = customURL || '/api/posts'
         var params = {};
-        angular.forEach(self.baseProperties, function(property){
+        angular.forEach(self.editProperties, function(property){
           params[property] =  self[property];
         })
         return $q(function(resolve, reject){
@@ -187,7 +199,7 @@
         var self = this;
         var url = self.getUrl()
         var params = {};
-        angular.forEach(self.baseProperties, function(property){
+        angular.forEach(self.editProperties, function(property){
           params[property] =  self[property];
         })
         return $q(function(resolve, reject){

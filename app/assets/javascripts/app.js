@@ -61,7 +61,27 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
     }) 
     .state( 'singlepost', {
       url:'/post/:postId',
-      template: "<smdetails post='post'>></smdetails>",
+      template: "<smdetails post='post'></smdetails>",
+      controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
+        function($scope,$stateParams,$q,MarkerService,MapsService){
+          var id = $stateParams.postId;
+          $scope.post = {};
+          var local =MarkerService.getMarker(id);
+          $q.when( local || MarkerService.getMarkerAsync(id))
+          .then(function(marker){ 
+            $scope.post = marker;
+            $q.when(!local || $scope.post.get())//only updates if info pulled from cach
+            .then(function(){ 
+              MarkerService.updateWindow(id);
+              MarkerService.clearWindows(id);
+              MapsService.panToMarker( $scope.post.marker )} );
+           }, function(){ }  )//todo add 404; 
+      }],
+      parent:'menu'
+    })
+    .state( 'edit', {
+      url:'/post/edit/:postId',
+      template: "<edit post='post'></edit>",
       controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
         function($scope,$stateParams,$q,MarkerService,MapsService){
           var id = $stateParams.postId;
@@ -106,7 +126,7 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "myStuff/myindex.html",
       controller: 'MyStuffCtrl',
       parent: 'menu'
-    })
+    });
 
 });
 
@@ -123,10 +143,11 @@ stfmpr.config(function($httpProvider) {
   return $httpProvider.interceptors.push('AuthInterceptor');
 });
 
-stfmpr.run([
-  'UserService', '$location','$rootScope', 'MapsService', 'MarkerService', function(UserService, $location, $rootScope, MapsService, MarkerService) {
+stfmpr.run(['$state','UserService', '$location','$rootScope', 'MapsService', 'MarkerService',
+  function($state,UserService, $location, $rootScope, MapsService, MarkerService) {
     MapsService.loadMap();
     UserService.check();
+    //$state.lastState = ($state.lastState || 'getStuff');
   }
 ]);
 

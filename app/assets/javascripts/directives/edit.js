@@ -9,13 +9,12 @@ directives.directive('edit', function() {
       post: '='
     },
     controller: [
-      '$scope', 'UserService','AlertService', 'ImageService', 'MarkerService',
-      function($scope, UserService, AlertService, ImageService, MarkerService ) {
+      '$scope', '$state','UserService','AlertService', 'ImageService', 'MarkerService',
+      function($scope,$state,UserService, AlertService, ImageService, MarkerService ) {
         var images = {};
         $scope.categories = MarkerService.categories;
+        $scope.currentUser = function(){ return UserService.currentUser() };
         $scope.editPost = function(){
-          console.log($scope.post.latitude )
-
           //sends then new details
           return $scope.post.update()
           .then(function(){
@@ -24,7 +23,6 @@ directives.directive('edit', function() {
             }
           })
           .then( function(){ 
-            console.log('thsi is so cool')
             return $scope.post.unSetEditState(); })
           .then(function() {
             return $scope.post.goToDetails() 
@@ -46,15 +44,12 @@ directives.directive('edit', function() {
         });
 
 
-        $scope.cancelEdit = function(){
-          throw new Error('not implemented yet');
-
-          //What the heck am I going to put here?
-          //should change the 
+        $scope.cancel = function(){
+          $state.go($state.lastState)
         };
       }
     ],
     replace: true,
-    templateUrl: 'menu/edit.html' };
+    templateUrl: 'menu/editstuff.html' };
 });
 
