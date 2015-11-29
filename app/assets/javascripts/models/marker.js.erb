@@ -19,6 +19,7 @@
       constructor.baseProperties = [ 
         'id', 
         'category',
+        'currentUser',
         'description',
         'image_url',
         'latitude',
@@ -81,6 +82,11 @@
         //gets new data from 
         var self = this;
         if(self.temporary ){ throw new Error('cant get a temporary marker') }
+        var cached =  (LocalService.getJSON('markers') || {})[self.id];
+        //loades the cached version - good for going straight to the post
+        if(cached){
+           angular.extend(self, cached)
+        }
         return $q(function(resolve, reject){
           $http.get(self.getUrl())
           .success(function(data){
@@ -257,15 +263,11 @@
         LocalService.set('markers', JSON.stringify(cached))
       };
       constructor.goToDetails = function() {
-        var self = this;
         $state.go('singlepost', {postId: this.id });
       };
 
       constructor.goToEdit = function() {
-        var self = this;
-        $rootScope.$broadcast('editWanted', {
-          markerId: self.id
-        });
+        $state.go('edit', {postId: this.id });
       };
 
       //VISUALIZATION BOOLEANS

@@ -283,16 +283,18 @@
         updateWindow: function(id) {
           var infowindow, innerContent, marker;
           marker = self.markers[id];
-          innerContent = "<div > <div id='siteNotice' class='stuff-map-image'></div> <img src=" +
-           marker.image_url + " width='200px' ></img> <div id='bodyContent'> <p>" +
-           marker.description + "</p> </div> </div> </div>";
           if (!marker.description) {
             marker.description = "";
           }
+          innerContent = "<div > <div id='siteNotice' class='stuff-map-image'></div> <img src=" +
+           marker.image_url + " width='200px' ></img> <div id='bodyContent'> <p>" +
+           marker.description + "</p> </div> </div> </div>";
+
           if (!marker.infowindow) {
             infowindow = MapsService.newInfoWindow({
               content: innerContent
             });
+          console.log("line 296")
             return marker.infowindow = infowindow;
           } else {
             return MapsService.setInfoContent(marker, innerContent);

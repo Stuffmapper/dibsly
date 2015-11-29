@@ -50,6 +50,7 @@
           AlertService.add('warning', "Please add a photo");
         }
         var image = $scope.images.original;
+
         return $scope.post.create()
         .then(
           function(post){
@@ -57,6 +58,9 @@
             MarkerService['delete']('giveStuff');
             ImageService.newest = {};
             $scope.images = {};
+            post.type = 'myPost'; 
+            post.icon = 'creator';
+            post.currentUser = UserService.currentUser();
             return MarkerService.setMarker(post)
             .then( function(){
               var newPost = MarkerService.getMarker(post.id);
@@ -69,7 +73,6 @@
                 return ImageService.upload(image,post.id,'post')
               }
             )
-            .then(function(){ })
           },
           function(error){
             console.log(error);

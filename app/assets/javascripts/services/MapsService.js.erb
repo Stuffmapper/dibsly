@@ -224,7 +224,8 @@
         self.getMap()
         .then(
           function(map){
-            infoWindow.close(map, marker);
+            console.log("opening info window")
+            infoWindow.open(map, marker);
         });
       },
       panTo: function(latlng){

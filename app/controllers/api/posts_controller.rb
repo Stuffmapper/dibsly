@@ -54,7 +54,7 @@ class Api::PostsController < ApplicationController
 
   # GET /posts/my_stuff
   def my_stuff
-    @posts = Post.where(:user => current_user)
+    @posts = Post.where(:user => current_user).where.not(status: 'deleted')
     render json:  @posts, each_serializer: PostSerializer, status: :ok
   end
 
