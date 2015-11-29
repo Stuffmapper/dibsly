@@ -1,8 +1,7 @@
-<div class='content scroll-y to-edge'>
-  <div id="get-stuff"  >
+<div >
+   <div class='col-lg-12 col-md-12 col-xs-12 search-bar'>
     <div class='col-lg-6 col-md-6 col-xs-6 to-edge'>
-      <select 
-        class="form-control" id="category" placeholder="Category"
+      <select class="form-control" id="category" placeholder="Category"
         ng-model="search.category"
         ng-change="updateGetStuff()"
        >
@@ -15,25 +14,10 @@
           aria-hidden="true"></span>
       </input>
     </div>
-    <br>
-    <br>
-
+  </div>
+  <div id="get-stuff" class='col-lg-12 col-md-12 col-xs-12 to-edge'>
      <div ng-repeat="item in mapped" >
-
        <div ng-include src="'misc/marker.html'"></div>
-     </div>
-
-     <div class="menu-toggle">
-       <span ng-click='menuToggle()'
-       class="glyphicon glyphicon-chevron-down"
-       aria-hidden="true"
-       ng-hide='toggle'></span>
-       <span ng-click='menuToggle()'
-       class="glyphicon glyphicon-chevron-up"
-       aria-hidden="true"
-       ng-show='toggle'>
-       </span>
-     </div>
-
+    </div>
   </div>
 </div>

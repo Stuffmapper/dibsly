@@ -4,8 +4,8 @@
   controllers = angular.module('controllers');
 
   controllers.controller('MyStuffCtrl', [
-    '$scope','$q','MapsService','MarkerService','UserService','$http',
-    function($scope,$q, MapsService, MarkerService, UserService, $http) {
+    '$rootScope','$scope','$q','MapsService','MarkerService','UserService','$http',
+    function($rootScope,$scope,$q, MapsService, MarkerService, UserService, $http) {
       $scope.UserService = UserService;
       $scope.myWants = {};
       $scope.myPosts ={};
@@ -45,7 +45,7 @@
                   var promises = [] 
                   angular.forEach(data.data.posts, function(marker) {
                     marker.type = 'myPost'; 
-                    marker.icon = 'creator'; //TODO not working
+                    marker.icon = 'creator';
                     marker.currentUser = currentUser;
                     promises.push( MarkerService.setMarker(marker)
                       .then(function(marker){ $scope.myPosts[marker.id]  = marker }) );
@@ -63,6 +63,10 @@
         );
         //TODO -SET ALL THE MARKERS ON THE MAP
       };
+      //LISTENERS
+      $rootScope.$on( 'markerDeleted', function(event, args){
+        return $scope.myPosts[args.postId] && delete $scope.myPosts[args.postId];
+      })
 
       //MAIN
 

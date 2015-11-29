@@ -9,6 +9,14 @@
   overflow:auto;
 
 }
+.post-view{
+  position: absolute;
+  width:100%;
+  top: $tabheight;
+  overflow: scroll;
+  bottom:$tabheight;
+  padding-bottom: $tabheight;
+}
 
 .detail-description {
   padding-left: 10px;
@@ -32,7 +40,6 @@
 
 .post-details{
   background: $white;
-  positon:absolute;
   top:0;
   left:0;
   right:0;

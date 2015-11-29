@@ -9,11 +9,13 @@ directives.directive('settings', function() {
   }
   return {
     restrict: 'E',
-    controller: ['$scope', 'MarkerService', function($scope, MarkerService) {
+    controller: ['$scope','$state', 'MarkerService', function($scope,$state,MarkerService) {
         $scope.deletePost = function(id){
           var post = MarkerService.getMarker(id);
           post.remove()
-          MarkerService['delete'](id);
+          .then(function(){
+            MarkerService['delete'](id);
+          })
         }
 
       }

@@ -116,6 +116,12 @@
   color: gray;
 }
 
+.search-bar{
+  position: absolute;
+  top: $tabheight;
+  z-index: $z-7;
+  padding-top:10px;
+}
 
 /*** SETTINGS ***/
 
