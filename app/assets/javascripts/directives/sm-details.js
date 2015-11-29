@@ -16,7 +16,7 @@ directives.directive('smdetails', function() {
     function($scope,$state,$modal, UserService, AlertService) {
       //add details specific functions here
       $scope.back = function(){
-        $state.go($state.lastState);
+        $state.go($state.lastState || 'getStuff');
       }
       $scope.giveMe = function() {
           UserService.getCurrentUser()

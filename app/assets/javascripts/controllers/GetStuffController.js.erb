@@ -24,9 +24,17 @@
       MarkerService.loadCache()
       .then( function(){
         addMapListeners();
-        $scope.mapped = MarkerService.where({status:'new'});
        return  MarkerService.setAll({},{id:'giveStuff'}); })
-      .then(function(){ return  MarkerService.expireMarkers() })
+      .then(function(){ 
+        MapsService.getCenter()
+        .then(function(coords){
+           return updateMarkers(coords);
+        })
+        .then(function(){
+          $scope.mapped = MarkerService.where({status:'new'});
+          return  MarkerService.expireMarkers()
+        });
+      })
  
 
       // $SCOPE FUNCTIONS
@@ -49,7 +57,6 @@
       };
 
 
-
       $scope.markers = function(hasAttribute, hasNoAttribute){
         return MarkerService.where( hasAttribute, hasNoAttribute );
       };
@@ -61,8 +68,32 @@
       };
 
 
+      //LISTENERS
 
-      $scope.updateMarkers = function(coords) {
+
+
+      $scope.$on('mapChanged', function(evt, args) {
+        //
+
+        updateMarkers(args).then(function(){ $scope.mapped = MarkerService.where({status:'new'}); })
+      });
+
+      //HELPER FUNCTIONS 
+
+      var addMapListeners = function(){
+        return MapsService.addMapListener('dragend', getPosition )
+        .then( MapsService.addMapListener('idle', getPosition ))
+        .then( MapsService.addMapListener('zoom', getPosition )) 
+      };
+
+      var getPosition = function(){
+        MapsService.getCenter()
+        .then( function(center){
+          $scope.$emit( 'mapChanged', center )
+        }); 
+      };
+
+      var updateMarkers = function(coords) {
         var defer = $q.defer();
         //TODO turn 15 into a variable in search
         var box = MapsService.getBoundingBox(coords, 15);
@@ -94,31 +125,6 @@
           });
         } else { defer.resolve('markers not updated') }
         return defer.promise;
-      };
-
-      //LISTENERS
-
-
-
-      $scope.$on('mapChanged', function(evt, args) {
-        //
-
-        $scope.updateMarkers(args).then(function(){ $scope.mapped = MarkerService.where({status:'new'}); })
-      });
-
-      //HELPER FUNCTIONS 
-
-      var addMapListeners = function(){
-        return MapsService.addMapListener('dragend', getPosition )
-        .then( MapsService.addMapListener('idle', getPosition ))
-        .then( MapsService.addMapListener('zoom', getPosition )) 
-      };
-
-      var getPosition = function(){
-        MapsService.getCenter()
-        .then( function(center){
-          $scope.$emit( 'mapChanged', center )
-        }); 
       };
     }
   ]);

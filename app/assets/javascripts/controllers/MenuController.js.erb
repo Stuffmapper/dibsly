@@ -80,7 +80,7 @@
       $rootScope.$on('$stateChangeSuccess', 
         function(event, toState, toParams, fromState, fromParams){ 
           setHeights(toState.name);
-          $state.lastState = fromState;
+          if(fromState.name != 'singlepost' ) { $state.lastState = fromState; }
       });
     $rootScope.$on('detailsWanted', 
         function(event, args){ 
