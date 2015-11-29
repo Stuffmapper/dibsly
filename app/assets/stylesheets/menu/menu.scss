@@ -1,5 +1,11 @@
 /* Small devices (tablets, 768px and up) */
-
+.content{
+  position:relative;
+  height: 100%;
+  z-index: $z-6;
+  background-color: $white;
+  padding: 50px 10px 200px 10px;
+}
 
 @media (max-width: 768px) {
   #give-2{

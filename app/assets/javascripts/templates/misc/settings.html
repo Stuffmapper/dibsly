@@ -1,4 +1,4 @@
-<div ng-show='post.showEdit()' class="btn-group pull-right settings" dropdown is-open="status.isopen">
+<div ng-show='post.showEdit()' class="btn-group pull-right settings" dropdown is-open="status.isopen" on-toggle="top()">
  
   <button id="settings-dropdown" type="button" class="btn settings-btn" dropdown-toggle ng-disabled="disabled">
     Settings&nbsp;&nbsp;<span class="glyphicon glyphicon-cog"></span>
@@ -25,7 +25,7 @@
     </li>
     <li role="menuitem" ng-if='post.showEdit()'>
       <button class='setting-option-btn delete-item' 
-      ng-click='deletePost(post.id)'>
+      ng-click='delete(post.id)'>
         Delete
       </button>
     </li>

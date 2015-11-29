@@ -116,34 +116,25 @@
   color: gray;
 }
 
-/*** Chat styles **/
-.chat {
-  height: $chat-container-height;
-  width: 100%;
-  overflow-y: auto;
-  margin-bottom: $chat-send-bar-height;
-}
-
-.chat-send-bar {
-  width: 100%;
-  height: $chat-send-bar-height;
-  position: absolute;
-}
-
-.chat-box {
-  height: $chat-container-height - $chat-send-bar-height;
-  margin-bottom: $chat-send-bar-height;
-  width: 100%;
-}
 
 /*** SETTINGS ***/
 
 .settings{
   position:relative;
+  z-index: initial;
 }
 .settings-dropdown{
+  z-index: $z-8;
+}
+.settings-top{
+  position:relative;
   z-index: $z-9;
 }
+.settings-standard{
+  position:relative;
+  z-index: $z-7;
+}
+
 
 .settings-btn{
   background-color: #FFFFFF;

@@ -13,6 +13,10 @@ directives.directive('mypost', function() {
       post: '='
     },
     controller: ['$scope', function($scope) {
+        $scope.zi = "settings-standard"
+        $scope.top = function(){
+          $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top"
+        };
         $scope.msg= function()  {  
           var msg = $scope.post.showWanted() ? 'Wanted' : 'Listed';
           return msg; 
