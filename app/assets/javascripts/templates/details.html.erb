@@ -11,7 +11,7 @@
     <button  class= "dib-button dib-button-send-message"
     >Dibbed! Send a message to the lister! &gt;&gt;</button>
     <a href='#' class='undib-link' ng-click="post.unDib()"
-    >Undib! I don't want this anymore</a>
+    ><%= I18n.t('undibs') %></a>
     <hr class='thin-hr'>
   </div>
 
@@ -50,7 +50,7 @@
   </div>
 
   <div ng-hide="post.showEdit()">
-    <button ng-show="post.showDib()" class= 'dib-button dib-button-details' ng-click='giveMe()'>I want this stuff! &gt;&gt;</button>"
+    <button ng-show="post.showDib()" class= 'dib-button dib-button-details' ng-click='giveMe()'>Dibs &gt;&gt;</button>"
 
   </div>
 
