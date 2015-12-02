@@ -44,6 +44,15 @@
 
       //TODO make this work with angular resource
       //Read the source code for angular resource to confirm  
+
+      constructor.getEditProperties = function(){
+        var self = this;
+        var rval = {};
+        angular.forEach( self.editProperties, function(property){
+          rval[property] = self[property];
+        });
+        return rval;
+      }; 
       constructor.getUrl = function(){
         return '/api/posts/' + this.id
       };
@@ -55,7 +64,7 @@
         var self = this;
         var url = customURL || '/api/posts'
         var params = {};
-        angular.forEach(self.editProperties, function(property){
+        angular.forEach(self.baseProperties, function(property){
           params[property] =  self[property];
         })
         return $q(function(resolve, reject){
@@ -235,37 +244,8 @@
           LocalService.set('markers', JSON.stringify(cached))
         }
       };
-      constructor.setEditState = function(){
-        var self = this;
-        self.state = 'editing';
-        self.temporary = true;
-        if (self.marker){
-          //TODO -get this functionality to take advantage 
-          //of the mapsService
-          self.marker.setDraggable(true);
-          self.marker.setIcon('<%= asset_path('green-pin.svg')%>');
-          return MapsService.setMapMarker(self.marker )
 
-        } else { 
-          throw new Error("marker can\'t be edited - no marker set") 
-        }
-      };
 
-      constructor.unSetEditState = function(){
-        var self = this;
-        self.state = 'static';
-        self.imageChanged = false;
-        if (self.marker){
-          //TODO -get this functionality to take advantage 
-          //of the mapsService
-          self.marker.setDraggable(false);
-          self.marker.setIcon('<%= asset_path('blue-pin.svg')%>');
-          return MapsService.setMapMarker(self.marker )
-        } else { 
-          throw new Error("marker can\'t be edited - no marker set") 
-        }
-
-      };
 
       constructor.deleteLocal = function(){
         var self = this;

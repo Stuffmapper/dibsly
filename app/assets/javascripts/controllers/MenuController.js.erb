@@ -45,6 +45,11 @@
       //HELPERS
       var setHeights = function(stateName){
           switch(stateName) {
+            case 'edit':
+              $scope.menuHeight = 'menu-1-2';
+              $scope.mapHeight = 'map-1-2';
+              MapsService.resizeMap()
+              break;
             case 'getStuff':
               $scope.menuHeight = 'menu-0';
               $scope.mapHeight = 'map-0';

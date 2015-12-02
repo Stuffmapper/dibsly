@@ -1,0 +1,109 @@
+(function() {
+  var controllers;
+
+  controllers = angular.module('controllers');
+
+  controllers.controller('EditStuffCtrl', [
+    '$scope', '$timeout', '$location', '$window', '$modal','$q',
+    '$state', '$stateParams','ImageService','LocalService', 'LocationService',
+    'MapsService','MarkerService', 'UserService', 'AlertService','$rootScope',
+    '$http', function($scope, $timeout, $location, $window,
+      $modal,$q, $state,$stateParams,ImageService, LocalService, LocationService,
+      MapsService, MarkerService, UserService, AlertService, $rootScope,
+      $http) {
+
+       // $SCOPE OBJECTS
+      $scope.currentUser = function(){ return UserService.currentUser() };
+      $scope.categories = MarkerService.categories;
+      $scope.post = {};
+      var id = $stateParams.postId;
+      $scope.images = ImageService.newest || {};
+      MapsService.removeMapListeners()
+      .then( function() { return MarkerService.clearMarkers(); })
+      .then( function() { return MarkerService.getSetTemporary('edit'); })
+      .then( function(marker){ return $scope.post = marker; })
+      .then( function (){ return MarkerService.getMarkerAsync(id); })
+      .then( function(editee){
+        angular.extend($scope.post, editee.getEditProperties());
+        $scope.post.image_url = editee.image_url;
+        return MapsService.updateMarker($scope.post)
+      })
+      .then( function(){
+        MarkerService.setAll({temporary:true});
+        $timeout(MapsService.resizeMap()
+        .then(function(){ 
+          $timeout(function(){
+            MapsService.panToMarker($scope.post.marker); 
+          },0);
+        }),0);
+      });
+
+      // $SCOPE FUNCTIONS
+      $scope.cancel = function(){
+        MarkerService['delete']('edit');
+        $scope.images = {};
+        $state.go($state.lastState || 'getStuff' )
+      };
+
+      $scope.editPost = function() {
+        //TODO move this into marker service resource
+        var editee = MarkerService.getMarker(id);
+        angular.extend(editee, $scope.post.getEditProperties())
+        return editee.update()
+        .then(
+          function(post){
+            AlertService.add('success', "Your post has been updated");
+            ImageService.newest = {};
+            post.type = 'myPost'; 
+            post.icon = 'creator';
+            post.currentUser = UserService.currentUser();
+            return MarkerService.setMarker(post)
+            .then( function(){
+              var updatedPost = MarkerService.getMarker(post.id);
+              updatedPost.image_url = $scope.post.image_url;
+              updatedPost.goToDetails();
+              
+            })
+            .then(
+              function(){
+               if($scope.post.imageChanged){
+                return ImageService.upload($scope.editingImage , editee.id, 'post' );
+               } 
+              }
+            )
+          },
+          function(error){
+            console.log(error);
+            angular.forEach(error.data, function(value, key){
+              AlertService.add('danger', value);
+            })
+          }
+        )
+        .then(function(){ MarkerService['delete']('edit');})
+ 
+      };
+
+
+      //LISTENERS
+      
+      $scope.$on("fileSelected", function(event, args) {
+        args.origin = args.location.split('/')[2]
+        ImageService.createGroup(args)
+        .then(function(group){
+          $scope.post.imageChanged = true;
+          $scope.editingImage = group.original;
+          $scope.post.image_url = group.original;
+
+        })
+      });
+     $rootScope.$on('mapCentered', function(event, center) {
+        $scope.post.latitude = center.lat;
+        $scope.post.longitude = center.lng;
+        MapsService.updateMarker($scope.post)
+      });
+
+      MapsService.loadMap();
+    }
+  ]);
+
+}).call(this);

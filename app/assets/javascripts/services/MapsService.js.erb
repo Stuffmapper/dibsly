@@ -291,14 +291,13 @@
             size: new google.maps.Size(36, 68),
           };
         }
-        if (marker.state !== 'editing'){
-          var pos = marker.marker.getPosition() || {}; //hack for testing purposed
-          if(pos.lat() != marker.latitude ){
-            var latlng = this.newLatLng(marker.latitude, marker.longitude);
-            marker.marker.setPosition(latlng); 
-          }
-          marker.marker.setIcon(image);
+        marker.marker.setMap(null); 
+        var pos = marker.marker.getPosition() || {}; //hack for testing purposed
+        if(pos.lat() != marker.latitude || pos.lng() != marker.longitude ){
+          var latlng = this.newLatLng(marker.latitude, marker.longitude);
+          marker.marker.setPosition(latlng); 
         }
+        marker.marker.setIcon(image);
         return self.getMap()
         .then(function(map){ marker.marker.setMap(map) })
       },
