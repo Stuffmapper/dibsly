@@ -35,7 +35,7 @@ directives.directive('smdetails', function() {
               )
             },
             function(){
-              AlertService.add('warn', "Please sign in to continue");
+              AlertService.add('warning', "Please Sign In to continue");
               $modal.open({ templateUrl: 'signIn.html', controller:'SignUpCtrl' })
             }
           );
