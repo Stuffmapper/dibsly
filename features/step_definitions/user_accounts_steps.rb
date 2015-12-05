@@ -290,7 +290,8 @@ end
 
 When(/^I visit the signup page and click Google login$/) do
   expect( User.count).to eq 0
-  visit "/user/signup"
+  visit ""
+  click_link 'Sign In'
   click_link "Google"
 
 end
