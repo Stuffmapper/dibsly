@@ -258,7 +258,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_call_original
    center_map_to_post @post 
-   visit ('/menu/giveStuff')
+   visit ('#/menu/giveStuff')
    sleep(2)
    page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
     within('#give-stuff') do
@@ -277,9 +277,9 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   click_link 'Get Stuff'
   page.find('.stuff-view').click
   sleep(2)
-  within('.post-details') do 
+  within('.post-view') do 
     page.execute_script "window.scrollBy(0,10000)"
-    page.find(:button, "I want").click
+    page.find(:button, "Dib").click
   end
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq true
