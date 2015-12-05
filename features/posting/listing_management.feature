@@ -6,7 +6,7 @@ Feature: Listing management
   	Given I already have an account and a post
 
   @javascript	
-  Scenario: Successfully add description
+  Scenario: Successfully change description
     When I log in and go to my stuff 
     Then I should have an edit option
     And I should be able to click edit and change the details
