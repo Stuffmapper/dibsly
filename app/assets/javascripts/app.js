@@ -66,16 +66,13 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
         function($scope,$stateParams,$q,MarkerService,MapsService){
           var id = $stateParams.postId;
-          $scope.post = {};
-          var local =MarkerService.getMarker(id);
-          $q.when( local || MarkerService.getMarkerAsync(id))
+          $q.when(MarkerService.getMarker(id) || MarkerService.getMarkerAsync(id))
           .then(function(marker){ 
+            console.log(marker)
             $scope.post = marker;
-            $q.when(!local || $scope.post.get())//only updates if info pulled from cach
-            .then(function(){ 
-              MarkerService.updateWindow(id);
-              MarkerService.clearWindows(id);
-              MapsService.panToMarker( $scope.post.marker )} );
+            MarkerService.updateWindow(id)
+            MarkerService.clearWindows(id)
+            MapsService.panToMarker( $scope.post.marker );
            }, function(){ }  )//todo add 404; 
       }],
       parent:'menu'

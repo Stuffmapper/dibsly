@@ -232,7 +232,8 @@
 
       constructor.saveLocal = function(){
         var self = this;
-        if(!self.temporary && self.id && !self.status == 'deleted'){ //TODO and more validations
+        if(!self.temporary && self.id && !(self.status === 'deleted')){
+           //TODO and more validations
           var cached =  LocalService.getJSON('markers') || {};
           var data = {};
           angular.forEach(self.baseProperties, function(value){
@@ -256,7 +257,7 @@
         LocalService.set('markers', JSON.stringify(cached))
       };
       constructor.goToDetails = function() {
-        $state.go('singlepost', {postId: this.id });
+        $state.go('singlepost', { postId: this.id });
       };
 
       constructor.goToEdit = function() {

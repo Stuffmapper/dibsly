@@ -1,10 +1,11 @@
 When(/^I go to my stuff and undibs Jack's shoes$/) do
+  sleep(1)
   click_link('My Stuff')
   sleep(1)
   expect(page.body).to have_text 'shoes'
-  click_link "Item details"
+  find('.item-details-link').click
   sleep(2)
-  click_link "Undib!"
+  click_link "unDibs!"
 end
 
 When(/^I visit the map location where the shoes are\.$/) do
