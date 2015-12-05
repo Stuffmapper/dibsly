@@ -96,7 +96,7 @@ class Post < ActiveRecord::Base
   end
 
   def permalink
-    '/post/' + self.id.to_s
+    '#/menu/post/' + self.id.to_s
   end
 
   def remove_current_dib

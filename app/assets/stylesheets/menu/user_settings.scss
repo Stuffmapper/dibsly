@@ -1,0 +1,16 @@
+.user-settings{
+	position: absolute;
+	width:100%;
+	top: $tabheight;
+	overflow: scroll;
+	bottom:$tabheight;
+	padding-bottom: $tabheight;
+}
+.user-photo{
+	min-height:100px;
+	position:relative;
+	.btn{
+		position:relative;
+	}
+
+}

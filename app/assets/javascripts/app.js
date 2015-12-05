@@ -29,7 +29,8 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
      
      $urlRouterProvider.rule(function ($injector, $location) {
         var path = $location.path(), normalized = path.toLowerCase();
-        if (path != normalized) {
+        if (path != normalized && !path.match(/email/)) {
+          console.log(path)
             //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
             $location.replace().path(normalized);
         }
@@ -111,6 +112,23 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       url:'/mystuff',
       templateUrl: "myStuff/myindex.html",
       controller: 'MyStuffCtrl',
+      parent: 'menu'
+    })
+    .state( 'user', {
+      url:'/user',
+      templateUrl: "menu/user-settings.html",
+      controller: 'UserCtrl',
+      parent: 'menu'
+    })
+    .state( 'user.verifyEmail', {
+      url:'/user/email/:userKey',
+      templateUrl: "verifyEmail.html",
+      controller: 'EmailVerifyCtrl',
+    })
+    .state( 'resetPassWord', {
+      url:'/user/email/reset/:userKey',
+      templateUrl: "changePw.html",
+      controller: 'ResetCtrl',
       parent: 'menu'
     });
 

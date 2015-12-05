@@ -19,11 +19,11 @@ class Api::ImagesController < ApplicationController
 
     def authorize
       @imageable = false
-      if image_params[:type] == 'post'
+      if current_user and image_params[:type] == 'post'
         post = Post.find(image_params[:id])
         @imageable = post.creator == current_user ? post : false
       end
-      if image_params[:type] == 'user'
+      if current_user and image_params[:type] == 'user'
         #TODO fix - it's not going to work this way
         @imageable =  image_params[:id] == current_user.id ? current_user : false
       end

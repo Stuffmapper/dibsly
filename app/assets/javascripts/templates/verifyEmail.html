@@ -1,5 +1,4 @@
-<div  ng-include src="'navbar.html'"></div>
-<a href='/' class="col-lg-4 col-md-12 col-xs-12 add-margin-top-50"></a>
+
 <div class='container-fluid'>
   <div class="col-lg-12 col-md-12 col-xs-12 ">
 
@@ -8,7 +7,7 @@
       <alerts></alerts>
           <h4>{{message}}</h4>
           <hr>
-          <a href="/">Back to Stuffmapper!</a>
+          <a ui-sref="getStuff" ui-sref-opts="{reload:true}">Back to Stuffmapper!</a>
       </div>
   </div>
 <div>

@@ -15,6 +15,7 @@
         },
         login: function(username, password, callback) {
           //TODO switch to promises for consistency
+
           loginData = {
             username: username,
             password: password
@@ -23,7 +24,7 @@
           .success(function(data) {
             if (data && data.user) {
               self.user = data.user;
-              that.token = data.token;
+              self.token = data.token;
               LocalService.set('sMToken', JSON.stringify(data));
             } else {
               console.log(data);

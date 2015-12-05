@@ -1,6 +1,5 @@
 
 class PostSerializer < ActiveModel::Serializer
-  #used for current user posts
   attributes :id, :isCurrentDibber,  :latitude, :longitude,
   :image_url,:description, :dibbable,
   :creator, :on_the_curb, :category, :published,

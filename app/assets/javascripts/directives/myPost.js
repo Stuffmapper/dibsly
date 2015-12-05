@@ -18,7 +18,7 @@ directives.directive('mypost', function() {
           $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top"
         };
         $scope.msg= function()  {  
-          var msg = $scope.post.showWanted() ? 'Wanted' : 'Listed';
+          var msg = $scope.post.showWanted() ? 'Dibbed' : 'Listed';
           return msg; 
         };
         $scope.btnClass =  function() {

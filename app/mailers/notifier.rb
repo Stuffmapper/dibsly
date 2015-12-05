@@ -3,7 +3,7 @@ class Notifier < ActionMailer::Base
 
 	def password_reset(user)
 		@user = user
-		@password_reset_url = root_url + 'user/reset/' + user.password_reset_token
+		@password_reset_url = root_url + '#/menu/user/email/reset/' + user.password_reset_token
 		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
 					subject: "Reset Your Password" )
 	end
@@ -19,7 +19,7 @@ class Notifier < ActionMailer::Base
 
 	def email_verification(user)
 		@user = user
-		@email_verification_url = root_url + 'user/email/' + user.verify_email_token
+		@email_verification_url = root_url + '#/users/email/' + user.verify_email_token
 		mail(to: "#{user.first_name}  #{user.last_name} <#{user.email}>",
 					subject: "Welcome to Stuffmapper! Please verify your email" )
 	end

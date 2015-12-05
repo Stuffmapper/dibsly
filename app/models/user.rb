@@ -65,7 +65,10 @@ class User < ActiveRecord::Base
       end
     end
   end
-
+  
+  def allowed_to_post_and_dib?
+    self.verified_email
+  end
 
   def self.create_username auth
     username = !auth.info.nickname.nil? ? auth.info.nickname : auth.info.first_name + auth.info.last_name
@@ -81,16 +84,14 @@ class User < ActiveRecord::Base
 
     (self.dibs.select {|x| x.post != nil and x.post.current_dib == x }).collect { |y| y.post }
   end
-
+  
+  def generate_password_reset_token!
+    update_attribute(:password_reset_token, SecureRandom.urlsafe_base64(48) )
+  end
 
 
   def mailboxer_email(object)
     self.email
-  end
-
-
-  def generate_password_reset_token!
-    update_attribute(:password_reset_token, SecureRandom.urlsafe_base64(48) )
   end
 
   def confirm_email
@@ -100,15 +101,21 @@ class User < ActiveRecord::Base
   def update_email_verify_token
     self.verify_email_token = SecureRandom.urlsafe_base64(48) unless self.verified_email
   end
-
+  
+  def resend_email_verification
+    self.save #already resends when saved and not verified
+  end
 
   def downcase_email
 
     self.email = email.downcase
   end
 
-  def allowed_to_post_and_dib?
-    self.verified_email
+
+
+  def update_picture picture
+    self.picture = picture
+    self.save
   end
 
 

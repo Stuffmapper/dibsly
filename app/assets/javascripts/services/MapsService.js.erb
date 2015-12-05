@@ -20,10 +20,16 @@
 
     self.getMap = function(){
       var deferred = $q.defer()
+      var elementLoaded = document.getElementById('google-map');
       self.queue.push(deferred);
-      if(self.mapStatus != 'loading'){
+      if(self.mapStatus != 'loading' && elementLoaded ){
         self.initializeOrGetMap()
+      } else if(!elementLoaded){
+        self.mapStatus = 'notloaded';
+        self.map = false;
+        deferred.reject(new Error('no google elementLoaded'))
       }
+
       return deferred.promise;
     };
     var getCenterLoc = function(){

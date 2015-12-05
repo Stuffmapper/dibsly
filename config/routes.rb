@@ -15,8 +15,10 @@ Dibsly::Application.routes.draw do
 
     post 'users/email/:confirmation' => 'users#confirm_email'
 
+    post 'users/reconfirm' => 'users#resend_verify'
+
     post 'users/:id', :to => 'users#show', :as => :user
-    resources :users, only: [:show, :create, :update]
+    resources :users, only: [:show, :create, :update, :index]
 
     get  'messages/status', :to => 'messages#inbox_status'
     post 'messages/:id', :to => 'messages#reply'

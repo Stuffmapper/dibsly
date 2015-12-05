@@ -3,7 +3,7 @@ When(/^I manage dibs for shoes in My Stuff$/) do
   visit '/'
   sign_in @current_user
   click_link('My Stuff')
-  expect(page).to have_text 'Want!ed'
+  expect(page).to have_text 'Active Dibs'
 end
 
 
@@ -20,12 +20,13 @@ Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display 
   post = Post.find_by_description(item_description)
   expect(post.current_dibber.username).to eq username
   sign_in post.creator
-  click_link "My Stuff"
+  sleep(2)
+  click_link('My Stuff')
   sleep(1)
   within('#my-stuff') do
-  	expect(page.body).to have_text "Want!ed"
+  	expect(page.body).to have_text "Active Dibs"
     sleep(2)
-    expect(page.find('button', :text=> 'Wanted', :visible => true)).to_not eq nil
+    expect(page.find('button', :text=> 'Dibbed', :visible => true)).to_not eq nil
   end
 end
 
@@ -72,7 +73,7 @@ Then(/^Jill should be able to see the item on the map and dib the item\.$/) do
   center_map_to_post @shoes
   visit @shoes.permalink
   page.execute_script "window.scrollBy(0,10000)"
-  find(:button, 'I want').click
+  find(:button, 'Dib').click
   sleep(3)
   @shoes.reload
   expect(@shoes.current_dibber).to eq jill 

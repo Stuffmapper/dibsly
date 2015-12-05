@@ -1,8 +1,13 @@
 class Api::UsersController < ApplicationController
   before_action :correct_user, only: [:update ]
+  before_action :authorize, only: [:index, :resend_verify ]
   # GET /users/1"111"
   # GET /users/1.json
   def show
+  end
+
+  def index
+    render json: current_user, status: :ok
   end
 
   # POST /users
@@ -29,13 +34,18 @@ class Api::UsersController < ApplicationController
       render json: { message: "User not Found "}, status: :unprocessable_entity
     end
   end
+  def resend_verify
+    current_user.resend_email_verification
+    render json: '[]', status: :ok
+  end
 
   def update
-    current_user.update_attributes user_params
-    if current_user.valid?
+    user = current_user
+    user.update_attributes user_params
+    if user.update_attributes user_params
       render json: '[]', status: :ok
     else
-      render json: current_user.errors, status: :unprocessable_entity
+      render json: user.errors, status: :unprocessable_entity
     end
   end
 
@@ -65,6 +75,10 @@ class Api::UsersController < ApplicationController
       if !current_user || current_user.id != params['id'].to_i
         render json: {error: 'not authorized '}, status: :unauthorized
       end
-
     end
+
+   def authorize
+    render json: {message: 'User not logged in' }, 
+    status: :unauthorized unless current_user
+  end
 end

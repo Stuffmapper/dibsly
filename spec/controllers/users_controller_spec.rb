@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Api::UsersController, :type => :controller do
 
-  describe "Post create" do
+  describe "POST create" do
     before do
       xhr :post,:create, user: user_var
     end
@@ -54,6 +54,35 @@ RSpec.describe Api::UsersController, :type => :controller do
     end
 
 
+  end
+  describe "GET index" do
+
+
+    context "without login" do
+      before do
+        @current_user = create(:user,  verified_email: false )
+      end
+
+      it 'should 401' do
+        xhr :get, :index 
+        expect(response.status).to eq(401)
+      end
+
+    end
+
+    context "with login" do
+      before do
+        @current_user = create(:user, email: "b2@email.com", username:"Supe2", id:708)
+        sign_in @current_user
+      end
+
+      it 'should 200' do
+        xhr :get, :index 
+        expect(response.status).to eq(200)
+        expect(JSON.parse(response.body)).to eq(
+          JSON.parse("{\"user\":{\"email\":\"b2@email.com\",\"id\":708,\"username\":\"Supe2\",\"first_name\":\"John\",\"last_name\":\"Doe\",\"verified_email\":true}}"))
+      end
+    end
   end
 
   describe "Get confirm_email" do
