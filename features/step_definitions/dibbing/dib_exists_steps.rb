@@ -11,8 +11,9 @@ end
 
 
 Then(/^I should not be able to dib the "(.*?)"$/) do |description|
+  sleep(2)
   page.execute_script "window.scrollBy(0,10000)"
-  find(:button, 'I want this').click
+  find(:button, 'Dib').click
   post = Post.find_by_description(description)
   expect(post.available_to_dib?).to eq true 
 end
