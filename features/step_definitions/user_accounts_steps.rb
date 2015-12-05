@@ -208,7 +208,8 @@ end
 
 When(/^I follow the link in the welcome email$/) do
   expect(@current_user.verified_email).to eq false
-  current_email.click_link "http://"
+   expect(current_email.body).to have_text( '#/users/email/' + User.find_by_email(@current_user.email).verify_email_token )
+  visit '#/users/email/' + User.find_by_email(@current_user.email).verify_email_token
   sleep(2)
   @current_user.reload
   expect(@current_user.verified_email).to eq true
@@ -221,7 +222,7 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
   end
   sign_in @current_user
   center_map_to_post Post.last 
-  visit('/menu/giveStuff')
+  visit('#/menu/giveStuff')
   sleep(2)
   page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
   steps %{
@@ -233,8 +234,8 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
 
   click_link 'Get Stuff'
   page.all(".stuff-view")[1].click
-   page.execute_script "window.scrollBy(0,10000)"
-  page.first(:button, "I want").click
+  page.execute_script "window.scrollBy(0,10000)"
+  page.first(:button, "Dib").click
   sleep(2)
   expect(page).to have_text('Dibbed')
 
