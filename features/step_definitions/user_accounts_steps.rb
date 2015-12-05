@@ -147,12 +147,13 @@ Then(/^I should receive an email with a link to reset my password$/) do
   sleep(1)
   open_email(@user.email)
   expect(ActionMailer::Base.deliveries.empty?).to be(false)
-  expect(current_email.body).to have_text(   'user/reset/' + User.find_by_email(@user.email).password_reset_token )
+  expect(current_email.body).to have_text(   'user/email/reset/' + User.find_by_email(@user.email).password_reset_token )
 
 end
 
 When(/^I follow the reset password link and set my new password to "(.*?)"$/) do |arg1|
-  current_email.click_link "http://"
+  visit('#/menu/user/email/reset/' + User.find_by_email(@user.email).password_reset_token )
+
   expect(page).to have_content("Change Your Password")
   fill_in 'password', with: arg1
   fill_in 'password_confirmation', with: arg1
