@@ -3,6 +3,7 @@ When(/^I manage dibs for shoes in My Stuff$/) do
   visit '/'
   sign_in @current_user
   click_link('My Stuff')
+  sleep(2)
   expect(page).to have_text 'Active Dibs'
 end
 
