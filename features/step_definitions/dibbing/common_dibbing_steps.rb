@@ -23,9 +23,9 @@ When(/^I hit dib$/) do
   click_link 'Get Stuff'
   page.find('.stuff-view').click
   sleep(2)
-  within('.post-details') do 
+  within('.post-view') do 
     page.execute_script "window.scrollBy(0,10000)"
-    page.find(:button, "I want").click
+    page.find(:button, "Dib").click
     sleep(5)
   end
   @shoes.reload
