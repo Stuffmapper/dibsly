@@ -81,16 +81,16 @@ end
 
 When(/^I try to dib an item$/) do
   center_map_to_post @post 
-  visit('/post/' + @post.id.to_s )
+  visit(@post.permalink )
   page.execute_script "window.scrollBy(0,10000)"
-  find(:button, 'I want').click
+  find(:button, 'Dib').click
 
 
 end
 
 Then(/^I should see a message asking me to sign in$/) do
 
-  expect(page).to have_text('Please sign in')
+  expect(page).to have_text('Please Sign In')
 
 end
 
@@ -104,8 +104,7 @@ Given(/^that I am not logged in$/) do
 end
 
 When(/^I try to post an item$/) do
-  visit('/')
-  click_link('Give Stuff')
+  visit('#/menu/giveStuff')  
 
 end
 
