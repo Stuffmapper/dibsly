@@ -11,6 +11,6 @@ directives.directive('alerts', ->
             AlertService.remove(idx)
         ]
     replace:true,
-    template:'<alert ng-repeat="alert in getAlerts()" type="{{alert.type}}" close="closeAlert($index)">{{alert.text}}</alert>'
+    template:'<alert class="sm-alert" ng-repeat="alert in getAlerts()" type="{{alert.type}}" close="closeAlert($index)">{{alert.text}}</alert>'
 )
 

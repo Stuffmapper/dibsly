@@ -1,0 +1,484 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ */
+
+/* html labels */
+
+//Not for bootstrap media queries
+
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+// @media (min-width: @screen-sm-min) { ... }
+//
+// /* Medium devices (desktops, 992px and up) */
+// @media (min-width: @screen-md-min) { ... }
+//
+// /* Large devices (large desktops, 1200px and up) */
+// @media (min-width: @screen-lg-min) { ... }
+
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "partials/variables";
+@import "partials/components";
+@import "partials/helpers";
+@import "menu/menu";
+@import "menu/my_stuff";
+@import "menu/get_stuff";
+@import "menu/give_stuff";
+@import "menu/user_settings";
+@import "menu/navbar";
+@import "menu/details";
+@import "misc/marker";
+
+
+/*//TODO -REMOVE ALL BELOW TO APPROPRIATE FOLDER*/
+
+button:focus {
+  border: none;
+  outline: none;
+}
+
+body{
+  width: 100%;
+  overflow: hidden;
+}
+
+.thin-hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.full-height{
+  height: 100vh;
+}
+
+/*always 100%  */
+#google-map{
+  height:100%;
+}
+
+/*** marker***/
+.floating{
+  padding: 5px;
+  position: relative;
+  font-size: 9px;
+}
+
+.stuff-status {
+  background-color: #784B87;
+  top: 8px;
+  color: #FFFFFF;
+  float: left;
+}
+
+.stuff-category{
+  top: 8px;
+  background-color: lightgray;
+  float: right;
+}
+.stuff-title{
+  font-weight: 900;
+}
+
+.img-detail{
+  width: 100%;
+}
+
+/*** Helper ***/
+.search-input{
+  padding-left: 30px;
+}
+
+.search-magnify{
+  position: absolute;
+  padding: 10px;
+  color: grey;
+}
+
+
+.more-left{
+  right:500px;
+}
+.emoji-size{
+  max-height: 15px;
+  max-width: 15px;
+  display: inline;
+  margin: 0;
+}
+.close-x{
+  position: relative;
+  display:block;
+  z-index: $z-8;
+  margin-right: -15px;
+  margin-top: -20px;
+  font-size: 2.5em;
+  color: $black;
+}
+
+.percent-padding{
+  min-height: $navheight;
+}
+
+
+.max-icon{
+  max-width: 50px;
+  margin-right:10px;
+}
+
+
+/**** STUFFMAPPER ****/
+
+.scroll-y{
+  overflow-y: auto;
+  height:100%;
+}
+.sm-tabs{
+  position: fixed;
+  z-index: $z-9;
+  margin:0;
+  padding:0;
+  width:inherit;
+  list-style: none;
+  background: lightgrey;/*move me to vari */
+  text-align: center;
+  h4{
+    font-size: 1.5rem;
+  }
+  li {
+  padding: 1px 1px 2px 1px;
+  border: 1px solid grey; /*move me to vari */
+  border-bottom: 0;
+  }
+}
+.sm-low-tabs{
+  margin-top: 39px;
+  background: none;
+  .tab-unclicked{
+    background-color: darkgrey; /*move me to vari */
+  }
+}
+.tab-unclicked{
+  background-color: $black;
+  color:$white;
+  a{
+    text-decoration: none;
+    color: $white;
+  }
+
+}
+.tab-clicked{
+  background-color: $white;
+  color:$black;
+  a{
+    text-decoration: none;
+    color: $black;
+  }
+}
+
+
+.stuffmapper-menu{
+  padding: 0;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin-top: $navheight;
+  overflow: auto;
+}
+
+.short-view{
+  position:relative;
+  height: 180px;
+  background-color: $white;
+}
+.form-view{
+  position:relative;
+  height: 320px;
+  background-color: $white;
+}
+.medium-view{
+  position:relative;
+  height: 320px;
+  background-color: $white;
+}
+.get-stuff-view{
+  border-radius: 5px;
+  z-index: $z-2;
+  font-size: 1.2em;
+  padding:0 0 15px 0;
+  margin-bottom: 50px;
+  background: $white;
+}
+
+.stuff-view{
+  margin: auto;
+  padding:0;
+  height: 170px;
+  border: 1px solid grey;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+}
+
+.stuff-description{
+  float:left;
+  margin-bottom:-90px;
+  max-height: 90px;
+  padding:5px;
+  position:relative;
+  z-index: $z-4;
+  color:white;
+  background:rgba(0,0,0,.5);
+  overflow:hidden;
+}
+.edit-stuff{
+  clear:both;
+}
+
+@media (min-width: 1000px) {
+
+
+}
+@media (max-width: 768px) {
+  .overlap{
+    padding: 0;
+  }
+  .stuffmapper-menu{
+    padding: 0;
+    margin-right: 0;
+    margin-top: $navheight;
+  }
+
+  .get-stuff-view, .my-stuff-view{
+
+    background-color: rgba(255,255,255,0.5)
+  }
+}
+@media (min-width: 768px) {
+
+}
+
+.dib-button {
+  width: 100%;
+  text-align: center;
+  border: none;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.dib-button.not-dibbed {
+  cursor: default;
+}
+
+  .dib-button-details {
+    background-color: #F99953;
+    color: #FFFFFF;
+  }
+  
+  .dib-button-send-message {
+    color: #FFFFFF;
+    background-color: #3BE073;
+    font-size: 16px;
+  }
+
+.btn-close-details {
+  width: 100%;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: none;
+  height: 33px;
+  color:#b6b6b6;
+}
+
+.undib-link {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+}
+
+
+@keyframes slidein{
+    from    { transform:translateY(-100%); }
+    to      { transform: translateY(0); }
+}
+
+.post-details.ng-enter {
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+
+
+
+.stuff-map-image{
+  width:200px;
+} /** is this used ** /
+/*** ALERTS ***/
+
+.alert{
+  position:relative;
+  z-index:$z-6;
+}
+
+/*** validator ***/
+.ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+
+/*** optional ***/
+#option {
+  color: gray;
+}
+
+
+/*** POST ***/
+.post-details{
+  background: $white;
+  height: 100%;
+  padding: 0;
+  }
+
+
+#show-post{
+  list-style:none;
+}
+.individual-post{
+  padding:5px;
+}
+
+/*** inbox ***/
+.inbox-modal{
+  .post-status-list{
+    list-style:none;
+
+    li{
+      padding:4px;
+      font-size: .85em;
+      text-align: right;
+      span{
+        margin: 2px;
+      }
+      .glyphicon{
+        border-radius:100%;
+        border:2px solid $black;
+        color: $white;
+        background-color: $white;
+        margin-right: -10px;
+        }
+      .posted{
+        color: $green;
+      }
+      .dibbed{
+        color: orange;
+        }
+      .gone{
+        color: red;
+        }
+
+      }
+
+
+  }
+  .converation-messages{
+    overflow-y: scroll;
+  }
+
+
+    .panel-body{
+        background:$grey;
+    }
+    .conversation-reply{
+      padding-left:0;
+      input, button{
+        border: 1px solid $black;
+      }
+    }
+    .conversation-description,
+    .conversation-posted-at{
+      padding:3px;
+      margin:2px;
+
+    }
+    .conversation-posted-at{
+      font-size: .85em;
+    }
+
+  .panel-heading{
+    position:relative;
+    z-index:$z-7;
+    overflow:auto;
+    background-color: $white;
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.43);
+  }
+  .conversation-image,
+  .conversation-center{
+    margin-left: -30px;
+  }
+  .individual-message{
+    height:100%;
+    border-radius:5px;
+    padding: 4px;
+    margin-bottom: 15px;
+    position:relative;
+    background-color: $white;
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+    box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.43);
+  }
+
+  .person-circle{
+    background-color:$white;
+    width:28px;
+    height:28px;
+    margin-left: 5px;
+    padding:4px 4px 4px 6px;
+    border-radius:100%;
+    border: 1px solid $black;
+    clear:both;
+  }
+  .person-circle-right{
+    margin-left: -13px;
+  }
+
+  .individual-message-center{
+    list-style:none;
+    li{
+      padding:3px;
+    }
+    .light-text{
+      font-size: .88em;
+    }
+  }
+  .sender-details{
+    height:100%;
+    .green-bar{
+      height:100px;
+        width: 20px;
+    }
+    .green{
+      background-color: $green;
+
+    }
+    .darkblue{
+      background-color: $darkblue;
+
+    }
+  }
+
+
+}

@@ -12,11 +12,18 @@ directives.directive('smdetails', function() {
     scope: {
       post: '='
     },
-    controller: ['$scope','$state', '$modal', 'UserService', 'AlertService', 
-    function($scope,$state,$modal, UserService, AlertService) {
+    controller: ['$scope','$state', '$modal', 'UserService', 'AlertService', 'MarkerService',
+    function($scope,$state,$modal, UserService, AlertService, MarkerService) {
       //add details specific functions here
       $scope.back = function(){
         $state.go($state.lastState || 'getStuff');
+      }
+      $scope.giveBack = function() {
+        $scope.post.unDib()
+        .then(function(marker){ 
+          AlertService.add('success', "Item has been unDibsed"); 
+          MarkerService.setMarker(marker)
+        })
       }
       $scope.giveMe = function() {
           UserService.getCurrentUser()

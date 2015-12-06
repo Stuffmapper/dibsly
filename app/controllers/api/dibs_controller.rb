@@ -19,11 +19,11 @@ class Api::DibsController < ApplicationController
   end
 
   def undib
-    post = Post.find(params[:id])
-    if current_user  && current_user == post.current_dibber
-      post.remove_current_dib
-      post.reload
-      render json: '[]', status: :ok
+    @post = Post.find(params[:id])
+    if current_user  && current_user == @post.current_dibber
+      @post.remove_current_dib
+      @post.reload
+      render json: @post, status: :ok
     else
       render json: {message: "Dib not found"}, status: :unprocessable_entity
     end

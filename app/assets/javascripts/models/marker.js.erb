@@ -44,6 +44,14 @@
 
       //TODO make this work with angular resource
       //Read the source code for angular resource to confirm  
+      constructor.getBaseProperties = function(){
+        var self = this;
+        var rval = {};
+        angular.forEach( self.baseProperties, function(property){
+          rval[property] = self[property];
+        });
+        return rval;
+      }; 
 
       constructor.getEditProperties = function(){
         var self = this;
@@ -174,6 +182,9 @@
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/removecurrentdib')
           .success( function(data){
+            self.deleteLocal();
+            console.log(data.post);
+            delete self.type;
             angular.extend(self, data.post)
             resolve(self)
           })
@@ -192,7 +203,12 @@
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/undib')
           .success( function(data){
-            angular.extend(self, data.post)
+            self.icon = 'standard';
+            delete self.type;
+            self.isCurrentDibber = false;
+            angular.extend(self, data.post);
+            console.log(self)
+            self.saveLocal()
             resolve(self)
           })
           .error( function(error){
