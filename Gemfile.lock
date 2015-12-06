@@ -540,7 +540,7 @@ DEPENDENCIES
   kaminari
   launchy
   mailboxer!
-  mandrill-api
+  mandrill-api (~> 1.0, >= 1.0.53)
   metric_fu
   omniauth-facebook
   omniauth-google-oauth2 (~> 0.2.6)

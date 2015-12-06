@@ -23,6 +23,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'mailboxer', :github => 'BenRuns/mailboxer'
 
+#for emailing
+gem 'mandrill-api', '~> 1.0', '>= 1.0.53'
+
 #http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -32,7 +35,6 @@ gem 'recaptcha', '~> 0.3.6'
 gem 'paperclip', '~> 4.2.1'
 gem 'aws-sdk', '< 2.0'
 gem 'kaminari'
-gem 'mandrill-api'
 
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
