@@ -25,6 +25,7 @@ gem 'mailboxer', :github => 'BenRuns/mailboxer'
 
 #for emailing
 gem 'mandrill-api', '~> 1.0', '>= 1.0.53'
+gem 'mandrill_mailer', :github =>'BenRuns/mandrill_mailer'
 
 #http://dev.virtualearth.net/REST/v1/Locations?
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

@@ -69,6 +69,7 @@ class Dib < ActiveRecord::Base
 
   def remove_as_dibber
     if self.post.current_dibber == self.user
+      Notifier.dibber_rejection(self).deliver_now 
       self.post.update_attributes({:current_dib => nil, :dibbed_until => Time.now - 1.minute, :status => 'new' })
     end
   end
