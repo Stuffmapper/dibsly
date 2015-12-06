@@ -10,7 +10,8 @@ nav{
   top:0px;
   z-index:$z-10;
   .sm-alert{
-    width:100%;
+    width:80%;
+    left:10%; 
     position:absolute;
     margin:auto;
   }

@@ -12,8 +12,8 @@ directives.directive('smdetails', function() {
     scope: {
       post: '='
     },
-    controller: ['$scope','$state', '$modal', 'UserService', 'AlertService', 'MarkerService',
-    function($scope,$state,$modal, UserService, AlertService, MarkerService) {
+    controller: ['$rootScope','$scope','$state', '$modal', 'UserService', 'AlertService', 'MarkerService',
+    function($rootScope,$scope,$state,$modal, UserService, AlertService, MarkerService) {
       //add details specific functions here
       $scope.back = function(){
         $state.go($state.lastState || 'getStuff');
@@ -47,6 +47,9 @@ directives.directive('smdetails', function() {
             }
           );
         };
+      $rootScope.$on( 'markerDeleted', function(event, args){
+        return $scope.post.id == args.postId  && $scope.back();
+      })
       }
     ],
     replace: true,
