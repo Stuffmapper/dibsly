@@ -48,7 +48,9 @@ directives.directive('smdetails', function() {
           );
         };
       $rootScope.$on( 'markerDeleted', function(event, args){
-        return $scope.post.id == args.postId  && $scope.back();
+        if($state.$current.name == 'singlepost' ) {
+          return $scope.post.id == args.postId  && $scope.back();
+        }
       })
       }
     ],

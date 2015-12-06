@@ -3,9 +3,9 @@
 
   factories = angular.module('factories');
 
-  factories.factory('Marker', [
+  factories.factory('Marker', ['AlertService',
     '$http','LocalService','$resource', '$q', '$rootScope','$state', 'MapsService',
-     function($http, LocalService,$resource, $q, $rootScope,$state, MapsService ) {
+     function(AlertService,$http, LocalService,$resource, $q, $rootScope,$state, MapsService ) {
 
 
       var Marker = function(params){
@@ -164,6 +164,7 @@
             angular.extend(self, data.post)
             self.deleteLocal();
             $rootScope.$broadcast('markerDeleted', {postId: self.id } );
+            AlertService.add('success', 'Marker Deleted' )
             resolve(self)
           })
           .error( function(error){
