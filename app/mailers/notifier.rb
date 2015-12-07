@@ -48,6 +48,21 @@ class Notifier < MandrillMailer::TemplateMailer
     )
   end
 
+  def lister_notification(dib)
+    dibbed_post = dib.post
+    user = dibbed_post.creator
+    mandrill_mail(
+      template: 'lister-notification',
+      to: {email: user.email, name: user.first_name + ' ' + user.last_name },
+      vars: {
+        'FIRSTNAME'=> user.first_name,
+        'ITEMIMAGE' => dibbed_post.image_url
+      },
+      important: true,
+      inline_css: true
+    )
+  end
+
 
   def email_verification(user)
     mandrill_mail(

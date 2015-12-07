@@ -55,10 +55,17 @@ class Dib < ActiveRecord::Base
 
   def contact_other_party user, body
     self.post.reload
+    #figur out 
     if user == self.post.current_dibber and self.valid_until >= Time.now
       self.post.make_dib_permanent
     end
-    user.reply_to_conversation(self.conversation, body)
+    if user = self.user
+      receipient = self.post.creator
+    else
+      receipient = self.user
+    end
+    subject = "dibber message"
+    user.start_existing_conversation(self.conversation,[receipient],body,subject)
   end
 
   def notify_undib
@@ -92,14 +99,14 @@ class Dib < ActiveRecord::Base
   end
 
   def send_message_to_dibber
+    #only used for initial conversation
     Notifier.dibber_notification(self).deliver_later
   end
 
   def notify_poster
     poster = self.post.creator
     dibber = self.user
-    self.start_existing_conversation(self.conversation,[poster],
-    "#{dibber.username}'s dibbed your stuff! #{dibber.username} will be getting in contact in the next 30 minutes to keep their dib!" , "Your Stuff's been Dibbed!")
+    Notifier.lister_notification(self).deliver_later
     self.conversation.add_participant(dibber)
   end
 
