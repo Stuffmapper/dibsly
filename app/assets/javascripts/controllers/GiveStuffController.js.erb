@@ -44,6 +44,13 @@
 
       };
 
+      $scope.clickInput = function(){
+        console.log("click input")
+        document.getElementById('give-stuff-file-1').click()
+      }
+      
+
+
       $scope.submitPost = function() {
         //TODO move this into marker service resource
         if(!$scope.images.original){

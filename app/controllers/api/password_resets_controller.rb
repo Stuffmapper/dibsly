@@ -9,8 +9,8 @@ class Api::PasswordResetsController < ApplicationController
 		else
 			render json: {message: "User not found"}, status: :unprocessable_entity
 		end
-
 	end
+	
 	def edit
 		@user = User.find_by(password_reset_token: params[:id] )
 		if @user

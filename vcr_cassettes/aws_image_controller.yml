@@ -257,13 +257,13 @@ http_interactions:
       X-Amz-Acl:
       - public-read
       User-Agent:
-      - aws-sdk-ruby/1.64.0 ruby/2.2.0 x86_64-linux
+      - aws-sdk-ruby/1.66.0 ruby/2.2.0 x86_64-linux
       Expect:
       - 100-continue
       Date:
-      - Sun, 16 Aug 2015 21:02:22 GMT
+      - Mon, 07 Dec 2015 22:51:36 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:UKZZWmZnvzUHu0mlo6YSVpu9S9U=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:PvzqADMmAWS84IDZf9HSXmv3B8E=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - Txf/Scgt3c38rDDM7uULAH4aUm4MS6c98l6vg7y++qKJZZ8Q7cc4yBQW7Sngn/9rvVZVx/Cfdvo=
+      - Y8dCJt0CPsnvldTnOL6D7J4VYw9Qie1AcWN6UViIsLnjtQASKFRezq1Q6FdoSzbkRWRY9Ezo9fc=
       X-Amz-Request-Id:
-      - F73146FEDDD6D3BB
+      - 44A110073E4EE0DB
       Date:
-      - Sun, 16 Aug 2015 21:02:23 GMT
+      - Mon, 07 Dec 2015 22:51:37 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,7 +287,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sun, 16 Aug 2015 21:02:22 GMT
+  recorded_at: Mon, 07 Dec 2015 22:51:37 GMT
 - request:
     method: put
     uri: https://new-stuffmapper-test.s3-us-west-2.amazonaws.com/images/images/000/000/001/medium/shoes.png
@@ -535,9 +535,9 @@ http_interactions:
         LDYaW+gZOyyrDQK9wnA267VYBpyAgM1S+R/xkeZklz2HPZ6cDAZ6dZsTDJJS
         vz+mvWnKucnQTj47/2ju8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD
         /wSDWC8V656j5Wu323MdgXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8
-        K//Kv/JPlv8HyjNpx1DtIeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDgt
-        MTZUMTQ6MDI6MjItMDc6MDArEYEAAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
-        LTA4LTE2VDE0OjAyOjIyLTA3OjAwWkw5vAAAAABJRU5ErkJggg==
+        K//Kv/JPlv8HyjNpx1DtIeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMTIt
+        MDdUMTQ6NTE6MzYtMDg6MDDgS9h6AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
+        LTEyLTA3VDE0OjUxOjM2LTA4OjAwkRZgxgAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -548,13 +548,13 @@ http_interactions:
       X-Amz-Acl:
       - public-read
       User-Agent:
-      - aws-sdk-ruby/1.64.0 ruby/2.2.0 x86_64-linux
+      - aws-sdk-ruby/1.66.0 ruby/2.2.0 x86_64-linux
       Expect:
       - 100-continue
       Date:
-      - Sun, 16 Aug 2015 21:02:22 GMT
+      - Mon, 07 Dec 2015 22:51:37 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:iNslNOmyba46DXHMKzOZPdG3TxY=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:cplPWkR8GwcMf1hCP7alsN/BeT4=
       Accept:
       - "*/*"
   response:
@@ -563,13 +563,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - rYarhkxTohwGJDGKdyMAynLjcNJUGUgC3AT4CxvnmF2YhpJXESmXz4AI0T5cEgPfIvjDgQhVGxg=
+      - WO88j+BjUhThy/jiORy6SAXYmm0EbtrA7ZrLUmLaaDbBfhYcNC6JTfyqzTPRLbVhjUFXl63CMPw=
       X-Amz-Request-Id:
-      - 679C2BFC1CC332BC
+      - 8CFC9ED5FC78F941
       Date:
-      - Sun, 16 Aug 2015 21:02:24 GMT
+      - Mon, 07 Dec 2015 22:51:37 GMT
       Etag:
-      - '"53bf39eb14b15c9695043fae117d109a"'
+      - '"5ba23c0e96c2dba1f53cc93098178bb7"'
       Content-Length:
       - '0'
       Server:
@@ -578,5 +578,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sun, 16 Aug 2015 21:02:23 GMT
-recorded_with: VCR 2.9.3
+  recorded_at: Mon, 07 Dec 2015 22:51:37 GMT
+recorded_with: VCR 3.0.0

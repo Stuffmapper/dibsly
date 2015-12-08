@@ -11,6 +11,7 @@ require 'webmock/rspec'
 require 'vcr_setup'
 require 'capybara/email/rspec'
 require "paperclip/matchers"
+require 'mandrill_mailer/offline'
 
 
 WebMock.disable_net_connect!(allow_localhost: true)
