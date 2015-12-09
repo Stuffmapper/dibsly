@@ -20,6 +20,7 @@ end
 Then(/^"(.*?)" should be the  current dibber of "(.*?)" and they should display dibbed$/) do |username, item_description|
   post = Post.find_by_description(item_description)
   expect(post.current_dibber.username).to eq username
+  sleep(2)
   sign_in post.creator
   sleep(2)
   click_link('My Stuff')

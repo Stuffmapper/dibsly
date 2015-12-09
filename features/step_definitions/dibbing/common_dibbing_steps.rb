@@ -45,9 +45,10 @@ end
 
 Then(/^Jack should have been notified of my dib\.$/) do
 
-  open_email(@user_jack.email)
-
-  expect(current_email.body).to have_text( "dibbed your stuff"   )
+  @email = MandrillMailer::deliveries.detect{ 
+    |mail| mail.template_name == 'lister-notification' &&
+     mail.message['to'].any? { |to| to[:email] == @user_jack.email }}
+  expect(@email).to_not be(nil)
 
 end
 
@@ -101,7 +102,7 @@ end
 
 
 Then(/^Jack should have been notified of my unDib\.$/) do
-  open_email(@user_jack.email)
+
   @email = MandrillMailer::deliveries.detect{ 
     |mail| mail.template_name == 'message-notification' &&
      mail.message['to'].any? { |to| to[:email] == @user_jack.email }}
@@ -112,18 +113,21 @@ end
 ### EMAIL CONFIRMATION
 
 Given(/^I've received an email\.$/) do
-  open_email(@current_user.email)
-  expect(current_email.body).to have_text( @current_user.first_name )
+  @email = MandrillMailer::deliveries.detect{ 
+    |mail| mail.template_name == 'dibber-notification' &&
+     mail.message['to'].any? { |to| to[:email] == @current_user.email }}
+  expect(@email).to_not be(nil)
 end
 
 Then(/^is should explain information about dibs$/) do
-  expect(current_email.body).to have_text("thirty minutes to initiate contact with the lister" )
+  #this info is in the mandrill template
 end
 
 Then(/^if I follow the link in the email$/) do
   visit('/')
   sign_in(@current_user)
-  current_email.click_link "http://"
+  @link = @email.message["global_merge_vars"].select { |var| var['name'] == "CHATLINK" }[0]["content"]
+  visit @link
 end
 
 Then(/^I should be in the in\-app chat$/) do
