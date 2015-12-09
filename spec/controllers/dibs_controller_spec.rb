@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Api::DibsController, type: :controller do
 
 
-	describe "dib post", :vcr =>  { :cassette_name => "dibpost", :match_requests_on => [:method] }do
+	describe "dib post", :vcr =>  { :cassette_name => "dibpost",
+	 :match_requests_on => [:method],:record => :new_episodes }do
 
 		before do
   		  	@user = create(:user)
@@ -20,26 +21,15 @@ RSpec.describe Api::DibsController, type: :controller do
 
 			it 'should return 200 with params' do
 				sign_in(@user2)
-				xhr :get, :create, :post_id => @post.id
+				xhr :post, :create, :post_id => @post.id
 		     	expect(response.status).to eq(200)
 			end
-			it 'should send a message to the lister' do
+			it 'should send an alert to the lister' do
 				sign_in(@user2)
-				xhr :get, :create, :post_id => @post.id
+				xhr :post, :create, :post_id => @post.id
 		     	expect(response.status).to eq(200)
-		     	conversation =  @user.mailbox.inbox.last
-      			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to have_text("dibbed your stuff!") }
-			end
-			it 'should send a message to the lister when the post has no description' do
-				@post.description = nil
-				@post.save
-				sign_in(@user2)
-				xhr :get, :create, :post_id => @post.id
-		     	expect(response.status).to eq(200)
-		     	conversation =  @user.mailbox.inbox.last
-      			receipts = conversation.receipts_for @user
-      			receipts.each {|receipt| expect(receipt.message.body).to have_text("dibbed your stuff!") }
+		     	alert =  @user.alerts.last
+      			expect(alert.message).to have_text("dibbed your stuff!") 
 			end
 
 			it 'should send  a message to dibber' do
@@ -67,7 +57,7 @@ RSpec.describe Api::DibsController, type: :controller do
 		end
 	end
 	describe "undib post", :vcr =>  { :cassette_name => "undib_post",
-		:match_requests_on => [:method] } do
+		:match_requests_on => [:method] ,:record => :new_episodes } do
 
 		before do
   		  	@user = create(:user)
@@ -121,7 +111,7 @@ RSpec.describe Api::DibsController, type: :controller do
 
 		end
 	end
-	describe "Post removedib", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+	describe "Post removedib", :vcr =>  { :cassette_name => "remove_dib1", :match_requests_on => [:method],:record => :new_episodes  } do
 		before do
 			two_users_post_dib
 		end
@@ -197,7 +187,7 @@ RSpec.describe Api::DibsController, type: :controller do
 
 	end
 	
-	describe "Get message", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+	describe "Get message", :vcr =>  { :cassette_name => "remove_dib2", :match_requests_on => [:method],:record => :new_episodes  } do
 		before do
 			two_users_post_dib
 		end
@@ -235,7 +225,7 @@ RSpec.describe Api::DibsController, type: :controller do
 		end		
 	end
 	
-	describe "Post send message", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+	describe "Post send message", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method],:record => :new_episodes  } do
 		before do
 			two_users_post_dib
 		end
@@ -255,7 +245,7 @@ RSpec.describe Api::DibsController, type: :controller do
 			it 'should 200' do
 				xhr :post, :send_message, :dib_id => @dib.id, :message =>{:body => "hey!!!" }
 				parsed = JSON.parse(response.body)['dibs']
-		  		expect(parsed[1]['body']).to eq("hey!!!")
+		  		expect(parsed[0]['body']).to eq("hey!!!")
 			end
 
 		end
@@ -274,9 +264,10 @@ RSpec.describe Api::DibsController, type: :controller do
 
 	end
 
-	describe "Post mark read", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+	describe "Post mark read", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method],:record => :new_episodes  } do
 		before do
 			two_users_post_dib
+			@dib.contact_other_party @user2, "you got it"
 		end
 
 		context "without login " do
@@ -316,7 +307,7 @@ RSpec.describe Api::DibsController, type: :controller do
 
 	end
 
-	describe "Get check unread", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method] } do
+	describe "Get check unread", :vcr =>  { :cassette_name => "remove_dib", :match_requests_on => [:method], } do
 		before do
 			two_users_post_dib
 		end
@@ -332,6 +323,7 @@ RSpec.describe Api::DibsController, type: :controller do
 		context "with login of a related user" do
 			before do
 				sign_in(@user)
+				@dib.contact_other_party @user2, "you got it"
 			end
 
 			it 'should 200' do

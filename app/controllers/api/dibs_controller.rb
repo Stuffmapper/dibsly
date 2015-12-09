@@ -21,7 +21,9 @@ class Api::DibsController < ApplicationController
   def undib
     @post = Post.find(params[:id])
     if current_user  && current_user == @post.current_dibber
+      dib = @post.current_dib
       @post.remove_current_dib
+      @post.notify_undib dib
       @post.reload
       render json: @post, status: :ok
     else

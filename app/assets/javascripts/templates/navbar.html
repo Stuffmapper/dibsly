@@ -8,6 +8,7 @@
     <li class="full-nav-item" ng-hide="currentUser()"><a href='/' ng-click="showSignin()"  >Sign In</a></li>
     <li class="full-nav-item" ng-show="currentUser()"><a href='/'ng-click="showLogout()" >Sign Out</a></li>
     <li class="full-nav-item" ng-show="currentUser()"><a ui-sref='user' >{{ currentUser() }}</a></li>
+     <li class="full-nav-item" ><a ui-sref='user' >{{ alerts() }}</a></li>
 
     <div ng-show="toggle">
       <li class="collapse-nav-item" ng-hide="currentUser()" ng-><a href='#' ng-click="showSignup()" >Sign Up</a></li>

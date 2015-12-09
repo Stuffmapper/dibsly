@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Post, :type => :model do
-  vcr_options = { :cassette_name => "aws", :match_requests_on => [:method] }
 
-  describe "Model creation", :vcr => vcr_options  do 
+  describe "Model creation", :vcr => { :cassette_name => "model-creation", :match_requests_on => [:method] } do 
   	before do
   		  @user = create(:user)
         @user2 = create(:user, {username: 'user2', email: 'anotherfake@email.com'})
@@ -46,7 +45,7 @@ RSpec.describe Post, :type => :model do
     end
 
   end
-  describe "Post.create_new_dib", :vcr => vcr_options  do
+  describe "Post.create_new_dib", :vcr =>{ :cassette_name => "Post.create_new_dib", :match_requests_on => [:method] }  do
 
     before do
       @user = create(:user)
@@ -70,7 +69,7 @@ RSpec.describe Post, :type => :model do
 
   end
 
-  describe "Post validations", :vcr => vcr_options  do
+  describe "Post validations", :vcr => { :cassette_name => "Post validations", :match_requests_on => [:method] } do
 
     before do
       @user = create(:user)
@@ -88,7 +87,7 @@ RSpec.describe Post, :type => :model do
   end
 
 
-  describe "Post.create_new_dib", :vcr => vcr_options  do
+  describe "Post.create_new_dib", :vcr => { :cassette_name => "Post.create_new_dib", :match_requests_on => [:method] }  do
 
     before do
       @user = create(:user)
@@ -112,7 +111,7 @@ RSpec.describe Post, :type => :model do
 
   end
 
-  describe "Post.update_picture", :vcr => vcr_options  do
+  describe "Post.update_picture", :vcr => { :cassette_name => "Post.update_picture", :match_requests_on => [:method] }  do
 
     before do
       @user = create(:user)
@@ -137,7 +136,7 @@ RSpec.describe Post, :type => :model do
 
   end
 
-  describe "Model Dibbing", :vcr => vcr_options  do 
+  describe "Model Dibbing", :vcr => { :cassette_name => "Model Dibbing", :match_requests_on => [:method] } do 
     before do
         @user = create(:user)
         @user2 = create(:user, {username: 'user2', email: 'anotherfake@email.com'})

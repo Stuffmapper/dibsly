@@ -56,10 +56,11 @@ class Post < ActiveRecord::Base
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build( :ip => request_ip)
     dibber.dibs << dib
-
     if dib.save
       set_dibbed_until dib if dib.save
       self.update_attribute(:current_dib, dib)
+      self.creator.alerts.create(:message => "#{dibber.username}'s  dibbed your stuff!" ,
+      :url => dib.conversation_url );
     end
     return dib
   end
@@ -100,13 +101,22 @@ class Post < ActiveRecord::Base
   end
 
   def remove_current_dib
-    self.current_dib.notify_undib
     self.update_attributes({
       :current_dib => nil,
       :dibbed_until => Time.now - 1.minute,
       :status => 'new'})
    self.save!
   end
+
+  def notify_undib  dib
+    lister = self.creator
+    dibber = dib.user
+    body =  "#{dibber.username} has undibbed your stuff"
+    subject = "Undib"
+    lister.alerts.create(:message => body, :url => dib.conversation_url )
+    dibber.start_existing_conversation(dib.conversation,[lister],body,subject)
+  end
+
 
   def send_message_to_creator (dibber, body, subject)
     dibber.send_message( User.find(self.creator_id), body,subject)

@@ -19,7 +19,7 @@ RSpec.describe Api::PasswordResetsController, type: :controller do
 			end
 
 			it "sends a password reset email " do
-				expect{ post :create, email: user.email }.to change( ActionMailer::Base.deliveries, :size )
+				expect{ post :create, email: user.email }.to change( MandrillMailer::deliveries, :size )
 
 			end
 			it "sends a message via Json " do

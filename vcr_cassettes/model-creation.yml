@@ -5,7 +5,7 @@ http_interactions:
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad16@email.com","name":"John
+      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"anotherfake@email.com","name":"John
         Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"CHATLINK","content":"http://localhost:7654/user/chat/2"},{"name":"MYSTUFFLINK","content":"http://localhost:7654/#/menu/mystuff"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
@@ -20,7 +20,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 09:49:03 GMT
+      - Tue, 08 Dec 2015 09:28:55 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -37,15 +37,15 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad16@email.com","status":"rejected","_id":"23f44f1987784bc8aaf6cf456ca276a2","reject_reason":"soft-bounce"}]'
+      string: '[{"email":"anotherfake@email.com","status":"sent","_id":"ea4f6920235f4f90af63f6809daa1f42","reject_reason":null}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:49:03 GMT
+  recorded_at: Tue, 08 Dec 2015 09:28:55 GMT
 - request:
     method: post
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad15@email.com","name":"John
+      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad4@email.com","name":"John
         Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
@@ -60,7 +60,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 09:49:03 GMT
+      - Tue, 08 Dec 2015 09:28:56 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -77,16 +77,16 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad15@email.com","status":"rejected","_id":"8784d0d159b044b9a26688e8ba70006f","reject_reason":"soft-bounce"}]'
+      string: '[{"email":"superbad4@email.com","status":"rejected","_id":"c06007bf06084d6c87458742eb136cbe","reject_reason":"soft-bounce"}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:49:03 GMT
+  recorded_at: Tue, 08 Dec 2015 09:28:56 GMT
 - request:
     method: post
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad20@email.com","name":"John
-        Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"CHATLINK","content":"http://localhost:7654/user/chat/4"},{"name":"MYSTUFFLINK","content":"http://localhost:7654/#/menu/mystuff"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
+      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"anotherfake@email.com","name":"John
+        Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"CHATLINK","content":"http://localhost:7654/user/chat/3"},{"name":"MYSTUFFLINK","content":"http://localhost:7654/#/menu/mystuff"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
       - excon/0.45.4
@@ -100,7 +100,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 11:11:26 GMT
+      - Tue, 08 Dec 2015 09:28:57 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -117,15 +117,15 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad20@email.com","status":"sent","_id":"6d2de1a52a4343f4983651a495f35a23","reject_reason":null}]'
+      string: '[{"email":"anotherfake@email.com","status":"sent","_id":"938abbc84c12446c8062944de304aa44","reject_reason":null}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 11:11:26 GMT
+  recorded_at: Tue, 08 Dec 2015 09:28:57 GMT
 - request:
     method: post
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad19@email.com","name":"John
+      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad4@email.com","name":"John
         Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
@@ -140,7 +140,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 11:11:27 GMT
+      - Tue, 08 Dec 2015 09:28:57 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -157,7 +157,7 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad19@email.com","status":"sent","_id":"cd1cff0d52a74bbe95235de0eb46db88","reject_reason":null}]'
+      string: '[{"email":"superbad4@email.com","status":"rejected","_id":"96e52e041a9e43e6891f20cec30dffd9","reject_reason":"soft-bounce"}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 11:11:27 GMT
+  recorded_at: Tue, 08 Dec 2015 09:28:57 GMT
 recorded_with: VCR 3.0.0

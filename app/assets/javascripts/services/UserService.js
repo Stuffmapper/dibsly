@@ -4,8 +4,8 @@
   factories = angular.module('factories');
 
   factories.factory('UserService', [
-    '$http', '$q', 'LocalService', 'MarkerService', function($http, $q, LocalService, MarkerService) {
-
+    'AlertService','$http', '$q', 'LocalService', 'MarkerService', 
+    function(AlertService,$http, $q, LocalService, MarkerService) {
       var self = this;
       self.checking = false;
       self.checkingQueue = [];
@@ -26,6 +26,7 @@
               self.user = data.user;
               self.token = data.token;
               LocalService.set('sMToken', JSON.stringify(data));
+              AlertService.getMessages();
             } else {
               console.log(data);
               LocalService.unset('sMToken');
@@ -77,6 +78,7 @@
             if (user) {
               $http.get('/api/auth/check?token=' + user.token)
               .success(function(data) {
+                AlertService.getMessages();
                 resolveAll(user.user);
               })
               .error(function(err) {

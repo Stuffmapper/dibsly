@@ -20,7 +20,7 @@ RSpec.describe Image, type: :model do
     end
   end
 
-  describe "Polymorphic status", :vcr => vcr_options  do
+  describe "Polymorphic status", :vcr => { :cassette_name => "Polymorphic_status", :match_requests_on => [:method] }  do
     before do 
       @image = create(:image)
       @user = create(:user)

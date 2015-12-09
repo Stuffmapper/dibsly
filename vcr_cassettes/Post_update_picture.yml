@@ -261,9 +261,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Tue, 08 Dec 2015 09:49:47 GMT
+      - Tue, 08 Dec 2015 09:29:12 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:/GB6rnwevLuPBgs7glj4nbrxBEY=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:XvVfLa2/PDDqsVFCtFKlx1rwpGI=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - JATKinBr89sV32/PQdIyOprYTP6Mrot3rXkwEsTkME5ZAyGgQraPoAGfhCc4zsozIhTvGoiLbgg=
+      - lLmgdLXQrAUZ3S3VML4vADSmOE2OzO9c7H8UZlS630ROpony3oGymHqMyClleimCq5Y5pf7rhXY=
       X-Amz-Request-Id:
-      - 9E63BFF82F40EB38
+      - E52E184F91044534
       Date:
-      - Tue, 08 Dec 2015 09:49:49 GMT
+      - Tue, 08 Dec 2015 09:29:14 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,7 +287,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:49:48 GMT
+  recorded_at: Tue, 08 Dec 2015 09:29:13 GMT
 - request:
     method: put
     uri: https://new-stuffmapper-test.s3-us-west-2.amazonaws.com/images/images/000/000/001/medium/shoes.png
@@ -536,8 +536,8 @@ http_interactions:
         vz+mvWnKucnQTj47/2ju8BuSKduSrPt0d3eX7A0NMusmW6G7JNOEQM1jD5aD
         /wSDWC8V656j5Wu323MdgXbb6/UW7Ht26z8fA4NYSKw2m/PZJkuQ/eR/OED8
         K//Kv/JPlv8HyjNpx1DtIeQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMTIt
-        MDhUMDE6NDk6NDctMDg6MDCQanC8AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
-        LTEyLTA4VDAxOjQ5OjQ3LTA4OjAw4TfIAAAAAABJRU5ErkJggg==
+        MDhUMDE6Mjk6MTItMDg6MDBiB5s8AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1
+        LTEyLTA4VDAxOjI5OjEyLTA4OjAwE1ojgAAAAABJRU5ErkJggg==
     headers:
       Content-Type:
       - image/png
@@ -552,9 +552,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Tue, 08 Dec 2015 09:49:48 GMT
+      - Tue, 08 Dec 2015 09:29:13 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:uEJ5jrFtMNdaqPv517583VcaFqQ=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:ewZd+YG1iXX6Zl3lVN9uQrw9JQk=
       Accept:
       - "*/*"
   response:
@@ -563,13 +563,13 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - D26X1VAE6k5w5+MimQPiHXR8Wy5ZL+0xJ4z0I3wK4tWAyloCdbjGaywp/XOC8fBPpnNa67lLEHA=
+      - WAz9EEgErr4ov7i7O0ZPPBTnbrIv9UplKsFzjCKLF0WlGDY1x/br/RtJXsG+clsrEyv7XE5ZmwQ=
       X-Amz-Request-Id:
-      - C3FC80AA63DF117D
+      - F3DF26252858B972
       Date:
-      - Tue, 08 Dec 2015 09:49:49 GMT
+      - Tue, 08 Dec 2015 09:29:14 GMT
       Etag:
-      - '"41cb30b69b2840642eb70160be43dfe7"'
+      - '"87ff33f03d5bf1a0bdf9e9c9f02eee8f"'
       Content-Length:
       - '0'
       Server:
@@ -578,5 +578,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:49:48 GMT
+  recorded_at: Tue, 08 Dec 2015 09:29:13 GMT
 recorded_with: VCR 3.0.0

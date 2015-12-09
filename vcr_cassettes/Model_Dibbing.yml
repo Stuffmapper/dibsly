@@ -5,7 +5,7 @@ http_interactions:
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad4@email.com","name":"John
+      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"anotherfake@email.com","name":"John
         Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"CHATLINK","content":"http://localhost:7654/user/chat/2"},{"name":"MYSTUFFLINK","content":"http://localhost:7654/#/menu/mystuff"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
@@ -20,7 +20,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 09:48:52 GMT
+      - Tue, 08 Dec 2015 09:29:17 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -37,15 +37,15 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad4@email.com","status":"rejected","_id":"49b812d665064cd692b9ec1671fa05ee","reject_reason":"soft-bounce"}]'
+      string: '[{"email":"anotherfake@email.com","status":"sent","_id":"661830e8f546438a80e966905878096f","reject_reason":null}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:48:51 GMT
+  recorded_at: Tue, 08 Dec 2015 09:29:17 GMT
 - request:
     method: post
     uri: https://mandrillapp.com/api/1.0/messages/send-template.json
     body:
       encoding: UTF-8
-      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad3@email.com","name":"John
+      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad14@email.com","name":"John
         Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
     headers:
       User-Agent:
@@ -60,7 +60,7 @@ http_interactions:
       Server:
       - nginx/1.6.2
       Date:
-      - Tue, 08 Dec 2015 09:48:52 GMT
+      - Tue, 08 Dec 2015 09:29:18 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -77,7 +77,7 @@ http_interactions:
       - 'false'
     body:
       encoding: UTF-8
-      string: '[{"email":"superbad3@email.com","status":"rejected","_id":"e231085c5a604a318f014cff1d8cc443","reject_reason":"soft-bounce"}]'
+      string: '[{"email":"superbad14@email.com","status":"sent","_id":"f98dfee12f08483594643cd670bf51d7","reject_reason":null}]'
     http_version: 
-  recorded_at: Tue, 08 Dec 2015 09:48:52 GMT
+  recorded_at: Tue, 08 Dec 2015 09:29:18 GMT
 recorded_with: VCR 3.0.0

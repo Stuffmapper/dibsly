@@ -71,28 +71,6 @@ RSpec.describe Api::MessagesController, :type => :controller do
 		    expect(response_first_subject).to eq("This is aSubject")
 		end
 
-		it "should include dib conversation" do
-			@post = create(:post, creator_id: @user.id, latitude: '-122', longitude: '49' )
-			@post.create_new_dib  @user2
-			sign_in(@user2)
-			xhr :get, :index
-		    expect(response.status).to eq(200)
-		    response_first_subject = JSON.parse(response.body)['messages'][0]['subject']
-		    expect(response_first_subject).to eq("Stuffmapper dib for shoes")
-		end
-
-		it "should include information about the post" do
-			@post = create(:post, creator_id: @user.id, description: "pretty decent shoes", latitude: '-122', longitude: '49' )
-			@post.create_new_dib  @user2
-			sign_in(@user2)
-			xhr :get, :index
-		    expect(response.status).to eq(200)
-		    response_first_subject = JSON.parse(response.body)['messages'][0]['conversable']['description']
-		    expect(response_first_subject).to eq("pretty decent shoes")
-		end
-
-
-
 	end
 
 	describe "Get inbox_status", :vcr => vcr_options do

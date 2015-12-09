@@ -144,11 +144,10 @@ stfmpr.config(function($httpProvider) {
   return $httpProvider.interceptors.push('AuthInterceptor');
 });
 
-stfmpr.run(['$state','UserService', '$location','$rootScope', 'MapsService', 'MarkerService',
-  function($state,UserService, $location, $rootScope, MapsService, MarkerService) {
+stfmpr.run(['AlertService','$state','UserService', '$location','$rootScope', 'MapsService', 'MarkerService',
+  function(AlertService,$state,UserService, $location, $rootScope, MapsService, MarkerService) {
     MapsService.loadMap();
     UserService.check();
-    //$state.lastState = ($state.lastState || 'getStuff');
   }
 ]);
 

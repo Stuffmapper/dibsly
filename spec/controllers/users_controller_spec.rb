@@ -80,7 +80,7 @@ RSpec.describe Api::UsersController, :type => :controller do
         xhr :get, :index 
         expect(response.status).to eq(200)
         expect(JSON.parse(response.body)).to eq(
-          JSON.parse("{\"user\":{\"email\":\"b2@email.com\",\"id\":708,\"username\":\"Supe2\",\"first_name\":\"John\",\"last_name\":\"Doe\",\"verified_email\":true}}"))
+          JSON.parse("{\"user\":{\"email\":\"b2@email.com\",\"id\":708,\"username\":\"Supe2\",\"first_name\":\"John\",\"last_name\":\"Doe\",\"verified_email\":true,\"image_url\":false}}"))
       end
     end
   end

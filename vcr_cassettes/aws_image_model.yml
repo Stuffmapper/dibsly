@@ -261,9 +261,9 @@ http_interactions:
       Expect:
       - 100-continue
       Date:
-      - Mon, 07 Dec 2015 22:55:04 GMT
+      - Tue, 08 Dec 2015 09:45:38 GMT
       Authorization:
-      - AWS AKIAJ3IBMQYHZTGGGJMQ:V90cPCuRBfKX/o8WkAcuSHczCT4=
+      - AWS AKIAJ3IBMQYHZTGGGJMQ:Z+PGhmbglsSXMrfw5qsAV8KX4nk=
       Accept:
       - "*/*"
   response:
@@ -272,11 +272,11 @@ http_interactions:
       message: OK
     headers:
       X-Amz-Id-2:
-      - JSjqsI6y/pm4uxGwpbnD1KamG12tQoQz54knjCnpArChadA5aNtNwcXrYp8bPP+nxEWgq/6sPtg=
+      - DYOooTDzRY/ixrQ4v6FLqB2hTV5JH+ooyL33wSLDWT04htJn6jkqVPFpUq2DG4+r/r57ooM8fm0=
       X-Amz-Request-Id:
-      - 82549094258B2C99
+      - 51A333B62A9E9027
       Date:
-      - Mon, 07 Dec 2015 22:55:05 GMT
+      - Tue, 08 Dec 2015 09:45:39 GMT
       Etag:
       - '"16baded8cdf619dc3d9972bf9d9d9015"'
       Content-Length:
@@ -287,5 +287,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 07 Dec 2015 22:55:04 GMT
+  recorded_at: Tue, 08 Dec 2015 09:45:38 GMT
 recorded_with: VCR 3.0.0

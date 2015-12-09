@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/BenRuns/mandrill_mailer.git
-  revision: 828e87c821b1d06c62703bb8d7fa053e29c24ed3
+  revision: c4016e6d5b632909652bde311209a92ffbaaa747
   specs:
     mandrill_mailer (1.1.0)
       actionpack

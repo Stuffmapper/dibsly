@@ -53,25 +53,21 @@ class Dib < ActiveRecord::Base
     notify_poster
   end
 
-  def contact_other_party user, body
+  def contact_other_party sender, body
     self.post.reload
     #figur out 
-    if user == self.post.current_dibber and self.valid_until >= Time.now
+    if sender == self.post.current_dibber and self.valid_until >= Time.now
       self.post.make_dib_permanent
     end
-    if user = self.user
+    if sender = self.user
       receipient = self.post.creator
     else
       receipient = self.user
     end
+    receipient.alerts.create(:message => body, :url => conversation_url )
     subject = "dibber message"
-    user.start_existing_conversation(self.conversation,[receipient],body,subject)
-  end
-
-  def notify_undib
-    dibber = self.user
-    body =  "#{dibber.username} has undibbed your stuff"
-    self.reply_to_conversation(self.conversation, body)
+    sender.start_existing_conversation(self.conversation,[receipient],body,subject)
+    MessageMailer.send_email(user,body,receipient,self).deliver_later
   end
 
   def remove_as_dibber
