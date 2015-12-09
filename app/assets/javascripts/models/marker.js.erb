@@ -131,6 +131,13 @@
 
         });
       };
+      constructor.getState = function(){
+        if(this.permadib && this.isCurrentDibber && this.dibbed ) { return 'permaWant'} 
+        else if( this.status =='dibbed' && this.isCurrentDibber){ return 'waitingWant'}
+        else if( this.status =='dibbed' && !this.permadib ){ return 'waitingPost' }
+        else if( this.status =='dibbed' && !this.permadib ){ return 'permaDibPost'}  
+        else { return 'unwantedPost'}
+      }
 
       constructor.markGone = function(){
         var self = this;

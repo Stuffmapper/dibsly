@@ -7,8 +7,12 @@
   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding">
     <div class="col-lg-12 col-md-12 col-sm-12 mystuff-half-row no-padding on-top">
       <div class="center-y pull-left">{{post.title}}</div>
-      <settings></settings>
+      <settings ng-hide='post.isCurrentDibber'></settings>
+      <a ng-show='post.isCurrentDibber' ng-click='post.goToDetails()' class='pull-right center-y item-details-link' >
+        Item details &gt;&gt;
+      </a>
     </div>
     <button  ng-class="btnClass()" ng-click='btnAction' >{{msg()}}</button>
   </div>
 </div>
+

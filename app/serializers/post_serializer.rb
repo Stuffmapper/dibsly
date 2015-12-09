@@ -3,7 +3,7 @@ class PostSerializer < ActiveModel::Serializer
   attributes :id, :isCurrentDibber,  :latitude, :longitude,
   :image_url,:description, :dibbable,
   :creator, :on_the_curb, :category, :published,
-  :currentDib,:originalImage, :status, :updated_at, :title
+  :currentDib,:originalImage, :status, :updated_at, :title, :dibbed_until, :permadib
 
   def currentDib
     dibObject =  scope[:current_user] && object.current_dibber ?  {
@@ -27,6 +27,9 @@ class PostSerializer < ActiveModel::Serializer
 
   def originalImage
     object.pictures.last and object.pictures.last.image.url
+  end
+  def permadib
+    object.status == 'dibbed'
   end
 
   def status

@@ -82,8 +82,8 @@ class User < ActiveRecord::Base
   end
 
   def dib_posts
-
-    (self.dibs.select {|x| x.post != nil and x.post.current_dib == x }).collect { |y| y.post }
+    #active dibs
+    (self.dibs.select {|x| x.post != nil and x.post.current_dib == x and !x.post.available_to_dib? }).collect { |y| y.post }
   end
   
   def generate_password_reset_token!

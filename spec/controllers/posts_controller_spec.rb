@@ -414,22 +414,6 @@ RSpec.describe Api::PostsController, :type => :controller do
         expect(response.status).to eq(200)
       end
 
-      it 'should return my  expired dibs' do
-        Timecop.travel(1810)
-        @post.reload
-        expect(@post.available_to_dib?).to eq true 
-        sign_in(@user2)
-        xhr :get, :my_dibs
-        parsed_response = JSON.parse(response.body.as_json)
-        expect(parsed_response['posts'][0]['latitude']).to eq 47
-        expect(parsed_response['posts'][0]['longitude']).to eq -122
-        expect(parsed_response['posts'][0]['isCurrentDibber']
-            ).to eq false
-        expect(parsed_response['posts'][0]['dibbable']
-            ).to eq true
-        expect(response.status).to eq(200)
-        Timecop.return
-      end
     end
   end
 

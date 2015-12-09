@@ -9,8 +9,8 @@ class Dib < ActiveRecord::Base
 
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
 
-  # 1800 seconds = 30 minutes
-  @@timeSpan = 1800
+  #900 seconds = 15 minutes
+  @@timeSpan = 900
   cattr_reader :timeSpan
 
   after_initialize do
