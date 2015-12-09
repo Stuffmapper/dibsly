@@ -112,13 +112,12 @@ class Post < ActiveRecord::Base
     lister = self.creator
     dibber = dib.user
     body =  "#{dibber.username} has undibbed your stuff"
-    subject = "Undib"
-    lister.alerts.create(:message => body, :url => dib.conversation_url )
-    dibber.start_existing_conversation(dib.conversation,[lister],body,subject)
+    dib.contact_other_party dibber, body
   end
 
 
   def send_message_to_creator (dibber, body, subject)
+    #TODO see ehere this is used and if alerts and email beed to be added
     dibber.send_message( User.find(self.creator_id), body,subject)
   end
 

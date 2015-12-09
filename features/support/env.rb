@@ -18,6 +18,7 @@ require "paperclip/matchers"
 require 'vcr'
 require 'database_cleaner'
 require 'database_cleaner/cucumber'
+require 'mandrill_mailer/offline'
 
 
 Capybara.app_host = "http://localhost:7654"
@@ -72,6 +73,7 @@ ActionController::Base.allow_rescue = false
 After do |scenario|
   begin 
   	execute_script("localStorage.clear()")
+  	MandrillMailer.deliveries.clear
   end
 end
 

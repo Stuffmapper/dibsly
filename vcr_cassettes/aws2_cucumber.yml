@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://mandrillapp.com/api/1.0/messages/send-template.json
+    body:
+      encoding: UTF-8
+      string: '{"template_name":"dibber-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad26@email.com","name":"John
+        Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"CHATLINK","content":"http://localhost:7654/user/chat/2"},{"name":"MYSTUFFLINK","content":"http://localhost:7654/#/menu/mystuff"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
+    headers:
+      User-Agent:
+      - excon/0.45.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.6.2
+      Date:
+      - Wed, 09 Dec 2015 09:08:45 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type
+      Access-Control-Allow-Credentials:
+      - 'false'
+    body:
+      encoding: UTF-8
+      string: '[{"email":"superbad26@email.com","status":"sent","_id":"28eece8dc6ed498a9d6db47015a56059","reject_reason":null}]'
+    http_version: 
+  recorded_at: Wed, 09 Dec 2015 09:08:44 GMT
+- request:
+    method: post
+    uri: https://mandrillapp.com/api/1.0/messages/send-template.json
+    body:
+      encoding: UTF-8
+      string: '{"template_name":"lister-notification","template_content":[{"name":"blank","content":""}],"message":{"html":null,"text":null,"subject":null,"from_email":"support@stuffmapper.com","from_name":"support@stuffmapper.com","to":[{"email":"superbad25@email.com","name":"John
+        Doe"}],"headers":null,"important":true,"track_opens":true,"track_clicks":true,"auto_text":true,"auto_html":false,"inline_css":true,"url_strip_qs":true,"preserve_recipients":false,"view_content_link":false,"bcc_address":null,"tracking_domain":null,"signing_domain":null,"return_path_domain":null,"merge":false,"merge_language":null,"global_merge_vars":[{"name":"FIRSTNAME","content":"John"},{"name":"ITEMIMAGE","content":"missing"}],"merge_vars":[],"tags":null,"subaccount":null,"google_analytics_domains":null,"google_analytics_campaign":null,"metadata":null,"recipient_metadata":null,"attachments":null,"images":null},"async":null,"ip_pool":null,"send_at":null,"key":"eecqPlsFBCU6tPAyNb6MLg"}'
+    headers:
+      User-Agent:
+      - excon/0.45.4
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.6.2
+      Date:
+      - Wed, 09 Dec 2015 09:08:46 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type
+      Access-Control-Allow-Credentials:
+      - 'false'
+    body:
+      encoding: UTF-8
+      string: '[{"email":"superbad25@email.com","status":"sent","_id":"67c2a45a0f4f4ecd935072f027633205","reject_reason":null}]'
+    http_version: 
+  recorded_at: Wed, 09 Dec 2015 09:08:44 GMT
+recorded_with: VCR 3.0.0

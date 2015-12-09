@@ -64,6 +64,7 @@ Then(/^I should be able to go to my account with google and facebook$/) do
     first(:link, 'Sign Out').click
    end
    expect(User.count).to eq 1
+   sleep(5)
    first(:link, 'Sign In').click
    click_link('Facebook')
    expect(User.count).to eq 1
@@ -71,9 +72,12 @@ Then(/^I should be able to go to my account with google and facebook$/) do
 
    click_link 'Sign Out'
    expect(page).to_not have_text 'Sign Out'
+   sleep(5)
    first(:link, 'Sign In').click
-   click_link 'Google'
-   expect(User.count).to eq 1
+   within('.signin') do 
+     click_link 'Google'
+     expect(User.count).to eq 1
+   end
    expect(page).to have_text 'Sign Out'
 
 end
@@ -145,9 +149,12 @@ end
 
 Then(/^I should receive an email with a link to reset my password$/) do
   sleep(1)
-  open_email(@user.email)
-  expect(ActionMailer::Base.deliveries.empty?).to be(false)
-  expect(current_email.body).to have_text(   'user/email/reset/' + User.find_by_email(@user.email).password_reset_token )
+  @email = MandrillMailer::deliveries.detect{ 
+    |mail| mail.template_name == 'password-reset' &&
+     mail.message['to'].any? { |to| to[:email] == @user.email }}
+  expect(@email).to_not be(nil)
+  @link = @email.message["global_merge_vars"].select { |var| var['name'] == "CHANGEPASSWORD" }[0]["content"]
+  expect(@link).to have_text(   'user/email/reset/' + User.find_by_email(@user.email).password_reset_token )
 
 end
 
@@ -201,15 +208,19 @@ end
 Then(/^I should receive a welcome email$/) do
   sleep(1)
   @current_user = User.last
-  open_email(@current_user.email)
-  expect(current_email.body).to have_text("Welcome to Stuffmapper!" )
+  @email = MandrillMailer::deliveries.detect{ |mail| mail.template_name == 'email-verification' && mail.message['to'].any? { |to| to[:email] == @current_user.email }}
+  expect(@email).to_not be_nil
+ # email.message["global_merge_vars"]
+
+  #expect(current_email.body).to have_text("Welcome to Stuffmapper!" )
 
 end
 
 When(/^I follow the link in the welcome email$/) do
   expect(@current_user.verified_email).to eq false
-   expect(current_email.body).to have_text( '#/users/email/' + User.find_by_email(@current_user.email).verify_email_token )
-  visit '#/users/email/' + User.find_by_email(@current_user.email).verify_email_token
+  link = @email.message["global_merge_vars"].select { |var| var['name'] == "CONFIRMEMAIL" }[0]["content"]
+  expect(link).to have_text( '#/users/email/' + User.find_by_email(@current_user.email).verify_email_token )
+  visit link
   sleep(2)
   @current_user.reload
   expect(@current_user.verified_email).to eq true
