@@ -13,7 +13,12 @@ directives.directive('mypost', function() {
       post: '=',
       chat: '='
     },
-    controller: ['$scope', function($scope) {
+    controller: ['$http','$scope', function($http,$scope) {
+        $http.get( 'api/dibs/' + $scope.post.currentDib.id + '/messages')
+        .then(function(data){
+          $scope.messages = data.data.dibs;
+          console.log($scope.messages);
+        });
         $scope.zi = "settings-standard"
         $scope.top = function(){
           $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top"
@@ -28,7 +33,7 @@ directives.directive('mypost', function() {
                   rval = "Send a message! (" + Math.floor((new Date($scope.post.dibbed_until ) - Date.now())/ 60000)  +" minutes remaining)"    ;
                   break;
              case 'waitingPost':
-                  rval = "Dibbed! (waiting for messages )";
+                  rval = " Dibbed! (waiting for messages )";
                   break;
               default:
                 rval = "Listed";
@@ -36,20 +41,39 @@ directives.directive('mypost', function() {
           return rval;
         };
         $scope.btnClass =  function() {
-          var btncolor = $scope.post.showWanted()  ? 'green' : 'grey';
-          return btncolor; 
+          var rval;
+          switch($scope.post.getState()) {
+              case ('permaDibPost'):
+                  rval = "blue";
+                  break;
+              case ('permaWant'):
+                  rval = "grey";
+                  break;
+              case 'waitingWant':
+                  rval = "green"
+                  break;
+             case 'waitingPost':
+                  rval = "green";
+                  break;
+              default:
+                rval = "grey";
+          }
+          return rval;
         };
         
         $scope.btnAction = function(){
           $scope.chat = !$scope.chat;
         }
-        //HELPERS
-        var getState = function(post){
-          if(post.permadib && post.isCurrentDibber){ return 'permaWant'} 
-          else if( post.dibbed && post.isCurrentDibber){ return 'waitingWant'}
-          else if( post.dibbed ){ return 'waitingPost'} 
-          else { return 'unwantedPost'}
+
+        $scope.sendMessage = function() {
+          return $http.post( 'api/dibs/' + $scope.post.currentDib.id + '/messages', {message: {body: $scope.newMessage}} )
+          .success(function(data) {
+            console.log("this is cool")
+          }).error(function(err) {
+            throw err;
+          });
         }
+        //HELPERS
 
       }
     ],

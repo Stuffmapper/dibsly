@@ -12,14 +12,23 @@
 
 .blue {
   background-color: $blue;
+  .left-envelope{
+    display:none;
+  }
 }
 
 .green {
   background-color: $green;
+  .right-envelope{
+    display:none;
+  }
 }
 
 .grey{
-  background-color: $grey;
+  background-color: $lightgray;
+  .left-envelope, .right-envelope{
+    display:none;
+  }
 }
 
 .stuff-btn{

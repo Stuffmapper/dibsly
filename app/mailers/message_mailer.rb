@@ -12,7 +12,9 @@ class MessageMailer < MandrillMailer::TemplateMailer
         'CHATLINK' =>  dib.conversation_url,
         'MYSTUFFLINK' => root_url + '#/menu/mystuff',
         'ITEMIMAGE' => dibbed_post.image_url,
-        'STUFFURL' => dibbed_post.permalink
+        'STUFFURL' => dibbed_post.permalink,
+        'MESSAGE' => message,
+        'USERNAME' => sender.username
       },
       important: true,
       inline_css: true
