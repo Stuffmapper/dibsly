@@ -3,11 +3,12 @@ class Api::AlertsController < ApplicationController
   before_action :find, only: [:update]
 
   def index
-    render json: current_user.alerts.where(:read => false), status: :ok
+    @alerts = current_user.alerts.where(:read => false)
+    render json: @alerts, status: :ok
   end
 
   def update
-  	@alert.update_attribute(:read, true) 
+  	@alert.mark_as_read
   end
 
   private

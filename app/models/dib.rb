@@ -1,11 +1,11 @@
 class Dib < ActiveRecord::Base
   acts_as_messageable
+  has_many :alerts
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   belongs_to :post, :class_name => Post, :foreign_key => :post_id
   has_one :report
 
   #for the inital conversation
-  has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
 
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted', STATUS_FINISHED = 'finished']
 
@@ -19,12 +19,8 @@ class Dib < ActiveRecord::Base
   end
 
   after_create do
-    create_conversation
     initiate_conversation
   end
-  # after_save do
-  #   initiate_conversation
-  # end
 
   validates_presence_of :creator_id
   validates_presence_of :post_id
@@ -45,7 +41,7 @@ class Dib < ActiveRecord::Base
   end
 
   def conversation_url
-    Rails.application.routes.default_url_options[:host] + 'user/chat/' + self.conversation.id.to_s
+    Rails.application.routes.default_url_options[:host] + '#/user/chat/' + self.id.to_s
   end
 
   def initiate_conversation
@@ -59,19 +55,26 @@ class Dib < ActiveRecord::Base
     if sender == self.post.current_dibber and self.valid_until >= Time.now
       self.post.make_dib_permanent
     end
-    if sender = self.user
+    if sender == self.user
       receipient = self.post.creator
     else
       receipient = self.user
     end
-    receipient.alerts.create(:message => body, :url => conversation_url )
-    subject = "dibber message"
-    sender.start_existing_conversation(self.conversation,[receipient],body,subject)
+    receipient.alerts.create(
+      :message => body, 
+      :dib_id => self.id,
+      :post_id => self.post_id,
+      :sender_id => sender.id  
+    )
     MessageMailer.send_email(user,body,receipient,self).deliver_later
   end
 
   def remove_as_dibber
     if self.post.current_dibber == self.user
+      self.user.alerts.create(
+        :message => "Removed as dibber", 
+        :dib_id => self.id,
+        :post_id => self.post_id )
       Notifier.dibber_rejection(self).deliver_now 
       self.post.update_attributes({:current_dib => nil, :dibbed_until => Time.now - 1.minute, :status => 'new' })
     end
@@ -85,14 +88,6 @@ class Dib < ActiveRecord::Base
     end
   end
 
-  def create_conversation
-    subject = !self.post.description.nil? ? " for " + self.post.description : ''
-    self.conversation = Mailboxer::ConversationBuilder.new({
-          :subject    => "Stuffmapper dib" + subject ,
-          :created_at => Time.now,
-          :updated_at => Time.now
-        }).build
-  end
 
   def send_message_to_dibber
     #only used for initial conversation
@@ -102,8 +97,11 @@ class Dib < ActiveRecord::Base
   def notify_poster
     poster = self.post.creator
     dibber = self.user
+    poster.alerts.create(
+      :message => "#{dibber.username} dibbed #{self.post.title}" ,
+      :dib_id => self.id,
+      :post_id => self.post_id )
     Notifier.lister_notification(self).deliver_later
-    self.conversation.add_participant(dibber)
   end
 
   def available_to_dib?

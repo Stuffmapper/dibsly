@@ -29,7 +29,7 @@ RSpec.describe Api::DibsController, type: :controller do
 				xhr :post, :create, :post_id => @post.id
 		     	expect(response.status).to eq(200)
 		     	alert =  @user.alerts.last
-      			expect(alert.message).to have_text("dibbed your stuff!") 
+      			expect(alert.message).to have_text("dibbed some title") 
 			end
 
 			it 'should send  a message to dibber' do
@@ -102,9 +102,9 @@ RSpec.describe Api::DibsController, type: :controller do
 		     	@post.reload
 		     	@user2.reload
 					dib =  @post.dibs.where(:creator_id => @user2.id).first
-		     	conversation = dib.conversation.receipts_for @user2
-		     	expect(conversation.last.message.body).to eq (
-						@user2.username + ' has undibbed your stuff'
+		     	conversation = dib.alerts.where(:user_id => @user.id)
+		     	expect(conversation.last.message).to eq (
+						@user2.username + ' has undibbed this item'
 					)
 
 			end
@@ -245,7 +245,7 @@ RSpec.describe Api::DibsController, type: :controller do
 			it 'should 200' do
 				xhr :post, :send_message, :dib_id => @dib.id, :message =>{:body => "hey!!!" }
 				parsed = JSON.parse(response.body)['dibs']
-		  		expect(parsed[0]['body']).to eq("hey!!!")
+		  		expect(parsed[1]['body']).to eq("hey!!!")
 			end
 
 		end
@@ -284,10 +284,10 @@ RSpec.describe Api::DibsController, type: :controller do
 
 			it 'should 200' do
 
-				expect((@user.mailbox.inbox.unread @user).count).to eq 1
+				expect(@user.alerts.where(:read => false ).count).to eq 2
 				xhr :post, :mark_read, :dib_id => @dib.id
 				@user.reload
-				expect((@user.mailbox.inbox.unread @user).count).to eq 0
+				expect(@user.alerts.where(:read => false ).count).to eq 0
 
 
 			end
@@ -331,7 +331,7 @@ RSpec.describe Api::DibsController, type: :controller do
 		  		xhr :get, :unread, :dib_id => @dib.id
 		  		expect(response.status).to eq(200)
 				parsed = JSON.parse(response.body)['dibs']
-		  		expect( parsed.length ).to eq(1)
+		  		expect( parsed.length ).to eq(2)
 			end
 		end
 

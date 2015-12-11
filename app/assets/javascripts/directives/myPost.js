@@ -13,12 +13,13 @@ directives.directive('mypost', function() {
       post: '=',
       chat: '='
     },
-    controller: ['$http','$scope', function($http,$scope) {
-        $http.get( 'api/dibs/' + $scope.post.currentDib.id + '/messages')
-        .then(function(data){
-          $scope.messages = data.data.dibs;
-          console.log($scope.messages);
-        });
+    controller: ['AlertService','$http','$scope', function(AlertService,$http,$scope) {
+        if($scope.post.currentDib){
+          $http.get( 'api/dibs/' + $scope.post.currentDib.id + '/messages')
+          .then(function(data){
+            $scope.messages = data.data.dibs;
+          });
+        }
         $scope.zi = "settings-standard"
         $scope.top = function(){
           $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top"
@@ -26,7 +27,10 @@ directives.directive('mypost', function() {
         $scope.msg = function()  {  
           var rval;
           switch($scope.post.getState()) {
-            case ('permaWant' || 'permaDibPost'):
+              case ('permaWant'):
+                  rval = "Messages"
+                  break;
+              case ('permaDibPost'):
                   rval = "Messages"
                   break;
               case 'waitingWant':
@@ -66,13 +70,28 @@ directives.directive('mypost', function() {
         }
 
         $scope.sendMessage = function() {
-          return $http.post( 'api/dibs/' + $scope.post.currentDib.id + '/messages', {message: {body: $scope.newMessage}} )
-          .success(function(data) {
-            console.log("this is cool")
-          }).error(function(err) {
-            throw err;
-          });
+          var message = { created_at: Date.now(), sender: $scope.post.currentUser, body: $scope.newMessage, state:'sending' };
+           $scope.newMessage = '';
+          $scope.messages.push(message)
+          return $http.post( 'api/dibs/' + $scope.post.currentDib.id + '/messages', {message: message } )
+          .then(
+            function(data) {
+              $scope.messages = data.data.dibs
+          },
+          function(err){
+            AlertService.add('warn', "Something went wrong try again")
+            console.warn(err)
+          })
         }
+          $scope.autoExpand = function(e) {
+        var element = typeof e === 'object' ? e.target : document.getElementById(e);
+        var scrollHeight = element.scrollHeight -60; // replace 60 by the sum of padding-top and padding-bottom
+        element.style.height =  scrollHeight + "px";    
+    };
+  
+  function expand() {
+    $scope.autoExpand('TextArea');
+  }
         //HELPERS
 
       }

@@ -22,6 +22,9 @@
  	right:10px;
  	top:10px;
  	color:$grey;
+  text-area{
+    min-height:30px;
+  }
 
  }
  .settings-dropdown{ 
@@ -31,10 +34,43 @@
  	margin: 18px 13px;
 	font-weight: 600;
 	font-size: 1em;
+  position:relative;
+  z-index:$z-2;
  }
 }
 .my-post-image{
  border-left: 1px solid $lightgray;
  border-right: 1px solid $lightgray;
  overflow:hidden;
+}
+.chat{
+  background-color:$lightgray;
+}
+.message-icon{
+  height:40px;
+  width:40px;
+  border: 1px solid $lightgray;
+  border-radius: 100%;
+  overflow:hidden;
+  bacground:white;
+  img{
+    height:inherit;
+      bacground:white;
+  }
+}
+.message-footer{
+  width:100%;
+  padding-left: 10%;
+}
+.message-created-at{
+  font-size: 9px;
+}
+.message-sender{
+  font-size: 9px;
+}
+.message-body{
+
+  margin-right:10%;
+  width:80%;
+  word-wrap:break-word;
 }

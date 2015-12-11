@@ -33,10 +33,6 @@ RSpec.describe Post, :type => :model do
       expect(@post.current_dibber).to eq @user2
 
     end
-    it 'should create a conversation' do
-      expect(@post.conversation).to_not eq nil
-
-    end
     it 'should be available after being set to new' do
       expect(@post.available_to_dib?).to eq(false)
       @post.update_attributes(:status => 'new')

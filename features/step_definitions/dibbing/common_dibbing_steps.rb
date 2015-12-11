@@ -104,7 +104,7 @@ end
 Then(/^Jack should have been notified of my unDib\.$/) do
 
   @email = MandrillMailer::deliveries.detect{ 
-    |mail| mail.template_name == 'message-notification' &&
+    |mail| mail.template_name == 'notify-undib' &&
      mail.message['to'].any? { |to| to[:email] == @user_jack.email }}
   expect(@email).to_not be(nil)
 

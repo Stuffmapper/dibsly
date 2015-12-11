@@ -63,6 +63,24 @@ class Notifier < MandrillMailer::TemplateMailer
     )
   end
 
+  def notify_undib(dib)
+    dibbed_post = dib.post
+    receiver = dibbed_post.creator
+    dibber = dib.user
+    mandrill_mail(
+      template: 'notify-undib',
+      to: {email: receiver.email, name: receiver.first_name + ' ' + receiver.last_name },
+      vars: {
+        'FIRSTNAME'=> receiver.first_name,
+        'ITEMIMAGE' => dibbed_post.image_url,
+        'STUFFURL' => dibbed_post.permalink,
+        'USERNAME' => dibber.username
+      },
+      important: true,
+      inline_css: true
+    )
+  end
+
 
   def email_verification(user)
     mandrill_mail(

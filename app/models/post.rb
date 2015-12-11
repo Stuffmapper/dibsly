@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
-
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   has_many :dibs, :class_name => Dib
+  has_many :alerts
   has_many :reports, through: :dibs
   has_many :pictures, as: :imageable, class_name: "Image"
   belongs_to :current_dib, :class_name => Dib, :foreign_key => :current_dib_id
@@ -13,7 +13,6 @@ class Post < ActiveRecord::Base
     :s3_credentials => "#{Rails.root}/config/aws.yml"
 
   #for the comments
-  has_one :conversation, :class_name => Mailboxer::Conversation, as: :conversable
 
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   STATUSES = [STATUS_NEW = 'new', STATUS_DELETED = 'deleted',
@@ -35,7 +34,6 @@ class Post < ActiveRecord::Base
   validates :status, inclusion: {in: STATUSES}
 
   after_create do
-    create_conversation
     self.update_attributes(:dibbed_until => Time.now - 1.minute, :image_url => 'missing')
   end
 
@@ -44,14 +42,6 @@ class Post < ActiveRecord::Base
   end
 
 
-  def create_conversation
-     self.conversation  = Mailboxer::ConversationBuilder.new({
-          :subject    => "Your Latest Dib!",
-          :created_at => Time.now,
-          :updated_at => Time.now
-        }).build
-      self.save
-  end
 
   def create_new_dib (dibber, request_ip='')
     dib = self.dibs.build( :ip => request_ip)
@@ -59,8 +49,6 @@ class Post < ActiveRecord::Base
     if dib.save
       set_dibbed_until dib if dib.save
       self.update_attribute(:current_dib, dib)
-      self.creator.alerts.create(:message => "#{dibber.username}'s  dibbed your stuff!" ,
-      :url => dib.conversation_url );
     end
     return dib
   end
@@ -97,7 +85,7 @@ class Post < ActiveRecord::Base
   end
 
   def permalink
-    '#/menu/post/' + self.id.to_s
+    Rails.application.routes.default_url_options[:host] + '#/menu/post/' + self.id.to_s
   end
 
   def remove_current_dib
@@ -111,8 +99,13 @@ class Post < ActiveRecord::Base
   def notify_undib  dib
     lister = self.creator
     dibber = dib.user
-    body =  "#{dibber.username} has undibbed your stuff"
-    dib.contact_other_party dibber, body
+    body =  "#{dibber.username} has undibbed this item"
+
+    lister.alerts.create(
+      :message => body, 
+      :dib_id => dib.id,
+      :post_id => self.id )
+    Notifier.notify_undib(dib).deliver_later
   end
 
 

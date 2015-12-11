@@ -151,7 +151,7 @@ end
 When(/^I log in and go to my stuff$/) do
   visit('/')
   sign_in @current_user
-  click_link('My Stuff')
+  visit('/#/menu/mystuff')
 end
 
 Then(/^I should have an edit option$/) do
@@ -260,7 +260,7 @@ end
 When(/^I try to give stuff after logging in$/) do
   visit '/'
   sign_in @user
-  click_link "Give Stuff"
+  visit('#/menu/givestuff')
 end
 
 Then(/^I should be able to change my photo before submitting$/) do

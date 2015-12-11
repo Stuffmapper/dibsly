@@ -15,11 +15,6 @@ RSpec.describe Dib, :type => :model do
        expect(Dib.count).to eq 1
     end
 
-    it "should have one conversation" do
-
-       @post.create_new_dib(@user2)
-       expect(Dib.last.conversation.class ).to eq Mailboxer::Conversation
-    end
 
     it "should be not be in effect thirty minutes from now" do
        @post.create_new_dib(@user2)

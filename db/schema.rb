@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208102525) do
+ActiveRecord::Schema.define(version: 20151211124945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,10 +19,12 @@ ActiveRecord::Schema.define(version: 20151208102525) do
   create_table "alerts", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "message"
-    t.string   "url"
     t.boolean  "read",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "post_id"
+    t.integer  "dib_id"
+    t.integer  "sender_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

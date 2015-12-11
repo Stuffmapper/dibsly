@@ -49,28 +49,27 @@ class Api::DibsController < ApplicationController
 
   def send_message
     @dib.contact_other_party(current_user, message_params[:body] )
-    @messages = (@dib.conversation.receipts_for current_user).sort
-    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+    @messages = @dib.alerts.sort
+    render json: @messages, each_serializer: AlertSerializer, status: :ok
   end
   
   def messages
-    @messages = (@dib.conversation.receipts_for current_user).sort
-    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+    @messages = @dib.alerts.sort
+    render json: @messages, each_serializer: AlertSerializer, status: :ok
   end
-  
+
   def mark_read
-    @messages = @dib.conversation.receipts_for current_user
-    @messages.each  do |receipt|
-      receipt.mark_as_read
-    end
-    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+
+    @alerts = current_user.alerts.where(:dib_id => @dib.id, :read => false)
+    @alerts.each { |alert| alert.mark_as_read }
+    render json: @alerts, each_serializer: AlertSerializer, status: :ok
 
   end
   
   def unread
     #authorizes
-    @messages = (@dib.conversation.receipts_for current_user).where(:is_read=>false)
-    render json: @messages, each_serializer: ReceiptSerializer, status: :ok
+    @messages = current_user.alerts.where(:dib_id => @dib.id, :read => false)
+    render json: @messages, each_serializer: AlertSerializer, status: :ok
   end
 
 
