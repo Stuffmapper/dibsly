@@ -234,7 +234,7 @@ describe('Marker', function() {
     });
 
     it('removes', function() {
-      var deleteHandler = $httpBackend.whenDELETE( /\/api\/posts\/\d.*/  )
+      var deleteHandler = $httpBackend.whenPOST( /\/api\/posts\/\d.*/  )
       deleteHandler.respond({ post: {
       id:4,
       dibber:'Jack',
