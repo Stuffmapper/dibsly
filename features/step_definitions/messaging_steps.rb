@@ -17,20 +17,18 @@ When(/^"(.*?)" logs in$/) do |arg1|
 end
 
 Then(/^"(.*?)" should be visible in the inbox$/) do |arg1|
+  visit("/#/menu/mystuff")
   sleep 2
-  click_button "inbox"
-  find('.get-messages').click
-  sleep 2
+  find('.myPost-button').click
+  sleep(1)
+
   expect(page).to have_text(arg1)
 end
 
 Then(/^"(.*?)" should be able to respond "(.*?)" and log out$/) do |user, message |
-  fill_in 'message_response', with: message
-  click_button 'send'
+  find('TextArea').set(message + " \n")
   sleep(1)
-  within('.converation-messages') do 
-    expect(page).to have_text(message)
-  end  
+  expect(page).to have_text(message)
   click_link "Sign Out"
 end
 

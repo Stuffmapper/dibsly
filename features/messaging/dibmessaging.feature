@@ -10,7 +10,7 @@ Feature:
   @javascript	
   Scenario: Sucessfully send a message
     When "Jill" logs in
-    Then "Jack's dibbed your stuff" should be visible in the inbox
+    Then "Jack dibbed" should be visible in the inbox
     And "Jill" should be able to respond "It's on the curb at the junction" and log out
     When "Jack" logs in
     Then "It's on the curb at the junction" should be visible in the inbox
