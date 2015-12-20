@@ -145,12 +145,12 @@ end
 #priority status
 
 When(/^I respond, the post should not be available thirty minutes from now$/) do
-  find('.get-messages').click
-  find('.accordion-toggle').click
-  sleep 2
-  fill_in 'message_response', with: "Hey, when can I get that item?"
-  click_button 'send'
-  sleep 1
+  sleep(5)
+  find("#TextArea").set("Hey I want those \n")
+
+  expect(page.body).to have_text("Hey I want those")
+  sleep(2)
+  @shoes.reload
   Timecop.travel(1805)
   @shoes.reload
   expect(@shoes.available_to_dib?).to eq false
