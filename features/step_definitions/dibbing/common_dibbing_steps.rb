@@ -131,13 +131,15 @@ Then(/^if I follow the link in the email$/) do
 end
 
 Then(/^I should be in the in\-app chat$/) do
-  find('.get-messages').click
-
-
   sleep(5)
+  find("#TextArea").set("Hey I want those \n")
 
+  expect(page.body).to have_text("Hey I want those")
+  sleep(2)
+  @shoes.reload
 
-  expect(page.body).to have_text('stuffmapper.com says')
+  expect(@shoes.status ).to eq 'dibbed'
+
 end
 
 #priority status
