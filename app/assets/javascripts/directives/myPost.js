@@ -13,11 +13,13 @@ directives.directive('mypost', function() {
       post: '=',
       chat: '='
     },
-    controller: ['AlertService','$http','$scope', function(AlertService,$http,$scope) {
+    controller: ['AlertService','$http','$rootScope','$scope', function(AlertService,$http,$rootScope, $scope) {
+        $scope.message =[];
         if($scope.post.currentDib){
           $http.get( 'api/dibs/' + $scope.post.currentDib.id + '/messages')
           .then(function(data){
             $scope.messages = data.data.dibs;
+             countMsg()
           });
         }
         $scope.zi = "settings-standard"
@@ -67,6 +69,9 @@ directives.directive('mypost', function() {
         
         $scope.btnAction = function(){
           $scope.chat = !$scope.chat;
+          if( $scope.chat && $scope.post.currentDib ){
+            AlertService.markRead($scope.post.currentDib.id)
+          }
         }
 
         $scope.sendMessage = function() {
@@ -83,16 +88,25 @@ directives.directive('mypost', function() {
             console.warn(err)
           })
         }
-          $scope.autoExpand = function(e) {
-        var element = typeof e === 'object' ? e.target : document.getElementById(e);
-        var scrollHeight = element.scrollHeight -60; // replace 60 by the sum of padding-top and padding-bottom
-        element.style.height =  scrollHeight + "px";    
-    };
+        $scope.autoExpand = function(e) {};
   
-  function expand() {
-    $scope.autoExpand('TextArea');
-  }
+        function expand() {
+          $scope.autoExpand('TextArea');
+        }
         //HELPERS
+        var countMsg = function(){
+          $scope.count =  _.filter($scope.messages,function(msg){ return !msg.isSender && !msg.is_read }).length;
+
+        }
+
+        //LISTENERS
+        $rootScope.$on('newMessage', function(event, message){
+          if($scope.post.currentDib && message.conversation == $scope.post.currentDib.id){
+            $scope.messages.push(message)
+            countMsg();
+          }
+
+        })
 
       }
     ],

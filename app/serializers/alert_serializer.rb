@@ -1,6 +1,10 @@
 class AlertSerializer < ActiveModel::Serializer
-  attributes :body, :subject, :sender, :sender_type, :senderImage, :is_read, :created_at, :isSender
+  attributes :body, :subject, :sender, :sender_type, :senderImage, :is_read, :created_at, :isSender, :id, :conversation
   
+  def conversation
+    object.dib_id
+  end
+
   def sender_type
 	   object.sender_id ? "User"  : 'system'
   end

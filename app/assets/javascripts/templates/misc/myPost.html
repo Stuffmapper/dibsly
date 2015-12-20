@@ -12,7 +12,7 @@
         Item details &gt;&gt;
       </a>
     </div>
-    <button class="col-lg-12 col-md-12 col-sm-12 col-xs-12 to-edge myPost-button" ng-class="btnClass()" ng-click='btnAction()' ><span class='glyphicon glyphicon-envelope left-envelope'></span> {{msg()}} <span class='glyphicon glyphicon-envelope right-envelope'></span><span class='right-envelope'>{{ msgCount}}</span> </button>
+    <button class="col-lg-12 col-md-12 col-sm-12 col-xs-12 to-edge myPost-button" ng-class="btnClass()" ng-click='btnAction()' ><span class='glyphicon glyphicon-envelope left-envelope'></span> {{msg()}} <span class='glyphicon glyphicon-envelope right-envelope'></span><span class='right-envelope'></span>{{ count}} </button>
   </div>
   <div ng-show='chat' class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding chat">
       <div ng-repeat="message in messages">

@@ -77,12 +77,19 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       }],
       parent:'menu'
     })
+    .state( 'chat', {
+      url:'/chat/:postId/:dibId',
+      templateUrl: "menu/chat.html",
+      controller: 'ChatCtrl',
+      parent:'menu'
+    })
     .state( 'edit', {
       url:'/post/edit/:postId',
       templateUrl: "menu/editstuff.html",
       controller: 'EditStuffCtrl',
       parent:'menu'
     })
+
     .state( 'giveStuff', {
       url:'/givestuff',
       template: "<div ui-view></div>",

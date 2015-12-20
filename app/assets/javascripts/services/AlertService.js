@@ -3,9 +3,10 @@ var factories;
 factories = angular.module('factories');
 
 factories.factory('AlertService', [
-  '$http','$timeout', function($http, $timeout) {
+  '$http','$timeout', '$rootScope', function($http, $timeout, $rootScope) {
     var alerts;
     var checkingMessages = false;
+    var firstCheck = false;
     var messages = [];
     alerts = {};
     return {
@@ -13,7 +14,7 @@ factories.factory('AlertService', [
         return alerts = {};
       },
       unread: function(){
-        return _.size(_.filter(messages, { 'read':false}))
+        return _.size(_.filter(messages, { 'is_read':false}))
       },
       add: function(type, text) {
         var alert, key;
@@ -37,16 +38,34 @@ factories.factory('AlertService', [
       messages: function(){
         return messages;
       }, 
+      markRead: function(conversation){
+
+        _.forEach(_.filter(messages, function(message){ return message.conversation == conversation }), function(item) {item.is_read = true});
+        $http.post('api/dibs/' + conversation + '/markread')
+      },
       getMessages: function(){
         var that = this;
         if(!checkingMessages){
           checkingMessages = true;
           $timeout((function() {
             $http.get('/api/alerts')
-            .then( function(data){ 
-              messages = data.data.alerts })
+            .then( function(data){
+              //find the new unread alerts
+              var newMessages = _.reject(data.data.alerts, function(alert){
+                return _.find(messages, function(message){ return alert.id == message.id})
+              })
+              angular.forEach(newMessages, function (message) {
+                messages.push(message);
+                $rootScope.$broadcast('newMessage', message )
+                if(firstCheck && ! message.is_read){
+                  that.add('success', message.sender + ': ' + message.body)
+                }
+              });
+              firstCheck = true;
+            })
             .then( function(){ 
               checkingMessages = false;
+              console.log(messages);
               that.getMessages() })
           }), 6000);
         }
