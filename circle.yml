@@ -11,5 +11,4 @@ test:
   override:
   - bundle exec teaspoon
   - bundle exec rspec
-  - bundle exec cucumber
 
