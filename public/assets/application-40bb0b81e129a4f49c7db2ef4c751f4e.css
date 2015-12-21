@@ -8758,7 +8758,8 @@ button.close {
 /*used by: .alert */
 /*used by: .file btn .center-map .panel-heading*/
 /*used by: .close-x , .sm-tabs */
-/*used by: .setting-option-btn .on-top */
+/*used by: .setting-option-btn .on-top #main-navbar*/
+/*used by: #main-navbar*/
 /*** Button ***/
 /* line 2, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .my-stuff-btn {
@@ -8775,18 +8776,30 @@ button.close {
 .blue {
   background-color: #0077BA;
 }
+/* line 15, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.blue .left-envelope {
+  display: none;
+}
 
-/* line 17, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .green {
   background-color: #4Ab29C;
 }
-
-/* line 21, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
-.grey {
-  background-color: #555;
+/* line 22, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.green .right-envelope {
+  display: none;
 }
 
-/* line 25, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 27, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.grey {
+  background-color: #D3D3D3;
+}
+/* line 29, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.grey .left-envelope, .grey .right-envelope {
+  display: none;
+}
+
+/* line 34, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .stuff-btn {
   padding: 4px;
   text-align: center;
@@ -8798,43 +8811,38 @@ button.close {
   font-size: 1.2rem;
   background-color: #D3D3D3;
 }
-/* line 35, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 44, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .stuff-btn span {
   vertical-align: middle;
 }
 
-/* line 40, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 49, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .file-btn {
-  position: absolute;
-  z-index: 70;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  width: 100%;
+  display: none;
 }
 
-/* line 48, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 52, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .green-btn {
   background-color: #4Ab29C;
 }
 
-/* line 51, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 55, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .gray-btn {
   background-color: #D3D3D3;
   color: #5e5e5e;
 }
-/* line 54, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 58, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .gray-btn:hover {
   color: white;
 }
 
-/* line 59, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 63, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .sm-abs-button {
   display: none;
 }
 
 @media (max-width: 768px) {
-  /* line 66, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+  /* line 70, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
   .map-1-2 .sm-abs-button, .menu-1-2 .sm-abs-button {
     position: absolute;
     bottom: 10px;
@@ -8845,7 +8853,7 @@ button.close {
   }
 }
 @media (min-width: 768px) {
-  /* line 78, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+  /* line 82, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
   .map-1-2 .md-abs-button, .menu-1-2 .md-abs-button {
     position: absolute;
     top: 10px;
@@ -8856,25 +8864,25 @@ button.close {
   }
 }
 /*** TEXT STYLES ***/
-/* line 92, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 96, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .text-0 {
   font-size: 12px;
 }
 
-/* line 95, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 99, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .text-0-bold {
   font-size: 12px;
   font-weight: 800;
 }
 
-/* line 99, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 103, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .text-1 {
   font-size: 12px;
   color: blue;
 }
 
 /*** Cross hair marker on map  ***/
-/* line 107, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 111, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .center-map {
   position: absolute;
   z-index: 70;
@@ -8887,41 +8895,41 @@ button.close {
   color: gray;
 }
 
-/*** Chat styles **/
-/* line 120, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
-.chat {
-  height: 300px;
-  width: 100%;
-  overflow-y: auto;
-  margin-bottom: 34px;
-}
-
-/* line 127, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
-.chat-send-bar {
-  width: 100%;
-  height: 34px;
-  position: absolute;
-}
-
-/* line 133, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
-.chat-box {
-  height: 266px;
-  margin-bottom: 34px;
-  width: 100%;
+/* line 123, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.search-bar {
+  position: fixed;
+  top: 80px;
+  width: inherit;
+  z-index: 70;
+  background-color: white;
+  padding-top: 10px;
 }
 
 /*** SETTINGS ***/
-/* line 141, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 134, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .settings {
   position: relative;
+  z-index: initial;
 }
 
-/* line 144, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 138, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .settings-dropdown {
+  z-index: 80;
+}
+
+/* line 141, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.settings-top {
+  position: relative;
   z-index: 90;
 }
 
-/* line 148, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 145, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+.settings-standard {
+  position: relative;
+  z-index: 70;
+}
+
+/* line 151, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .settings-btn {
   background-color: #FFFFFF;
   font-size: 12px;
@@ -8929,13 +8937,13 @@ button.close {
   z-index: 0;
 }
 
-/* line 155, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 158, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .settings-btn.my-stuff {
   color: #555;
   font-size: 14px;
 }
 
-/* line 161, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 164, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn {
   outline: 0;
   color: #FFFFFF;
@@ -8944,32 +8952,32 @@ button.close {
   padding: 2px;
 }
 
-/* line 169, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 172, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn.message {
   background-color: #3BE073;
 }
 
-/* line 173, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 176, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn.mark-as-picked-up {
   background-color: #545454;
 }
 
-/* line 177, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 180, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn.reject-dibs {
   background-color: #E45B5A;
 }
 
-/* line 181, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 184, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn.edit-item {
   background-color: #0078BE;
 }
 
-/* line 185, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 188, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .setting-option-btn.delete-item {
   background-color: #E45B5A;
 }
 
-/* line 190, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
+/* line 193, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/components.css.scss */
 .overlay-info {
   position: absolute;
   top: 0;
@@ -9093,12 +9101,8 @@ button.close {
     top: 80px;
     height: 100px;
   }
-  /* line 95, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
-  .map-1-2 .center-map {
-    display: none;
-  }
 
-  /* line 98, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 96, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .map-2 {
     padding: 0;
     /*    is this important? really?*/
@@ -9106,40 +9110,40 @@ button.close {
   }
 
   /*** Menu Heights ***/
-  /* line 105, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 103, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .menu-0 {
     height: 375px;
     padding-bottom: 0;
   }
 
-  /* line 109, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 107, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .menu-1-1 {
     position: relative;
     height: 200px;
     padding-bottom: 0;
   }
 
-  /* line 114, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 112, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .menu-1-2 {
     position: relative;
     padding-bottom: 0;
     overflow: visible;
   }
 
-  /* line 119, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 117, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .menu-2 {
     height: 160px;
     padding-bottom: 0;
   }
 
-  /* line 123, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 121, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .menu-3 {
     height: 375px;
     padding-bottom: 0;
   }
 
   /*** Misc ***/
-  /* line 128, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 126, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .pull-sm-bottom {
     position: fixed;
     bottom: 0px;
@@ -9147,7 +9151,7 @@ button.close {
 }
 @media (min-width: 769px) {
   /*** Map Heights ***/
-  /* line 138, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 136, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .map-0 {
     /*    odd margin and padding setup allows the 100% to be used and map will always stay with in visible screen
     if the navheight is set. Allows the map to change size  depending on user's screen because
@@ -9157,28 +9161,28 @@ button.close {
     height: 100%;
   }
 
-  /* line 147, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 145, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .map-1-1 {
     margin-top: 40px;
     padding: 0 0 40px 0;
     height: 100%;
   }
 
-  /* line 152, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 150, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .map-1-2 {
     margin-top: 40px;
     padding: 0 0 40px 0;
     height: 100%;
   }
 
-  /* line 157, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 155, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .map-2 {
     margin-top: 40px;
     padding: 0 0 40px 0;
     height: 100%;
   }
 
-  /* line 162, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 160, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .btn-close-details {
     display: none;
   }
@@ -9186,12 +9190,12 @@ button.close {
 /*** RESPONSIVE VISIBILITY HELPERS  ****/
 /*** meant to correspond to the bootstrap grid**/
 @media (max-width: 768px) {
-  /* line 172, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 170, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-sm-hide {
     display: none !important;
   }
 
-  /* line 175, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 173, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-sm-bottom {
     position: absolute;
     left: 0;
@@ -9200,12 +9204,12 @@ button.close {
 }
 @media (min-width: 768px) and (max-width: 1200px) {
   /*** Map Heights ***/
-  /* line 185, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 183, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-md-hide {
     display: none !important;
   }
 
-  /* line 188, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 186, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-md-bottom {
     position: absolute;
     left: 0;
@@ -9213,12 +9217,12 @@ button.close {
   }
 }
 @media (min-width: 1200px) {
-  /* line 196, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 194, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-lg-hide {
     display: none !important;
   }
 
-  /* line 199, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
+  /* line 197, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/partials/helpers.css.scss */
   .col-lg-bottom {
     position: absolute;
     bottom: 0;
@@ -9226,8 +9230,17 @@ button.close {
   }
 }
 /* Small devices (tablets, 768px and up) */
+/* line 2, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.scss */
+.content {
+  position: relative;
+  height: 100%;
+  z-index: 60;
+  background-color: white;
+  padding: 50px 10px 200px 10px;
+}
+
 @media (max-width: 768px) {
-  /* line 5, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.css.scss */
+  /* line 11, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.scss */
   #give-2 {
     position: fixed;
     padding-top: 20px;
@@ -9235,14 +9248,14 @@ button.close {
     top: 180px;
   }
 
-  /* line 11, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.css.scss */
+  /* line 17, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.scss */
   .give-img-cnt {
     max-height: 80px;
     overflow: hidden;
     min-height: 50px;
   }
 
-  /* line 17, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.css.scss */
+  /* line 23, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.scss */
   .give-img-cnt:hover {
     max-height: 100%;
     -webkit-transition: max-height 2s;
@@ -9252,31 +9265,121 @@ button.close {
             transition-timing-function: ease-in;
   }
 
-  /* line 24, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.css.scss */
+  /* line 30, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/menu.scss */
   .give-img {
     width: 100%;
     height: inherit;
   }
 }
-/* line 1, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.css.scss */
+/* line 1, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
 .mystuff-row {
   height: 120px;
 }
 
-/* line 4, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.css.scss */
+/* line 4, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
 .mystuff-half-row {
   height: 60px;
   padding: 0;
   font-size: 14px;
 }
 
-/* line 9, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.css.scss */
-my-post {
-  position: relative;
-  overflow: visible;
+/* line 9, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.myPost-button {
+  margin-top: 10px;
+  min-height: 50px;
+  max-height: 60px;
+  border: none;
+  text-align: left;
+  padding-left: 15px;
+  color: white;
 }
 
-/* line 4, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.css.scss */
+/* line 18, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post {
+  border-top: 1px solid #D3D3D3;
+}
+/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post .settings-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #555;
+}
+/* line 25, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post .settings-btn text-area {
+  min-height: 30px;
+}
+/* line 30, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post .settings-dropdown {
+  top: 30px;
+}
+/* line 33, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post .my-post-title {
+  margin: 18px 13px;
+  font-weight: 600;
+  font-size: 1em;
+  position: relative;
+  z-index: 20;
+}
+
+/* line 41, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.my-post-image {
+  border-left: 1px solid #D3D3D3;
+  border-right: 1px solid #D3D3D3;
+  overflow: hidden;
+}
+
+/* line 46, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.chat {
+  background-color: #D3D3D3;
+}
+
+/* line 49, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-icon {
+  height: 40px;
+  width: 40px;
+  border: 1px solid #D3D3D3;
+  border-radius: 100%;
+  overflow: hidden;
+  background: white;
+}
+/* line 56, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-icon img {
+  height: inherit;
+  background: white;
+}
+
+/* line 61, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-footer {
+  width: 100%;
+  padding-left: 10%;
+}
+
+/* line 65, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-created-at {
+  font-size: 9px;
+}
+
+/* line 68, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-sender {
+  font-size: 9px;
+}
+
+/* line 71, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/my_stuff.scss */
+.message-body {
+  margin-right: 10%;
+  width: 80%;
+  word-wrap: break-word;
+}
+
+/* line 2, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/get_stuff.scss */
+#get-stuff {
+  position: absolute;
+  top: 80px;
+  padding: 10px 5px;
+}
+
+/* line 4, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.scss */
 #give-2 {
   positon: absolute;
   top: 0;
@@ -9286,7 +9389,7 @@ my-post {
   margin-bottom: 40px;
 }
 
-/* line 12, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.css.scss */
+/* line 12, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.scss */
 .give-container {
   position: absolute;
   top: 40px;
@@ -9296,46 +9399,74 @@ my-post {
   overflow: auto;
 }
 
-/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.css.scss */
+/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.scss */
 .give-stuff {
   height: inherit;
   overflow: hidden;
 }
 
 @media (max-width: 768px) {
-  /* line 25, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.css.scss */
+  /* line 26, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/give_stuff.scss */
   #give-2 {
-    padding-top: 140px;
+    padding-top: 180px;
     margin-bottom: 0;
     padding-bottom: 40px;
     overflow-x: hidden;
   }
 }
-/* line 1, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 1, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/user_settings.scss */
+.user-settings {
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  overflow: scroll;
+  bottom: 40px;
+  padding-bottom: 40px;
+}
+
+/* line 9, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/user_settings.scss */
+.user-photo {
+  min-height: 100px;
+  position: relative;
+}
+/* line 12, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/user_settings.scss */
+.user-photo .btn {
+  position: relative;
+}
+
+/* line 1, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 nav {
   z-index: 30;
 }
 
-/* line 6, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 6, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar {
   background: #445d75;
   height: 40px;
   position: fixed;
   top: 0px;
+  z-index: 100;
+}
+/* line 12, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
+#main-navbar .sm-alert {
+  width: 50%;
+  left: 25%;
+  position: absolute;
+  margin: auto;
 }
 
-/* line 13, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar-right {
   float: right;
   list-style: none;
 }
-/* line 16, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 24, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar-right li {
   display: inline-block;
   float: right;
   margin-right: 10px;
 }
-/* line 20, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 28, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar-right li a {
   display: block;
   margin-top: 8px;
@@ -9343,59 +9474,29 @@ nav {
   color: white;
   font-size: 1.3em;
 }
-/* line 28, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 36, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar-right .collapse-nav-item {
   display: none;
 }
-/* line 31, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+/* line 39, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
 #main-navbar-right #main-nav-toggle {
   color: white;
   font-size: 1.3em;
   margin: 5px;
   display: none;
 }
-/* line 37, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
-#main-navbar-right #inbox {
-  width: 28px;
-  height: 28px;
-  margin: 5px 80px 0 0;
-  padding: 5px 4px 4px 4px;
-  border-radius: 100%;
-  position: relative;
-  color: #4Ab29C;
-}
-/* line 46, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
-#main-navbar-right #inbox .glyphicon {
-  background: #784b87;
-}
-/* line 50, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
-#main-navbar-right .inbox-count {
-  padding: 1px;
-  padding-bottom: 2px;
-  height: 12px;
-  background-color: white;
-  font-size: 8px;
-  font-weight: 900;
-  color: red;
-  position: absolute;
-  bottom: -1px;
-  left: 0px;
-  border-radius: 100%;
-  border: 2px solid red;
-  line-height: 0.7;
-}
 
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 768px) {
-  /* line 72, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+  /* line 51, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
   #main-navbar-right #main-nav-toggle {
     display: inline-block;
   }
-  /* line 75, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+  /* line 54, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
   #main-navbar-right .full-nav-item {
     display: none;
   }
-  /* line 79, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+  /* line 58, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
   #main-navbar-right .collapse-nav-item {
     width: 100%;
     padding: 5px 15px 5px 15px;
@@ -9405,7 +9506,7 @@ nav {
     background: #445d75;
     height: 40px;
   }
-  /* line 87, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.css.scss */
+  /* line 66, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/navbar.scss */
   #main-navbar-right .collapse-nav-item a {
     margin-top: auto;
     display: block;
@@ -9415,7 +9516,7 @@ nav {
   }
 }
 /*Details*/
-/* line 3, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 3, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .details-container {
   position: absolute;
   top: 40px;
@@ -9425,33 +9526,42 @@ nav {
   overflow: auto;
 }
 
-/* line 13, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 12, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
+.post-view {
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  overflow: scroll;
+  bottom: 40px;
+  padding-bottom: 40px;
+}
+
+/* line 21, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .detail-description {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-/* line 18, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 26, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .details-view {
   padding: 0px;
 }
 
 /*My Details*/
-/* line 23, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 31, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .item-details-link {
   font-size: 14px;
 }
 
 /*My Details*/
-/* line 28, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 36, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .item-details-link {
   font-size: 14px;
 }
 
-/* line 33, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.css.scss */
+/* line 41, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/menu/details.scss */
 .post-details {
   background: white;
-  positon: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -9504,44 +9614,44 @@ nav {
 }
 
 /*//TODO -REMOVE ALL BELOW TO APPROPRIATE FOLDER*/
-/* line 46, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 48, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 button:focus {
   border: none;
   outline: none;
 }
 
-/* line 51, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 53, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 body {
   width: 100%;
   overflow: hidden;
 }
 
-/* line 56, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 58, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .thin-hr {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-/* line 61, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 63, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .full-height {
   height: 100vh;
 }
 
 /*always 100%  */
-/* line 66, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 68, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 #google-map {
   height: 100%;
 }
 
 /*** marker***/
-/* line 71, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 73, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .floating {
   padding: 5px;
   position: relative;
   font-size: 9px;
 }
 
-/* line 77, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 79, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-status {
   background-color: #784B87;
   top: 8px;
@@ -9549,42 +9659,42 @@ body {
   float: left;
 }
 
-/* line 84, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 86, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-category {
   top: 8px;
   background-color: lightgray;
   float: right;
 }
 
-/* line 89, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 91, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-title {
   font-weight: 900;
 }
 
-/* line 93, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 95, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .img-detail {
   width: 100%;
 }
 
 /*** Helper ***/
-/* line 98, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 100, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .search-input {
   padding-left: 30px;
 }
 
-/* line 102, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 104, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .search-magnify {
   position: absolute;
   padding: 10px;
   color: grey;
 }
 
-/* line 109, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 111, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .more-left {
   right: 500px;
 }
 
-/* line 112, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 114, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .emoji-size {
   max-height: 15px;
   max-width: 15px;
@@ -9592,7 +9702,7 @@ body {
   margin: 0;
 }
 
-/* line 118, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 120, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .close-x {
   position: relative;
   display: block;
@@ -9603,82 +9713,82 @@ body {
   color: #5e5e5e;
 }
 
-/* line 128, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 130, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .percent-padding {
   min-height: 40px;
 }
 
-/* line 133, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 135, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .max-icon {
   max-width: 50px;
   margin-right: 10px;
 }
 
 /**** STUFFMAPPER ****/
-/* line 141, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 143, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .scroll-y {
   overflow-y: auto;
   height: 100%;
 }
 
-/* line 145, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 147, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .sm-tabs {
-  position: absolute;
-  z-index: 80;
+  position: fixed;
+  z-index: 90;
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: inherit;
   list-style: none;
   background: lightgrey;
   /*move me to vari */
   text-align: center;
 }
-/* line 154, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 156, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .sm-tabs h4 {
   font-size: 1.5rem;
 }
-/* line 157, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 159, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .sm-tabs li {
-  padding: 1px;
+  padding: 1px 1px 2px 1px;
   border: 1px solid grey;
   /*move me to vari */
   border-bottom: 0;
 }
 
-/* line 163, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 165, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .sm-low-tabs {
   margin-top: 39px;
   background: none;
 }
-/* line 166, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 168, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .sm-low-tabs .tab-unclicked {
   background-color: darkgrey;
   /*move me to vari */
 }
 
-/* line 170, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.tab-clicked {
-  background-color: white;
-  color: #5e5e5e;
-}
-/* line 173, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.tab-clicked a {
-  text-decoration: none;
-  color: #5e5e5e;
-}
-
-/* line 178, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 172, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .tab-unclicked {
   background-color: #5e5e5e;
   color: white;
 }
-/* line 181, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 175, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .tab-unclicked a {
   text-decoration: none;
   color: white;
 }
 
-/* line 188, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 181, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
+.tab-clicked {
+  background-color: white;
+  color: #5e5e5e;
+}
+/* line 184, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
+.tab-clicked a {
+  text-decoration: none;
+  color: #5e5e5e;
+}
+
+/* line 191, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuffmapper-menu {
   padding: 0;
   border-radius: 5px;
@@ -9687,48 +9797,28 @@ body {
   overflow: auto;
 }
 
-/* line 196, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.toggle {
-  height: 100px;
-  width: 150px;
-  position: absolute;
-  margin-bottom: 60px;
-  bottom: 10px;
-  right: 0px;
-}
-/* line 203, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.toggle .content {
-  display: none;
-}
-/* line 206, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.toggle .sm-tabs li {
-  width: 100%;
-  clear: both;
-  float: right;
-}
-
-/* line 212, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 199, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .short-view {
   position: relative;
   height: 180px;
   background-color: white;
 }
 
-/* line 217, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 204, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .form-view {
   position: relative;
   height: 320px;
   background-color: white;
 }
 
-/* line 222, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 209, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .medium-view {
   position: relative;
   height: 320px;
   background-color: white;
 }
 
-/* line 227, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 214, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .get-stuff-view {
   border-radius: 5px;
   z-index: 20;
@@ -9738,27 +9828,7 @@ body {
   background: white;
 }
 
-/* line 236, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.content {
-  position: relative;
-  height: 100%;
-  background-color: white;
-  padding: 50px 10px 200px 10px;
-}
-
-/* line 243, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
-.menu-toggle span {
-  position: absolute;
-  float: left;
-  margin-left: -46.2%;
-  background: lightgrey;
-  color: darkgrey;
-  padding: 2px;
-  border-radius: 2px;
-  border: 1px solid darkgrey;
-}
-
-/* line 253, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 223, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-view {
   margin: auto;
   padding: 0;
@@ -9769,7 +9839,7 @@ body {
   cursor: pointer;
 }
 
-/* line 264, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 234, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-description {
   float: left;
   margin-bottom: -90px;
@@ -9782,30 +9852,30 @@ body {
   overflow: hidden;
 }
 
-/* line 275, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 245, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .edit-stuff {
   clear: both;
 }
 
 @media (max-width: 768px) {
-  /* line 284, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+  /* line 254, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
   .overlap {
     padding: 0;
   }
 
-  /* line 287, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+  /* line 257, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
   .stuffmapper-menu {
     padding: 0;
     margin-right: 0;
     margin-top: 40px;
   }
 
-  /* line 293, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+  /* line 263, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
   .get-stuff-view, .my-stuff-view {
     background-color: rgba(255, 255, 255, 0.5);
   }
 }
-/* line 302, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 272, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .dib-button {
   width: 100%;
   text-align: center;
@@ -9817,25 +9887,25 @@ body {
   margin-bottom: 15px;
 }
 
-/* line 313, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 283, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .dib-button.not-dibbed {
   cursor: default;
 }
 
-/* line 317, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 287, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .dib-button-details {
   background-color: #F99953;
   color: #FFFFFF;
 }
 
-/* line 322, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 292, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .dib-button-send-message {
   color: #FFFFFF;
   background-color: #3BE073;
   font-size: 16px;
 }
 
-/* line 328, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 298, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .btn-close-details {
   width: 100%;
   text-align: center;
@@ -9845,7 +9915,7 @@ body {
   color: #b6b6b6;
 }
 
-/* line 337, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 307, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .undib-link {
   display: block;
   text-align: center;
@@ -9873,7 +9943,7 @@ body {
             transform: translateY(0);
   }
 }
-/* line 349, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 319, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .post-details.ng-enter {
   -webkit-animation-duration: 3s;
           animation-duration: 3s;
@@ -9881,65 +9951,65 @@ body {
           animation-name: slidein;
 }
 
-/* line 356, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 326, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .stuff-map-image {
   width: 200px;
 }
 
   /** is this used ** /
 /*** ALERTS ***/
-/* line 361, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 331, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .alert {
   position: relative;
   z-index: 60;
 }
 
 /*** validator ***/
-/* line 367, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 337, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .ng-invalid.ng-dirty {
   border-color: #FA787E;
 }
 
 /*** optional ***/
-/* line 372, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 342, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 #option {
   color: gray;
 }
 
 /*** POST ***/
-/* line 378, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 348, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .post-details {
   background: white;
   height: 100%;
   padding: 0;
 }
 
-/* line 385, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 355, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 #show-post {
   list-style: none;
 }
 
-/* line 388, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 358, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .individual-post {
   padding: 5px;
 }
 
 /*** inbox ***/
-/* line 394, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 364, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list {
   list-style: none;
 }
-/* line 397, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 367, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li {
   padding: 4px;
   font-size: .85em;
   text-align: right;
 }
-/* line 401, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 371, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li span {
   margin: 2px;
 }
-/* line 404, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 374, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li .glyphicon {
   border-radius: 100%;
   border: 2px solid #5e5e5e;
@@ -9947,45 +10017,45 @@ body {
   background-color: white;
   margin-right: -10px;
 }
-/* line 411, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 381, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li .posted {
   color: #4Ab29C;
 }
-/* line 414, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 384, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li .dibbed {
   color: orange;
 }
-/* line 417, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 387, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .post-status-list li .gone {
   color: red;
 }
-/* line 425, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 395, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .converation-messages {
   overflow-y: scroll;
 }
-/* line 430, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 400, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .panel-body {
   background: #555;
 }
-/* line 433, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 403, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .conversation-reply {
   padding-left: 0;
 }
-/* line 435, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 405, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .conversation-reply input, .inbox-modal .conversation-reply button {
   border: 1px solid #5e5e5e;
 }
-/* line 439, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 409, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .conversation-description,
 .inbox-modal .conversation-posted-at {
   padding: 3px;
   margin: 2px;
 }
-/* line 445, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 415, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .conversation-posted-at {
   font-size: .85em;
 }
-/* line 449, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 419, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .panel-heading {
   position: relative;
   z-index: 70;
@@ -9993,12 +10063,12 @@ body {
   background-color: white;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.43);
 }
-/* line 458, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 428, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .conversation-image,
 .inbox-modal .conversation-center {
   margin-left: -30px;
 }
-/* line 462, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 432, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .individual-message {
   height: 100%;
   border-radius: 5px;
@@ -10008,7 +10078,7 @@ body {
   background-color: white;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.43);
 }
-/* line 474, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 444, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .person-circle {
   background-color: white;
   width: 28px;
@@ -10019,36 +10089,36 @@ body {
   border: 1px solid #5e5e5e;
   clear: both;
 }
-/* line 484, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 454, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .person-circle-right {
   margin-left: -13px;
 }
-/* line 488, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 458, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .individual-message-center {
   list-style: none;
 }
-/* line 490, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 460, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .individual-message-center li {
   padding: 3px;
 }
-/* line 493, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 463, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .individual-message-center .light-text {
   font-size: .88em;
 }
-/* line 497, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 467, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .sender-details {
   height: 100%;
 }
-/* line 499, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 469, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .sender-details .green-bar {
   height: 100px;
   width: 20px;
 }
-/* line 503, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 473, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .sender-details .green {
   background-color: #4Ab29C;
 }
-/* line 507, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.css.scss */
+/* line 477, /home/ben/development/railsapps/dibsly/app/assets/stylesheets/application.scss */
 .inbox-modal .sender-details .darkblue {
   background-color: #445d75;
 }

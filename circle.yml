@@ -11,4 +11,5 @@ test:
   override:
   - bundle exec teaspoon
   - bundle exec rspec
-
+post:
+  - bundle exec rake mailboxer:migrate
