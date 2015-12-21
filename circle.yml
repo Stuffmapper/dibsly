@@ -3,7 +3,8 @@ deployment:
     branch: development
     heroku:
       appname: stuffmapper-dev
-      commands: - heroku run rake mailboxer:migrate
+      commands: 
+        - heroku run rake mailboxer:migrate
   user-testing:
     branch: user-testing
     heroku:
