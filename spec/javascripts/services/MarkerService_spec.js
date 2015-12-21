@@ -37,6 +37,7 @@ describe('MarkerService', function() {
     spyOn(mockMapsService,'newMapMarker').and.returnValue( $q( function(resolve, reject){ resolve(gmarker); }) ) 
     spyOn(mockMapsService,'addMarkerListener').and.returnValue( true );
     spyOn(mockMapsService,'updateMarker').and.returnValue( true ) 
+    spyOn(mockMapsService,'distanceAway').and.returnValue( 1 ) 
 
   };
 
@@ -177,6 +178,7 @@ describe('MarkerService', function() {
           dibber:'Jack',
           updated_at: new Date('2014-11-22'),//2
           marker: gmarker,
+          title: "bloooks",
           category: 'books',
           'fake':true
         },
@@ -213,7 +215,7 @@ describe('MarkerService', function() {
       expect(MarkerService.where ).toBeDefined
     });
 
-    it('returns markers with matching attributes', function() {
+    it('returns markers with simple matching attributes', function() {
       setupController();
       angular.forEach(testMarkers, function(value){
         MarkerService.setMarker(value)
@@ -221,6 +223,17 @@ describe('MarkerService', function() {
       var results = MarkerService.where({ dibber:'john' });
       expect(results.length ).toEqual(1)
       expect(results[0].id ).toEqual(3)
+
+
+    });
+    it('returns markers from a text search', function() {
+      setupController();
+      angular.forEach(testMarkers, function(value){
+        MarkerService.setMarker(value)
+      })
+      var results = MarkerService.where([{ dibber:'Jack' }, {textSearch: 'bloooks'}]);
+      expect(results.length ).toEqual(1)
+      expect(results[0].id ).toEqual(2)
 
 
     });
@@ -270,7 +283,8 @@ describe('MarkerService', function() {
 
     });
     
-    it('returns items with multiple values for the same attributes', function() {
+    xit('returns items with multiple values for the same attributes', function() {
+      //pending - needs to hav an "OR" flag somewhere
       setupController();
 
 

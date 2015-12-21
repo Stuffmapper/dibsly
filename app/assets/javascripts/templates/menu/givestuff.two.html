@@ -10,8 +10,8 @@
       <div class="col-lg-6 col-md-6 col-xs-12 to-edge give-img-cnt">
         <img class="img-responsive img-preview to-edge give-img" 
         ng-src={{images['thumbnail']}} fallback-src></img>
-        <div class='btn sm-abs-button md-abs-button'>
-          <span>Change Image</span><input class='file-btn' id="give-stuff-file-2" type="file" file-upload accept="image/*">
+        <div class='btn sm-abs-button md-abs-button' ng-click='clickInput()' >
+          <span>Change Image</span><input class='file-btn' id="give-stuff-file-1" type="file" file-upload style="display:none;" accept="image/*">
         </div>
         <div class="add-margin-top-15"></div>
       </div>

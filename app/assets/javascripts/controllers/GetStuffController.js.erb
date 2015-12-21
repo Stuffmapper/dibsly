@@ -18,6 +18,8 @@
       $scope.loading = false;
       $scope.menuHeight = 'menu-0';
       $scope.mapHeight = 'map-0';
+      $scope.textSearch = '';
+      $scope.search = {};
       var boundingBox;
       var updated = Date.now();
 
@@ -61,10 +63,13 @@
         return MarkerService.where( hasAttribute, hasNoAttribute );
       };
 
-      $scope.updateGetStuff = function(){    
-        if($scope.search.category === 'All'){ $scope.search = {} };
-        MarkerService.setAll($scope.search, {temporary:true})
-        $scope.mapped = MarkerService.where([$scope.search ], {temporary:true});
+      $scope.updateGetStuff = function(){  
+        var toSearch = [];
+        if(!_.isEmpty($scope.textSearch) ) { toSearch.push({ textSearch: $scope.textSearch}) }
+        if($scope.search.category !== 'All'){ toSearch.push($scope.search)  };  
+        toSearch.push({status:'new'})
+        MarkerService.setAll(toSearch, {temporary:true})
+        $scope.mapped = MarkerService.where(toSearch, {temporary:true});
       };
 
 
@@ -75,7 +80,7 @@
       $scope.$on('mapChanged', function(evt, args) {
         //
 
-        updateMarkers(args).then(function(){ $scope.mapped = MarkerService.where({status:'new'}); })
+        updateMarkers(args).then(function(){ $scope.updateGetStuff() })
       });
 
       //HELPER FUNCTIONS 

@@ -8,6 +8,7 @@ class Api::DibsController < ApplicationController
       @post = Post.find(params[:post_id])
       dib = @post.create_new_dib(current_user, request.remote_ip)
       if dib.valid?
+         @post.reload
          render json: @post, status: :ok
       else
         render json: dib.errors , status: :unprocessable_entity
@@ -46,6 +47,7 @@ class Api::DibsController < ApplicationController
     end
 
   end
+  #TODO - move the below to a different controller
 
   def send_message
     @dib.contact_other_party(current_user, message_params[:body] )

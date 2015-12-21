@@ -12,6 +12,10 @@
         $state.go($state.lastState || 'getStuff' )
       };
 
+      $scope.clickInput = function(){
+        document.getElementById('user-image-file').click()
+      };
+
       $scope.update = function(){
         $http.put('/api/users/' + $scope.user.id, {user: $scope.user } )
         .then(function(data){

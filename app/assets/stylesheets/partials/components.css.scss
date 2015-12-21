@@ -47,12 +47,7 @@
 }
 
 .file-btn{
-  position: absolute;
-  z-index: $z-7;
-  top:0;
-  left: 0;
-  opacity: 0;
-  width: 100%;
+  display:none;
 }
 .green-btn{
   background-color: $green;

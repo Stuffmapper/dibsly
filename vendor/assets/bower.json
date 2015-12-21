@@ -7,11 +7,11 @@
     "angular-resource": "latest",
     "angular-mocks": "latest",
     "angular-flash": "latest",
-    "angular-timeago": "latest",
     "angular-img-fallback": "latest",
     "angular-animate": "latest",
     "angular-bootstrap": "latest",
     "angular-ui-router": "latest",
+    "lodash": "3.10.1",
     "js-marker-clusterer": "git@github.com:OrangeLibrary/js-marker-clusterer.git"
   }
 }

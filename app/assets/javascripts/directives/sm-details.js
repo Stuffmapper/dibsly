@@ -32,7 +32,8 @@ directives.directive('smdetails', function() {
               return $scope.post.dib()
               .then(
                 function(results) {
-                  return AlertService.add('success', "Dibbed your stuff");
+                  AlertService.add('success', "Dibbed this stuff");
+                  return $scope.post.goToCurrentChat();
                 },
                 function(err) {
                   angular.forEach(err, function(value, key){

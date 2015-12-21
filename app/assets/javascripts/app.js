@@ -66,9 +66,9 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
         function($scope,$stateParams,$q,MarkerService,MapsService){
           var id = $stateParams.postId;
-          $q.when(MarkerService.getMarker(id) || MarkerService.getMarkerAsync(id))
+          $scope.post = MarkerService.getMarker(id);
+          $q.when($scope.post ? $scope.post.get() : MarkerService.getMarkerAsync(id))
           .then(function(marker){ 
-            console.log(marker)
             $scope.post = marker;
             MarkerService.updateWindow(id)
             MarkerService.clearWindows(id)
@@ -102,14 +102,12 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
     })
     .state( 'giveStuffOne', {
       url:'/1',
-      templateUrl: "menu/givestuff.one.html",
-      controller: 'GiveStuffCtrl',
+      template: '<give-stuff-one></give-stuff-one>',
       parent: 'giveStuff'
     })
     .state( 'giveStuffTwo', {
       url:'/2',
-      templateUrl: "menu/givestuff.two.html",
-      controller: 'GiveStuffCtrl',
+      template: '<give-stuff-two></give-stuff-two>',
       parent: 'giveStuff'
     })
     .state( 'myStuff', {

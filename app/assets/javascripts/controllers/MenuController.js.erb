@@ -37,7 +37,7 @@
           }
          )
          .then( function(){
-           $rootScope.$broadcast('mapCentered', center );
+           $scope.$broadcast('mapCentered', center );
            return MapsService.resizeMap()
            .then(function(){ MapsService.panTo(center); });
          })

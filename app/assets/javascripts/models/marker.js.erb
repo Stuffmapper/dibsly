@@ -280,6 +280,7 @@
         }
         LocalService.set('markers', JSON.stringify(cached))
       };
+
       constructor.goToDetails = function() {
         $state.go('singlepost', { postId: this.id });
       };
@@ -287,6 +288,12 @@
       constructor.goToEdit = function() {
         $state.go('edit', {postId: this.id });
       };
+
+      constructor.goToCurrentChat = function() {
+        if(!this.currentDib){ throw Error("post.currentDib must be defined")}
+        $state.go('chat', {postId: this.id, dibId: this.currentDib.id });
+      };
+
 
       //VISUALIZATION BOOLEANS
 

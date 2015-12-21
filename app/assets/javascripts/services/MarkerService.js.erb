@@ -86,15 +86,20 @@
         },
 
         contains: function(object, attributes){
-          var contains = false;
+          var contains = attributes;
           angular.forEach(attributes, function(attribute){
-            angular.forEach(attribute, function(value, attr){
-              if(object.hasOwnProperty(attr) && object[attr] === value){
-               contains = true;
-              }
-            });
+            if(attribute.textSearch){
+              var text = (object.title||'') + (object.description||'');
+              contains = text.search(attribute.textSearch) + 1;
+              return 
+           }
+            if(!_.isMatch(object, attribute) ){
+              return contains = false;
+            }
+       
           });
-          return contains;
+          return !!contains;
+
 
         },
         delete: function(id){
@@ -111,7 +116,6 @@
               that['delete'](key);
             }
           )
-          console.log('line 115')
           self.markers ={};
         },
         expireMarkers: function(){
@@ -246,6 +250,7 @@
               title: marker.description
             })
             .then(function(gmarker){ 
+              marker.distanceAway = MapsService.distanceAway(marker);
               self.markers[marker.id].marker = gmarker;
               if (!marker.temporary){
                 MapsService.addMarkerListener(gmarker, 'click', function(){
@@ -259,8 +264,10 @@
             })
           } else { 
             //needs to update lat lng
+
             MapsService.updateMarker(marker);
             //pretty important
+             //marker.distanceAway = MapsService.distanceAway(marker);
             defer.resolve(marker) }
           return defer.promise; 
         },
@@ -311,10 +318,11 @@
           //all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
           var that = this;
           if (hasAttrs && hasAttrs.constructor  !== Array){
-            var hasAttrs = [hasAttrs];
+            hasAttrs = [hasAttrs];
+
           }
           if (hasNotAttrs && hasNotAttrs.constructor  !== Array){
-            var hasNotAttrs = [hasNotAttrs];
+            hasNotAttrs = [hasNotAttrs];
           }
           var wanted = [];
           var unwanted = [];
@@ -327,7 +335,7 @@
             angular.forEach(self.markers,
               function(value){
                 var pushMe = empty1;
-                if(that.contains(value,hasAttrs) ) {  pushMe = true }
+                if(that.contains(value,hasAttrs) ) { pushMe = true }
                 if(that.contains(value,hasNotAttrs) ){ pushMe = false }
                 if(pushMe){
                   wanted.push(value);

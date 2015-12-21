@@ -6,11 +6,10 @@
   controllers.controller('GiveStuffCtrl', [
     '$scope', '$timeout', '$location', '$window', '$modal','$q',
     '$state', '$stateParams','ImageService','LocalService', 'LocationService',
-    'MapsService','MarkerService', 'UserService', 'AlertService','$rootScope',
-    '$http', function($scope, $timeout, $location, $window,
+    'MapsService','MarkerService', 'UserService', 'AlertService','$http', 
+    function($scope, $timeout, $location, $window,
       $modal,$q, $state,$stateParams,ImageService, LocalService, LocationService,
-      MapsService, MarkerService, UserService, AlertService, $rootScope,
-      $http) {
+      MapsService, MarkerService, UserService, AlertService, $http) {
 
        // $SCOPE OBJECTS
 
@@ -45,7 +44,6 @@
       };
 
       $scope.clickInput = function(){
-        console.log("click input")
         document.getElementById('give-stuff-file-1').click()
       }
       
@@ -102,7 +100,7 @@
           if($state.$current.name !== 'giveStuffTwo')$state.go('giveStuffTwo');
         })
       });
-     $rootScope.$on('mapCentered', function(event, center) {
+     $scope.$on('mapCentered', function(event, center) {
         $scope.post.latitude = center.lat;
         $scope.post.longitude = center.lng;
         MapsService.updateMarker($scope.post)
