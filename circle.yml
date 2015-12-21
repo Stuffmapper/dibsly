@@ -3,6 +3,7 @@ deployment:
     branch: development
     heroku:
       appname: stuffmapper-dev
+      commands: - heroku run rake mailboxer:migrate
   user-testing:
     branch: user-testing
     heroku:
@@ -11,5 +12,4 @@ test:
   override:
   - bundle exec teaspoon
   - bundle exec rspec
-post:
-  - bundle exec rake mailboxer:migrate
+
