@@ -4,7 +4,7 @@ class Api::PasswordResetsController < ApplicationController
 
 		if user
 			user.generate_password_reset_token!
-			Notifier.password_reset(user).deliver_now
+			Notifier.password_reset(user).deliver_later
 			render json: {message: "Reset instructions sent! Check your email!"}, status: :ok
 		else
 			render json: {message: "User not found"}, status: :unprocessable_entity
