@@ -21,6 +21,8 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+#this should be removed after the migrate has been run on the live site
 gem 'mailboxer', :github => 'BenRuns/mailboxer'
 
 #for emailing
