@@ -3,11 +3,9 @@ deployment:
     branch: development
     commands: 
     - heroku maintenance:on --app stuffmapper-dev
-    - heroku scale worker=0 --app stuffmapper-dev
     - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master
     - heroku run rake db:migrate --app stuffmapper-dev
     - heroku maintenance:off --app stuffmapper-dev
-    - heroku run rake mailboxer:migrate --app stuffmapper-dev
   user-testing:
     branch: user-testing
     heroku:
