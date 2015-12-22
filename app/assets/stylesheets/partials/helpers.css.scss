@@ -98,8 +98,18 @@
 /*    is this important? really?*/
     height: 100% !important;
   }
+  .map-large{
+    padding: 0;
+    position: fixed;
+    top:$navheight + $menu-small-height;;
+    bottom: 0;
+  }
 
   /*** Menu Heights ***/
+  .menu-small{
+    max-height: $menu-small-height;
+    padding-bottom: 0;
+  }
   .menu-0{
     height:$menu-0-height;
     padding-bottom: 0;

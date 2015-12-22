@@ -14,6 +14,7 @@
       $scope.mapHeight = 'map-0';
 
       $scope.stuff = {};
+      $scope.toggleMenu = false;
 
 
       // $SCOPE FUNCTIONS
@@ -42,6 +43,13 @@
            .then(function(){ MapsService.panTo(center); });
          })
       };
+      $scope.toggleFull = function(){
+        $( "#sm-menu" ).toggleClass( "menu-small" );
+        $( "#google-container" ).toggleClass( "map-large" );
+        $scope.toggleMenu = !$scope.toggleMenu;
+        MapsService.resizeMap()
+
+      }
       //HELPERS
       var setHeights = function(stateName){
           switch(stateName) {
