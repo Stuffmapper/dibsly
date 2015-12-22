@@ -66,7 +66,7 @@ class Dib < ActiveRecord::Base
       :post_id => self.post_id,
       :sender_id => sender.id  
     )
-    MessageMailer.send_email(user,body,receipient,self).deliver_later
+    MessageMailer.send_email(sender,body,receipient,self).deliver_later
   end
 
   def remove_as_dibber
