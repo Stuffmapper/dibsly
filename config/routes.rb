@@ -62,7 +62,7 @@ Dibsly::Application.routes.draw do
     resources :password_resets,  only: [:new, :create, :edit, :update]
 
   end
-
+  get '/beta' => 'posts#index'
   root 'posts#index'
 
   get '(*url)' => 'posts#index'
