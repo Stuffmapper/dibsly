@@ -3,7 +3,7 @@
     <alerts></alerts>
       <h3 class='col-lg-6 col-md-6 col-xs-6'>Sign In</h3>
       <div class "col-lg-6 col-md-6 col-xs-6 add-margin-top-15">
-        <a href='#' ng-click="oaLogin('facebook')" class="pull-right"
+        <a ng-click="oaLogin('facebook')" class="pull-right"
         id="Facebook" alt="Facebook Signin">
           <img class='img-responsive max-icon add-margin-top-15' src='<%= asset_path('fb.png')%>'>
         </a>
@@ -29,7 +29,7 @@
         <div class="form-group col-lg-12 col-md-12 col-xs-12">
           <label for="password">Password *</label>
           <input type="password" class="form-control" id="password" placeholder="Password" ng-model="password">
-          <a href='#' ng-click='resetPW() ' class='pull-left'>Forgot Password?</a>
+          <a href='/beta#' ng-click='resetPW() ' class='pull-left'>Forgot Password?</a>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12
          add-margin-top-15">
