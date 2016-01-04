@@ -88,9 +88,9 @@ Dibsly::Application.configure do
     :bucket => 'stuffmapper'
   }
  }
-  config.action_mailer.default_url_options = { host: 'stuffmapper-dev.herokuapp.com' }
-  config.mandrill_mailer.default_url_options = { :host => 'stuffmapper-dev.herokuapp.com'}
+  config.action_mailer.default_url_options = { host: 'www.stuffmapper.com' }
+  config.mandrill_mailer.default_url_options = { :host => 'www.stuffmapper.com'}
   config.action_mailer.delivery_method = :smtp
 
 end
-Rails.application.routes.default_url_options[:host] = "http://stuffmapper-dev.herokuapp.com/"
+Rails.application.routes.default_url_options[:host] = "http://www.stuffmapper.com/"

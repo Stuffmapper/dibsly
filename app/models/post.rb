@@ -85,7 +85,7 @@ class Post < ActiveRecord::Base
   end
 
   def permalink
-    Rails.application.routes.default_url_options[:host] + '#/menu/post/' + self.id.to_s
+    Rails.application.routes.default_url_options[:host] + '/beta#/menu/post/' + self.id.to_s
   end
 
   def remove_current_dib

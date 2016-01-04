@@ -115,6 +115,7 @@
             }
           })
           .success(function(data) {
+            console.log("these are markers", data)
             var i, len, marker, ref, results;
             ref = data.posts;
             for (i = 0, len = ref.length; i < len; i++) {

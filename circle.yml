@@ -10,8 +10,12 @@ deployment:
     branch: user-testing
     heroku:
       appname: stuffmapper-usertest
+  beta:
+    branch: beta
+    commands:
+      - git push git@heroku.com:blooming-eyrie-8909.git $CIRCLE_SHA1:refs/heads/master --force
+      - heroku run rake db:migrate --app blooming-eyrie-8909
 test:
   override:
-  - bundle exec teaspoon
   - bundle exec rspec
 

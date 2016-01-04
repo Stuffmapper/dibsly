@@ -23,7 +23,7 @@ class Api::SessionsController < ApplicationController
         :exp => 2.weeks.from_now.to_i
       session[:user_id] = user.id
       session[:auth] = 'social'
-      redirect_to '/'
+      redirect_to '/beta'
     end
   end
 
