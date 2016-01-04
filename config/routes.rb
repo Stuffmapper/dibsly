@@ -68,7 +68,7 @@ Dibsly::Application.routes.draw do
   get 'jobs' => 'pages#jobs'
 
   get '/beta' => 'posts#index'
-  get '/' => 'pages#splash'
+  root 'pages#splash'
 
   get '(*url)' => 'posts#index'
 
