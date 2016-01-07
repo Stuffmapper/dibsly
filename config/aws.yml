@@ -10,4 +10,4 @@ test:
 production:
   access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
   secret_access_key: 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
-  bucket: new-stuffmapper
+  bucket: stuffmapper-1
