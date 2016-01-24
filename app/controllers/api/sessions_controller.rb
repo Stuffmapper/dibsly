@@ -7,9 +7,11 @@ class Api::SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       token = AuthToken.issue_token({ user_id: user.id })
       session[:user_id] = user.id
-      render json: {user: user.username,
-        user_id: user.id,
-        token: token}, status: :ok
+      render json: {
+          user: user.username,
+          user_id: user.id,
+          token: token
+        }, status: :ok
     else
       render json: '[]', status: :unprocessable_entity
     end
@@ -17,13 +19,27 @@ class Api::SessionsController < ApplicationController
 
   def create_with_omniauth
     user = User.from_omniauth(env["omniauth.auth"],request)
-    if user
-      #render jwt
-      token = AuthToken.issue_token :user_id => user.id,
-        :exp => 2.weeks.from_now.to_i
-      session[:user_id] = user.id
-      session[:auth] = 'social'
-      redirect_to '/beta'
+    respond_to do |format|
+      if user
+        #render jwt
+        token = AuthToken.issue_token :user_id => user.id,
+          :exp => 2.weeks.from_now.to_i
+        format.html { 
+          session[:user_id] = user.id
+          session[:auth] = 'social'
+          redirect_to '/beta' 
+        }
+        format.json {  render json: {
+            user: user.username, 
+            user_id: user.id,
+            token: token
+          }, 
+          status: :ok 
+        }
+      else
+        format.json { render json: '[]', status: :unauthorized }
+        format.html { redirect_to '/beta'  }
+      end
     end
   end
 

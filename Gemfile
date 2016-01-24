@@ -47,10 +47,10 @@ gem 'active_model_serializers'
 gem 'angular-rails-templates'
 
 # for FB
-gem 'omniauth-facebook'
+gem 'omniauth-facebook', '~> 3.0'
 
 #for google
-gem 'omniauth-google-oauth2','~> 0.2.6'
+gem 'omniauth-google-oauth2', '~> 0.3.0'
 
 
 #for Auth

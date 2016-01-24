@@ -1,7 +1,7 @@
 Dibsly::Application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  get 'auth/:provider/callback', to: 'api/sessions#create_with_omniauth'
+  get 'auth/:provider/callback(.:format)', to: 'api/sessions#create_with_omniauth'
   get 'auth/failure', to: redirect('/')
 
   namespace :api, defaults: {format: :json} do
