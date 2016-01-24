@@ -25,7 +25,7 @@ filters = angular.module('filters', []);
 
 
 
-stfmpr.config(function($stateProvider, $urlRouterProvider) {
+stfmpr.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
      
      $urlRouterProvider.rule(function ($injector, $location) {
         var path = $location.path(), normalized = path.toLowerCase();
@@ -134,20 +134,20 @@ stfmpr.config(function($stateProvider, $urlRouterProvider) {
       parent: 'menu'
     });
 
-});
+}]);
 
 
 
-stfmpr.config(function($resourceProvider) {
+stfmpr.config(['$resourceProvider',function($resourceProvider) {
   return $resourceProvider.defaults.stripTrailingSlashes = false;
-});
+}]);
 
-stfmpr.config(function($httpProvider) {
+stfmpr.config(['$httpProvider',function($httpProvider) {
   var token;
   token = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token;
   return $httpProvider.interceptors.push('AuthInterceptor');
-});
+}]);
 
 stfmpr.run(['AlertService','$state','UserService', '$location','$rootScope', 'MapsService', 'MarkerService',
   function(AlertService,$state,UserService, $location, $rootScope, MapsService, MarkerService) {

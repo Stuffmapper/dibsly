@@ -20,7 +20,7 @@
 //= require angular-resource/angular-resource
 //= require angular-flash/dist/angular-flash
 //= require lodash/lodash.min.js
-//= require angular-bootstrap/ui-bootstrap.js
+//= require angular-bootstrap/ui-bootstrap-tpls.js
 //= require angular-img-fallback/angular.dcb-img-fallback.js
 //= require angular-ui-router/release/angular-ui-router.js
 //= require js-marker-clusterer/src/markerclusterer_compiled.js

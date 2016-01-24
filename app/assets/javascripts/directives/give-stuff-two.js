@@ -2,7 +2,7 @@ var directives;
 
 directives = angular.module('directives');
 
-directives.directive('giveStuffTwo', function() {
+directives.directive('giveStuffTwo', [ function() {
   var linker = function(scope, element, attrs) {
     //some jquery on element to change btn color
 
@@ -14,5 +14,5 @@ directives.directive('giveStuffTwo', function() {
     link: linker,
     templateUrl: 'menu/givestuff.two.html' 
   };
-});
+}]);
 

@@ -7,7 +7,6 @@
     '$scope', '$modal', '$modalInstance', '$http', '$window', '$timeout', 'UserService', 'AlertService', function($scope, $modal, $modalInstance, $http, $window, $timeout, UserService, AlertService) {
       $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
-        return $location.path('/');
       };
       $scope.oaLogin = function(provider) {
         var fbauth;

@@ -2,7 +2,7 @@ var directives;
 
 directives = angular.module('directives');
 
-directives.directive('giveStuffOne', function() {
+directives.directive('giveStuffOne', [ function() {
   var linker = function(scope, element, attrs) {
 
 
@@ -15,5 +15,5 @@ directives.directive('giveStuffOne', function() {
     link: linker,
     templateUrl: 'menu/givestuff.one.html' 
   };
-});
+}]);
 
