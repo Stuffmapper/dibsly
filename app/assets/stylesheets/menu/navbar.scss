@@ -1,5 +1,12 @@
 nav{
   z-index: $z-3;
+  #sm-logo {
+    padding: 0;
+    height: inherit;
+    img{
+      height:inherit;
+    }
+  }
 }
 
 
