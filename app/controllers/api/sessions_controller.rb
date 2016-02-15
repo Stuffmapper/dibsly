@@ -27,7 +27,7 @@ class Api::SessionsController < ApplicationController
         format.html { 
           session[:user_id] = user.id
           session[:auth] = 'social'
-          redirect_to '/beta' 
+          redirect_to '/' 
         }
         format.json {  render json: {
             user: user.username, 
@@ -38,7 +38,7 @@ class Api::SessionsController < ApplicationController
         }
       else
         format.json { render json: '[]', status: :unauthorized }
-        format.html { redirect_to '/beta'  }
+        format.html { redirect_to '/'  }
       end
     end
   end

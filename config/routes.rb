@@ -8,7 +8,7 @@ Dibsly::Application.routes.draw do
     post 'sessions/facebook_create'
     get '/auth/check' => 'sessions#check'
 
-    post 'sessions/create'
+    post '/sessions/create'
     get 'signout', to: 'sessions#destroy', as: 'signout'
     get 'log_out' => 'sessions#destroy', :as => 'log_out'
     get '/auth/check' => 'sessions#check'
@@ -67,8 +67,8 @@ Dibsly::Application.routes.draw do
   get 'support' => 'pages#support'
   get 'jobs' => 'pages#jobs'
 
-  get '/beta' => 'posts#index'
-  root 'pages#splash'
+  get '/' => 'posts#index'
+  root 'posts#index'
 
   get '(*url)' => 'posts#index'
 
