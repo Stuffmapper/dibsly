@@ -1,0 +1,67 @@
+
+
+<div class="col-lg-12 col-md-12 col-xs-12 user-settings" >
+  <div class="col-lg-12 col-md-12 col-xs-12 to-edge user-photo" >
+   <div class='btn gray-btn'  ng-click='clickInput()'>
+    <span>Change Image</span>
+    <input class='file-btn' id="user-image-file" style="display:none; "type="file" file-upload accept="image/*">
+   </div>
+    <img ng-if='user.image_url' class="img-responsive img-preview to-edge" 
+        ng-src={{user['image_url']}} fallback-src></img>
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 add-margin-top-15">
+  <button class="btn btn-primary"
+    ng-click="edit = !edit">Edit</button>
+    <button class="btn btn-primary"
+    ng-click="form.$valid && update()">Save</button>
+    <button class="btn btn-warning"
+    ng-click="cancel()">Cancel</button>
+  </div>
+
+
+  <ul ng-hide='edit'class="col-lg-12 col-md-12 col-xs-12" >
+    <li>First Name: {{user.first_name}}</li>
+    <li>Last Name: {{user.last_name}}</li>
+    <li>Username: {{user.username}}</li>
+    <li>Phone Number: {{user.phone_number}}</li>
+    <li>Email: {{user.email}}, Verified: {{user.verified_email }}<button class='btn sm-btn'ng-hide='user.verified_email' ng-click="reverify()">Resend Verification</button></li>
+  </ul>
+ 
+  <form name="form" novalidate ng-show='edit'>
+
+    <div class="form-group">
+      <div id="first-name">
+        <label for="first_name">First Name *</label>
+        <input type="text" class="form-control" id="first_name"
+        placeholder="First Name" ng-model="user.first_name" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div id="last-name">
+        <label for="last_name">Last Name *</label>
+        <input type="text" class="form-control" id="last_name"
+        placeholder="Last Name" ng-model="user.last_name" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address <span ng-hide='user.verified_email'> -unverified</span></label>
+      <input type="email" class="form-control" id="email"
+      placeholder="Enter email" ng-model="user.email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username *</label>
+      <input type="text" class="form-control" id="username"
+      placeholder="Username" ng-model="user.username" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone_number">Phone Number</label>
+      <label id="option" for="optional"> (optional) </label>
+      <input type="tel" class="form-control" id="phone_number" placeholder="Phone Number" ng-model="user.phone_number">
+    </div>
+  </form>
+</div>

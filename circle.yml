@@ -1,6 +1,6 @@
 deployment:
   staging:
-    branch: development
+    branch: develop-2
     commands: 
     - heroku maintenance:on --app stuffmapper-dev
     - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master
