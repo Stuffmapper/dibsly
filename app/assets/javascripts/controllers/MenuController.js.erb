@@ -3,9 +3,9 @@
 
   controllers = angular.module('controllers');
 
-  controllers.controller('MenuCtrl', ['$scope','$q','$state','$stateParams','LocalService',
+  controllers.controller('MenuCtrl', ['$modal','$scope','$q','$state','$stateParams','LocalService',
    'LocationService','MapsService','MarkerService','UserService', 'AlertService','$rootScope',
-    function($scope,$q,$state,$stateParams,LocalService, 
+    function($modal,$scope,$q,$state,$stateParams,LocalService, 
       LocationService, MapsService, MarkerService, UserService, AlertService, $rootScope) {
       //TODO - clean up 
 
@@ -18,7 +18,16 @@
 
 
       // $SCOPE FUNCTIONS
-
+      UserService.check()
+      .then(
+        function(){},
+        function(){
+        $modal.open({
+          templateUrl:'splash.html',
+          controller: 'SignUpCtrl'
+        });
+      })
+    
 
       $scope.centerMap = function(){
         var center;

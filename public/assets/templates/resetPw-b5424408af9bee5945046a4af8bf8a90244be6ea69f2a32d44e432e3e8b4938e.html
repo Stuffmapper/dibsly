@@ -1,0 +1,28 @@
+
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title">Reset Password</h3>
+		<alerts></alerts>
+
+	</div>
+
+	<div class="modal-body">
+
+
+		<form name="pwreset" novalidate ng-submit="pwreset.$valid && submitReset()">
+		    <alert type="warning" close="closeAlert($index)" ng-show="pwreset.$invalid && pwreset.$submitted">Please enter a valid email</alert>
+
+
+			<div class="form-group">
+			    <label for="email">Enter your email to reset your password *</label>
+			    <input type="email" class="form-control" id="email" placeholder="Your@Email.com" ng-model="email" required >
+			</div>
+
+
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">Reset</button>
+				<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>
