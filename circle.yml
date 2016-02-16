@@ -3,7 +3,7 @@ deployment:
     branch: develop-2
     commands: 
       - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master --force
-      - heroku run rake db:migrate --app blooming-eyrie-8909
+      - heroku run rake db:migrate --app blooming-eyrie-8909 
   user-testing:
     branch: user-testing
     heroku:
