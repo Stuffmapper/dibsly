@@ -2,7 +2,7 @@ deployment:
   staging:
     branch: develop-3
     commands: 
-    - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master
+    - git push git@heroku.com:stuffmapper-dev.git $CIRCLE_SHA1:refs/heads/master --force
   user-testing:
     branch: user-testing
     heroku:
