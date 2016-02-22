@@ -27,23 +27,23 @@
       .then( function(){
         addMapListeners();
        return  MarkerService.setAll({},{id:'giveStuff'}); })
-      .then(function(){ 
+      .then(function(){
         MapsService.getCenter()
         .then(function(coords){
            return updateMarkers(coords);
         })
         .then(function(){
           $scope.mapped = MarkerService.where({status:'new'});
-          return  MarkerService.expireMarkers()
+          return  MarkerService.expireMarkers();
         });
-      })
- 
+      });
+
 
       // $SCOPE FUNCTIONS
 
 
 
-      
+
       $scope.getStuff = function() {
         return $q.when(state !== 'listening' ? addMapListeners() : state )
         .then(function(){
@@ -52,7 +52,7 @@
             $scope.updateMarkers(center)
             .then(function(){
               MarkerService.setAll({status:'new', state:'editing'}, {temporary:true});//
-              $scope.$emit('markersUpdated', function(){})
+              $scope.$emit('markersUpdated', function(){});
             });
           });
         });
@@ -63,12 +63,12 @@
         return MarkerService.where( hasAttribute, hasNoAttribute );
       };
 
-      $scope.updateGetStuff = function(){  
+      $scope.updateGetStuff = function(){
         var toSearch = [];
-        if(!_.isEmpty($scope.textSearch) ) { toSearch.push({ textSearch: $scope.textSearch}) }
-        if($scope.search.category !== 'All'){ toSearch.push($scope.search)  };  
-        toSearch.push({status:'new'})
-        MarkerService.setAll(toSearch, {temporary:true})
+        if(!_.isEmpty($scope.textSearch) ) { toSearch.push({ textSearch: $scope.textSearch}); }
+        if($scope.search.category !== 'All'){ toSearch.push($scope.search);  }
+        toSearch.push({status:'new'});
+        MarkerService.setAll(toSearch, {temporary:true});
         $scope.mapped = MarkerService.where(toSearch, {temporary:true});
       };
 
@@ -80,22 +80,22 @@
       $scope.$on('mapChanged', function(evt, args) {
         //
 
-        updateMarkers(args).then(function(){ $scope.updateGetStuff() })
+        updateMarkers(args).then(function(){ $scope.updateGetStuff(); });
       });
 
-      //HELPER FUNCTIONS 
+      //HELPER FUNCTIONS
 
       var addMapListeners = function(){
         return MapsService.addMapListener('dragend', getPosition )
         .then( MapsService.addMapListener('idle', getPosition ))
-        .then( MapsService.addMapListener('zoom', getPosition )) 
+        .then( MapsService.addMapListener('zoom', getPosition ));
       };
 
       var getPosition = function(){
         MapsService.getCenter()
         .then( function(center){
-          $scope.$emit( 'mapChanged', center )
-        }); 
+          $scope.$emit( 'mapChanged', center );
+        });
       };
 
       var updateMarkers = function(coords) {
@@ -115,7 +115,6 @@
             }
           })
           .success(function(data) {
-            console.log("these are markers", data)
             var i, len, marker, ref, results;
             ref = data.posts;
             for (i = 0, len = ref.length; i < len; i++) {
@@ -126,10 +125,10 @@
               }
               marker.currentUser = UserService.currentUser;
               MarkerService.setMarker(marker);
-            };
-            defer.resolve('markers updated')
+            }
+            defer.resolve('markers updated');
           });
-        } else { defer.resolve('markers not updated') }
+        } else { defer.resolve('markers not updated'); }
         return defer.promise;
       };
     }

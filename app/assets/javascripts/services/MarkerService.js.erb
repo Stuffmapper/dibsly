@@ -7,7 +7,7 @@
     '$http','LocalService','MapsService', 'Marker', '$resource', '$rootScope', '$q', '$timeout',
      function($http,LocalService, MapsService, Marker, $resource, $rootScope, $q, $timeout) {
      var self = this;
-     self.markers = {}
+     self.markers = {};
      self.toCheck = [];
      self.interval = 15000;
 
@@ -24,7 +24,7 @@
           'title'
         ],
         icons: {
-          standard: { 
+          standard: {
             path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
             fillColor: '#62a9c4',//lightblue
             fillOpacity: 0.4,
@@ -32,7 +32,7 @@
             strokeColor: '#0388ba',
             strokeWeight: 1.5
           },
-          want: { 
+          want: {
             path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
             fillColor: 'yellow',
             fillOpacity: 0.4,
@@ -40,7 +40,7 @@
             strokeColor: 'yellow',
             strokeWeight: 1.5
           },
-          myPost:{ 
+          myPost:{
             path: "M 5 50 A 45 45 0 0 1 95 50 A 45 45 0 0 1 5 50 z",
             fillColor: 'brown',
             fillOpacity: 0.4,
@@ -68,8 +68,8 @@
           var promises = [];
           angular.forEach(self.markers, function(value, key) {
              if (key !== exception && value.marker ){
-              MapsService.clearMapMarker(value.marker)
-             } else if (value.marker){  promises.push(MapsService.setMapMarker(value.marker)) }
+              MapsService.clearMapMarker(value.marker);
+            } else if (value.marker){  promises.push(MapsService.setMapMarker(value.marker)); }
           });
           return $q.all(promises);
         },
@@ -91,12 +91,12 @@
             if(attribute.textSearch){
               var text = (object.title||'') + (object.description||'');
               contains = text.search(attribute.textSearch) + 1;
-              return 
+              return;
            }
             if(!_.isMatch(object, attribute) ){
-              return contains = false;
+              contains = false;
             }
-       
+
           });
           return !!contains;
 
@@ -108,14 +108,14 @@
             MapsService.clearMapMarker(marker.marker);
             marker.deleteLocal();
             delete self.markers[id];
-          } else { console.warn("marker not found %s not deleted", id)}
+          } else { console.warn("marker not found %s not deleted", id); }
         },
         deleteAll:function(){
           var that = this;
-          angular.forEach(self.markers,function(marker, key){ 
+          angular.forEach(self.markers,function(marker, key){
               that['delete'](key);
             }
-          )
+          );
           self.markers ={};
         },
         expireMarkers: function(){
@@ -127,30 +127,30 @@
           //so that it checks less and less
           var bounds;
           return MapsService.getBounds()
-          .then(function(box){ 
+          .then(function(box){
             bounds = box;
             $timeout(function(){
               if(!self.updating){
                 var time = Date.now();
-                self.updating = true
+                self.updating = true;
                 angular.forEach(self.markers, function(marker, key){
-                  var coords = {lat: marker.latitude, lng: marker.longitude }
-                  if(!marker.temporary && marker.locallyUpdated  < time - 300000 && 
-                  MapsService.within(bounds, coords) ){ //BUGBUGS
+                  var coords = {lat: marker.latitude, lng: marker.longitude };
+                  if(!marker.temporary && marker.locallyUpdated  < time - 300000 && MapsService.within(bounds, coords) ){ //BUGBUGS
                     var prom = marker.get()
                     .then( function(){
-                      if(marker.shouldDelete()){ that.delete(marker.id) }
-                      else(that.setMarker(marker) )
+                      if(marker.shouldDelete()){ that.delete(marker.id); }
+                        else { that.setMarker(marker); }
                     });
                     self.toCheck.push(prom);
                   }
-                })
+                });
                 return $q.all(self.toCheck)
-                .then(function(){ 
+                .then(function(){
                   self.toCheck = [];
                   self.updating = false;
-                  that.expireMarkers() } );
-              }  
+                  that.expireMarkers();
+                });
+              }
             }, self.interval );
           });
         },
@@ -165,10 +165,11 @@
           .then(
             function(){
               that.setMarker(marker)
-              .then(function(){ 
-                defer.resolve( self.markers[id] ) }); 
+              .then(function(){
+                defer.resolve( self.markers[id] );
+              });
             },
-            function(err){ defer.reject(err) }
+            function(err){ defer.reject(err); }
           );
           return defer.promise;
         },
@@ -182,28 +183,27 @@
             temporary:true,
             updated_at: Date.now(),
             icon: id,
-            draggable:true 
+            draggable:true
           };
           var set = function(){
             return MapsService.getCenter()
             .then( function(center){
               marker.latitude = center.lat;
               marker.longitude = center.lng;
-              return that.setMarker(marker)
+              return that.setMarker(marker);
             })
             .then(function(gmarker){
-              console.log(gmarker)
-              return MapsService.addMarkerListener(gmarker.marker, 'dragend', 
+              return MapsService.addMarkerListener(gmarker.marker, 'dragend',
                 function(event){
                   gmarker.latitude = event.latLng.lat();
-                  gmarker.longitude = event.latLng.lng()
-                  gmarker.marker.setPosition(event.latLng); 
-                } 
+                  gmarker.longitude = event.latLng.lng();
+                  gmarker.marker.setPosition(event.latLng);
+                }
               );
-            })
+            });
           };
           return $q.when( markerSet || set() )
-          .then(function(){ return that.getMarker(id) });
+          .then(function(){ return that.getMarker(id); });
         },
 
         isEmpty: function(obj){
@@ -219,21 +219,21 @@
           return true;
 
         },
-        loadCache: function(){ 
+        loadCache: function(){
           var that = this;
           var promises = [];
-          var markers = LocalService.getJSON('markers'); 
+          var markers = LocalService.getJSON('markers');
           angular.forEach(markers, function(marker, key){
-            promises.push(that.setMarker(marker))
+            promises.push(that.setMarker(marker));
           });
           return $q.all(promises);
         },
 
         setAll: function(has, doesnot){
           var that = this;
-          that.where(has, doesnot, { 
-            posFn: function(marker){ that.setMarker(marker) },
-            negFn: function(marker){ MapsService.clearMapMarker(marker.marker)}
+          that.where(has, doesnot, {
+            posFn: function(marker){ that.setMarker(marker); },
+            negFn: function(marker){ MapsService.clearMapMarker(marker.marker); }
           });
         },
 
@@ -249,7 +249,7 @@
               position: { lat: marker.latitude, lng: marker.longitude },
               title: marker.description
             })
-            .then(function(gmarker){ 
+            .then(function(gmarker){
               marker.distanceAway = MapsService.distanceAway(marker);
               self.markers[marker.id].marker = gmarker;
               if (!marker.temporary){
@@ -259,17 +259,18 @@
                         markerId: marker.id
                   });
                 });
-              } 
+              }
               defer.resolve(marker);
-            })
-          } else { 
+            });
+          } else {
             //needs to update lat lng
 
             MapsService.updateMarker(marker);
             //pretty important
              //marker.distanceAway = MapsService.distanceAway(marker);
-            defer.resolve(marker) }
-          return defer.promise; 
+            defer.resolve(marker);
+          }
+          return defer.promise;
         },
 
         setMarker: function(marker){
@@ -279,10 +280,11 @@
           var exists = self.markers[marker.id];
           if(!exists){
             self.markers[marker.id] = new Marker(marker);
-          } else if (exists.state !== 'editing') { 
+          } else if (exists.state !== 'editing') {
             var existing = self.markers[marker.id];
-            angular.extend(existing, marker ) }
-          self.markers[marker.id].saveLocal()
+            angular.extend(existing, marker );
+          }
+          self.markers[marker.id].saveLocal();
 
           return that.setGoogleMarker(self.markers[marker.id]);
         },
@@ -301,8 +303,7 @@
             infowindow = MapsService.newInfoWindow({
               content: innerContent
             });
-          console.log("line 296")
-            return marker.infowindow = infowindow;
+            marker.infowindow = infowindow;
           } else {
             return MapsService.setInfoContent(marker, innerContent);
           }
@@ -314,8 +315,8 @@
           //options - if all is specified it returns all the markers in an array [[wanted][unwanted]]
           // unwanted is unsorted
           // options = {posFn: a function to applied to wanted values,
-          // negFn: a Fn to be applied to unwanted value 
-          //all: if true return an array with [[wanted][unwanted]] else return [wanted]}  
+          // negFn: a Fn to be applied to unwanted value
+          //all: if true return an array with [[wanted][unwanted]] else return [wanted]}
           var that = this;
           if (hasAttrs && hasAttrs.constructor  !== Array){
             hasAttrs = [hasAttrs];
@@ -335,8 +336,8 @@
             angular.forEach(self.markers,
               function(value){
                 var pushMe = empty1;
-                if(that.contains(value,hasAttrs) ) { pushMe = true }
-                if(that.contains(value,hasNotAttrs) ){ pushMe = false }
+                if(that.contains(value,hasAttrs) ) { pushMe = true; }
+                if(that.contains(value,hasNotAttrs) ){ pushMe = false; }
                 if(pushMe){
                   wanted.push(value);
                   return options && options.posFn && options.posFn(value);
@@ -345,8 +346,8 @@
                   return options && options.negFn && options.negFn(value);
                 }
               }
-            ); 
-          }       
+            );
+          }
           wanted.sort(function (a, b) {
             //TODO include a sort option in options
             return (a['updated_at'] < b['updated_at'] ? 1 : -1);

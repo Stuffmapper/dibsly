@@ -9,15 +9,15 @@
 
 
       var Marker = function(params){
-        if (!params.id){ throw new Error('id is required')}
+        if (!params.id){ throw new Error('id is required'); }
         var self = this;
         angular.extend(self, params);
       };
 
       var constructor = Marker.prototype;
 
-      constructor.baseProperties = [ 
-        'id', 
+      constructor.baseProperties = [
+        'id',
         'category',
         'currentUser',
         'description',
@@ -32,7 +32,7 @@
         'status',
       ];
 
-      constructor.editProperties = [ 
+      constructor.editProperties = [
         'category',
         'description',
         'latitude',
@@ -43,7 +43,7 @@
       ];
 
       //TODO make this work with angular resource
-      //Read the source code for angular resource to confirm  
+      //Read the source code for angular resource to confirm
       constructor.getBaseProperties = function(){
         var self = this;
         var rval = {};
@@ -51,7 +51,7 @@
           rval[property] = self[property];
         });
         return rval;
-      }; 
+      };
 
       constructor.getEditProperties = function(){
         var self = this;
@@ -60,9 +60,9 @@
           rval[property] = self[property];
         });
         return rval;
-      }; 
+      };
       constructor.getUrl = function(){
-        return '/api/posts/' + this.id
+        return '/api/posts/' + this.id;
       };
 
       // create
@@ -70,24 +70,26 @@
         //NOTE a controller will have to wrap this function to change
         //the key in the marker service and set the marker on success
         var self = this;
-        var url = customURL || '/api/posts'
+        var url = customURL || '/api/posts';
         var params = {};
         angular.forEach(self.baseProperties, function(property){
           params[property] =  self[property];
-        })
+        });
         return $q(function(resolve, reject){
           $http.post(url, params)
-          .then( function(data){
-            self.status = 'new'; //review
-            var updated = data.data.post;
-            updated.locallyUpdated = Date.now();
-            angular.extend(self, updated)
-            self.saveLocal();
-            resolve(updated) },
+          .then(
+            function(data){
+              self.status = 'new'; //review
+              var updated = data.data.post;
+              updated.locallyUpdated = Date.now();
+              angular.extend(self, updated);
+              self.saveLocal();
+              resolve(updated);
+            },
             function(error){
               //TODO handle specific errors
               reject(error);
-          }); 
+          });
         });
       };
 
@@ -96,94 +98,95 @@
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/dibs')
           .success( function(data){
-            angular.extend(self, data.post)
-            resolve(self)
+            angular.extend(self, data.post);
+            resolve(self);
           })
           .error( function(error){
-            reject(error)
-          })
+            reject(error);
+          });
         });
       };
 
 
       // read
       constructor.get = function(){
-        //gets new data from 
+        //gets new data from
         var self = this;
-        if(self.temporary ){ throw new Error('cant get a temporary marker') }
+        if(self.temporary ){ throw new Error('cant get a temporary marker'); }
         var cached =  (LocalService.getJSON('markers') || {})[self.id];
         //loades the cached version - good for going straight to the post
         if(cached){
-           angular.extend(self, cached)
+           angular.extend(self, cached);
         }
         return $q(function(resolve, reject){
           $http.get(self.getUrl())
           .success(function(data){
-            angular.extend(self, data.post)
+            angular.extend(self, data.post);
             self.locallyUpdated = Date.now();
             self.saveLocal();
-            resolve(self)
+            resolve(self);
           })
           .error(function(err){
             //TEST ME - REJECT NOT TESTED
-            reject(err)
-          })
+            reject(err);
+          });
 
         });
       };
       constructor.getState = function(){
-        if(this.permadib && this.isCurrentDibber && this.status == 'dibbed' ) { return 'permaWant'} 
-        else if( this.status =='dibbed' && this.isCurrentDibber){ return 'waitingWant'}
-        else if( this.status =='dibbed' && !this.permadib ){ return 'waitingPost' }
-        else if( this.status =='dibbed' && this.permadib ){ return 'permaDibPost'}  
-        else { return 'unwantedPost'}
-      }
+        if(this.permadib && this.isCurrentDibber && this.status == 'dibbed' ) { return 'permaWant'; }
+        else if( this.status =='dibbed' && this.isCurrentDibber){ return 'waitingWant'; }
+        else if( this.status =='dibbed' && !this.permadib ){ return 'waitingPost';  }
+        else if( this.status =='dibbed' && this.permadib ){ return 'permaDibPost'; }
+        else { return 'unwantedPost'; }
+      };
 
       constructor.markGone = function(){
         var self = this;
-        console.log('106 in marker')
         var params = {status: 'gone'};
         return $q(function(resolve, reject){
           $http.patch(self.getUrl(), params)
-          .then( function(data){
-            var updated = data.data.post;
-            updated.locallyUpdated = Date.now();
-            angular.extend(self, updated)
-            self.saveLocal();
-            resolve(updated) },
+          .then(
+            function(data){
+              var updated = data.data.post;
+              updated.locallyUpdated = Date.now();
+              angular.extend(self, updated);
+              self.saveLocal();
+              resolve(updated);
+            },
             function(error){
               reject(error);
-          }); 
-        });       
+          });
+        });
       };
 
 
       // delete
       constructor.remove = function(){
         var self = this;
-        //removes from local cache 
+        //removes from local cache
         //deletes on the server
         //does not delete itself .. will need to be handle else where
         //should mark for deletion
         return $q(function(resolve, reject){
           $http.post(self.getUrl() + '/remove')
           .success( function(data){
-            angular.extend(self, data.post)
+            angular.extend(self, data.post);
             self.deleteLocal();
             $rootScope.$broadcast('markerDeleted', {postId: self.id } );
-            AlertService.add('success', 'Marker Deleted' )
-            resolve(self)
+            AlertService.add('success', 'Marker Deleted' );
+            resolve(self);
           })
           .error( function(error){
-            throw new Error( "can't delete " + self )
-          })
+            throw new Error( "can't delete " + self );
+          });
         });
       };
 
 
       constructor.rejectDibber = function(){
         var self = this;
-        //removes from local cache 
+        //removes from local cache
         //deletes on the server
         //does not delete itself .. will need to be handled else where
         //should mark for deletion
@@ -191,20 +194,19 @@
           $http.post(self.getUrl() + '/removecurrentdib')
           .success( function(data){
             self.deleteLocal();
-            console.log(data.post);
             delete self.type;
-            angular.extend(self, data.post)
-            resolve(self)
+            angular.extend(self, data.post);
+            resolve(self);
           })
           .error( function(error){
-            throw new Error( "can't delete " + self )
-          })
+            throw new Error( "can't delete " + self );
+          });
         });
       };
 
        constructor.unDib = function(){
         var self = this;
-        //removes from local cache 
+        //removes from local cache
         //deletes on the server
         //does not delete itself .. will need to be handle else where
         //should mark for deletion
@@ -215,13 +217,12 @@
             delete self.type;
             self.isCurrentDibber = false;
             angular.extend(self, data.post);
-            console.log(self)
-            self.saveLocal()
-            resolve(self)
+            self.saveLocal();
+            resolve(self);
           })
           .error( function(error){
-            throw new Error( "can't delete " + self )
-          })
+            throw new Error( "can't delete " + self );
+          });
         });
       };
 
@@ -230,43 +231,45 @@
         //updates this post
         // new images should be handled seperately
         var self = this;
-        var url = self.getUrl()
+        var url = self.getUrl();
         var params = {};
         angular.forEach(self.editProperties, function(property){
           params[property] =  self[property];
-        })
+        });
         return $q(function(resolve, reject){
           $http.put(url, params)
-          .then( function(data){
-            self.status = 'new'; //review
-            var updated = data.data.post;
-            updated.locallyUpdated = Date.now();
-            angular.extend(self, updated)
-            self.saveLocal();
-            resolve(updated) },
+          .then(
+            function(data){
+              self.status = 'new'; //review
+              var updated = data.data.post;
+              updated.locallyUpdated = Date.now();
+              angular.extend(self, updated);
+              self.saveLocal();
+              resolve(updated);
+            },
             function(error){
               //TODO handle specific errors
               reject(error);
-          }); 
+          });
         });
       };
-        
+
 
       //LOCAL ONLY
 
       constructor.saveLocal = function(){
         var self = this;
-        if(!self.temporary && self.id && !(self.status === 'deleted')){
+        if(!self.temporary && self.id && (self.status !== 'deleted')){
            //TODO and more validations
           var cached =  LocalService.getJSON('markers') || {};
           var data = {};
           angular.forEach(self.baseProperties, function(value){
             if(self[value]){
-              data[value] = self[value]
+              data[value] = self[value];
             }
           });
           cached[self.id] = data;
-          LocalService.set('markers', JSON.stringify(cached))
+          LocalService.set('markers', JSON.stringify(cached));
         }
       };
 
@@ -278,7 +281,7 @@
         if(cached[self.id]){
          delete cached[self.id];
         }
-        LocalService.set('markers', JSON.stringify(cached))
+        LocalService.set('markers', JSON.stringify(cached));
       };
 
       constructor.goToDetails = function() {
@@ -290,7 +293,7 @@
       };
 
       constructor.goToCurrentChat = function() {
-        if(!this.currentDib){ throw Error("post.currentDib must be defined")}
+        if(!this.currentDib){ throw Error("post.currentDib must be defined"); }
         $state.go('chat', {postId: this.id, dibId: this.currentDib.id });
       };
 
@@ -312,7 +315,7 @@
 
 
       constructor.showUnDib = function() {
-        return this.isCurrentDibber ? true : false 
+        return !!this.isCurrentDibber;
       };
 
       constructor.showWanted = function() {

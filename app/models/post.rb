@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
   has_many :pictures, as: :imageable, class_name: "Image"
   belongs_to :current_dib, :class_name => Dib, :foreign_key => :current_dib_id
 
-  #TODO remove has attached file and update tests 
+  #TODO remove has attached file and update tests
   has_attached_file :image,
     :styles => { :medium => "300x300>" }, :default_url => 'missing',
     :storage => :s3,
@@ -64,7 +64,7 @@ class Post < ActiveRecord::Base
   end
 
   def current_dibber
-    self.current_dib.user if  !self.available_to_dib? and self.current_dib 
+    self.current_dib.user if  !self.available_to_dib? and self.current_dib
   end
 
   def details
@@ -102,17 +102,12 @@ class Post < ActiveRecord::Base
     body =  "#{dibber.username} has undibbed this item"
 
     lister.alerts.create(
-      :message => body, 
+      :message => body,
       :dib_id => dib.id,
       :post_id => self.id )
     Notifier.notify_undib(dib).deliver_later
   end
 
-
-  def send_message_to_creator (dibber, body, subject)
-    #TODO see ehere this is used and if alerts and email beed to be added
-    dibber.send_message( User.find(self.creator_id), body,subject)
-  end
 
   def set_dibbed_until dib
     self.update_attributes( :dibbed_until => dib.valid_until )

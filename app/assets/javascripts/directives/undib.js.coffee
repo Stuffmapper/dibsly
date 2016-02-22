@@ -16,7 +16,6 @@ directives.directive('undib', ->
   	            ).success((data)->
                     description = $scope.post.description
                     delete $scope.mystuff.dibs[$scope.post.id]
-                    console.log($scope.mystuff.dibs)
                     localStorage.setItem('mystuff' + UserService.currentUser, JSON.stringify($scope.mystuff))
                     AlertService.add('success', "You've undibbed " + description );
   	            ).error (error ) ->

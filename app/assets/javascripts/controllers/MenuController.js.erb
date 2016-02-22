@@ -5,9 +5,9 @@
 
   controllers.controller('MenuCtrl', ['$modal','$scope','$q','$state','$stateParams','LocalService',
    'LocationService','MapsService','MarkerService','UserService', 'AlertService','$rootScope',
-    function($modal,$scope,$q,$state,$stateParams,LocalService, 
+    function($modal,$scope,$q,$state,$stateParams,LocalService,
       LocationService, MapsService, MarkerService, UserService, AlertService, $rootScope) {
-      //TODO - clean up 
+      //TODO - clean up
 
        // $SCOPE OBJECTS
       $scope.menuHeight = 'menu-0';
@@ -18,16 +18,19 @@
 
 
       // $SCOPE FUNCTIONS
-      UserService.check()
-      .then(
-        function(){},
-        function(){
-        $modal.open({
-          templateUrl:'splash.html',
-          controller: 'SignUpCtrl'
+      <% if not Rails.env.test? %>
+        //lazy but I got tired of closing the popup
+        UserService.check()
+        .then(
+          function(){},
+          function(){
+          $modal.open({
+            templateUrl:'splash.html',
+            controller: 'SignUpCtrl'
+          });
         });
-      })
-    
+      <% end %>
+
 
       $scope.centerMap = function(){
         var center;
@@ -37,60 +40,60 @@
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            LocalService.set('mapcenter', JSON.stringify(center))
+            LocalService.set('mapcenter', JSON.stringify(center));
           },
           function(error){
             MapsService.getCenter()
             .then(function (mapcenter){
-              return center = mapcenter;
-            })
+              center = mapcenter;
+            });
           }
          )
          .then( function(){
            $scope.$broadcast('mapCentered', center );
            return MapsService.resizeMap()
            .then(function(){ MapsService.panTo(center); });
-         })
+         });
       };
       $scope.toggleFull = function(){
         $( "#sm-menu" ).toggleClass( "menu-small" );
         $( "#google-container" ).toggleClass( "map-large" );
         $scope.toggleMenu = !$scope.toggleMenu;
-        MapsService.resizeMap()
+        MapsService.resizeMap();
 
-      }
+      };
       //HELPERS
       var setHeights = function(stateName){
           switch(stateName) {
             case 'edit':
               $scope.menuHeight = 'menu-1-2';
               $scope.mapHeight = 'map-1-2';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
               break;
             case 'getStuff':
               $scope.menuHeight = 'menu-0';
               $scope.mapHeight = 'map-0';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
               break;
             case 'giveStuffOne':
               $scope.menuHeight = 'menu-1-1';
               $scope.mapHeight = 'map-1-1';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
               break;
             case 'giveStuffTwo':
               $scope.menuHeight = 'menu-1-2';
               $scope.mapHeight = 'map-1-2';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
               break;
             case 'myStuff':
               $scope.menuHeight = 'menu-2';
               $scope.mapHeight = 'map-2';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
               break;
             default:
               $scope.menuHeight = 'menu-0';
               $scope.mapHeight = 'map-0';
-              MapsService.resizeMap()
+              MapsService.resizeMap();
         }
 
       };
@@ -99,13 +102,13 @@
       //LISTENERS
 
 
-      $rootScope.$on('$stateChangeSuccess', 
-        function(event, toState, toParams, fromState, fromParams){ 
+      $rootScope.$on('$stateChangeSuccess',
+        function(event, toState, toParams, fromState, fromParams){
           setHeights(toState.name);
           if(fromState.name != 'singlepost' ) { $state.lastState = fromState; }
       });
-    $rootScope.$on('detailsWanted', 
-        function(event, args){ 
+    $rootScope.$on('detailsWanted',
+        function(event, args){
           $state.go('singlepost', {postId: args.markerId});
       });
       setHeights($state.$current.name);

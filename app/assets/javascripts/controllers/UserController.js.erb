@@ -7,20 +7,20 @@
     'MapsService','MarkerService','ImageService','$http',
     function(AlertService, $scope,$state,$q,
      MapsService, MarkerService, ImageService, $http) {
-      
+
       $scope.cancel = function(){
-        $state.go($state.lastState || 'getStuff' )
+        $state.go($state.lastState || 'getStuff' );
       };
 
       $scope.clickInput = function(){
-        document.getElementById('user-image-file').click()
+        document.getElementById('user-image-file').click();
       };
 
       $scope.update = function(){
         $http.put('/api/users/' + $scope.user.id, {user: $scope.user } )
         .then(function(data){
           AlertService.add('success', "Your profile has been updated");
-          $scope.edit = false
+          $scope.edit = false;
         },
          function(error){
           angular.forEach(error.data, function(value, key){
@@ -31,7 +31,7 @@
           function(){
             if($scope.user.imageChanged ){
               return ImageService.upload($scope.user.image_url ,
-                $scope.user.id, 'user' )
+                $scope.user.id, 'user' );
             }
         });
       };
@@ -39,14 +39,13 @@
       $scope.reverify = function(){
         $http.post('/api/users/reconfirm')
         .then(function(data){
-          console.log(data);
           AlertService.add('success', "Email resent");
         },
          function(error){
           angular.forEach(error.data, function(value, key){
             AlertService.add('danger',  key + ' ' + value);
           });
-        })
+        });
       };
 
 
@@ -56,18 +55,17 @@
 
       var getUser = function(){
        $http.get('/api/users')
-        .success(function(data){ 
+        .success(function(data){
           $scope.user = data.user;
-          console.log($scope.user);
-        })
-      }
+        });
+      };
       //LISTENERS
       $scope.$on("fileSelected", function(event, args) {
         ImageService.createGroup(args)
         .then(function(group){
           $scope.user.imageChanged = true;
           $scope.user.image_url = group.original;
-        })
+        });
       });
 
 
@@ -76,7 +74,7 @@
       MapsService.loadMap()
       .then(function(){
         getUser();
-      })
+      });
 
     }
   ]);

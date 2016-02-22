@@ -4,14 +4,31 @@
   controllers = angular.module('controllers');
 
   controllers.controller('SignUpCtrl', [
-    '$scope', '$modal', '$modalInstance', '$http', '$window', '$timeout', 'UserService', 'AlertService', function($scope, $modal, $modalInstance, $http, $window, $timeout, UserService, AlertService) {
+    '$scope',
+    '$modal',
+    '$modalInstance',
+    '$http',
+    '$window',
+    '$timeout',
+    'UserService',
+    'AlertService',
+    function(
+      $scope,
+      $modal,
+      $modalInstance,
+      $http,
+      $window,
+      $timeout,
+      UserService,
+      AlertService
+    ) {
       $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
       };
       $scope.oaLogin = function(provider) {
         var fbauth;
         fbauth = "http://" + $window.location.host + '/auth/' + provider;
-        return $window.location.href = fbauth;
+        $window.location.href = fbauth;
       };
       $scope.showPolicy = function(policy) {
         return $modal.open({
@@ -92,7 +109,6 @@
         });
       };
       $scope.submitReset = function() {
-        console.log($scope.email);
         return $http({
           url: '/api/password_resets',
           method: 'POST',

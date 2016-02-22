@@ -4,7 +4,7 @@
   factories = angular.module('factories');
 
   factories.factory('UserService', [
-    'AlertService','$http', '$q', 'LocalService', 'MarkerService', 
+    'AlertService','$http', '$q', 'LocalService', 'MarkerService',
     function(AlertService,$http, $q, LocalService, MarkerService) {
       var self = this;
       self.checking = false;
@@ -28,14 +28,12 @@
               LocalService.set('sMToken', JSON.stringify(data));
               AlertService.getMessages();
             } else {
-              console.log(data);
               LocalService.unset('sMToken');
               self.user = false;
             }
             return callback(null, data);
           })
           .error(function(err) {
-            console.log(err);
             self.user = false;
             return callback(err);
           });
@@ -57,7 +55,7 @@
             self.user = false;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.reject(self.user)
+              prom.reject(self.user);
             }
             self.checking = false;
           };
@@ -65,14 +63,14 @@
             self.user = user;
             while(self.checkingQueue.length > 0){
               var prom = self.checkingQueue.pop();
-              prom.resolve(self.user)
+              prom.resolve(self.user);
             }
             self.checking = false;
           };
 
           user = LocalService.getJSON('sMToken');
           var defer = $q.defer();
-          self.checkingQueue.push(defer)
+          self.checkingQueue.push(defer);
           if (!self.checking){
             self.checking = true;
             if (user) {
@@ -87,15 +85,15 @@
             } else {
               rejectAll();
             }
-          } 
+          }
           return defer.promise;
         },
 
         getCurrentUser: function(){
           var that = this;
           if( self.user ){
-            return $q.when(self.user)
-          } else { return that.check() }
+            return $q.when(self.user);
+          } else { return that.check(); }
         }
       };
     }

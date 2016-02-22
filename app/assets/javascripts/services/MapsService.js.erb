@@ -13,30 +13,30 @@
     var emptyQueue = function(map){
       //resolves the queue of promises with the map object
       while(self.queue.length > 0){
-        var def = self.queue.pop()
-        def.resolve(map)
-      };
+        var def = self.queue.pop();
+        def.resolve(map);
+      }
     };
 
     self.getMap = function(){
-      var deferred = $q.defer()
+      var deferred = $q.defer();
       var elementLoaded = document.getElementById('google-map');
       self.queue.push(deferred);
       if(self.mapStatus != 'loading' && elementLoaded ){
-        self.initializeOrGetMap()
+        self.initializeOrGetMap();
       } else if(!elementLoaded){
         self.mapStatus = 'notloaded';
         self.map = false;
-        deferred.reject(new Error('no google elementLoaded'))
+        deferred.reject(new Error('no google elementLoaded'));
       }
 
       return deferred.promise;
     };
     var getCenterLoc = function(){
-      var deferred = $q.defer()
+      var deferred = $q.defer();
       var center =  LocalService.getJSON('mapcenter');
       if(center){
-        deferred.resolve(center);      
+        deferred.resolve(center);
       } else {
         LocationService.get()
         .then(
@@ -49,7 +49,7 @@
             deferred.resolve(center);
           },
           //resolves to the center of the universe if all else fails
-          function(err){ deferred.resolve({lat: '47.650421', lng: '-122.350938' }) }
+          function(err){ deferred.resolve({lat: '47.650421', lng: '-122.350938' }); }
         );
       }
       return deferred.promise;
@@ -67,18 +67,17 @@
             self.center = coords;
             google.load("maps", "3.22", {other_params:'libraries=geometry&key=AIzaSyC9wZTqNMPxl86PtJuR4Dq3TzS_hByOs3U',
               callback: function(){
-            
+
                 center = new google.maps.LatLng(coords.lat, coords.lng);
-                console.log("this is line 64")
                 map = new google.maps.Map(document.getElementById('google-map'), {
                   center: center,
                   zoom: 15
-                }),
+                });
                 self.map = map;
                 self.mapStatus = 'loaded';
                 self.markerClusterer = new MarkerClusterer(map, [], {
                   gridSize: 50,
-                  maxZoom: 15, 
+                  maxZoom: 15,
                   styles:[{
                     url: "<%= asset_path('circle.png')%>",
                     height: 102,
@@ -90,31 +89,31 @@
               }
             });
           }
-        )
+        );
       }
     };
 
     return {
 
       addMarkerListener: function(marker, event, fn ){
-        google.maps.event.addListener(marker, event, fn )
+        google.maps.event.addListener(marker, event, fn );
       },
       addMapListener: function(event, fn){
         return self.getMap()
         .then(
           function(map){
-            google.maps.event.addListener(map, event, fn )
+            google.maps.event.addListener(map, event, fn );
           }
-        )
+        );
       },
 
       clearCluster: function(){
         return self.getMap()
-        .then(function(){ self.markerClusterer.clearMarkers() });
+        .then(function(){ self.markerClusterer.clearMarkers(); });
 
       },
       clearMapMarker: function(marker){
-        marker.setMap(null);  
+        marker.setMap(null);
       },
       closeInfoWindow: function(infoWindow, marker){
         self.getMap()
@@ -153,23 +152,23 @@
 
       },
       getBounds: function(){
-        //  return four mile bounding box from map 
+        //  return four mile bounding box from map
         // center if map not initialized
         var that = this;
         return self.getMap()
         .then(
           function(map){
-            var bounds =  map.getBounds() 
-            if(!bounds){ 
+            var bounds =  map.getBounds();
+            if(!bounds){
               return that.getCenter()
               .then(function(coords){
-                return that.getBoundingBox(coords,4)
-              })
+                return that.getBoundingBox(coords,4);
+              });
             } else {
               var ne = bounds.getNorthEast();
               var sw = bounds.getSouthWest();
               //coords written this way to match pattern in createBox
-              //too much work to refactor to sync with google 
+              //too much work to refactor to sync with google
               return {nw: {lat:ne.lat(), lng: sw.lng() }, se:{ lat: sw.lat(), lng: ne.lng() } };
             }
           }
@@ -196,7 +195,7 @@
       },
       getMarkerClusterer: function(){
         return self.getMap()
-        .then(function(){ return self.markerClusterer })
+        .then(function(){ return self.markerClusterer; });
       },
       getPosition: function(marker){
         return {
@@ -206,14 +205,14 @@
 
       },
       loadMap: function(){
-        return self.getMap()
+        return self.getMap();
       },
 
       newInfoWindow: function(options){
         return new google.maps.InfoWindow(options);
       },
-      newLatLng: function(latitude, longitude){ 
-        return new google.maps.LatLng(latitude, longitude)
+      newLatLng: function(latitude, longitude){
+        return new google.maps.LatLng(latitude, longitude);
       },
 
       newMapMarker: function(options){
@@ -221,7 +220,7 @@
         var position = options.position;
         if(options.draggable){
           var url = options.icon;
-          options.icon = { 
+          options.icon = {
             url:url,
             origin: new google.maps.Point(0, 0),
             size: new google.maps.Size(36, 68),
@@ -232,7 +231,7 @@
         .then( function(map){
           options.map = map;
           var latlng = that.newLatLng( position.lat, position.lng );
-          options.position = latlng; 
+          options.position = latlng;
           return new google.maps.Marker(options);
         });
       },
@@ -240,22 +239,22 @@
         self.getMap()
         .then(
           function(map){
-            console.log("opening info window")
             infoWindow.open(map, marker);
         });
       },
       panTo: function(latlng){
         var that = this;
         return self.getMap()
-        .then(function(map){ 
-          map.panTo(that.newLatLng(latlng.lat, latlng.lng ));})  
+        .then(function(map){
+          map.panTo(that.newLatLng(latlng.lat, latlng.lng ));
+        });
 
       },
 
       panToMarker: function( marker ){
-        var that = this;    
+        var that = this;
         var latlng = that.getPosition(marker);
-        return that.panTo( that.getPosition(marker) ) 
+        return that.panTo( that.getPosition(marker) );
       },
 
       resizeMap: function(){
@@ -265,17 +264,17 @@
             $timeout( function(){
                 if(map){
                   google.maps.event.trigger(map,'resize');
-                  resolve()
-                } else { reject(new Error('no map defined')) }
-            },0)
+                  resolve();
+                } else { reject(new Error('no map defined')); }
+            },0);
           });
         });
       },
       removeMapListeners: function(){
         return self.getMap()
-        .then(function(map){ 
+        .then(function(map){
           google.maps.event.clearInstanceListeners(map);
-        })
+        });
       },
       setBoundingBox: function(box){
         self.boundingBox = box;
@@ -285,7 +284,7 @@
         marker.infowindow.setContent(content);
       },
       setZoom: function(){
-        throw new Error('not implemented')
+        throw new Error('not implemented');
       },
       setMapMarker: function(marker){
         return self.getMap()
@@ -300,22 +299,22 @@
         //I HAVE NO TEST
         var image = marker.icon;
         if(marker.temporary){
-          image = { 
+          image = {
             url:marker.icon,
             anchor: new google.maps.Point(16, 60),
             origin: new google.maps.Point(0, 0),
             size: new google.maps.Size(36, 68),
           };
         }
-        marker.marker.setMap(null); 
+        marker.marker.setMap(null);
         var pos = marker.marker.getPosition() || {}; //hack for testing purposed
         if(pos.lat() != marker.latitude || pos.lng() != marker.longitude ){
           var latlng = this.newLatLng(marker.latitude, marker.longitude);
-          marker.marker.setPosition(latlng); 
+          marker.marker.setPosition(latlng);
         }
         marker.marker.setIcon(image);
         return self.getMap()
-        .then(function(map){ marker.marker.setMap(map) })
+        .then(function(map){ marker.marker.setMap(map); });
       },
       within: function(box, coords){
          return ( box && box.nw.lat  >=  coords.lat && coords.lat >= box.se.lat &&

@@ -3,7 +3,7 @@ var controllers;
 controllers = angular.module('controllers');
 
 controllers.controller('EmailVerifyCtrl', [
-  '$http', '$scope', '$window', '$timeout', '$stateParams', '$resource', 'AlertService', 
+  '$http', '$scope', '$window', '$timeout', '$stateParams', '$resource', 'AlertService',
   function($http, $scope, $window, $timeout, $stateParams, $resource, AlertService) {
     $scope.message = 'Verifying your email';
     return $http.post('/api/users/email/' + $stateParams.userKey).success(function(data) {
@@ -15,7 +15,7 @@ controllers.controller('EmailVerifyCtrl', [
         value = data[key];
         AlertService.add('danger', key + ' ' + value);
       }
-      return $scope.message = "<%= I18n.t('verifyFailure') %>";
+      $scope.message = "<%= I18n.t('verifyFailure') %>";
     });
   }
 ]);

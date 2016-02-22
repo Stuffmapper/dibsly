@@ -8,13 +8,13 @@ controllers.controller('ResetCtrl', [
     $scope.cancel = function() {
       $state.go($state.lastState || 'getStuff' );
     };
-    return $scope.changePassword = function() {
+    $scope.changePassword = function() {
       var pw;
       pw = {
         password: $scope.password,
         password_confirmation: $scope.password_confirmation
       };
-      if ($scope.password === !$scope.password_confirmation) {
+      if ($scope.password !== $scope.password_confirmation) {
         return AlertService.add('danger', "Passwords must match");
       } else if ($scope.password.length < 6) {
         return AlertService.add('danger', "Passwords must be longer than 6 characters");
@@ -22,9 +22,8 @@ controllers.controller('ResetCtrl', [
         return $http.patch('/api/password_resets/' + $stateParams.userKey, {
           user: pw
         }).success(function(data) {
-          console.log(data.message);
           AlertService.add('success', "Password Changed");
-          $state.go('getStuff' )
+          $state.go('getStuff');
         }).error(function() {
           return AlertService.add('danger', "Something Went Wrong");
         });

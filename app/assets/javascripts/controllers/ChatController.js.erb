@@ -8,22 +8,22 @@
     function(  $scope, MapsService, MarkerService, UserService, $stateParams ) {
       $scope.chats = [];
       MarkerService.getMarkerAsync($stateParams.postId)
-      .then(function(marker){ 
-        marker.currentDib = {id: $stateParams.dibId }
+      .then(function(marker){
+        marker.currentDib = {id: $stateParams.dibId };
         if(marker.creator != UserService.currentUser()){
           marker.currentDib.dibber =  UserService.currentUser();
         }
-        $scope.chats.push(marker)
-      })
-        
+        $scope.chats.push(marker);
+      });
+
 
        // $SCOPE OBJECTS
-      $scope.currentUser = function(){ return UserService.currentUser() };
+      $scope.currentUser = function(){ return UserService.currentUser(); };
 
       // $SCOPE FUNCTIONS
 
       //LISTENERS
-      
+
       MapsService.loadMap();
     }
   ]);

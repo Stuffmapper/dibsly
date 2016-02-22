@@ -24,7 +24,6 @@ class User < ActiveRecord::Base
 
   validates_format_of :email, :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
   validates :status, inclusion: {in: STATUSES}
-  acts_as_messageable
 
   def save(*args)
     super
@@ -66,7 +65,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
   def allowed_to_post_and_dib?
     self.verified_email
   end
@@ -85,7 +84,7 @@ class User < ActiveRecord::Base
     #active dibs
     (self.dibs.select {|x| x.post != nil and x.post.current_dib == x and !x.post.available_to_dib? }).collect { |y| y.post }
   end
-  
+
   def generate_password_reset_token!
     update_attribute(:password_reset_token, SecureRandom.urlsafe_base64(48) )
   end
@@ -102,7 +101,7 @@ class User < ActiveRecord::Base
   def update_email_verify_token
     self.verify_email_token = SecureRandom.urlsafe_base64(48) unless self.verified_email
   end
-  
+
   def resend_email_verification
     self.save #already resends when saved and not verified
   end

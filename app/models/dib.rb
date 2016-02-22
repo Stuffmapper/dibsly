@@ -1,5 +1,4 @@
 class Dib < ActiveRecord::Base
-  acts_as_messageable
   has_many :alerts
   belongs_to :user, :class_name => User, :foreign_key => :creator_id
   belongs_to :post, :class_name => Post, :foreign_key => :post_id
@@ -51,7 +50,7 @@ class Dib < ActiveRecord::Base
 
   def contact_other_party sender, body
     self.post.reload
-    #figur out 
+    #figur out
     if sender == self.post.current_dibber and self.valid_until >= Time.now
       self.post.make_dib_permanent
     end
@@ -61,10 +60,10 @@ class Dib < ActiveRecord::Base
       receipient = self.user
     end
     receipient.alerts.create(
-      :message => body, 
+      :message => body,
       :dib_id => self.id,
       :post_id => self.post_id,
-      :sender_id => sender.id  
+      :sender_id => sender.id
     )
     MessageMailer.send_email(sender,body,receipient,self).deliver_later
   end
@@ -72,10 +71,10 @@ class Dib < ActiveRecord::Base
   def remove_as_dibber
     if self.post.current_dibber == self.user
       self.user.alerts.create(
-        :message => "Removed as dibber", 
+        :message => "Removed as dibber",
         :dib_id => self.id,
         :post_id => self.post_id )
-      Notifier.dibber_rejection(self).deliver_now 
+      Notifier.dibber_rejection(self).deliver_now
       self.post.update_attributes({:current_dib => nil, :dibbed_until => Time.now - 1.minute, :status => 'new' })
     end
   end

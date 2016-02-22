@@ -1,10 +1,10 @@
 var controllers, directives, factories, filters, stfmpr;
 
-stfmpr = angular.module('stfmpr', ['templates', 
+stfmpr = angular.module('stfmpr', ['templates',
   'controllers',
   'factories',
   'filters',
-  'directives', 
+  'directives',
   'ng',
   'ngResource',
   'dcbImgFallback',
@@ -26,16 +26,15 @@ filters = angular.module('filters', []);
 
 
 stfmpr.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-     
+
      $urlRouterProvider.rule(function ($injector, $location) {
         var path = $location.path(), normalized = path.toLowerCase();
         if (path != normalized && !path.match(/email/)) {
-          console.log(path)
             //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
             $location.replace().path(normalized);
         }
         // because we've returned nothing, no state change occurs
-    });  
+    });
 
   // For any unmatched url, redirect to /state1
   $urlRouterProvider.when("/givestuff", 'giveStuffOne');
@@ -59,21 +58,21 @@ stfmpr.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
       url: "/users/email/:userKey",
       templateUrl: 'verifyEmail.html',
       controller: 'EmailVerifyCtrl'
-    }) 
+    })
     .state( 'singlepost', {
       url:'/post/:postId',
       template: "<smdetails post='post'></smdetails>",
-      controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService', 
+      controller: [ '$scope','$stateParams','$q', 'MarkerService', 'MapsService',
         function($scope,$stateParams,$q,MarkerService,MapsService){
           var id = $stateParams.postId;
           $scope.post = MarkerService.getMarker(id);
           $q.when($scope.post ? $scope.post.get() : MarkerService.getMarkerAsync(id))
-          .then(function(marker){ 
+          .then(function(marker){
             $scope.post = marker;
-            MarkerService.updateWindow(id)
-            MarkerService.clearWindows(id)
+            MarkerService.updateWindow(id);
+            MarkerService.clearWindows(id);
             MapsService.panToMarker( $scope.post.marker );
-           }, function(){ }  )//todo add 404; 
+          }, function(){ }  );//todo add 404;
       }],
       parent:'menu'
     })
@@ -93,7 +92,7 @@ stfmpr.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
     .state( 'giveStuff', {
       url:'/givestuff',
       template: "<div ui-view></div>",
-      controller: ['$state', function($state){ 
+      controller: ['$state', function($state){
         if($state.$current.name === 'giveStuff'){
           $state.go('giveStuffOne');
         }
@@ -139,14 +138,14 @@ stfmpr.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
 
 stfmpr.config(['$resourceProvider',function($resourceProvider) {
-  return $resourceProvider.defaults.stripTrailingSlashes = false;
+  $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);
 
 stfmpr.config(['$httpProvider',function($httpProvider) {
   var token;
   token = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = token;
-  return $httpProvider.interceptors.push('AuthInterceptor');
+  $httpProvider.interceptors.push('AuthInterceptor');
 }]);
 
 stfmpr.run(['AlertService','$state','UserService', '$location','$rootScope', 'MapsService', 'MarkerService',
@@ -155,4 +154,3 @@ stfmpr.run(['AlertService','$state','UserService', '$location','$rootScope', 'Ma
     UserService.check();
   }
 ]);
-

@@ -5,7 +5,7 @@
         return {
           images: {},
           addImageGroup:function (id, image ){
-            this.images[id] = { 
+            this.images[id] = {
               original: image,
               thumbnail: image };
 
@@ -45,7 +45,6 @@
               img.src = reader.result;
             };
             reader.readAsDataURL(file);
-            console.log(reader.result)
             return deferred.promise;
          },
          createGroup: function(args){
@@ -55,7 +54,7 @@
              self.convert(1000, 1000, args.file)
              .then(
               function(original){
-               return group.original = original;
+                group.original = original;
               },
               function(error){
                 reject(error);
@@ -78,12 +77,11 @@
           //TODO put this in it's own controller or create uploader
           var deferred = $q.defer();
           $http.post('/api/images', {image: image, id: id, type:type } )
-          .success(function(results){ deferred.resolve(results) })
+          .success(function(results){ deferred.resolve(results); })
           .error(function(error){
-            console.error(error)
-            deferred.reject(error)});
+            deferred.reject(error); });
           return deferred.promise;
-        },
+        }
 
-       }
- }])
+      };
+ }]);

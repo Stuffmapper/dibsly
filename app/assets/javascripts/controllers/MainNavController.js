@@ -7,8 +7,8 @@
     '$scope', '$timeout', '$http', '$location', '$modal', 'UserService', 'AlertService',
      function($scope, $timeout, $http, $location, $modal, UserService, AlertService) {
 
-      $scope.currentUser = function(){ return  UserService.currentUser() };
-      $scope.alerts = function(){ return  AlertService.unread() };
+      $scope.currentUser = function(){ return UserService.currentUser(); };
+      $scope.alerts = function(){ return AlertService.unread(); };
       $scope.showSignup = function() {
         return $modal.open({
           templateUrl: 'signUp.html',

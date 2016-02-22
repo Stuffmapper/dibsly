@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.2.0"
+ruby "2.2.4"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
@@ -21,9 +21,6 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-
-#this should be removed after the migrate has been run on the live site
-gem 'mailboxer', :github => 'BenRuns/mailboxer'
 
 #for emailing
 gem 'mandrill-api', '~> 1.0', '>= 1.0.53'
@@ -92,10 +89,10 @@ group :development, :test do
   gem 'timecop', '~> 0.7.3'
   gem "rspec-rails"
   gem 'jasmine'
-  gem 'factory_girl_rails'
-  gem 'teaspoon','<= 1.0.2'
-  gem 'teaspoon-jasmine'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'factory_girl_rails'
+  gem 'teaspoon', '~> 1.1', '>= 1.1.4'
+  gem 'teaspoon-jasmine'
   gem 'cucumber-rails', require: false
   gem 'rack_session_access'
   gem 'guard-rspec', require: false

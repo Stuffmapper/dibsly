@@ -6,7 +6,7 @@
   controllers.controller('GiveStuffCtrl', [
     '$scope', '$timeout', '$location', '$window', '$modal','$q',
     '$state', '$stateParams','ImageService','LocalService', 'LocationService',
-    'MapsService','MarkerService', 'UserService', 'AlertService','$http', 
+    'MapsService','MarkerService', 'UserService', 'AlertService','$http',
     function($scope, $timeout, $location, $window,
       $modal,$q, $state,$stateParams,ImageService, LocalService, LocationService,
       MapsService, MarkerService, UserService, AlertService, $http) {
@@ -18,16 +18,15 @@
       MapsService.removeMapListeners()
       .then( function() { return MarkerService.clearMarkers('giveStuff'); })
       .then( function() { return MarkerService.getSetTemporary('giveStuff'); })
-      .then( function(marker){ 
-        $scope.post = marker; 
-        console.log(marker);
+      .then( function(marker){
+        $scope.post = marker;
         MarkerService.setAll({temporary:true});
         $timeout(MapsService.resizeMap()
-        .then(function(){ 
+        .then(function(){
           $timeout(function(){
-            MapsService.panToMarker(marker.marker); 
+            MapsService.panToMarker(marker.marker);
           },0);
-        }),0)
+        }),0);
       });
 
 
@@ -44,9 +43,9 @@
       };
 
       $scope.clickInput = function(){
-        document.getElementById('give-stuff-file-1').click()
-      }
-      
+        document.getElementById('give-stuff-file-1').click();
+      };
+
 
 
       $scope.submitPost = function() {
@@ -63,7 +62,7 @@
             MarkerService['delete']('giveStuff');
             ImageService.newest = {};
             $scope.images = {};
-            post.type = 'myPost'; 
+            post.type = 'myPost';
             post.icon = 'creator';
             post.currentUser = UserService.currentUser();
             return MarkerService.setMarker(post)
@@ -71,39 +70,38 @@
               var newPost = MarkerService.getMarker(post.id);
               newPost.image_url = image;
               newPost.goToDetails();
-              
+
             })
             .then(
               function(){
-                return ImageService.upload(image,post.id,'post')
+                return ImageService.upload(image,post.id,'post');
               }
-            )
+            );
           },
           function(error){
-            console.log(error);
             angular.forEach(error.data, function(value, key){
               AlertService.add('danger', value);
-            })
+            });
           }
         );
- 
+
       };
 
 
       //LISTENERS
-      
+
       $scope.$on("fileSelected", function(event, args) {
         ImageService.createGroup(args)
         .then(function(images){
           ImageService.newest = images;
           $scope.images = images;
           if($state.$current.name !== 'giveStuffTwo')$state.go('giveStuffTwo');
-        })
+        });
       });
      $scope.$on('mapCentered', function(event, center) {
         $scope.post.latitude = center.lat;
         $scope.post.longitude = center.lng;
-        MapsService.updateMarker($scope.post)
+        MapsService.updateMarker($scope.post);
       });
 
       MapsService.loadMap();

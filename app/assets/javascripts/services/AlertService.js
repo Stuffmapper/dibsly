@@ -11,10 +11,10 @@ factories.factory('AlertService', [
     alerts = {};
     return {
       clear: function() {
-        return alerts = {};
+        alerts = {};
       },
       unread: function(){
-        return _.size(_.filter(messages, { 'is_read':false}))
+        return _.size(_.filter(messages, { 'is_read':false}));
       },
       add: function(type, text) {
         var alert, key;
@@ -37,11 +37,11 @@ factories.factory('AlertService', [
       },
       messages: function(){
         return messages;
-      }, 
+      },
       markRead: function(conversation){
 
-        _.forEach(_.filter(messages, function(message){ return message.conversation == conversation }), function(item) {item.is_read = true});
-        $http.post('api/dibs/' + conversation + '/markread')
+        _.forEach(_.filter(messages, function(message){ return message.conversation == conversation; }), function(item) {item.is_read = true; });
+        $http.post('api/dibs/' + conversation + '/markread');
       },
       getMessages: function(){
         var that = this;
@@ -52,21 +52,20 @@ factories.factory('AlertService', [
             .then( function(data){
               //find the new unread alerts
               var newMessages = _.reject(data.data.alerts, function(alert){
-                return _.find(messages, function(message){ return alert.id == message.id})
-              })
+                return _.find(messages, function(message){ return alert.id == message.id; });
+              });
               angular.forEach(newMessages, function (message) {
                 messages.push(message);
-                $rootScope.$broadcast('newMessage', message )
+                $rootScope.$broadcast('newMessage', message );
                 if(firstCheck && ! message.is_read){
-                  that.add('success', message.sender + ': ' + message.body)
+                  that.add('success', message.sender + ': ' + message.body);
                 }
               });
               firstCheck = true;
             })
-            .then( function(){ 
+            .then( function(){
               checkingMessages = false;
-              console.log(messages);
-              that.getMessages() })
+              that.getMessages(); });
           }), 6000);
         }
       }

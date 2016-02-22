@@ -6,7 +6,7 @@ directives.directive('mypost', function() {
   var linker = function(scope, element, attrs) {
     //some jquery on element to change btn color
 
-  }
+  };
   return {
     restrict: 'E',
     scope: {
@@ -19,21 +19,21 @@ directives.directive('mypost', function() {
           $http.get( 'api/dibs/' + $scope.post.currentDib.id + '/messages')
           .then(function(data){
             $scope.messages = data.data.dibs;
-             countMsg()
+             countMsg();
           });
         }
-        $scope.zi = "settings-standard"
+        $scope.zi = "settings-standard";
         $scope.top = function(){
-          $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top"
+          $scope.zi = $scope.zi == "settings-top" ? "settings-standard" : "settings-top";
         };
-        $scope.msg = function()  {  
+        $scope.msg = function()  {
           var rval;
           switch($scope.post.getState()) {
               case ('permaWant'):
-                  rval = "Messages"
+                  rval = "Messages";
                   break;
               case ('permaDibPost'):
-                  rval = "Messages"
+                  rval = "Messages";
                   break;
               case 'waitingWant':
                   rval = "Send a message! (" + Math.floor((new Date($scope.post.dibbed_until ) - Date.now())/ 60000)  +" minutes remaining)"    ;
@@ -56,7 +56,7 @@ directives.directive('mypost', function() {
                   rval = "grey";
                   break;
               case 'waitingWant':
-                  rval = "green"
+                  rval = "green";
                   break;
              case 'waitingPost':
                   rval = "green";
@@ -66,53 +66,51 @@ directives.directive('mypost', function() {
           }
           return rval;
         };
-        
+
         $scope.btnAction = function(){
           $scope.chat = !$scope.chat;
           if( $scope.chat && $scope.post.currentDib ){
-            AlertService.markRead($scope.post.currentDib.id)
+            AlertService.markRead($scope.post.currentDib.id);
           }
-        }
+        };
 
         $scope.sendMessage = function() {
           var message = { created_at: Date.now(), sender: $scope.post.currentUser, body: $scope.newMessage, state:'sending' };
            $scope.newMessage = '';
-          $scope.messages.push(message)
+          $scope.messages.push(message);
           return $http.post( 'api/dibs/' + $scope.post.currentDib.id + '/messages', {message: message } )
           .then(
             function(data) {
-              $scope.messages = data.data.dibs
+              $scope.messages = data.data.dibs;
           },
           function(err){
-            AlertService.add('warn', "Something went wrong try again")
-            console.warn(err)
-          })
-        }
+            AlertService.add('warn', "Something went wrong try again");
+          });
+        };
         $scope.autoExpand = function(e) {};
-  
+
         function expand() {
           $scope.autoExpand('TextArea');
         }
         //HELPERS
         var countMsg = function(){
-          $scope.count =  _.filter($scope.messages,function(msg){ return !msg.isSender && !msg.is_read }).length;
+          $scope.count =  _.filter($scope.messages,function(msg){ return !msg.isSender && !msg.is_read; }).length;
 
-        }
+        };
 
         //LISTENERS
         $rootScope.$on('newMessage', function(event, message){
           if($scope.post.currentDib && message.conversation == $scope.post.currentDib.id){
-            $scope.messages.push(message)
+            $scope.messages.push(message);
             countMsg();
           }
-
-        })
+        });
 
       }
     ],
     replace: true,
     link: linker,
-    templateUrl: 'misc/myPost.html' 
+    templateUrl: 'misc/myPost.html'
   };
 });
 
@@ -144,4 +142,3 @@ directives.directive('mypost', function() {
 //     link: link
 //   };
 // });
-
