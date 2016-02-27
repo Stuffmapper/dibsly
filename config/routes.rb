@@ -1,6 +1,4 @@
 Dibsly::Application.routes.draw do
-
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'auth/:provider/callback(.:format)', to: 'api/sessions#create_with_omniauth'
   get 'auth/failure', to: redirect('/')
 
@@ -35,7 +33,7 @@ Dibsly::Application.routes.draw do
 
     post 'posts/:id/undib' => 'dibs#undib'
     # post 'posts/:id/update' => 'posts#update'
-    
+
     #UNTESTED
     post 'posts/:id/removecurrentdib' => 'posts#remove_dib'
 
@@ -50,15 +48,9 @@ Dibsly::Application.routes.draw do
 
     get 'policies/termsofuse' => 'policies#terms_of_use'
     get 'policies/privacy' => 'policies#privacy'
-
-
-
     resources :posts, only: [:create, :index, :update, :show] do
       resources :dibs, only: [:create ]
     end
-
-
-
     resources :password_resets,  only: [:new, :create, :edit, :update]
 
   end

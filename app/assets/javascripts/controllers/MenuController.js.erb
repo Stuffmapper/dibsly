@@ -18,7 +18,8 @@
 
 
       // $SCOPE FUNCTIONS
-      <% if not Rails.env.test? %>
+      <% if Rails.env.test? %>
+      <% else %>
         //lazy but I got tired of closing the popup
         UserService.check()
         .then(
@@ -63,7 +64,7 @@
 
       };
       //HELPERS
-      var setHeights = function(stateName){
+      var setHeights = function(stateName)
           switch(stateName) {
             case 'edit':
               $scope.menuHeight = 'menu-1-2';
