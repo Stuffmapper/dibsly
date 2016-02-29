@@ -103,6 +103,7 @@ Then(/^I should expect to see a "(.*?)"$/) do |policy|
     click_link(policy)
     expect(page.body).to have_text(policy)
   end
+  click_button "Close"
 end
 
 
