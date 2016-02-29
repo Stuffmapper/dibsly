@@ -44,7 +44,8 @@
           return $http.get('/api/log_out').success(function(data) {
             self.user = false;
             MarkerService.deleteAll();
-            localStorage.clear();
+            LocalService.unset('sMToken');
+            LocalService.unset('markers');
             return callback(null, data);
           }).error(function(err) {
             return callback(err);

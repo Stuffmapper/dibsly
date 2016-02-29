@@ -6,9 +6,14 @@
   controllers.controller('MainNavCtrl', [
     '$scope', '$timeout', '$http', '$location', '$modal', 'UserService', 'AlertService',
      function($scope, $timeout, $http, $location, $modal, UserService, AlertService) {
-
       $scope.currentUser = function(){ return UserService.currentUser(); };
       $scope.alerts = function(){ return AlertService.unread(); };
+      $scope.showAbout = function(){
+        $modal.open({
+          templateUrl:'splash.html',
+          controller: 'SignUpCtrl'
+        });
+      };
       $scope.showSignup = function() {
         return $modal.open({
           templateUrl: 'signUp.html',

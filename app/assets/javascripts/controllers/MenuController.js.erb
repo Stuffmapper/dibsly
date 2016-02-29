@@ -17,16 +17,15 @@
       $scope.toggleMenu = false;
 
 
-      // $SCOPE FUNCTIONSrake assets:precompile RAILS_ENV=test
-      UserService.check()
-      .then(
-        function(){},
-        function(){
+      // $SCOPE FUNCTIONS
+      if (LocalService.get('visit') != 'true') {
         $modal.open({
           templateUrl:'splash.html',
           controller: 'SignUpCtrl'
         });
-      });
+        LocalService.set('visit', 'true');
+      }
+
 
       $scope.centerMap = function(){
         var center;

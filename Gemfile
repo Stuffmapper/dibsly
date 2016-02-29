@@ -66,7 +66,6 @@ gem 'delayed_paperclip'
 
 gem 'delayed_job_active_record'
 
-gem 'spring', group: :development
 
 
 group :doc do

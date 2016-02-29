@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user = decoded_auth_token ? User.find(decoded_auth_token[0]["user_id"]) : false
+    begin
+      @current_user = decoded_auth_token ? User.find(decoded_auth_token[0]["user_id"]) : false
+    rescue
+      false
+    end
   end
 
   def json_request?

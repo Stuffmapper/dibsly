@@ -18,6 +18,12 @@
       <% end %>
     <% end %>
 
+    <% if not Rails.env.production? %>
+      <%= javascript_tag do %>
+        localStorage.setItem('visit', 'true' )
+      <% end %>
+    <% end %>
+
   <%= javascript_include_tag "application" %>
   <script src="//use.typekit.net/lrm3jdv.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
