@@ -14,10 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-
+/public/assets/*
+.byebug_history
 coverage
 .env
 
-
+"C:\nppdf32Log\debuglog.txt"
 
 /public/system/posts/images/*
