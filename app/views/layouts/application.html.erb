@@ -6,7 +6,8 @@
    <meta name="description" content="Stuffmapper - Free stuff nearby!">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <%= favicon_link_tag 'favicon.ico' %>
+
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
   <%= stylesheet_link_tag    "application", media: "all" %>
@@ -14,6 +15,12 @@
     <% if @omniuser %>
       <%= javascript_tag do %>
         localStorage.setItem('sMToken', JSON.stringify(<%= raw @omniuser.to_json %>) )
+      <% end %>
+    <% end %>
+
+    <% if not Rails.env.production? %>
+      <%= javascript_tag do %>
+        localStorage.setItem('visit', 'true' )
       <% end %>
     <% end %>
 

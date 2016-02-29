@@ -56,13 +56,6 @@ World(Paperclip::Shoulda::Matchers)
 
 ActionController::Base.allow_rescue = false
 
-# Remove/comment out the lines below if your app doesn't have a database.
-# For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
-# begin
-#   DatabaseCleaner.strategy = :transaction
-# rescue NameError
-#   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-# end
 
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
@@ -71,8 +64,9 @@ ActionController::Base.allow_rescue = false
 #see file #database cleaner
 
 After do |scenario|
-  begin 
-  	execute_script("localStorage.clear()")
+  begin
+  	execute_script("window.localStorage.removeItem('smToken');window.localStorage.removeItem('markers');window.close()")
+    Capybara.current_session.driver.quit
   	MandrillMailer.deliveries.clear
   end
 end

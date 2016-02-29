@@ -9,7 +9,7 @@
 #### Ruby Version
 
 
-We're using ruby-2.2.0 on this site. To check you're version. Type `ruby -v` in the command line.
+We're using ruby-2.2.4 on this site. To check you're version. Type `ruby -v` in the command line.
 downgrade
 if you need to upgrade or downgrade. Checkout [RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv) as options for your ruby version management. Either one should work with. There is a .ruby-version file included that either system should be able to use.
 
@@ -100,7 +100,7 @@ export STFMP_DEV_PASS=""
 
 ### Run the site
 
-After going through the perquisites
+After going through the prerequisites
 
 
 
@@ -180,13 +180,11 @@ The local code for the angular features can be found in `app/assets/javascripts`
   cucumber tests can be found in the `features/` folder
   the capybara step definitions can be found in the `features/step_definitons` folder
 
- As of writing this readme, the tests for the javascript/angular code is not running. It is important that they get running at some point and I encourage anyone to write more tests and get them running.
+ to run the js test
+ 'bundle exec teaspoon'
 
- #notes on dib
-  remove a current dib
-  add a status field to dib to report information
-  reset dib status
-<
+
+
 ### BoundingBox
 
 The code for creating the boundingbox in map service for points was adapted from
@@ -198,8 +196,3 @@ https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage
 https://blog.whitehatsec.com/web-storage-security/
 
 ### colors
-
-
-green #4Ab29C
-grey #555
-blue-pin #0077BA

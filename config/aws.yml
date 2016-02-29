@@ -1,13 +1,13 @@
 development:
-  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
+  access_key_id: AKIAJ3IBMQYHZTGGGJMQ
   secret_access_key: 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
   bucket: new-stuffmapper-dev2
 test:
-  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
+  access_key_id: AKIAJ3IBMQYHZTGGGJMQ
   secret_access_key: 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
   bucket: new-stuffmapper-test
 
 production:
-  access_key_id: AKIAJ3IBMQYHZTGGGJMQ 
-  secret_access_key: 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
-  bucket: stuffmapper-1
+  access_key_id: <%= ENV['S3_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['S3_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['BUCKET'] %>

@@ -66,7 +66,9 @@ Then(/^I should be able to go to my account with google and facebook$/) do
    expect(User.count).to eq 1
    sleep(5)
    first(:link, 'Sign In').click
-   click_link('Facebook')
+   within '#signin' do
+     page.find('#Facebook').click
+   end
    expect(User.count).to eq 1
    expect(page).to have_text 'Sign Out'
 
@@ -74,8 +76,8 @@ Then(/^I should be able to go to my account with google and facebook$/) do
    expect(page).to_not have_text 'Sign Out'
    sleep(5)
    first(:link, 'Sign In').click
-   within('.signin') do 
-     click_link 'Google'
+   within('#signin') do
+     page.find('#Google').click
      expect(User.count).to eq 1
    end
    expect(page).to have_text 'Sign Out'
@@ -97,10 +99,11 @@ Given(/^that I already have an account$/) do
 end
 
 Then(/^I should expect to see a "(.*?)"$/) do |policy|
-  within('.sign-up') do 
+  within('.sign-up') do
     click_link(policy)
     expect(page.body).to have_text(policy)
   end
+  click_button "Close"
 end
 
 
@@ -149,7 +152,7 @@ end
 
 Then(/^I should receive an email with a link to reset my password$/) do
   sleep(1)
-  @email = MandrillMailer::deliveries.detect{ 
+  @email = MandrillMailer::deliveries.detect{
     |mail| mail.template_name == 'password-reset' &&
      mail.message['to'].any? { |to| to[:email] == @user.email }}
   expect(@email).to_not be(nil)
@@ -232,16 +235,17 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
     first(:link, 'Sign Out').click
   end
   sign_in @current_user
-  center_map_to_post Post.last 
+  center_map_to_post Post.last
   visit('#/menu/giveStuff')
   sleep(2)
-  page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
+  make_file_input_interactable
+page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
   steps %{
     Then I should be able to put  "These are some awesome kicks" in the description field
 
   }
   @shoes = Post.first
-  center_map_to_post @shoes 
+  center_map_to_post @shoes
 
   click_link 'Get Stuff'
   page.all(".stuff-view")[1].click
@@ -255,11 +259,6 @@ Then(/^I should be able to post an item and dib Jacks shoes$/) do
 
 
 When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) do
-  visit '/'
-
-  if first(:link, 'Sign Out') != nil
-    first(:link, 'Sign Out').click
-  end
   @current_user = User.last
   sign_in @current_user
   allow( Post ).to receive( :has_attached_file ).and_return false
@@ -268,9 +267,11 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
    end
    allow(Post).to receive( :new ).and_return( @post )
    allow(Post).to receive( :save ).and_call_original
-   center_map_to_post @post 
+   center_map_to_post @post
    visit ('#/menu/giveStuff')
    sleep(2)
+
+   make_file_input_interactable
    page.attach_file('give-stuff-file-1', Rails.root.join("spec/factories/shoes.png"), :visible=>false)
     within('#give-stuff') do
       expect(page).to have_field 'description'
@@ -288,7 +289,7 @@ When(/^I sign in I should not be able to dib Jack's shoes or post an item\.$/) d
   click_link 'Get Stuff'
   page.find('.stuff-view').click
   sleep(2)
-  within('.post-view') do 
+  within('.post-view') do
     page.execute_script "window.scrollBy(0,10000)"
     page.find(:button, "Dib").click
   end
@@ -305,8 +306,9 @@ When(/^I visit the signup page and click Google login$/) do
   expect( User.count).to eq 0
   visit ""
   click_link 'Sign In'
-  click_link "Google"
-
+  within '#signin' do
+    page.find('#Google').click
+  end
 end
 
 Then(/^I should have an account created and my email should be marked verified\.$/) do

@@ -18,18 +18,13 @@
 
 
       // $SCOPE FUNCTIONS
-      <% if not Rails.env.test? %>
-        //lazy but I got tired of closing the popup
-        UserService.check()
-        .then(
-          function(){},
-          function(){
-          $modal.open({
-            templateUrl:'splash.html',
-            controller: 'SignUpCtrl'
-          });
+      if (LocalService.get('visit') != 'true') {
+        $modal.open({
+          templateUrl:'splash.html',
+          controller: 'SignUpCtrl'
         });
-      <% end %>
+        LocalService.set('visit', 'true');
+      }
 
 
       $scope.centerMap = function(){

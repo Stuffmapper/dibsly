@@ -9,24 +9,22 @@
 
     <h4 class ="col-md-6 col-lg-6 col-xs-6 to_edge"><i>Active Dibs</i></h4>
     <h5 class ="col-md-6 col-lg-6 col-xs-6">
-      <a href='#' class="pull-right">Archived >> </a>
     </h5>
     <hr>
     <div class="col-lg-12 col-md-12 col-xs-12" >
       <div class="row to_edge" ng-repeat="want in myWants | orderObjectBy:'updated_at':true track by $index" >
         <mypost post='want' chat='false' ></mypost>
-      </div>  
+      </div>
     </div>
 
     <h4 class ="col-md-6 col-lg-6 col-xs-6 to_edge">Giving</h4>
     <h5 class ="col-md-6 col-lg-6 col-xs-6">
-      <a href='#' class="pull-right">Archived >> </a>
     </h5>
     <hr>
     <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="row to_edge" ng-repeat="post in myPosts | orderObjectBy:'updated_at':true track by $index" >
         <mypost post='post' chat='false'></mypost>
-      </div> 
+      </div>
     </div>
     <hr>
 

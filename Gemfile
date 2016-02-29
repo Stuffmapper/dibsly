@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.2.4"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '~> 4.2', '>= 4.2.5.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -61,14 +61,11 @@ gem "foreman"
 
 gem 'geocoder'
 
-# test rails admin
-gem 'rails_admin'
 
 gem 'delayed_paperclip'
 
 gem 'delayed_job_active_record'
 
-gem 'spring', group: :development
 
 
 group :doc do
