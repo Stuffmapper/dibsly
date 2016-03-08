@@ -64,9 +64,9 @@ postgres=# create user "<**username**>" with password '<**password**>';
 
 postgres=# alter user <**username**> superuser;
 
-postgres=# create database "dibsley_development";
+postgres=# create database "dibsly_development";
 
-postgres=# create database "dibsley_test";
+postgres=# create database "dibsly_test";
 
 postgres=# grant all privileges on database dibsley_development to <username>;
 
