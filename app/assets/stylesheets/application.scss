@@ -288,7 +288,7 @@ body{
     background-color: #F99953;
     color: #FFFFFF;
   }
-  
+
   .dib-button-send-message {
     color: #FFFFFF;
     background-color: #3BE073;
@@ -363,17 +363,17 @@ body{
   overflow:scroll;
   font-family: "proxima-nova", helvetica, sans-serif;
   font-size: 14 px;
-  color: #555;  
+  color: #555;
   margin: 0;
   background: url(asset_path("blankmap.svg")) no-repeat;
   background-size: cover;
-  height: 100%; 
+  height: 100%;
   width: 100%;
 
   #header {
     background: #4d5d73;
     height: 60px;
-    
+
   }
   #logo {
     background:url(asset_path('logo-wo-bg.png')) no-repeat;
@@ -403,7 +403,7 @@ body{
   }
   #content {
     padding: 50px 100px;
-    display:block;  
+    display:block;
     margin: 0 auto;
     width: 40%;
   }
@@ -480,14 +480,18 @@ body{
      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
      white-space: -pre-wrap;      /* Opera 4-6 */
      white-space: -o-pre-wrap;    /* Opera 7 */
-     word-wrap: break-word;  
+     word-wrap: break-word;
   }
   .support-message{
      height: 200px;
       margin: auto;
       padding: 50px;
   }
-    
 
 
+
+}
+
+#chatra {
+    left: 80px;
 }
