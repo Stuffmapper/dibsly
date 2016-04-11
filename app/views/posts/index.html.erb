@@ -2,21 +2,7 @@
     <div ui-view ></div>
     <script type="text/javascript">
     var _sf_async_config={uid:57522,domain:"stuffmapper-dev.herokuapp.com",useCanonical:true};
-    (function(){
-      function loadChartbeat() {
-        window._sf_endpt=(new Date()).getTime();
-        var e = document.createElement('script');
-        e.setAttribute('language', 'javascript');
-        e.setAttribute('type', 'text/javascript');
-        e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
-        document.body.appendChild(e);
-      }
-      var oldonload = window.onload;
-      window.onload = (typeof window.onload != 'function') ?
-         loadChartbeat : function() { oldonload(); loadChartbeat(); };
-    })();
     </script>
-  <script type="text/javascript" src="http://assets.freshdesk.com/widget/freshwidget.js"></script>
   <script>
   ChatraID = '5oMzBM7byxDdNPuMf';
   (function(d, w, c) {
@@ -30,8 +16,5 @@
           + '//call.chatra.io/chatra.js';
       n.parentNode.insertBefore(s, n);
   })(document, window, 'Chatra');
-  </script>
-  <script type="text/javascript">
-      FreshWidget.init("", {"queryString": "&widgetType=popup", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Help", "buttonColor": "white", "buttonBg": "#006063", "alignment": "4", "offset": "500px", "formHeight": "500px", "url": "https://stuffmapper.freshdesk.com"} );
   </script>
 </body>
