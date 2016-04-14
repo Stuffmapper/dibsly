@@ -8,7 +8,7 @@ deployment:
     heroku:
       appname: stuffmapper-usertest
   production:
-    branch: ssl_config
+    branch: SCOttoman
     commands:
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
       - git push git@heroku.com:blooming-eyrie-8909.git $CIRCLE_SHA1:refs/heads/master --force
