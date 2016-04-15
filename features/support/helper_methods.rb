@@ -7,13 +7,14 @@ module FormSubmissionHelpers
     execute_script("window.localStorage.removeItem('markers');")
     visit('/')
     allow(ApplicationController).to receive(:current_user){ user }
-    sleep(1)
+    sleep(2)
     if first(:link, 'Sign Out') != nil
       first(:link, 'Sign Out').click
     end
-    sleep(1)
+    sleep(2)
     first(:link,'Sign In').click
     fill_in 'username', with: user.username
+    sleep(2)
     fill_in 'password', with: '123456'
     sleep(2)
     within('#signin') do
