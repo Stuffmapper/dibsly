@@ -52,12 +52,9 @@ Given(/^I signup with a username password email and phone$/) do
         sleep(2)
         click_button "Sign Up"
     end
-    sleep(2)
     if first(:link, 'Sign Out') != nil
         first(:link, 'Sign Out').click
-        sleep(2)
     end
-    sleep(2)
 end
 
 Then(/^I should be able to sign in with my username and password$/) do
@@ -117,7 +114,7 @@ end
 
 
 Then(/^I should be see the "(.*?)" message$/) do |arg1|
-    sleep(5)
+    sleep(1)
     expect(page.body).to have_text(arg1)
     sleep(5)
 end
