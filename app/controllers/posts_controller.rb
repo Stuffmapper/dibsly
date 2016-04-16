@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts.json
 
   def index
-    user_ip = request.location
+    user_ip = false # request.location
 
     if user_ip && !user_ip.longitude == 0.0
       @map = user_ip.longitude.to_s + ', ' + user_ip.latitude.to_s
