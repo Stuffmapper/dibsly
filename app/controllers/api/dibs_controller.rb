@@ -54,7 +54,7 @@ class Api::DibsController < ApplicationController
     @messages = @dib.alerts.sort
     render json: @messages, each_serializer: AlertSerializer, status: :ok
   end
-  
+
   def messages
     @messages = @dib.alerts.sort
     render json: @messages, each_serializer: AlertSerializer, status: :ok
@@ -67,7 +67,7 @@ class Api::DibsController < ApplicationController
     render json: @alerts, each_serializer: AlertSerializer, status: :ok
 
   end
-  
+
   def unread
     #authorizes
     @messages = current_user.alerts.where(:dib_id => @dib.id, :read => false)
@@ -81,7 +81,7 @@ class Api::DibsController < ApplicationController
   def report_params
       params.require(:report).permit(:rating, :description)
   end
-  
+
 
   def message_params
     params.require(:message).permit(:body)

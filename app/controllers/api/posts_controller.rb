@@ -17,7 +17,7 @@ class Api::PostsController < ApplicationController
         :user => current_user,
         :creator_id => current_user.id )
     @post = Post.new(params)
-    if @post.valid? 
+    if @post.valid?
       @post.save
       render json: @post, status: :ok
     else
@@ -33,6 +33,13 @@ class Api::PostsController < ApplicationController
                  .where("dibbed_until < ?", Time.now)
     render json: @posts
   end
+
+
+  def landfillTracker
+    @landfillData = Post.where(status: 'gone')
+    render json: @landfillData, status: :ok
+  end
+
 
   def index
     user_ip = request.location
@@ -64,14 +71,14 @@ class Api::PostsController < ApplicationController
   end
 
   #POST /posts/:id/remove
-  def remove 
+  def remove
     @post.update_attribute(:status, 'deleted')
     render json: '[]', status: :ok
   end
 
 
   def remove_dib
-  #TEST ME 
+  #TEST ME
     dib = @post.current_dib
 
     if dib and dib.post.user == current_user
@@ -120,13 +127,13 @@ class Api::PostsController < ApplicationController
   end
 
   def authorize
-    render json: {message: 'User not logged in' }, 
+    render json: {message: 'User not logged in' },
     status: :unauthorized unless current_user
   end
 
   def find_my_post
     @post = Post.find(params[:id])
-    render json: {error: 'not authorized '}, status: :unauthorized unless ( 
+    render json: {error: 'not authorized '}, status: :unauthorized unless (
     current_user and  current_user == @post.creator )
   end
 

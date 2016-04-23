@@ -23,6 +23,8 @@ Dibsly::Application.routes.draw do
     resources :images, only: [:create ]
     resources :alerts, only: [:index, :update ]
 
+    get 'landfillTracker' => 'posts#landfillTracker'
+
     get 'posts' => 'posts#index'
     post 'posts' => 'posts#create'
 

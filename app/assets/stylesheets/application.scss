@@ -495,3 +495,21 @@ body{
 #chatra {
     left: 80px;
 }
+
+
+.landfill-tracker {
+    position: absolute;
+    display: inline-block;
+    top: 2px;
+    left: 30px;
+    border-radius: 15px;
+    border: 2px solid white;
+    padding: 0px 5px;
+    font-size: 12px;
+    line-height: 16px;
+    height: 18px;
+    background-color: red;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}

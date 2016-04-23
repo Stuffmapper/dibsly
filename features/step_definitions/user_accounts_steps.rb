@@ -166,7 +166,7 @@ Then(/^I should receive an email with a link to reset my password$/) do
     @email = MandrillMailer::deliveries.detect{
         |mail| mail.template_name == 'password-reset' &&
         mail.message['to'].any? { |to| to[:email] == @user.email }}
-    sleep(2)
+    sleep(10)
     expect(@email).to_not be(nil)
     sleep(2)
     @link = @email.message["global_merge_vars"].select { |var| var['name'] == "CHANGEPASSWORD" }[0]["content"]
