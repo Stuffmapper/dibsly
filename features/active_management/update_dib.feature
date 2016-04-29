@@ -21,4 +21,3 @@ Scenario: Mark as Gone
 	And It should not be on the map and Jill should not be able to dib it.
 	And the status of "shoes" should have changed to "gone"
 	And the details of "shoes" should still be viewable
-
