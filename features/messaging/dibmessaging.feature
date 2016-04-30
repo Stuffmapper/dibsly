@@ -1,5 +1,5 @@
 
-Feature:
+Feature: 
   As a couple of user that go by the usernames Jack and Jill
   We want to have an in app conversation after a Jill has dibbed Jill's stuff.
 
@@ -7,7 +7,7 @@ Feature:
     Given that "Jill" and "Jack" are registered users
   	And that "Jill"  has  posted shoes and "Jack" has dibbed them.
 
-  @javascript
+  @javascript	
   Scenario: Sucessfully send a message
     When "Jill" logs in
     Then "Jack dibbed" should be visible in the inbox

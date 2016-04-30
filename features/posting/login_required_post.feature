@@ -5,7 +5,8 @@ Feature: Login to post
   Background:
   	Given that I am not logged in
 
-  @javascript
+  @javascript	
   Scenario: Get redirected to sign in
   	When I try to post an item
   	Then I should see a message asking me to sign in
+

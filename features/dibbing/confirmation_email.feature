@@ -5,7 +5,7 @@ Feature: Dibs confirmation email
   Background:
   	Given I'm a registered user and I've dibbed Jack's shoes
 
-  @javascript
+  @javascript	
   Scenario: Receive a confirmation email
     Given I've received an email.
     Then is should explain information about dibs

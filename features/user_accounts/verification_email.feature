@@ -6,15 +6,15 @@ Feature: Verification email with standard sign up
 		Given that I am not logged in and don't have an account
 		And that Jack is is a registered user and posted shoes with the description "awesome kicks"
 
-	@javascript
+	@javascript	
 	Scenario: Follows email verification link
 		Given that I have the signup page open
 		And I signup with a username password email and phone
 		Then I should receive a welcome email
-		When I follow the link in the welcome email
+		When I follow the link in the welcome email 
 		Then I should be able to post an item and dib Jacks shoes
 
-	@javascript
+	@javascript		
 	Scenario: Doesn't follow email verification link
 		Given that I have the signup page open
 		And I signup with a username password email and phone

@@ -23,7 +23,7 @@ When(/^I hit dib$/) do
   click_link 'Get Stuff'
   page.find('.stuff-view').click
   sleep(2)
-  within('.post-view') do
+  within('.post-view') do 
     page.execute_script "window.scrollBy(0,10000)"
     page.find(:button, "Dib").click
     sleep(5)
@@ -45,7 +45,7 @@ end
 
 Then(/^Jack should have been notified of my dib\.$/) do
 
-  @email = MandrillMailer::deliveries.detect{
+  @email = MandrillMailer::deliveries.detect{ 
     |mail| mail.template_name == 'lister-notification' &&
      mail.message['to'].any? { |to| to[:email] == @user_jack.email }}
   expect(@email).to_not be(nil)
@@ -96,14 +96,14 @@ Then(/^I should see the shoes in the get stuff  menu$/) do
  click_link('Get Stuff')
  page.find('.stuff-view').click
  expect(page).to have_text("shoes")
-
+ 
 end
 
 
 
 Then(/^Jack should have been notified of my unDib\.$/) do
 
-  @email = MandrillMailer::deliveries.detect{
+  @email = MandrillMailer::deliveries.detect{ 
     |mail| mail.template_name == 'notify-undib' &&
      mail.message['to'].any? { |to| to[:email] == @user_jack.email }}
   expect(@email).to_not be(nil)
@@ -113,7 +113,7 @@ end
 ### EMAIL CONFIRMATION
 
 Given(/^I've received an email\.$/) do
-  @email = MandrillMailer::deliveries.detect{
+  @email = MandrillMailer::deliveries.detect{ 
     |mail| mail.template_name == 'dibber-notification' &&
      mail.message['to'].any? { |to| to[:email] == @current_user.email }}
   expect(@email).to_not be(nil)
