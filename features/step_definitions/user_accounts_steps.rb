@@ -30,7 +30,7 @@ Given(/^that I have the signup page open$/) do
     visit('/')
     click_link('Sign Up')
 end
-
+ 
 
 Given(/^I signup with a username password email and phone$/) do
     sleep(2)
